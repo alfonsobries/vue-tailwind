@@ -1,6 +1,6 @@
 {
-  "name": "@alfonsobries/vue-tailwind",
-  "version": "0.1.0",
+  "name": "vue-tailwind",
+  "version": "0.1.3",
   "main": "./dist/vue-tailwind.common.js",
   "private": false,
   "scripts": {
@@ -26,5 +26,12 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.5.21"
-  }
+  },
+  "files": [
+    "dist/*",
+    "src/*",
+    "public/*",
+    "*.json",
+    "*.js"
+  ]
 }

@@ -1,14 +1,10 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import TTextField from './TTextField.vue'
 
 const Components = {
   TTextField
 }
 
-Object.keys(Components).forEach(name => {
-  Vue.component(name, Components[name])
-})
+export { TTextField }
 
-
-console.log(":DD");
 export default Components
