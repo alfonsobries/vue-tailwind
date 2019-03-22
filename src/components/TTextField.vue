@@ -5,6 +5,7 @@
     :disabled="disabled"
     :id="id"
     :name="name"
+    :class="classes"
   >
 </template>
 
@@ -27,6 +28,10 @@ export default {
     id: {
       type: String,
       default: null
+    },
+    classes: {
+      type: [String, Object, Array],
+      default: 'border p-3'
     },
     name: {
       type: String,
