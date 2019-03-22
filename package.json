@@ -25,6 +25,7 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "tailwindcss": "^0.7.4",
     "vue-template-compiler": "^2.5.21"
   },
   "files": [
