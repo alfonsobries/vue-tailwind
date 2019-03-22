@@ -8,7 +8,9 @@
     "build": "vue-cli-service build",
     "build-bundle": "vue-cli-service build --target lib --name vue-tailwind ./src/components/index.js",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "dependencies": {
     "vue": "^2.6.6"
@@ -26,7 +28,9 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "tailwindcss": "^0.7.4",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.21",
+    "vuepress": "^0.14.10",
+    "webpack-dev-middleware": "^3.6.0"
   },
   "files": [
     "dist/*",
@@ -34,5 +38,8 @@
     "public/*",
     "*.json",
     "*.js"
-  ]
+  ],
+  "resolutions": {
+    "webpack-dev-middleware": "3.6.0"
+  }
 }
