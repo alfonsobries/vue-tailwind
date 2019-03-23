@@ -27,6 +27,7 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "lodash": "^4.17.11",
     "tailwindcss": "^0.7.4",
     "vue-template-compiler": "^2.6.10",
     "vuepress": "^0.14.10",

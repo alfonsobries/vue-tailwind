@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import TTextField from '@/components/TTextField.vue'
+import { mapValues } from 'lodash'
 
 describe('TTextField.vue', () => {
   it('it renders the input', () => {
@@ -35,19 +36,89 @@ describe('TTextField.vue', () => {
     expect(wrapper.vm.$el.disabled).toBe(true)
   })
 
-  it('set the input attributes', () => {
+  it('has input attributes', () => {
     const wrapper = shallowMount(TTextField)
-    expect(wrapper.vm.$el.type).toBe('text')
-    expect(wrapper.vm.$el.id).toBe('')
-    expect(wrapper.vm.$el.name).toBe('')
 
-    wrapper.setProps({
-      type: 'email',
-      id: 'my-id',
-      name: 'my-name'
+    const values = {
+      id: {
+        default: '',
+        new: 'new-id'
+      },
+      autocomplete: {
+        default: '',
+        new: 'on'
+      },
+      autofocus: {
+        default: false,
+        new: true
+      },
+      disabled: {
+        default: false,
+        new: true
+      },
+      max: {
+        default: '',
+        new: '10'
+      },
+      min: {
+        default: '',
+        new: '3'
+      },
+      multiple: {
+        default: false,
+        new: true
+      },
+      name: {
+        default: '',
+        new: 'new-name'
+      },
+      pattern: {
+        default: '',
+        new: '[A-Za-z]{3}'
+      },
+      placeholder: {
+        default: '',
+        new: 'new placeholder'
+      },
+      readonly: {
+        keyName: 'readOnly',
+        default: false,
+        new: true
+      },
+      required: {
+        default: false,
+        new: true
+      },
+      size: {
+        default: NaN,
+        new: 10
+      },
+      value: {
+        default: '',
+        new: 'my value'
+      },
+      type: {
+        default: 'text',
+        new: 'email'
+      }
+    }
+
+    // Check for the default values
+    Object.keys(values).forEach(key => {
+      const elementValue = values[key]
+      expect(wrapper.vm.$el[elementValue.keyName || key]).toBe(elementValue.default)
     })
-    expect(wrapper.vm.$el.type).toBe('email')
-    expect(wrapper.vm.$el.id).toBe('my-id')
-    expect(wrapper.vm.$el.name).toBe('my-name')
+
+    const newProps = mapValues(values, ({ new: newValue }, key) => {
+      return newValue
+    })
+
+    wrapper.setProps(newProps)
+
+    // Check for the new values
+    Object.keys(values).forEach(key => {
+      const elementValue = values[key]
+      expect(wrapper.vm.$el[elementValue.keyName || key]).toBe(elementValue.new)
+    })
   })
 })
