@@ -65,7 +65,7 @@ const htmlInputAttributes = {
       default: null
     },
     value: {
-      type: [String, Number, Boolean],
+      type: [String, Number],
       default: null
     },
     type: {
