@@ -205,4 +205,32 @@ describe('TTextField.vue', () => {
     // assert event count
     expect(wrapper.emitted('focus').length).toBe(1)
   })
+
+  it('has a focus and a blur method', () => {
+    const wrapper = shallowMount(TTextField)
+
+    wrapper.vm.focus()
+
+    expect(wrapper.emitted('focus')).toBeTruthy()
+
+    expect(wrapper.emitted('focus').length).toBe(1)
+
+    wrapper.vm.blur()
+
+    expect(wrapper.emitted('blur')).toBeTruthy()
+
+    expect(wrapper.emitted('blur').length).toBe(1)
+  })
+
+  it('has a click/select/setSelectionRange/setRangeText method', () => {
+    const wrapper = shallowMount(TTextField)
+
+    const input = wrapper.vm.$el
+
+    // I didnt find a way to test the click but at lest I will test that the method exists
+    expect(typeof input.click).toBe('function')
+    expect(typeof input.select).toBe('function')
+    expect(typeof input.setSelectionRange).toBe('function')
+    expect(typeof input.setRangeText).toBe('function')
+  })
 })
