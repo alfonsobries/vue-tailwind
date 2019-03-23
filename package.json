@@ -9,6 +9,7 @@
     "build-bundle": "vue-cli-service build --target lib --name vue-tailwind ./src/components/index.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
+    "test:watch": "vue-cli-service test:unit --watch",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },

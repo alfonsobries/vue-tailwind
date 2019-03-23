@@ -121,4 +121,78 @@ describe('TTextField.vue', () => {
       expect(wrapper.vm.$el[elementValue.keyName || key]).toBe(elementValue.new)
     })
   })
+
+  it('emits an input event with the input value', () => {
+    const wrapper = shallowMount(TTextField)
+
+    const inputValue = 'Hello World'
+
+    wrapper.setProps({
+      value: inputValue
+    })
+
+    expect(wrapper.emitted('input')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(1)
+
+    // assert event payload
+    expect(wrapper.emitted('input')[0]).toEqual([inputValue])
+  })
+
+  it('emits an change event with the input value', () => {
+    const wrapper = shallowMount(TTextField)
+    const input = wrapper.vm.$el
+
+    const inputValue = 'Hello World'
+
+    wrapper.setProps({
+      value: inputValue
+    })
+
+    // The change event should be emitted when the input is blurred
+    input.dispatchEvent(new Event('blur'))
+
+    expect(wrapper.emitted('change')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('change').length).toBe(1)
+
+    // assert event payload
+    expect(wrapper.emitted('change')[0]).toEqual([inputValue])
+  })
+
+  it('emits a blur event when the input is blurred', () => {
+    const inputValue = 'input value'
+    const wrapper = shallowMount(TTextField, {
+      propsData: { value: inputValue }
+    })
+
+    const input = wrapper.vm.$el
+
+    // The change event should be emitted when the input is blurred
+    input.dispatchEvent(new Event('blur'))
+
+    expect(wrapper.emitted('blur')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('blur').length).toBe(1)
+  })
+
+  it('emits a focus event when the input is focused', () => {
+    const inputValue = 'input value'
+    const wrapper = shallowMount(TTextField, {
+      propsData: { value: inputValue }
+    })
+
+    const input = wrapper.vm.$el
+
+    // The change event should be emitted when the input is focusred
+    input.dispatchEvent(new Event('focus'))
+
+    expect(wrapper.emitted('focus')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('focus').length).toBe(1)
+  })
 })

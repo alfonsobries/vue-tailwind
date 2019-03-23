@@ -17,6 +17,8 @@
     :size="size"
     :value="value"
     :class="classes"
+    @blur="onBlur"
+    @focus="onFocus"
   >
 </template>
 
@@ -34,7 +36,20 @@ export default {
   },
   data () {
     return {
-      currentValue: this.value
+      currentValue: this.value,
+      valueWhenFocus: null
+    }
+  },
+  methods: {
+    onBlur (e) {
+      this.$emit('blur', e)
+      if (this.currentValue !== this.valueWhenFocus) {
+        this.$emit('change', this.currentValue)
+      }
+    },
+    onFocus (e) {
+      this.$emit('focus', e)
+      this.valueWhenFocus = this.currentValue
     }
   },
   watch: {
