@@ -1,4 +1,4 @@
-const inputAttributes = {
+const htmlInputAttributes = {
   props: {
     id: {
       type: String,
@@ -20,7 +20,15 @@ const inputAttributes = {
       type: [String, Number],
       default: null
     },
+    maxlength: {
+      type: [String, Number],
+      default: null
+    },
     min: {
+      type: [String, Number],
+      default: null
+    },
+    minlength: {
       type: [String, Number],
       default: null
     },
@@ -67,4 +75,4 @@ const inputAttributes = {
   }
 }
 
-export default inputAttributes
+export default htmlInputAttributes

@@ -60,6 +60,16 @@ describe('TTextField.vue', () => {
         default: '',
         new: '10'
       },
+      maxlength: {
+        keyName: 'maxLength',
+        default: 524288,
+        new: 12
+      },
+      minlength: {
+        keyName: 'minLength',
+        default: 0,
+        new: 2
+      },
       min: {
         default: '',
         new: '3'

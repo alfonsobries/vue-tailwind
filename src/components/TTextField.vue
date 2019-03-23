@@ -7,7 +7,9 @@
     :autofocus="autofocus"
     :disabled="disabled"
     :max="max"
+    :maxlength="maxlength"
     :min="min"
+    :minlength="minlength"
     :multiple="multiple"
     :name="name"
     :pattern="pattern"
@@ -23,10 +25,11 @@
 </template>
 
 <script>
-import inputAttributes from '../mixins/inputAttributes.js'
+import htmlInputAttributes from '../mixins/htmlInputAttributes.js'
+import htmlInputMethods from '../mixins/htmlInputMethods.js'
 
 export default {
-  mixins: [inputAttributes],
+  mixins: [htmlInputAttributes, htmlInputMethods],
   name: 'TTextField',
   props: {
     classes: {
@@ -51,6 +54,7 @@ export default {
       this.$emit('focus', e)
       this.valueWhenFocus = this.currentValue
     }
+
   },
   watch: {
     value (value) {
