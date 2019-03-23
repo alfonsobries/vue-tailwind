@@ -206,6 +206,28 @@ describe('TTextField.vue', () => {
     expect(wrapper.emitted('focus').length).toBe(1)
   })
 
+  it('emits a keyup event', () => {
+    const wrapper = shallowMount(TTextField)
+
+    wrapper.trigger('keyup', { keyCode: 40 })
+
+    expect(wrapper.emitted('keyup')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('keyup').length).toBe(1)
+  })
+
+  it('emits a keydown event', () => {
+    const wrapper = shallowMount(TTextField)
+
+    wrapper.trigger('keydown', { keyCode: 40 })
+
+    expect(wrapper.emitted('keydown')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('keydown').length).toBe(1)
+  })
+
   it('has a focus and a blur method', () => {
     const wrapper = shallowMount(TTextField)
 

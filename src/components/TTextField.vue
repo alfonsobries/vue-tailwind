@@ -21,6 +21,8 @@
     :class="classes"
     @blur="onBlur"
     @focus="onFocus"
+    @keyup="$emit('keyup', $event)"
+    @keydown="$emit('keydown', $event)"
   >
 </template>
 

@@ -32,4 +32,6 @@
 | change	| String (The current value of the input)	| Emitted when the input is blurred and the value was changed since it was focused |
 | focus		| FocusEvent								| Emitted when the input is focused	|
 | blur		| FocusEvent								| Emitted when the input is blurred	|
+| keyup		| KeyboardEvent								| Emitted when on the input keyup event	|
+| keydown	| KeyboardEvent								| Emitted when on the input keydown event	|
 
