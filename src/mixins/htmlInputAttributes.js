@@ -56,10 +56,6 @@ const htmlInputAttributes = {
       type: Boolean,
       default: false
     },
-    size: {
-      type: [String, Number],
-      default: NaN
-    },
     tabindex: {
       type: [String, Number],
       default: null

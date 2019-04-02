@@ -99,10 +99,6 @@ describe('TTextField.vue', () => {
         default: false,
         new: true
       },
-      size: {
-        default: NaN,
-        new: 10
-      },
       value: {
         default: '',
         new: 'my value'
