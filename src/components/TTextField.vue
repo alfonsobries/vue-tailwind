@@ -34,6 +34,7 @@ const {
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
+  disabledClass,
 } = TTextFieldTheme
 
 export default {
@@ -70,6 +71,10 @@ export default {
       type: Boolean,
       default: false
     },
+    readonly: {
+      type: Boolean,
+      default: undefined
+    },
     pattern: {
       type: String,
       default: null
@@ -98,6 +103,10 @@ export default {
       type: [String, Object, Array],
       default: successStatusClass
     },
+    disabledClass: {
+      type: [String, Object, Array],
+      default: successStatusClass
+    },
   },
 
   data () {
@@ -110,6 +119,10 @@ export default {
   computed: {
     currentClass () {
       let classes = [this.defaultClass]
+
+      if (this.disabled) {
+        classes.push(this.disabledClass)
+      }
 
       return classes
     }

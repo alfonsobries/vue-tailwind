@@ -16,10 +16,6 @@ const commonAttributes = {
       type: String,
       default: null
     },
-    readonly: {
-      type: Boolean,
-      default: undefined
-    },
     required: {
       type: Boolean,
       default: false

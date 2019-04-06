@@ -29,6 +29,7 @@ const {
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
+  disabledClass,
 } = TTextareaTheme
 
 export default {
@@ -48,6 +49,10 @@ export default {
     maxlength: {
       type: [String, Number],
       default: null
+    },
+    readonly: {
+      type: Boolean,
+      default: undefined
     },
     rows: {
       type: [String, Number],
@@ -72,6 +77,10 @@ export default {
     successStatusClass: {
       type: [String, Object, Array],
       default: successStatusClass
+    },
+    disabledClass: {
+      type: [String, Object, Array],
+      default: disabledClass
     },
   },
 
