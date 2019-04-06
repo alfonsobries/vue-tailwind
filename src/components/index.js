@@ -1,13 +1,19 @@
 import TTextField from './TTextField.vue'
+import TTextarea from './TTextarea.vue'
 import DefaultTheme from '../themes/default.js'
+
+const fields = {
+  TTextField: TTextField,
+  TTextarea: TTextarea,
+}
 
 /**
  * Will extend the component with the merged classes added in the settings
  */
-function extendComponent (Vue, Component, CurrentTheme, componentName) {
+function extendComponent (Vue, CurrentTheme, componentName) {
   const propsDefaults = CurrentTheme[componentName]
 
-  let props = {}
+  let props = fields[componentName].props
 
   Object.keys(propsDefaults).forEach(key => {
     const prop = {
@@ -17,7 +23,7 @@ function extendComponent (Vue, Component, CurrentTheme, componentName) {
   })
 
   return Vue.extend({
-    ...Component,
+    ...fields[componentName],
     ...{
       props
     }
@@ -38,11 +44,12 @@ const VueTailwind = {
     }
 
     const components = args.components || [
-      'TTextField'
+      'TTextField',
+      'TTextarea'
     ]
 
     components.forEach(componentName => {
-      Vue.component(componentName, extendComponent(Vue, TTextField, CurrentTheme, componentName))
+      Vue.component(componentName, extendComponent(Vue, CurrentTheme, componentName))
     })
   }
 }

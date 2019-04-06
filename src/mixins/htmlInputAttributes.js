@@ -1,20 +1,8 @@
 const htmlInputAttributes = {
   props: {
-    id: {
-      type: String,
-      default: null
-    },
     autocomplete: {
       type: String,
       default: null
-    },
-    autofocus: {
-      type: Boolean,
-      default: null
-    },
-    disabled: {
-      type: Boolean,
-      default: false
     },
     max: {
       type: [String, Number],
@@ -36,28 +24,12 @@ const htmlInputAttributes = {
       type: Boolean,
       default: false
     },
-    name: {
-      type: String,
-      default: null
-    },
     pattern: {
       type: String,
       default: null
     },
     placeholder: {
       type: String,
-      default: null
-    },
-    readonly: {
-      type: Boolean,
-      default: undefined
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    tabindex: {
-      type: [String, Number],
       default: null
     },
     value: {

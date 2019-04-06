@@ -1,72 +1,43 @@
 <template>
-  <input
+  <textarea
     :id="id"
     v-model="currentValue"
-    :type="type"
-    :autocomplete="autocomplete"
     :autofocus="autofocus"
     :disabled="disabled"
-    :max="max"
-    :maxlength="maxlength"
-    :min="min"
-    :minlength="minlength"
-    :multiple="multiple"
     :name="name"
-    :pattern="pattern"
     :placeholder="placeholder"
     :readonly="readonly"
     :required="required"
+    :maxlength="maxlength"
+    :rows="rows"
+    :wrap="wrap"
     :class="currentClass"
     @blur="onBlur"
     @focus="onFocus"
     @keyup="$emit('keyup', $event)"
     @keydown="$emit('keydown', $event)"
-  >
+  />
 </template>
 
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TTextFieldTheme } from '../themes/default.js'
+import { TTextareaTheme } from '../themes/default.js'
 
 const {
   defaultClass,
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
-} = TTextFieldTheme
+} = TTextareaTheme
 
 export default {
-  name: 'TTextField',
-
+  name: 'TTextarea',
+  
   mixins: [commonAttributes, htmlInputMethods],
 
   props: {
-    autocomplete: {
-      type: String,
-      default: null
-    },
-    max: {
-      type: [String, Number],
-      default: null
-    },
-    maxlength: {
-      type: [String, Number],
-      default: null
-    },
-    min: {
-      type: [String, Number],
-      default: null
-    },
-    minlength: {
-      type: [String, Number],
-      default: null
-    },
-    multiple: {
-      type: Boolean,
-      default: false
-    },
-    pattern: {
+    value: {
       type: String,
       default: null
     },
@@ -74,13 +45,17 @@ export default {
       type: String,
       default: null
     },
-    value: {
+    maxlength: {
       type: [String, Number],
       default: null
     },
-    type: {
+    rows: {
+      type: [String, Number],
+      default: 2
+    },
+    wrap: {
       type: String,
-      default: 'text'
+      default: 'soft'
     },
     defaultClass: {
       type: [String, Object, Array],
@@ -111,9 +86,14 @@ export default {
     currentClass () {
       let classes = [this.defaultClass]
 
+      if (this.disabled) {
+        classes.push(this.disabledClass)
+      }
+
       return classes
     }
   },
+
   watch: {
     value (value) {
       this.currentValue = value
