@@ -1,11 +1,22 @@
 <template>
-  <div>
-    <t-text-field
-      v-model="model"
-      :disabled="disabled"
-      :id="id"
-      :name="name"
-    />
+  <div class="flex">
+    <div class="flex-1 m-2">
+      <t-text-field
+        v-model="model"
+        :disabled="disabled"
+        :id="id"
+        :name="name"
+        :placeholder="placeholder"
+      />
+    </div>
+    <div class="flex-1 m-2">
+      <label class="">
+        <input v-model="disabled" type="checkbox">
+        <span>
+          {{ disabled ? 'Enabled' : 'Disabled' }}
+        </span>
+      </label>
+    </div>
   </div>
 </template>
 
@@ -21,7 +32,8 @@ export default {
       model: 'I love vuejs',
       disabled: false,
       id: 'text-field',
-      name: 'text-field'
+      name: 'text-field',
+      placeholder: 'Nice placeholder'
     }
   }
 }
