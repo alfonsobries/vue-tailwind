@@ -1,28 +1,32 @@
 <template>
-  <div class="flex">
-    <div class="flex-1 m-2">
-      <t-text-field
-        v-model="model"
-        :disabled="disabled"
-        :id="id"
-        :name="name"
-        :placeholder="placeholder"
-      />
-    </div>
-    <div class="flex-1 m-2">
+  <input-demo>
+    <t-text-field
+      v-model="model"
+      :disabled="disabled"
+      :id="id"
+      :name="name"
+      :placeholder="placeholder"
+    />
+
+    <template slot="controls">
       <label class="">
-        <input v-model="disabled" type="checkbox">
+        <input 
+          v-model="disabled" 
+          type="checkbox">
         <span>
           {{ disabled ? 'Enabled' : 'Disabled' }}
         </span>
       </label>
-    </div>
-  </div>
+    </template>
+
+    <template slot="value">
+      <p>Current value: <pre class="text-white">{{ model }}</pre></p>
+    </template>
+  </input-demo>
 </template>
 
 <script>
 import Vue from 'vue'
-import { TTextField } from '../../../src/components'
 
 export default {
   name: 'TextField',

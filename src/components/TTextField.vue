@@ -42,6 +42,10 @@ export default {
   mixins: [commonAttributes, htmlInputMethods],
 
   props: {
+    value: {
+      type: [String, Number],
+      default: null
+    },
     autocomplete: {
       type: String,
       default: null
@@ -72,10 +76,6 @@ export default {
     },
     placeholder: {
       type: String,
-      default: null
-    },
-    value: {
-      type: [String, Number],
       default: null
     },
     type: {

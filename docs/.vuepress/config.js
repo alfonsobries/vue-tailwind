@@ -3,8 +3,8 @@ module.exports = {
   description: 'An configurable UI library styled with TailwindCSS',
   postcss: {
     'plugins': [
-      // require('tailwindcss')('tailwind.js'),
-      // require('autoprefixer')()
+      require('tailwindcss')('tailwind.js'),
+      require('autoprefixer')()
     ]
   }
 }
