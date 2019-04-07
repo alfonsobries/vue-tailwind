@@ -1,12 +1,14 @@
 import TInput from './TInput.vue'
 import TTextarea from './TTextarea.vue'
 import TSelect from './TSelect.vue'
+import TButton from './TButton.vue'
 import DefaultTheme from '../themes/default.js'
 
 const fields = {
   TInput: TInput,
   TTextarea: TTextarea,
   TSelect: TSelect,
+  TButton: TButton,
 }
 
 /**
@@ -45,11 +47,7 @@ const VueTailwind = {
       ...args.theme || {}
     }
 
-    const components = args.components || [
-      'TInput',
-      'TTextarea',
-      'TSelect',
-    ]
+    const components = args.components || Object.keys(fields)
 
     components.forEach(componentName => {
       Vue.component(componentName, extendComponent(Vue, CurrentTheme, componentName))

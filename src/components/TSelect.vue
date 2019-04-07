@@ -50,7 +50,6 @@
 
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
-import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import { TSelectTheme } from '../themes/default.js'
 
 const {
@@ -73,6 +72,10 @@ export default {
     value: {
       type: [String, Number, Array],
       default: null
+    },
+    required: {
+      type: Boolean,
+      default: false
     },
     multiple: {
       type: Boolean,
@@ -143,6 +146,8 @@ export default {
 
       if (this.disabled) {
         classes.push(this.disabledClass)
+      } else {
+        classes.push(this.defaultStatusClass)
       }
 
       return classes

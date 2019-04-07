@@ -16,10 +16,6 @@ const commonAttributes = {
       type: String,
       default: null
     },
-    required: {
-      type: Boolean,
-      default: false
-    },
     tabindex: {
       type: [String, Number],
       default: null

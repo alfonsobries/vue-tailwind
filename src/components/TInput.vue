@@ -47,6 +47,10 @@ export default {
       type: [String, Number],
       default: null
     },
+    required: {
+      type: Boolean,
+      default: false
+    },
     autocomplete: {
       type: String,
       default: null
@@ -122,6 +126,8 @@ export default {
 
       if (this.disabled) {
         classes.push(this.disabledClass)
+      } else {
+        classes.push(this.defaultStatusClass)
       }
 
       return classes

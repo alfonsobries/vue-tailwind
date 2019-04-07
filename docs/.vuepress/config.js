@@ -15,6 +15,7 @@ module.exports = {
             '/components/input',
             '/components/textarea',
             '/components/select',
+            '/components/button',
         ]
       }
     ]

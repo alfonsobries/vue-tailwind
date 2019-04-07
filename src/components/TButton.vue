@@ -1,28 +1,21 @@
 <template>
-  <textarea
+  <button
     :id="id"
-    v-model="currentValue"
+    :value="value"
     :autofocus="autofocus"
     :disabled="disabled"
     :name="name"
-    :placeholder="placeholder"
-    :readonly="readonly"
-    :required="required"
-    :maxlength="maxlength"
-    :rows="rows"
-    :wrap="wrap"
     :class="currentClass"
     @blur="onBlur"
     @focus="onFocus"
-    @keyup="$emit('keyup', $event)"
-    @keydown="$emit('keydown', $event)"
-  />
+  >
+    <slot />
+  </button>
 </template>
 
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
-import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TTextareaTheme } from '../themes/default.js'
+import { TButtonTheme } from '../themes/default.js'
 
 const {
   defaultClass,
@@ -30,41 +23,21 @@ const {
   errorStatusClass,
   successStatusClass,
   disabledClass,
-} = TTextareaTheme
+} = TButtonTheme
 
 export default {
-  name: 'TTextarea',
+  name: 'TButton',
   
-  mixins: [commonAttributes, htmlInputMethods],
+  mixins: [commonAttributes],
 
   props: {
     value: {
-      type: String,
-      default: null
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    placeholder: {
-      type: String,
-      default: null
-    },
-    maxlength: {
       type: [String, Number],
       default: null
     },
-    readonly: {
-      type: Boolean,
-      default: undefined
-    },
-    rows: {
-      type: [String, Number],
-      default: 2
-    },
-    wrap: {
+    type: {
       type: String,
-      default: 'soft'
+      default: 'button'
     },
     defaultClass: {
       type: [String, Object, Array],
@@ -88,13 +61,6 @@ export default {
     },
   },
 
-  data () {
-    return {
-      currentValue: this.value,
-      valueWhenFocus: null
-    }
-  },
-
   computed: {
     currentClass () {
       let classes = [this.defaultClass]
@@ -109,28 +75,22 @@ export default {
     }
   },
 
-  watch: {
-    value (value) {
-      this.currentValue = value
-    },
-
-    currentValue (currentValue) {
-      this.$emit('input', currentValue)
-    }
-  },
-
   methods: {
     onBlur (e) {
       this.$emit('blur', e)
-      if (this.currentValue !== this.valueWhenFocus) {
-        this.$emit('change', this.currentValue)
-      }
     },
 
     onFocus (e) {
       this.$emit('focus', e)
-      this.valueWhenFocus = this.currentValue
-    }
+    },
+
+    blur () {
+      this.$refs.select.blur()
+    },
+
+    focus () {
+      this.$refs.select.focus()
+    },
   },
 }
 </script>
