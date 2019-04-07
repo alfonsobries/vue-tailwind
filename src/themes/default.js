@@ -21,6 +21,8 @@ const BootstrapTheme = {
     errorStatusClass: 'border-red',
     successStatusClass: 'border-green',
     disabledClass: '',
+    arrowWrapperClass: 'pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker',
+    arrowClass: 'fill-current h-4 w-4',
   }
 }
 

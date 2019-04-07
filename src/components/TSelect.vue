@@ -14,18 +14,36 @@
       @blur="onBlur"
       @focus="onFocus"
     >
-      <option
-        v-for="(option, index) in normalizedOptions"
-        :key="`${option.value}-${index}`"
-        :value="option.value"
-        v-text="option.text"
-      />
+      <template v-for="(option, index) in normalizedOptions">
+        <optgroup
+          v-if="option.children"
+          :key="`${option.value}-optgroup-${index}`"
+          :value="option.value"
+          :label="option.text"
+        >
+          <option
+            v-for="(childOption, index2) in option.children"
+            :key="`${childOption.value}-${index}-${index2}`"
+            :value="childOption.value"
+            v-text="childOption.text"
+          />
+        </optgroup>
+        <option
+          v-else
+          :key="`${option.value}-${index}`"
+          :value="option.value"
+          v-text="option.text"
+        />
+      </template>
     </select>
-    <div v-if="!multiple" class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
+    <div 
+      v-if="!multiple" 
+      :class="arrowWrapperClass">
       <svg 
-        class="fill-current h-4 w-4" 
+        :class="arrowClass" 
         xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+        viewBox="0 0 20 20"
+      ><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
     </div>
   </div>
 </template>
@@ -42,6 +60,8 @@ const {
   errorStatusClass,
   successStatusClass,
   disabledClass,
+  arrowWrapperClass,
+  arrowClass,
 } = TSelectTheme
 
 export default {
@@ -63,7 +83,7 @@ export default {
       default: null
     },
     options: {
-      type: Array,
+      type: [Array, Object],
       default: () => []
     },
     defaultClass: {
@@ -90,6 +110,14 @@ export default {
       type: [String, Object, Array],
       default: disabledClass
     },
+    arrowWrapperClass: {
+      type: [String, Object, Array],
+      default: arrowWrapperClass
+    },
+    arrowClass: {
+      type: [String, Object, Array],
+      default: arrowClass
+    },
   },
 
   data () {
@@ -100,19 +128,14 @@ export default {
 
   computed: {
     normalizedOptions () {
-      return this.options.map(option => {
-        if (typeof option === 'string' || typeof option === 'number') {
-          return {
-            value: option,
-            text: option,
-          }
-        }
-
-        return {
-          value: option.value || option.id,
-          text: option.text,
-        }
-      })
+      if (Array.isArray(this.options)) {
+        return this.options.map(option => this.normalizeOption(option))
+      } else {
+        return Object.keys(this.options).map(key => ({
+          value: key,
+          text: this.options[key]
+        }))
+      }
     },
 
     currentClass () {
@@ -138,6 +161,28 @@ export default {
   },
 
   methods: {
+    normalizeOption (option) {
+      if (typeof option === 'string' || typeof option === 'number') {
+        return {
+          value: option,
+          text: option,
+        }
+      }
+
+      if (option.children && Array.isArray(option.children)) {
+        return {
+          value: option.value || option.id || option.text,
+          text: option.text || option.label,
+          children: option.children.map(childOption => this.normalizeOption(childOption))
+        }
+      }
+      
+      return {
+        value: option.value || option.id || option.text,
+        text: option.text || option.label,
+      }
+    },
+
     onBlur (e) {
       this.$emit('blur', e)
     },
