@@ -1,16 +1,16 @@
 import { shallowMount } from '@vue/test-utils'
-import TTextField from '@/components/TTextField.vue'
+import TInput from '@/components/TInput.vue'
 import { mapValues } from 'lodash'
 
-describe('TTextField.vue', () => {
+describe('TInput.vue', () => {
   it('it renders the input', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
     expect(wrapper.contains('input')).toBe(true)
   })
 
   it('set the props.value into the input value', () => {
     const value = 'input value'
-    const wrapper = shallowMount(TTextField, {
+    const wrapper = shallowMount(TInput, {
       propsData: { value }
     })
     expect(wrapper.vm.$el.value).toBe(value)
@@ -19,7 +19,7 @@ describe('TTextField.vue', () => {
   it('updates the model value', () => {
     const value = 'input value'
     const newValue = 'new value'
-    const wrapper = shallowMount(TTextField, {
+    const wrapper = shallowMount(TInput, {
       propsData: { value }
     })
     wrapper.setProps({ value: newValue })
@@ -27,7 +27,7 @@ describe('TTextField.vue', () => {
   })
 
   it('disables the input', () => {
-    const wrapper = shallowMount(TTextField, {
+    const wrapper = shallowMount(TInput, {
       propsData: { disabled: false }
     })
     expect(wrapper.vm.$el.disabled).toBe(false)
@@ -37,7 +37,7 @@ describe('TTextField.vue', () => {
   })
 
   it('has input attributes', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
 
     const values = {
       id: {
@@ -129,7 +129,7 @@ describe('TTextField.vue', () => {
   })
 
   it('emits an input event with the input value', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
 
     const inputValue = 'Hello World'
 
@@ -147,7 +147,7 @@ describe('TTextField.vue', () => {
   })
 
   it('emits an change event with the input value', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
     const input = wrapper.vm.$el
 
     const inputValue = 'Hello World'
@@ -170,7 +170,7 @@ describe('TTextField.vue', () => {
 
   it('emits a blur event when the input is blurred', () => {
     const inputValue = 'input value'
-    const wrapper = shallowMount(TTextField, {
+    const wrapper = shallowMount(TInput, {
       propsData: { value: inputValue }
     })
 
@@ -187,7 +187,7 @@ describe('TTextField.vue', () => {
 
   it('emits a focus event when the input is focused', () => {
     const inputValue = 'input value'
-    const wrapper = shallowMount(TTextField, {
+    const wrapper = shallowMount(TInput, {
       propsData: { value: inputValue }
     })
 
@@ -203,7 +203,7 @@ describe('TTextField.vue', () => {
   })
 
   it('emits a keyup event', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
 
     wrapper.trigger('keyup', { keyCode: 40 })
 
@@ -214,7 +214,7 @@ describe('TTextField.vue', () => {
   })
 
   it('emits a keydown event', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
 
     wrapper.trigger('keydown', { keyCode: 40 })
 
@@ -225,7 +225,7 @@ describe('TTextField.vue', () => {
   })
 
   it('has a focus and a blur method', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
 
     wrapper.vm.focus()
 
@@ -241,7 +241,7 @@ describe('TTextField.vue', () => {
   })
 
   it('has a click/select/setSelectionRange/setRangeText method', () => {
-    const wrapper = shallowMount(TTextField)
+    const wrapper = shallowMount(TInput)
 
     const input = wrapper.vm.$el
 

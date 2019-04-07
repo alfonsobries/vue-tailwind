@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Text Field</h1>
 
-    <t-text-field
+    <t-input
       v-model="text.value"
       :disabled="text.disabled"
       :id="text.id"
@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import TTextField from '@/components/TTextField'
+import TInput from '@/components/TInput'
 
 export default {
   components: {
-    TTextField
+    TInput
   },
 
   data () {

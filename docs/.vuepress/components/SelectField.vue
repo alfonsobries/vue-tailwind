@@ -36,7 +36,7 @@
           class="mr-2">
           Add option:
         </label>
-        <t-text-field
+        <t-input
           id="newOption"
           v-model.number="newOption"
           name="newOption"

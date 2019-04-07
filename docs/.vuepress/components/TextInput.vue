@@ -1,6 +1,6 @@
 <template>
   <input-demo>
-    <t-text-field
+    <t-input
       v-model="model"
       :disabled="disabled"
       :id="id"
@@ -29,14 +29,14 @@
 import Vue from 'vue'
 
 export default {
-  name: 'TextField',
+  name: 'TextInput',
 
   data () {
     return {
       model: 'I love vuejs 😎',
       disabled: false,
-      id: 'text-field',
-      name: 'text-field',
+      id: 'text-input',
+      name: 'text-input',
       placeholder: 'Nice placeholder'
     }
   }

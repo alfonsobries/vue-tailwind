@@ -1,10 +1,10 @@
-import TTextField from './TTextField.vue'
+import TInput from './TInput.vue'
 import TTextarea from './TTextarea.vue'
 import TSelect from './TSelect.vue'
 import DefaultTheme from '../themes/default.js'
 
 const fields = {
-  TTextField: TTextField,
+  TInput: TInput,
   TTextarea: TTextarea,
   TSelect: TSelect,
 }
@@ -46,7 +46,7 @@ const VueTailwind = {
     }
 
     const components = args.components || [
-      'TTextField',
+      'TInput',
       'TTextarea',
       'TSelect',
     ]

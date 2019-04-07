@@ -28,7 +28,7 @@
           class="mr-2">
           Rows:
         </label>
-        <t-text-field
+        <t-input
           id="rows"
           v-model.number="rows"
           name="rows"
@@ -43,7 +43,7 @@
           class="mr-2">
           Max Length:
         </label>
-        <t-text-field
+        <t-input
           id="maxlength"
           v-model.number="maxlength"
           name="maxlength"

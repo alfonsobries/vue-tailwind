@@ -27,7 +27,7 @@
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TTextFieldTheme } from '../themes/default.js'
+import { TInputTheme } from '../themes/default.js'
 
 const {
   defaultClass,
@@ -35,10 +35,10 @@ const {
   errorStatusClass,
   successStatusClass,
   disabledClass,
-} = TTextFieldTheme
+} = TInputTheme
 
 export default {
-  name: 'TTextField',
+  name: 'TInput',
 
   mixins: [commonAttributes, htmlInputMethods],
 

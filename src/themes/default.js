@@ -1,5 +1,5 @@
 const BootstrapTheme = {
-  TTextField: {
+  TInput: {
     defaultClass: 'border p-3 block w-full rounded bg-white',
     defaultStatusClass: '',
     errorStatusClass: 'border-red',
@@ -27,7 +27,7 @@ const BootstrapTheme = {
 }
 
 export const {
-  TTextField: TTextFieldTheme,
+  TInput: TInputTheme,
   TTextarea: TTextareaTheme,
   TSelect: TSelectTheme,
 } = BootstrapTheme
