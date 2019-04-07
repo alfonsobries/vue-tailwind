@@ -5,6 +5,7 @@ const getRenderedClass = {
       size: undefined,
       disabled: false,
       renderedClass: null,
+      triesToGetRenderedClass: 0
     }
   },
 
@@ -26,8 +27,11 @@ const getRenderedClass = {
 
   methods: {
     getRenderedClassWhenInputIsReady () {
+      this.triesToGetRenderedClass++
       const isReady = !! this.$refs.input
-      if (!isReady) {
+      if (this.triesToGetRenderedClass > 10) {
+        console.warn('The inputs is not loaded')
+      } else if (!isReady) {
         setTimeout(() => {
           this.getRenderedClassWhenInputIsReady()
         }, 50)  

@@ -31,6 +31,9 @@ const {
   errorStatusClass,
   successStatusClass,
   disabledClass,
+  defaultSizeClass,
+  largeSizeClass,
+  smallSizeClass,
 } = TTextareaTheme
 
 export default {
@@ -90,6 +93,18 @@ export default {
     disabledClass: {
       type: [String, Object, Array],
       default: disabledClass
+    },
+    defaultSizeClass: {
+      type: [String, Object, Array],
+      default: defaultSizeClass
+    },
+    largeSizeClass: {
+      type: [String, Object, Array],
+      default: largeSizeClass
+    },
+    smallSizeClass: {
+      type: [String, Object, Array],
+      default: smallSizeClass
     },
   },
 

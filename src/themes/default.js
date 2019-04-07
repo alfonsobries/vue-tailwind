@@ -10,11 +10,14 @@ const BootstrapTheme = {
     smallSizeClass: 'p-2 text-sm',
   },
   TTextarea: {
-    defaultClass: 'border p-3 block w-full rounded',
+    defaultClass: 'border block w-full rounded',
     defaultStatusClass: 'bg-white',
     errorStatusClass: 'border-red bg-red-lightest',
     successStatusClass: 'border-green bg-green-lightest',
     disabledClass: 'bg-grey-lightest cursor-not-allowed',
+    defaultSizeClass: 'p-3',
+    largeSizeClass: 'p-4 text-lg',
+    smallSizeClass: 'p-2 text-sm',
   },
   TSelect: {
     defaultClass: 'block appearance-none w-full border pr-8 rounded leading-tight',

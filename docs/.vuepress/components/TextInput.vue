@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import getRenderedClass from '../mixins/getRenderedClass'
 
 export default {
