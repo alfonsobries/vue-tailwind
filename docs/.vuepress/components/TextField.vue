@@ -33,7 +33,7 @@ export default {
 
   data () {
     return {
-      model: 'I love vuejs',
+      model: 'I love vuejs 😎',
       disabled: false,
       id: 'text-field',
       name: 'text-field',
