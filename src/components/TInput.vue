@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import handleClasses from '../mixins/handleClasses.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import { TInputTheme } from '../themes/default.js'
@@ -40,7 +41,7 @@ const {
 export default {
   name: 'TInput',
 
-  mixins: [commonAttributes, htmlInputMethods],
+  mixins: [commonAttributes, handleClasses, htmlInputMethods],
 
   props: {
     value: {
@@ -91,6 +92,10 @@ export default {
       type: String,
       default: 'text'
     },
+    status: {
+      type: [Boolean, String],
+      default: undefined
+    },
     defaultClass: {
       type: [String, Object, Array],
       default: defaultClass
@@ -120,19 +125,6 @@ export default {
     }
   },
 
-  computed: {
-    currentClass () {
-      let classes = [this.defaultClass]
-
-      if (this.disabled) {
-        classes.push(this.disabledClass)
-      } else {
-        classes.push(this.defaultStatusClass)
-      }
-
-      return classes
-    }
-  },
   watch: {
     value (value) {
       this.currentValue = value

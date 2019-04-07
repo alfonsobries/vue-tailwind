@@ -4,6 +4,7 @@
       :disabled="disabled"
       :id="id"
       :name="name"
+      :status="status"
     >{{ label }}</t-button>
 
     <template slot="controls">
@@ -15,6 +16,8 @@
           {{ disabled ? 'Enabled' : 'Disabled' }}
         </span>
       </label>
+
+      <status-control v-model="status" >Button status</status-control>
     </template>
   </input-demo>
 </template>
@@ -27,6 +30,7 @@ export default {
 
   data () {
     return {
+      status: undefined,
       label: 'Im a nice button',
       disabled: false,
       id: 't-button',

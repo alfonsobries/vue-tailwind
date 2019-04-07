@@ -7,6 +7,7 @@
       :id="id"
       :name="name"
       :options="options"
+      :status="status"
     />
 
     <template slot="controls">
@@ -44,6 +45,8 @@
           @keyup.enter="addNewOption"
         />
       </p>
+
+      <status-control v-model="status" />
     </template>
 
     <template slot="value">
@@ -60,6 +63,7 @@ export default {
 
   data () {
     return {
+      status: undefined,
       model: 'Option 1',
       disabled: false,
       id: 'text-field',

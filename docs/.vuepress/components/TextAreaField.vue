@@ -8,6 +8,7 @@
       :placeholder="placeholder"
       :rows="rows"
       :maxlength="maxlength"
+      :status="status"
     />
 
     <template slot="controls">
@@ -51,6 +52,8 @@
           default-class="p-1 border text-sm"
         />
       </p>
+
+      <status-control v-model="status" />
     </template>
 
     <template slot="value">
@@ -76,6 +79,7 @@ export default {
       placeholder: 'Nice placeholder',
       rows: 4,
       maxlength: null,
+      status: undefined,
     }
   }
 }

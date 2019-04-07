@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import handleClasses from '../mixins/handleClasses.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import { TButtonTheme } from '../themes/default.js'
 
@@ -28,7 +29,7 @@ const {
 export default {
   name: 'TButton',
   
-  mixins: [commonAttributes],
+  mixins: [commonAttributes, handleClasses],
 
   props: {
     value: {
@@ -38,6 +39,10 @@ export default {
     type: {
       type: String,
       default: 'button'
+    },
+    status: {
+      type: [Boolean, String],
+      default: undefined
     },
     defaultClass: {
       type: [String, Object, Array],
@@ -59,20 +64,6 @@ export default {
       type: [String, Object, Array],
       default: disabledClass
     },
-  },
-
-  computed: {
-    currentClass () {
-      let classes = [this.defaultClass]
-
-      if (this.disabled) {
-        classes.push(this.disabledClass)
-      } else {
-        classes.push(this.defaultStatusClass)
-      }
-
-      return classes
-    }
   },
 
   methods: {

@@ -6,6 +6,7 @@
       :id="id"
       :name="name"
       :placeholder="placeholder"
+      :status="status"
     />
 
     <template slot="controls">
@@ -17,6 +18,8 @@
           {{ disabled ? 'Enabled' : 'Disabled' }}
         </span>
       </label>
+      
+      <status-control v-model="status" />
     </template>
 
     <template slot="value">
@@ -33,6 +36,7 @@ export default {
 
   data () {
     return {
+      status: undefined,
       model: 'I love vuejs 😎',
       disabled: false,
       id: 'text-input',

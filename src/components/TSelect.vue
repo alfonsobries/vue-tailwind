@@ -50,6 +50,7 @@
 
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
+import handleClasses from '../mixins/handleClasses.js'
 import { TSelectTheme } from '../themes/default.js'
 
 const {
@@ -66,7 +67,7 @@ const {
 export default {
   name: 'TSelect',
   
-  mixins: [commonAttributes],
+  mixins: [commonAttributes, handleClasses],
 
   props: {
     value: {
@@ -88,6 +89,10 @@ export default {
     options: {
       type: [Array, Object],
       default: () => []
+    },
+    status: {
+      type: [Boolean, String],
+      default: undefined
     },
     defaultClass: {
       type: [String, Object, Array],
@@ -144,14 +149,22 @@ export default {
     currentClass () {
       let classes = [!this.multiple ? this.defaultClass : this.defaultClassMultiple]
 
-      if (this.disabled) {
-        classes.push(this.disabledClass)
-      } else {
+      if (!this.disabled && this.noStatus) {
         classes.push(this.defaultStatusClass)
       }
 
+      if (this.disabled) {
+        classes.push(this.disabledClass)
+      }
+
+      if (this.isError) {
+        classes.push(this.errorStatusClass)
+      } else if (this.isSuccess) {
+        classes.push(this.successStatusClass)
+      }
+
       return classes
-    }
+    },
   },
 
   watch: {

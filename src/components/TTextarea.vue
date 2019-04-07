@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import handleClasses from '../mixins/handleClasses.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import { TTextareaTheme } from '../themes/default.js'
@@ -35,7 +36,7 @@ const {
 export default {
   name: 'TTextarea',
   
-  mixins: [commonAttributes, htmlInputMethods],
+  mixins: [commonAttributes, htmlInputMethods, handleClasses],
 
   props: {
     value: {
@@ -66,6 +67,10 @@ export default {
       type: String,
       default: 'soft'
     },
+    status: {
+      type: [Boolean, String],
+      default: undefined
+    },
     defaultClass: {
       type: [String, Object, Array],
       default: defaultClass
@@ -92,20 +97,6 @@ export default {
     return {
       currentValue: this.value,
       valueWhenFocus: null
-    }
-  },
-
-  computed: {
-    currentClass () {
-      let classes = [this.defaultClass]
-
-      if (this.disabled) {
-        classes.push(this.disabledClass)
-      } else {
-        classes.push(this.defaultStatusClass)
-      }
-
-      return classes
     }
   },
 
