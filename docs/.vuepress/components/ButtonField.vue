@@ -1,10 +1,12 @@
 <template>
   <input-demo>
     <t-button
+      ref="input"
       :disabled="disabled"
       :id="id"
       :name="name"
       :status="status"
+      :size="size"
     >{{ label }}</t-button>
 
     <template slot="controls">
@@ -17,22 +19,30 @@
         </span>
       </label>
 
-      <status-control v-model="status" >Button status</status-control>
+      <status-control v-model="status">Button status</status-control>
+
+      <size-control v-model="size">Button size</size-control>
+    </template>
+
+    <template slot="classes">
+      <p>Rendered class: 
+        <pre class="text-white">{{ renderedClass }}</pre>
+      </p>
     </template>
   </input-demo>
 </template>
 
 <script>
-import Vue from 'vue'
+import getRenderedClass from '../mixins/getRenderedClass'
 
 export default {
   name: 'TextInput',
 
+  mixins: [getRenderedClass],
+
   data () {
     return {
-      status: undefined,
       label: 'Im a nice button',
-      disabled: false,
       id: 't-button',
       name: 't-button',
     }

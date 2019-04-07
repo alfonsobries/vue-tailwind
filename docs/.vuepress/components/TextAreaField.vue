@@ -54,11 +54,9 @@ export default {
       model: `Vuejs is awesome
 
 ^ Right?`,
-      disabled: false,
       id: 'text-field',
       name: 'text-field',
       placeholder: 'Nice placeholder',
-      status: undefined,
     }
   }
 }

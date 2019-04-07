@@ -33,11 +33,14 @@ const BootstrapTheme = {
     smallSizeClass: 'p-2 text-sm',
   },
   TButton: {
-    defaultClass: 'border p-3 block w-full rounded',
+    defaultClass: 'border block w-full rounded',
     defaultStatusClass: 'bg-grey-light border-grey-light hover:bg-grey hover:border-grey',
     errorStatusClass: 'border-red bg-red text-white',
     successStatusClass: 'border-green bg-green text-white',
     disabledClass: 'bg-grey-lighter border-grey-lighter cursor-not-allowed',
+    defaultSizeClass: 'p-3',
+    largeSizeClass: 'p-4 text-lg',
+    smallSizeClass: 'p-2 text-sm',
   }
 }
 
