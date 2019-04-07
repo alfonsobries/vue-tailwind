@@ -1,6 +1,7 @@
 <template>
   <input-demo>
     <t-select
+      ref="input"
       v-model="model"
       :disabled="disabled"
       :multiple="multiple"
@@ -8,6 +9,7 @@
       :name="name"
       :options="options"
       :status="status"
+      :size="size"
     />
 
     <template slot="controls">
@@ -31,6 +33,11 @@
           </span>
         </label>
       </p>
+
+      <status-control v-model="status" />
+
+      <size-control v-model="size" />
+
       <p class="flex items-center mt-2">
         <label 
           for="rows" 
@@ -45,27 +52,32 @@
           @keyup.enter="addNewOption"
         />
       </p>
-
-      <status-control v-model="status" />
     </template>
 
     <template slot="value">
       <p>Current value: <pre class="text-white">{{ model }}</pre></p>
+    </template>
+
+    <template slot="classes">
+      <p>Rendered class: 
+        <pre class="text-white">{{ renderedClass }}</pre>
+      </p>
     </template>
   </input-demo>
 </template>
 
 <script>
 import Vue from 'vue'
+import getRenderedClass from '../mixins/getRenderedClass'
 
 export default {
   name: 'SelectField',
 
+  mixins: [getRenderedClass],
+
   data () {
     return {
-      status: undefined,
       model: 'Option 1',
-      disabled: false,
       id: 'text-field',
       name: 'text-field',
       multiple: false,
@@ -99,6 +111,8 @@ export default {
       } else {
         this.model = this.model[0] || 'Option 1'
       }
+
+      this.updateRenderedClass();
     }
   },
 
@@ -115,7 +129,7 @@ export default {
       } else {
         this.model = option.value
       }
-    }
+    },
   }
 }
 </script>

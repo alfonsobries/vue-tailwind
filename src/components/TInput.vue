@@ -36,6 +36,9 @@ const {
   errorStatusClass,
   successStatusClass,
   disabledClass,
+  defaultSizeClass,
+  largeSizeClass,
+  smallSizeClass,
 } = TInputTheme
 
 export default {
@@ -92,10 +95,6 @@ export default {
       type: String,
       default: 'text'
     },
-    status: {
-      type: [Boolean, String],
-      default: undefined
-    },
     defaultClass: {
       type: [String, Object, Array],
       default: defaultClass
@@ -115,6 +114,18 @@ export default {
     disabledClass: {
       type: [String, Object, Array],
       default: successStatusClass
+    },
+    defaultSizeClass: {
+      type: [String, Object, Array],
+      default: defaultSizeClass
+    },
+    largeSizeClass: {
+      type: [String, Object, Array],
+      default: largeSizeClass
+    },
+    smallSizeClass: {
+      type: [String, Object, Array],
+      default: smallSizeClass
     },
   },
 

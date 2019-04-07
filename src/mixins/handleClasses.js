@@ -1,4 +1,17 @@
 const handleClasses = {
+  props: {
+    status: {
+      type: [Boolean, String],
+      default: undefined
+    },
+    size: {
+      type: [String],
+      default: undefined,
+      validator: function (value) {
+        return value === undefined || ['lg', 'sm'].indexOf(value) !== -1
+      }
+    },
+  },
   computed: {
     noStatus () {
       return this.status === undefined
@@ -11,6 +24,14 @@ const handleClasses = {
     },
     currentClass () {
       let classes = [this.defaultClass]
+
+      if (this.size === undefined) {
+        classes.push(this.defaultSizeClass)
+      } else if (this.size === 'sm') {
+        classes.push(this.smallSizeClass)
+      } else if (this.size === 'lg') {
+        classes.push(this.largeSizeClass)
+      }
 
       if (!this.disabled && this.noStatus) {
         classes.push(this.defaultStatusClass)

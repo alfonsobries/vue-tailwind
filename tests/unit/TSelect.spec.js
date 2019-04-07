@@ -273,10 +273,6 @@ describe('TSelect.vue', () => {
         default: false,
         new: true
       },
-      size: {
-        default: 0,
-        new: 8
-      },
     }
 
     const select = wrapper.vm.$el.getElementsByTagName('select')[0]

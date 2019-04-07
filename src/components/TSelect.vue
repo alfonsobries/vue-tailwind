@@ -9,7 +9,6 @@
       :name="name"
       :required="required"
       :multiple="multiple"
-      :size="size"
       :class="currentClass"
       @blur="onBlur"
       @focus="onFocus"
@@ -62,6 +61,9 @@ const {
   disabledClass,
   arrowWrapperClass,
   arrowClass,
+  defaultSizeClass,
+  largeSizeClass,
+  smallSizeClass,
 } = TSelectTheme
 
 export default {
@@ -81,10 +83,6 @@ export default {
     multiple: {
       type: Boolean,
       default: false
-    },
-    size: {
-      type: [String, Number],
-      default: null
     },
     options: {
       type: [Array, Object],
@@ -126,6 +124,18 @@ export default {
       type: [String, Object, Array],
       default: arrowClass
     },
+    defaultSizeClass: {
+      type: [String, Object, Array],
+      default: defaultSizeClass
+    },
+    largeSizeClass: {
+      type: [String, Object, Array],
+      default: largeSizeClass
+    },
+    smallSizeClass: {
+      type: [String, Object, Array],
+      default: smallSizeClass
+    },
   },
 
   data () {
@@ -148,6 +158,14 @@ export default {
 
     currentClass () {
       let classes = [!this.multiple ? this.defaultClass : this.defaultClassMultiple]
+
+      if (this.size === undefined) {
+        classes.push(this.defaultSizeClass)
+      } else if (this.size === 'sm') {
+        classes.push(this.smallSizeClass)
+      } else if (this.size === 'lg') {
+        classes.push(this.largeSizeClass)
+      }
 
       if (!this.disabled && this.noStatus) {
         classes.push(this.defaultStatusClass)

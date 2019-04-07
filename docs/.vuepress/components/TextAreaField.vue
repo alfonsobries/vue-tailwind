@@ -6,8 +6,7 @@
       :id="id"
       :name="name"
       :placeholder="placeholder"
-      :rows="rows"
-      :maxlength="maxlength"
+      :rows="6"
       :status="status"
     />
 
@@ -21,36 +20,6 @@
             {{ disabled ? 'Disabled' : 'Enabled' }}
           </span>
         </label>
-      </p>
-
-      <p class="flex items-center mt-2">
-        <label 
-          for="rows" 
-          class="mr-2">
-          Rows:
-        </label>
-        <t-input
-          id="rows"
-          v-model.number="rows"
-          name="rows"
-          type="number"
-          default-class="p-1 border text-sm"
-        />
-      </p>
-
-      <p class="flex items-center mt-2">
-        <label 
-          for="rows" 
-          class="mr-2">
-          Max Length:
-        </label>
-        <t-input
-          id="maxlength"
-          v-model.number="maxlength"
-          name="maxlength"
-          type="number"
-          default-class="p-1 border text-sm"
-        />
       </p>
 
       <status-control v-model="status" />
@@ -77,8 +46,6 @@ export default {
       id: 'text-field',
       name: 'text-field',
       placeholder: 'Nice placeholder',
-      rows: 4,
-      maxlength: null,
       status: undefined,
     }
   }

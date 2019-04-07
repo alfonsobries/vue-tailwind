@@ -11,6 +11,9 @@
     <div class="m-2">
       <slot name="value" />
     </div>
+    <div class="m-2">
+      <slot name="classes" />
+    </div>
   </div>
 </template>
 

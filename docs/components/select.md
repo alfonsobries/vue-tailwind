@@ -19,7 +19,6 @@ lang: en-US
 | required    | Boolean     | false     |
 | tabindex    | String / Number | null      |
 | multiple    | Boolean     | false     |
-| size      | String / Number | null      |
 | options   | Array / Object  | []      |
 
 ### Options format
