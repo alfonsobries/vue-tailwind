@@ -13,16 +13,7 @@
     />
 
     <template slot="controls">
-      <p>
-        <label class="flex items-center">
-          <input 
-            v-model="disabled" 
-            type="checkbox">
-          <span class="ml-2">
-            {{ disabled ? 'Disabled' : 'Enabled' }}
-          </span>
-        </label>
-      </p>
+      <disabled-control v-model="disabled" />
 
       <status-control v-model="status" />
 

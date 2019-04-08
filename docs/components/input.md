@@ -7,7 +7,7 @@ lang: en-US
 
 <text-input />
 
-### Attributes
+### Attributes / Props
 
 | Property		| Type 				| Default value |
 |---			|---				|---			|
@@ -28,6 +28,19 @@ lang: en-US
 | size			| String / Number	| NaN			|
 | tabindex		| String / Number	| null			|
 | type			| String 			| 'text'		|
+
+### Classes related attributes / props
+
+| Property				| Description												|
+|---					|---														|
+| defaultClass			| Default input class (never changes) 						|
+| defaultStatusClass	| Classes when input doesnt has status and is not disabled	|
+| errorStatusClass		| Classes when input has status of `false` or `"error"`		|
+| successStatusClass	| Classes when input has status of `true` or `"success"` 	|
+| disabledClass			| Classes when the input is disabled						|
+| defaultSizeClass		| Classes when the inputs has no defined size 				|
+| largeSizeClass		| Classes when the inputs has the size defined as large (`lg`) |
+| smallSizeClass		| Classes when the inputs has the size defined as small (`sm`) |
 
 ### Events
 

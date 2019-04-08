@@ -2,7 +2,10 @@ const handleClasses = {
   props: {
     status: {
       type: [Boolean, String],
-      default: undefined
+      default: undefined,
+      validator: function (value) {
+        [undefined, true, false, 'success', 'error'].indexOf(value) !== -1
+      }
     },
     size: {
       type: [String],
@@ -37,14 +40,14 @@ const handleClasses = {
         classes.push(this.defaultStatusClass)
       }
 
-      if (this.disabled) {
-        classes.push(this.disabledClass)
-      }
-
       if (this.isError) {
         classes.push(this.errorStatusClass)
       } else if (this.isSuccess) {
         classes.push(this.successStatusClass)
+      }
+
+      if (this.disabled) {
+        classes.push(this.disabledClass)
       }
 
       return classes

@@ -12,15 +12,8 @@
     />
 
     <template slot="controls">
-      <label class="">
-        <input 
-          v-model="disabled" 
-          type="checkbox">
-        <span>
-          {{ disabled ? 'Enabled' : 'Disabled' }}
-        </span>
-      </label>
-      
+      <disabled-control v-model="disabled" />
+
       <status-control v-model="status" />
       
       <size-control v-model="size" />

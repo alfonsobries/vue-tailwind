@@ -1,6 +1,8 @@
 <template>
   <p class="mt-2">
-    <slot>Field status:</slot>
+    <span class="text-xs uppercase font-bold text-grey-dark">
+      <slot>Field status:</slot>
+    </span>
     <label class="flex items-center">
       <input 
         v-model="currentValue" 

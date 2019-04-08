@@ -39,7 +39,8 @@ const getRenderedClass = {
         this.updateRenderedClass()
       }
     },
-    updateRenderedClass() {
+    async updateRenderedClass() {
+      await this.$nextTick()
       this.renderedClass = this.$refs.input.currentClass
     }
   }

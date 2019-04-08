@@ -10,14 +10,7 @@
     >{{ label }}</t-button>
 
     <template slot="controls">
-      <label class="">
-        <input 
-          v-model="disabled" 
-          type="checkbox">
-        <span>
-          {{ disabled ? 'Enabled' : 'Disabled' }}
-        </span>
-      </label>
+      <disabled-control v-model="disabled" />
 
       <status-control v-model="status">Button status</status-control>
 
@@ -25,7 +18,8 @@
     </template>
 
     <template slot="classes">
-      <p>Rendered class: 
+      <p>
+        Rendered class: 
         <pre class="text-white">{{ renderedClass }}</pre>
       </p>
     </template>
