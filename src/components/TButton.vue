@@ -8,8 +8,7 @@
     :class="currentClass"
     @blur="onBlur"
     @focus="onFocus"
-  >
-    <slot />
+  ><slot />
   </button>
 </template>
 
