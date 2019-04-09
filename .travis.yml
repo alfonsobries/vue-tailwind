@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - stable
+  - 11
+install:
+  - npm install --ignore-scripts
+script:
+  - npm run test:unit
