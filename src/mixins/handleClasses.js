@@ -4,7 +4,7 @@ const handleClasses = {
       type: [Boolean, String],
       default: undefined,
       validator: function (value) {
-        [undefined, true, false, 'success', 'error'].indexOf(value) !== -1
+        return [undefined, true, false, 'success', 'error'].indexOf(value) !== -1
       }
     },
     size: {

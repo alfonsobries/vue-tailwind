@@ -38,9 +38,9 @@ lang: en-US
 | errorStatusClass		| Classes when input has status of `false` or `"error"`		|
 | successStatusClass	| Classes when input has status of `true` or `"success"` 	|
 | disabledClass			| Classes when the input is disabled						|
-| defaultSizeClass		| Classes when the inputs has no defined size 				|
-| largeSizeClass		| Classes when the inputs has the size defined as large (`lg`) |
-| smallSizeClass		| Classes when the inputs has the size defined as small (`sm`) |
+| defaultSizeClass		| Classes when the input has no defined size 				|
+| largeSizeClass		| Classes when the input has the size defined as large (`lg`) |
+| smallSizeClass		| Classes when the input has the size defined as small (`sm`) |
 
 ### Events
 
