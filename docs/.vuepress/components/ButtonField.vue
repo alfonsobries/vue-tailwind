@@ -5,16 +5,19 @@
       :disabled="disabled"
       :id="id"
       :name="name"
-      :status="status"
       :size="size"
+      :variant="variant"
     >{{ label }}</t-button>
 
     <template slot="controls">
       <disabled-control v-model="disabled" />
 
-      <status-control v-model="status">Button status</status-control>
-
       <size-control v-model="size">Button size</size-control>
+      
+      <variant-control
+        v-model="variant"
+        :options="options"
+      >Button variant</variant-control>
     </template>
 
     <template slot="classes">
@@ -39,6 +42,15 @@ export default {
       label: 'Im a nice button',
       id: 't-button',
       name: 't-button',
+      options: [
+        { value: undefined, text: 'Default' },
+        { value: 'primary', text: 'Primary' },
+        { value: 'secondary', text: 'Secondary' },
+        { value: 'tertiary', text: 'Tertiary' },
+        { value: 'success', text: 'Success' },
+        { value: 'warning', text: 'Warning' },
+        { value: 'danger', text: 'Danger' },
+      ]
     }
   }
 }

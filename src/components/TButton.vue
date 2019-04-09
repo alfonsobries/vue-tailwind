@@ -14,15 +14,17 @@
 </template>
 
 <script>
-import handleClasses from '../mixins/handleClasses.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import { TButtonTheme } from '../themes/default.js'
 
 const {
   defaultClass,
-  defaultStatusClass,
-  errorStatusClass,
-  successStatusClass,
+  primaryClass,
+  secondaryClass,
+  tertiaryClass,
+  successClass,
+  dangerClass,
+  warningClass,
   disabledClass,
   defaultSizeClass,
   largeSizeClass,
@@ -32,7 +34,7 @@ const {
 export default {
   name: 'TButton',
   
-  mixins: [commonAttributes, handleClasses],
+  mixins: [commonAttributes],
 
   props: {
     value: {
@@ -43,21 +45,47 @@ export default {
       type: String,
       default: 'button'
     },
+    size: {
+      type: String,
+      default: undefined,
+      validator: function (value) {
+        return value === undefined || ['lg', 'sm'].indexOf(value) !== -1
+      }
+    },
+    variant: {
+      type: String,
+      default: undefined,
+      validator: function (value) {
+        return value === undefined || ['primary', 'secondary', 'tertiary', 'danger', 'warning', 'success'].indexOf(value) !== -1
+      }
+    },
     defaultClass: {
       type: [String, Object, Array],
       default: defaultClass
     },
-    defaultStatusClass: {
+    primaryClass: {
       type: [String, Object, Array],
-      default: defaultStatusClass
+      default: primaryClass
     },
-    errorStatusClass: {
+    secondaryClass: {
       type: [String, Object, Array],
-      default: errorStatusClass
+      default: secondaryClass
     },
-    successStatusClass: {
+    tertiaryClass: {
       type: [String, Object, Array],
-      default: successStatusClass
+      default: tertiaryClass
+    },
+    successClass: {
+      type: [String, Object, Array],
+      default: successClass
+    },
+    dangerClass: {
+      type: [String, Object, Array],
+      default: dangerClass
+    },
+    warningClass: {
+      type: [String, Object, Array],
+      default: warningClass
     },
     disabledClass: {
       type: [String, Object, Array],
@@ -74,6 +102,49 @@ export default {
     smallSizeClass: {
       type: [String, Object, Array],
       default: smallSizeClass
+    },
+  },
+
+  computed: {
+    currentClass () {
+      let classes = []
+
+      switch(this.variant) {
+        case 'primary':
+          classes.push(this.primaryClass)
+          break;
+        case 'secondary':
+          classes.push(this.secondaryClass)
+          break;
+        case 'tertiary':
+          classes.push(this.tertiaryClass)
+          break;
+        case 'danger':
+          classes.push(this.dangerClass)
+          break;
+        case 'warning':
+          classes.push(this.warningClass)
+          break;
+        case 'success':
+          classes.push(this.successClass)
+          break;
+        default:
+          classes.push(this.defaultClass)
+      }
+
+      if (this.size === undefined) {
+        classes.push(this.defaultSizeClass)
+      } else if (this.size === 'sm') {
+        classes.push(this.smallSizeClass)
+      } else if (this.size === 'lg') {
+        classes.push(this.largeSizeClass)
+      }
+
+      if (this.disabled) {
+        classes.push(this.disabledClass)
+      }
+
+      return classes
     },
   },
 

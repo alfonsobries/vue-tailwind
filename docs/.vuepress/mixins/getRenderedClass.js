@@ -3,6 +3,7 @@ const getRenderedClass = {
     return {
       status: undefined,
       size: undefined,
+      variant: undefined,
       disabled: false,
       renderedClass: null,
       triesToGetRenderedClass: 0
@@ -17,6 +18,9 @@ const getRenderedClass = {
       this.updateRenderedClass();
     },
     size () {
+      this.updateRenderedClass();
+    },
+    variant () {
       this.updateRenderedClass();
     },
   },

@@ -8,7 +8,7 @@ const handleClasses = {
       }
     },
     size: {
-      type: [String],
+      type: String,
       default: undefined,
       validator: function (value) {
         return value === undefined || ['lg', 'sm'].indexOf(value) !== -1
