@@ -5,4 +5,5 @@ node_js:
 install:
   - npm install --ignore-scripts
 script:
+  - npm run lint
   - npm run test:unit
