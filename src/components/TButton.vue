@@ -5,10 +5,12 @@
     :autofocus="autofocus"
     :disabled="disabled"
     :name="name"
+    :type="type"
     :class="currentClass"
     @blur="onBlur"
     @focus="onFocus"
-  ><slot />
+  >
+    <slot />
   </button>
 </template>
 
@@ -157,11 +159,11 @@ export default {
     },
 
     blur () {
-      this.$refs.select.blur()
+      this.$el.blur()
     },
 
     focus () {
-      this.$refs.select.focus()
+      this.$el.focus()
     },
   },
 }
