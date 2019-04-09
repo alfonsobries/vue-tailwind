@@ -25,9 +25,10 @@ lang: en-US
 | placeholder	| String			| null			|
 | readonly		| Boolean			| undefined		|
 | required		| Boolean			| false			|
-| size			| String / Number	| NaN			|
 | tabindex		| String / Number	| null			|
 | type			| String 			| 'text'		|
+| status        | String / Boolean     | undefined      | true, false, 'success', 'error' |
+| size        | String      | undefined      | 'sm', 'lg' |
 
 ### Classes related attributes / props
 
