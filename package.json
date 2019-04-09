@@ -7,6 +7,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build-bundle": "vue-cli-service build --target lib --name vue-tailwind ./src/components/index.js",
+    "lint:test": "vue-cli-service lint --no-fix",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
