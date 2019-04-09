@@ -7,19 +7,38 @@ lang: en-US
 
 <select-field />
 
-### Attributes
+### Attributes / props
 
-| Property    | Type        | Default value |
-|---      |---        |---      |
-| id      | String      | null      |
-| autofocus   | Boolean     | false     |
-| disabled    | Boolean     | false     |
-| name      | String      | null      |
-| readonly    | Boolean     | undefined   |
-| required    | Boolean     | false     |
-| tabindex    | String / Number | null      |
-| multiple    | Boolean     | false     |
-| options   | Array / Object  | []      |
+| Property    | Type        | Default value | Accepted values |
+|---      |---        |---      |---      |
+| id      | String      | null      | _Any valid type_ |
+| autofocus   | Boolean     | false     | _Any valid type_ |
+| disabled    | Boolean     | false     | _Any valid type_ |
+| name      | String      | null      | _Any valid type_ |
+| readonly    | Boolean     | undefined   | _Any valid type_ |
+| required    | Boolean     | false     | _Any valid type_ |
+| tabindex    | String / Number | null      | _Any valid type_ |
+| multiple    | Boolean     | false     | _Any valid type_ |
+| options   | Array / Object  | []      | _Any valid type_ |
+| status        | String / Boolean     | undefined      | true, false, 'success', 'error' |
+| size        | String      | undefined      | 'sm', 'lg' |
+
+### Classes related attributes / props
+
+| Property        | Description                                                         |
+|---                    |---                                                            |
+| defaultClass          | Default select box class (never changes)                      |
+| defaultClassMultiple  | Default select box class when is multiple (never changes)     |
+| defaultStatusClass    | Classes when select box doesnt has status and is not disabled |
+| errorStatusClass      | Classes when select box has status of `false` or `"error"`    |
+| successStatusClass    | Classes when select box has status of `true` or `"success"`   |
+| disabledClass         | Classes when the select box is disabled                       |
+| defaultSizeClass      | Classes when the select box has no defined size               |
+| largeSizeClass        | Classes when the select box has the size defined as large (`lg`)  |
+| smallSizeClass        | Classes when the select box has the size defined as small (`sm`)  |
+| wrapperClass          | Classes for the select box wrapper                            |
+| arrowWrapperClass     | Classes for the select box arrow wrapper                      |
+| arrowClass            | Classes for the select box arrow                              |
 
 ### Options format
 

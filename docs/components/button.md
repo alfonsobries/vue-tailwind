@@ -11,18 +11,17 @@ lang: en-US
 
 | Property    | Type        | Default value | Accepted values |
 |---          |---          |---      |--- |
-| id          | String      | null      | * |
-| autofocus   | Boolean     | false     | * |
-| disabled    | Boolean     | false     | * |
-| name        | String      | null      | * |
-| tabindex    | String / Number | null      | * |
-| value       | String / Number | null      | * |
-| type        | String      | 'button'      | * |
+| id          | String      | null      | _Any valid type_ |
+| autofocus   | Boolean     | false     | _Any valid type_ |
+| disabled    | Boolean     | false     | _Any valid type_ |
+| name        | String      | null      | _Any valid type_ |
+| tabindex    | String / Number | null      | _Any valid type_ |
+| value       | String / Number | null      | _Any valid type_ |
+| type        | String      | 'button'      | _Any valid type_ |
 | variant        | String      | undefined      | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success' |
 | size        | String      | undefined      | 'sm', 'lg' |
 
 ### Classes related attributes / props
-
 
 | Property          | Description                       |
 |---                |---                            |

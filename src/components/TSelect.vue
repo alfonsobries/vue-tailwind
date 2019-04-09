@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div :class="wrapperClass">
     <select
       ref="select"
       :id="id"
@@ -59,11 +59,12 @@ const {
   errorStatusClass,
   successStatusClass,
   disabledClass,
-  arrowWrapperClass,
-  arrowClass,
   defaultSizeClass,
   largeSizeClass,
   smallSizeClass,
+  wrapperClass,
+  arrowWrapperClass,
+  arrowClass,
 } = TSelectTheme
 
 export default {
@@ -120,10 +121,6 @@ export default {
       type: [String, Object, Array],
       default: arrowWrapperClass
     },
-    arrowClass: {
-      type: [String, Object, Array],
-      default: arrowClass
-    },
     defaultSizeClass: {
       type: [String, Object, Array],
       default: defaultSizeClass
@@ -135,6 +132,14 @@ export default {
     smallSizeClass: {
       type: [String, Object, Array],
       default: smallSizeClass
+    },
+    arrowClass: {
+      type: [String, Object, Array],
+      default: arrowClass
+    },
+    wrapperClass: {
+      type: [String, Object, Array],
+      default: wrapperClass
     },
   },
 

@@ -1,7 +1,7 @@
 <template>
   <p class="mt-2">
     <span class="text-xs uppercase font-bold text-grey-dark">
-      <slot>Field status:</slot>
+      <slot>Field size:</slot>
     </span>
     <label class="flex items-center">
       <input 
