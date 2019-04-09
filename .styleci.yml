@@ -1,0 +1,6 @@
+preset: recommended
+risky: true
+vue: true
+finder:
+  exclude:
+    - node_modules
