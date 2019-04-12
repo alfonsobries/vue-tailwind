@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import TTextarea from '@/components/TTextarea.vue'
+import TTextarea from '@/elements/TTextarea.vue'
 import { mapValues } from 'lodash'
 
 describe('TTextarea.vue', () => {

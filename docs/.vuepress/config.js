@@ -9,13 +9,13 @@ module.exports = {
     sidebar: [
       '/',
       {
-          title: 'Components',
+          title: 'Form elements',
           collapsable: false,
           children: [
-            '/components/input',
-            '/components/textarea',
-            '/components/select',
-            '/components/button',
+            '/elements/input',
+            '/elements/textarea',
+            '/elements/select',
+            '/elements/button',
         ]
       }
     ]

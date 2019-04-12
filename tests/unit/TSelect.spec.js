@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import TSelect from '@/components/TSelect.vue'
+import TSelect from '@/elements/TSelect.vue'
 import { mapValues } from 'lodash'
 
 describe('TSelect.vue', () => {

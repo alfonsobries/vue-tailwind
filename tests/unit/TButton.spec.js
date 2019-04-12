@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import TButton from '@/components/TButton.vue'
+import TButton from '@/elements/TButton.vue'
 import { mapValues } from 'lodash'
 
 describe('TButton.vue', () => {

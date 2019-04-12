@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import TInput from '@/components/TInput.vue'
+import TInput from '@/elements/TInput.vue'
 import { mapValues } from 'lodash'
 
 describe('TInput.vue', () => {

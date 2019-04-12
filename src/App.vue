@@ -14,7 +14,10 @@
     <ul>
       <li>
         <label for="text-disabled">
-          <input id="text-disabled" type="checkbox" v-model="text.disabled" />
+          <input 
+            id="text-disabled" 
+            v-model="text.disabled" 
+            type="checkbox" >
           Disabled
         </label>
       </li>
@@ -23,9 +26,10 @@
 </template>
 
 <script>
-import TInput from '@/components/TInput'
+import TInput from '@/elements/TInput'
 
 export default {
+  name: 'App',
   components: {
     TInput
   },
@@ -40,6 +44,5 @@ export default {
       }
     }
   },
-  name: 'app'
 }
 </script>

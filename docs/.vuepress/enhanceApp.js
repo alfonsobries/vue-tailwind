@@ -1,4 +1,4 @@
-import VueTailwind from '../../src/components'
+import VueTailwind from '../../src/elements'
 // import BootstrapTheme from '../../src/themes/bootstrap'
 
 export default ({
