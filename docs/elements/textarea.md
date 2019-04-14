@@ -22,8 +22,8 @@ lang: en-US
 | placeholder	| String			| null			| _Any valid type_ |
 | rows			| String  / Number	| null			| _Any valid type_ |
 | maxlength		| String / Number	| null			| _Any valid type_ |
-| status        | String / Boolean     | undefined      | true, false, 'success', 'error' |
-| size        | String      | undefined      | 'sm', 'lg' |
+| status        | String / Boolean  | null     		| true, false, 'success', 'error', 'warning' |
+| size       	| String      		| null      	| 'sm', 'lg' |
 
 ### Classes related attributes / props
 
@@ -33,6 +33,7 @@ lang: en-US
 | defaultStatusClass	| Classes when textarea doesnt has status and is not disabled	|
 | errorStatusClass		| Classes when textarea has status of `false` or `"error"`		|
 | successStatusClass	| Classes when textarea has status of `true` or `"success"` 	|
+| warningStatusClass	| Classes when textarea has status of `"warning"`			 	|
 | disabledClass			| Classes when the textarea is disabled						|
 | defaultSizeClass		| Classes when the textarea has no defined size 				|
 | largeSizeClass		| Classes when the textarea has the size defined as large (`lg`) |

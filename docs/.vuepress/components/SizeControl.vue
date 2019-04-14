@@ -1,47 +1,35 @@
 <template>
-  <p class="mt-2">
+  <p>
     <span class="text-xs uppercase font-bold text-grey-dark">
       <slot>Field size:</slot>
     </span>
-    <label class="flex items-center">
-      <input 
-        v-model="currentValue" 
-        :value="undefined"
-        type="radio"
-      >
-      <span class="ml-2">
-        Default size
-      </span>
-    </label>
-    <label class="flex items-center">
-      <input 
-        v-model="currentValue" 
-        :value="'sm'"
-        type="radio"
-      >
-      <span class="ml-2">
-        Small
-      </span>
-    </label>
-    <label class="flex items-center">
-      <input 
-        v-model="currentValue" 
-        :value="'lg'"
-        type="radio"
-      >
-      <span class="ml-2">
-        Large
-      </span>
-    </label>
+
+    <t-radio
+      :name="name"
+      v-model="currentValue"
+      :options="options"
+    />
   </p>
 </template>
 
 <script>
 export default {
   props: {
+    name: {
+      type: String,
+      default: 'field-size'
+    },
     value: {
       type: String,
-      default: undefined
+      default: null
+    },
+    options: {
+      type: Array,
+      default: () => [
+        { value: null, text: 'Default size' },
+        { value: 'sm', text: 'Small' },
+        { value: 'lg', text: 'Large' },
+      ]
     }
   },
 

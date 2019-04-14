@@ -14,9 +14,9 @@
     <template slot="controls">
       <disabled-control v-model="disabled" />
 
-      <status-control v-model="status" />
+      <status-control v-model="status" class="mt-2" />
       
-      <size-control v-model="size" />
+      <size-control v-model="size" class="mt-2" />
     </template>
 
     <template slot="value">
@@ -24,7 +24,8 @@
     </template>
 
     <template slot="classes">
-      <p>Rendered class: 
+      <p>
+        Rendered class: 
         <pre class="text-white">{{ renderedClass }}</pre>
       </p>
     </template>

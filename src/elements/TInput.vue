@@ -1,5 +1,6 @@
 <template>
   <input
+    ref="input"
     :id="id"
     v-model="currentValue"
     :type="type"
@@ -35,6 +36,7 @@ const {
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
+  warningStatusClass,
   disabledClass,
   defaultSizeClass,
   largeSizeClass,
@@ -110,6 +112,10 @@ export default {
     successStatusClass: {
       type: [String, Object, Array],
       default: successStatusClass
+    },
+    warningStatusClass: {
+      type: [String, Object, Array],
+      default: warningStatusClass
     },
     disabledClass: {
       type: [String, Object, Array],

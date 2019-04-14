@@ -1,93 +1,81 @@
 <template>
-  <div :class="wrapperClass">
-    <select
-      ref="select"
-      :id="id"
-      v-model="currentValue"
-      :autofocus="autofocus"
-      :disabled="disabled"
-      :name="name"
-      :required="required"
-      :multiple="multiple"
-      :class="currentClass"
-      @blur="onBlur"
-      @focus="onFocus"
+  <div 
+    ref="radio-group" 
+    :id="id"
+    :class="currentClass"
+  >
+    <span
+      v-for="(option, index) in normalizedOptions"
+      :key="`${option.value}-${index}`"
+      :value="option.value"
+      :class="labelClass"
     >
-      <template v-for="(option, index) in normalizedOptions">
-        <optgroup
-          v-if="option.children"
-          :key="`${option.value}-optgroup-${index}`"
-          :value="option.value"
-          :label="option.text"
-        >
-          <option
-            v-for="(childOption, index2) in option.children"
-            :key="`${childOption.value}-${index}-${index2}`"
-            :value="childOption.value"
-            v-text="childOption.text"
-          />
-        </optgroup>
-        <option
-          v-else
-          :key="`${option.value}-${index}`"
-          :value="option.value"
-          v-text="option.text"
-        />
-      </template>
-    </select>
-    <div 
-      v-if="!multiple" 
-      :class="arrowWrapperClass">
-      <svg 
-        :class="arrowClass" 
-        xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 20 20"
-      ><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-    </div>
+      <input
+        :id="`${ id || name || '' }-${option.value}`"
+        v-model="currentValue"
+        :value="option.value"
+        :disabled="disabled"
+        :name="name"
+        :required="required"
+        :class="inputClass"
+        type="radio"
+        @blur="onBlur"
+        @focus="onFocus"
+      >
+      <label 
+        :class="textClass" 
+        :for="`${ id || name || '' }-${option.value}`"
+      >{{ option.text }}</label>
+    </span>
   </div>
 </template>
 
 <script>
-import commonAttributes from '../mixins/commonAttributes.js'
+import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
-import { TSelectTheme } from '../themes/default.js'
+import { TRadioTheme } from '../themes/default.js'
 
 const {
   defaultClass,
-  defaultClassMultiple,
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
+  warningStatusClass,
   disabledClass,
   defaultSizeClass,
   largeSizeClass,
   smallSizeClass,
-  wrapperClass,
-  arrowWrapperClass,
-  arrowClass,
-} = TSelectTheme
+  labelClass,
+  inputClass,
+  textClass,
+  controlClass,
+} = TRadioTheme
 
 export default {
-  name: 'TSelect',
+  name: 'TRadio',
   
-  mixins: [commonAttributes, handleClasses],
+  mixins: [handleClasses, hasMultioptions],
 
   props: {
+    id: {
+      type: String,
+      default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    name: {
+      type: String,
+      default: null
+    },
     value: {
-      type: [String, Number, Array],
+      type: [String, Number, Boolean],
       default: null
     },
     required: {
       type: Boolean,
       default: false
-    },
-    multiple: {
-      type: Boolean,
-      default: false
-    },
-    options: {
-      type: [Array, Object],
-      default: () => []
     },
     status: {
       type: [Boolean, String],
@@ -96,10 +84,6 @@ export default {
     defaultClass: {
       type: [String, Object, Array],
       default: defaultClass
-    },
-    defaultClassMultiple: {
-      type: [String, Object, Array],
-      default: defaultClassMultiple
     },
     defaultStatusClass: {
       type: [String, Object, Array],
@@ -113,13 +97,13 @@ export default {
       type: [String, Object, Array],
       default: successStatusClass
     },
+    warningStatusClass: {
+      type: [String, Object, Array],
+      default: warningStatusClass
+    },
     disabledClass: {
       type: [String, Object, Array],
       default: disabledClass
-    },
-    arrowWrapperClass: {
-      type: [String, Object, Array],
-      default: arrowWrapperClass
     },
     defaultSizeClass: {
       type: [String, Object, Array],
@@ -133,13 +117,17 @@ export default {
       type: [String, Object, Array],
       default: smallSizeClass
     },
-    arrowClass: {
+    labelClass: {
       type: [String, Object, Array],
-      default: arrowClass
+      default: labelClass
     },
-    wrapperClass: {
+    inputClass: {
       type: [String, Object, Array],
-      default: wrapperClass
+      default: inputClass
+    },
+    textClass: {
+      type: [String, Object, Array],
+      default: inputClass
     },
   },
 
@@ -147,47 +135,6 @@ export default {
     return {
       currentValue: this.value,
     }
-  },
-
-  computed: {
-    normalizedOptions () {
-      if (Array.isArray(this.options)) {
-        return this.options.map(option => this.normalizeOption(option))
-      } else {
-        return Object.keys(this.options).map(key => ({
-          value: key,
-          text: this.options[key]
-        }))
-      }
-    },
-
-    currentClass () {
-      let classes = [!this.multiple ? this.defaultClass : this.defaultClassMultiple]
-
-      if (this.size === undefined) {
-        classes.push(this.defaultSizeClass)
-      } else if (this.size === 'sm') {
-        classes.push(this.smallSizeClass)
-      } else if (this.size === 'lg') {
-        classes.push(this.largeSizeClass)
-      }
-
-      if (!this.disabled && this.noStatus) {
-        classes.push(this.defaultStatusClass)
-      }
-
-      if (this.disabled) {
-        classes.push(this.disabledClass)
-      }
-
-      if (this.isError) {
-        classes.push(this.errorStatusClass)
-      } else if (this.isSuccess) {
-        classes.push(this.successStatusClass)
-      }
-
-      return classes
-    },
   },
 
   watch: {
@@ -202,28 +149,6 @@ export default {
   },
 
   methods: {
-    normalizeOption (option) {
-      if (typeof option === 'string' || typeof option === 'number') {
-        return {
-          value: option,
-          text: option,
-        }
-      }
-
-      if (option.children && Array.isArray(option.children)) {
-        return {
-          value: option.value || option.id || option.text,
-          text: option.text || option.label,
-          children: option.children.map(childOption => this.normalizeOption(childOption))
-        }
-      }
-      
-      return {
-        value: option.value || option.id || option.text,
-        text: option.text || option.label,
-      }
-    },
-
     onBlur (e) {
       this.$emit('blur', e)
     },

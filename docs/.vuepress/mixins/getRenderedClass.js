@@ -1,9 +1,9 @@
 const getRenderedClass = {
   data () {
     return {
-      status: undefined,
-      size: undefined,
-      variant: undefined,
+      status: null,
+      size: null,
+      variant: null,
       disabled: false,
       renderedClass: null,
       triesToGetRenderedClass: 0

@@ -1,5 +1,6 @@
 <template>
   <textarea
+    ref="textarea"
     :id="id"
     v-model="currentValue"
     :autofocus="autofocus"
@@ -30,6 +31,7 @@ const {
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
+  warningStatusClass,
   disabledClass,
   defaultSizeClass,
   largeSizeClass,
@@ -89,6 +91,10 @@ export default {
     successStatusClass: {
       type: [String, Object, Array],
       default: successStatusClass
+    },
+    warningStatusClass: {
+      type: [String, Object, Array],
+      default: warningStatusClass
     },
     disabledClass: {
       type: [String, Object, Array],

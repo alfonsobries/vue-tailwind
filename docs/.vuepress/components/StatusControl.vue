@@ -1,53 +1,41 @@
 <template>
-  <p class="mt-2">
+  <p>
     <span class="text-xs uppercase font-bold text-grey-dark">
       <slot>Field status:</slot>
     </span>
-    <label class="flex items-center">
-      <input 
-        v-model="currentValue" 
-        :value="undefined"
-        type="radio"
-      >
-      <span class="ml-2">
-        No status
-      </span>
-    </label>
-    <label class="flex items-center">
-      <input 
-        v-model="currentValue" 
-        :value="true"
-        type="radio"
-      >
-      <span class="ml-2">
-        Success
-      </span>
-    </label>
-    <label class="flex items-center">
-      <input 
-        v-model="currentValue" 
-        :value="false"
-        type="radio"
-      >
-      <span class="ml-2">
-        Error
-      </span>
-    </label>
+    <t-radio
+      :name="name"
+      v-model="currentValue"
+      :options="options"
+    />
   </p>
 </template>
 
 <script>
 export default {
   props: {
+    name: {
+      type: String,
+      default: 'field-status'
+    },
     value: {
-      type: Boolean,
-      default: undefined
+      type: [Boolean, String],
+      default: null
+    },
+    options: {
+      type: Array,
+      default: () => [
+        { value: null, text: 'No status' },
+        { value: true, text: 'Success' },
+        { value: false, text: 'Danger' },
+        { value: 'warning', text: 'Warning' },
+      ]
     }
   },
 
   data () {
     return {
-      currentValue: this.value
+      currentValue: this.value,
     }
   },
 

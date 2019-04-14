@@ -1,5 +1,7 @@
 <template>
-  <div :class="wrapperClass">
+  <div 
+    ref="select-wrapper" 
+    :class="wrapperClass">
     <select
       ref="select"
       :id="id"
@@ -49,6 +51,7 @@
 
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
+import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
 import { TSelectTheme } from '../themes/default.js'
 
@@ -58,6 +61,7 @@ const {
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
+  warningStatusClass,
   disabledClass,
   defaultSizeClass,
   largeSizeClass,
@@ -70,11 +74,11 @@ const {
 export default {
   name: 'TSelect',
   
-  mixins: [commonAttributes, handleClasses],
+  mixins: [commonAttributes, handleClasses, hasMultioptions],
 
   props: {
     value: {
-      type: [String, Number, Array],
+      type: [String, Number, Array, Object],
       default: null
     },
     required: {
@@ -84,10 +88,6 @@ export default {
     multiple: {
       type: Boolean,
       default: false
-    },
-    options: {
-      type: [Array, Object],
-      default: () => []
     },
     status: {
       type: [Boolean, String],
@@ -112,6 +112,10 @@ export default {
     successStatusClass: {
       type: [String, Object, Array],
       default: successStatusClass
+    },
+    warningStatusClass: {
+      type: [String, Object, Array],
+      default: warningStatusClass
     },
     disabledClass: {
       type: [String, Object, Array],
@@ -150,44 +154,21 @@ export default {
   },
 
   computed: {
-    normalizedOptions () {
-      if (Array.isArray(this.options)) {
-        return this.options.map(option => this.normalizeOption(option))
-      } else {
-        return Object.keys(this.options).map(key => ({
-          value: key,
-          text: this.options[key]
-        }))
-      }
-    },
-
+    /**
+     * The default classes for the textarea are different for multiptions
+     * 
+     * @return {Array}
+     */
     currentClass () {
-      let classes = [!this.multiple ? this.defaultClass : this.defaultClassMultiple]
+      let classes = [
+        !this.multiple ? this.defaultClass : this.defaultClassMultiple,
+        `${this.$options._componentTag}`,
+        `${this.$options._componentTag}-size-${ this.size || 'default' }`,
+        `${this.$options._componentTag}-status-${ this.statusName }`,
+      ]
 
-      if (this.size === undefined) {
-        classes.push(this.defaultSizeClass)
-      } else if (this.size === 'sm') {
-        classes.push(this.smallSizeClass)
-      } else if (this.size === 'lg') {
-        classes.push(this.largeSizeClass)
-      }
-
-      if (!this.disabled && this.noStatus) {
-        classes.push(this.defaultStatusClass)
-      }
-
-      if (this.disabled) {
-        classes.push(this.disabledClass)
-      }
-
-      if (this.isError) {
-        classes.push(this.errorStatusClass)
-      } else if (this.isSuccess) {
-        classes.push(this.successStatusClass)
-      }
-
-      return classes
-    },
+      return classes.concat(this.statusClasses)
+    }
   },
 
   watch: {
@@ -223,7 +204,7 @@ export default {
         text: option.text || option.label,
       }
     },
-
+  
     onBlur (e) {
       this.$emit('blur', e)
     },

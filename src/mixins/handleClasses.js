@@ -2,22 +2,22 @@ const handleClasses = {
   props: {
     status: {
       type: [Boolean, String],
-      default: undefined,
+      default: null,
       validator: function (value) {
-        return [undefined, true, false, 'success', 'error'].indexOf(value) !== -1
+        return [null, true, false, 'success', 'error', 'warning'].indexOf(value) !== -1
       }
     },
     size: {
       type: String,
-      default: undefined,
+      default: null,
       validator: function (value) {
-        return value === undefined || ['lg', 'sm'].indexOf(value) !== -1
+        return value === null || ['lg', 'sm'].indexOf(value) !== -1
       }
     },
   },
   computed: {
     noStatus () {
-      return this.status === undefined
+      return this.status === null
     },
     isSuccess () {
       return this.status === true || this.status === 'success'
@@ -25,10 +25,39 @@ const handleClasses = {
     isError () {
       return this.status === false || this.status === 'error'
     },
-    currentClass () {
-      let classes = [this.defaultClass]
+    isWarning () {
+      return this.status === 'warning'
+    },
+    statusName () {
+      if (this.isError) {
+        return 'error'
+      }
 
-      if (this.size === undefined) {
+      if (this.isSuccess) {
+        return 'success'
+      }
+
+      if (this.isWarning) {
+        return 'warning'
+      }
+
+      return 'default'
+    },
+
+    /**
+     * The classes related with the input status
+     * 
+     * @return {Array}
+     */
+    statusClasses () {
+      let classes = []
+
+      if (this.disabled) {
+        classes.push(`${this.$options._componentTag}-disabled`)
+        classes.push(this.disabledClass)
+      }
+
+      if (this.size === null) {
         classes.push(this.defaultSizeClass)
       } else if (this.size === 'sm') {
         classes.push(this.smallSizeClass)
@@ -44,14 +73,29 @@ const handleClasses = {
         classes.push(this.errorStatusClass)
       } else if (this.isSuccess) {
         classes.push(this.successStatusClass)
-      }
-
-      if (this.disabled) {
-        classes.push(this.disabledClass)
+      } else if (this.isWarning) {
+        classes.push(this.warningStatusClass)
       }
 
       return classes
     },
+
+    /**
+     * By default the current class contains only the status classes but it can be overriden
+     * in the component
+     * 
+     * @return {Array}
+     */
+    currentClass () {
+      let classes = [
+        this.defaultClass,
+        `${this.$options._componentTag}`,
+        `${this.$options._componentTag}-size-${ this.size || 'default' }`,
+        `${this.$options._componentTag}-status-${ this.statusName }`,
+      ]
+
+      return classes.concat(this.statusClasses)
+    }
   }
 }
 
