@@ -9,62 +9,62 @@ describe('TSelect.vue', () => {
   })
 
   it('it renders the select options', () => {
-  	const options = ['Option A', 'Option B', 'Option C']
+    const options = ['Option A', 'Option B', 'Option C']
     const wrapper = shallowMount(TSelect, {
-		propsData: { options }
+      propsData: { options }
     })
 
     expect(wrapper.vm.$el.getElementsByTagName('option').length).toBe(3)
   })
 
   it('render the select optgroups', () => {
-  	const options = [
-		{ value: 'alone', text: 'no parent :(' },
-  		{
-  			text: 'Letters',
-  			children: [
-  				{ value: 'A', text: 'A' },
-  				{ value: 'B', text: 'B' },
-  				{ value: 'C', text: 'C' },
-  			],
-  		},
-  		{
-  			text: 'Numbers',
-  			children: [
-  				{ value: 1, text: 1 },
-  				{ value: 2, text: 2 },
-  			]
-  		},
-  	]
+    const options = [
+    { value: 'alone', text: 'no parent :(' },
+      {
+        text: 'Letters',
+        children: [
+          { value: 'A', text: 'A' },
+          { value: 'B', text: 'B' },
+          { value: 'C', text: 'C' },
+        ],
+      },
+      {
+        text: 'Numbers',
+        children: [
+          { value: 1, text: 1 },
+          { value: 2, text: 2 },
+        ]
+      },
+    ]
 
-  	const wrapper = shallowMount(TSelect, {
-		propsData: { options }
+    const wrapper = shallowMount(TSelect, {
+    propsData: { options }
     })
 
-  	const el = wrapper.vm.$el;
+    const el = wrapper.vm.$el;
 
-  	expect(el.getElementsByTagName('option').length).toBe(6)
-  	
-  	expect(el.getElementsByTagName('optgroup').length).toBe(2)
+    expect(el.getElementsByTagName('option').length).toBe(6)
+    
+    expect(el.getElementsByTagName('optgroup').length).toBe(2)
 
-  	const optgroup1 = el.getElementsByTagName('optgroup')[0]
-  	const renderedOptions1 = Array.from(optgroup1.getElementsByTagName('option')).map(option => ({
-  		text: option.text,
-  		value: option.value
-  	}))
-  	expect(options[1].children).toEqual(renderedOptions1)
+    const optgroup1 = el.getElementsByTagName('optgroup')[0]
+    const renderedOptions1 = Array.from(optgroup1.getElementsByTagName('option')).map(option => ({
+      text: option.text,
+      value: option.value
+    }))
+    expect(options[1].children).toEqual(renderedOptions1)
 
-  	const optgroup2 = el.getElementsByTagName('optgroup')[1]
-  	const renderedOptions2 = Array.from(optgroup2.getElementsByTagName('option')).map(option => ({
-  		// Becase the value is readed from the DOM is readed as string
-  		text: Number(option.text),
-  		value: Number(option.value)
-  	}))
-  	expect(options[2].children).toEqual(renderedOptions2)
+    const optgroup2 = el.getElementsByTagName('optgroup')[1]
+    const renderedOptions2 = Array.from(optgroup2.getElementsByTagName('option')).map(option => ({
+      // Becase the value is readed from the DOM is readed as string
+      text: Number(option.text),
+      value: Number(option.value)
+    }))
+    expect(options[2].children).toEqual(renderedOptions2)
   })
 
   it('set the props.value into the select value', () => {
-  	const options = ['Option A', 'Option B', 'Option C']
+    const options = ['Option A', 'Option B', 'Option C']
     const value = 'Option B'
     const wrapper = shallowMount(TSelect, {
       propsData: { options, value }
@@ -73,14 +73,14 @@ describe('TSelect.vue', () => {
   })
 
   it('select the multioption values', () => {
-  	const options = ['Option A', 'Option B', 'Option C', 'Option D']
+    const options = ['Option A', 'Option B', 'Option C', 'Option D']
     const value = ['Option A', 'Option B', 'Option D']
     const wrapper = shallowMount(TSelect, {
       propsData: { options, value, multiple: true }
     })
 
     const selected = wrapper.vm.$el.querySelectorAll('option:checked');
-	const values = Array.from(selected).map(el => el.value);
+  const values = Array.from(selected).map(el => el.value);
     expect(values).toEqual(value)
   })
 
@@ -96,15 +96,15 @@ describe('TSelect.vue', () => {
   })
 
   it('accept the options as array of strings', () => {
-  	// Accepts an array of strings
-  	const strings = ['Option A', 'Option B', 'Option C', 'Option D']
+    // Accepts an array of strings
+    const strings = ['Option A', 'Option B', 'Option C', 'Option D']
 
-  	const expectedOptions = strings.map(str => ({
-		value: str,
-		text: str,
+    const expectedOptions = strings.map(str => ({
+    value: str,
+    text: str,
     }))
 
-  	const wrapper = shallowMount(TSelect, {
+    const wrapper = shallowMount(TSelect, {
       propsData: { options: strings }
     })
 
@@ -115,11 +115,11 @@ describe('TSelect.vue', () => {
     const numbers = [1, 2, 3]
 
     const expectedOptions = numbers.map(str => ({
-		value: str,
-		text: str,
+    value: str,
+    text: str,
     }))
 
-  	const wrapper = shallowMount(TSelect, {
+    const wrapper = shallowMount(TSelect, {
       propsData: { options: numbers }
     })
 
@@ -127,12 +127,12 @@ describe('TSelect.vue', () => {
   })
 
   it('accept the options in default format', () => {
-  	// Accepts an array of objects with value
+    // Accepts an array of objects with value
     const objectsWithValue = [
-  		{ value: 'A', text: 'A' },
-  		{ value: 'B', text: 'B' },
-  		{ value: 'C', text: 'C' },
-  	]
+      { value: 'A', text: 'A' },
+      { value: 'B', text: 'B' },
+      { value: 'C', text: 'C' },
+    ]
     
     const expectedOptions = objectsWithValue
     
@@ -145,10 +145,10 @@ describe('TSelect.vue', () => {
 
   it('accept the options using id as value', () => {
     const objectsWithIds = [
-  		{ id: 1, text: 'A' },
-  		{ id: 2, text: 'B' },
-  		{ id: 3, text: 'C' },
-  	]
+      { id: 1, text: 'A' },
+      { id: 2, text: 'B' },
+      { id: 3, text: 'C' },
+    ]
 
     const expectedOptions = objectsWithIds.map(option => ({ value: option.id, text: option.text }))
     
@@ -161,10 +161,10 @@ describe('TSelect.vue', () => {
 
   it('accept the options and use the label as text', () => {
     const objectsWithLabel = [
-  		{ value: 'A', label: 'A' },
-  		{ value: 'B', label: 'B' },
-  		{ value: 'C', label: 'C' },
-  	]
+      { value: 'A', label: 'A' },
+      { value: 'B', label: 'B' },
+      { value: 'C', label: 'C' },
+    ]
     
     const expectedOptions = objectsWithLabel.map(option => ({ value: option.value, text: option.label }))
     
@@ -177,14 +177,14 @@ describe('TSelect.vue', () => {
 
   it('accept the options and pair value:text object', () => {
     const optionsObject = {
-  		'A': 'Option A',
-  		'B': 'Option B',
-  		'C': 'Option C',
-  	}
+      'A': 'Option A',
+      'B': 'Option B',
+      'C': 'Option C',
+    }
     
     const expectedOptions = Object.keys(optionsObject).map(key => ({
-		value: key,
-		text: optionsObject[key],
+    value: key,
+    text: optionsObject[key],
     }))
 
     const wrapper = shallowMount(TSelect, {
@@ -204,7 +204,7 @@ describe('TSelect.vue', () => {
     wrapper.setProps({ value: newValue })
 
     const selected = wrapper.vm.$el.querySelectorAll('option:checked');
-	const values = Array.from(selected).map(el => el.value);
+    const values = Array.from(selected).map(el => el.value);
     expect(values).toEqual(newValue)
   })
 
@@ -297,9 +297,9 @@ describe('TSelect.vue', () => {
   })
 
   it('emits an input event with the select value', () => {
-  	const options = ['A', 'B', 'C']
+    const options = ['A', 'B', 'C']
     const wrapper = shallowMount(TSelect, {
-    	propsData: { options }
+      propsData: { options }
     })
 
     const inputValue = 'B'
@@ -318,10 +318,10 @@ describe('TSelect.vue', () => {
   })
 
   it('emits an change event with the select value', () => {
-  	const options = ['A', 'B', 'C']
+    const options = ['A', 'B', 'C']
     
     const wrapper = shallowMount(TSelect, {
-    	propsData: { options }
+      propsData: { options }
     })
 
     const inputValue = 'B'
@@ -340,10 +340,10 @@ describe('TSelect.vue', () => {
   })
 
   it('emits a blur event when the select is blurred', () => {
-  	const options = ['A', 'B', 'C']
+    const options = ['A', 'B', 'C']
     const value = 'B'
     const wrapper = shallowMount(TSelect, {
-    	propsData: { options, value }
+      propsData: { options, value }
     })
 
     const select = wrapper.vm.$el.getElementsByTagName('select')[0]
@@ -361,7 +361,7 @@ describe('TSelect.vue', () => {
     const options = ['A', 'B', 'C']
     const value = 'B'
     const wrapper = shallowMount(TSelect, {
-    	propsData: { options, value }
+      propsData: { options, value }
     })
 
     const select = wrapper.vm.$el.getElementsByTagName('select')[0]

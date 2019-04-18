@@ -1,7 +1,7 @@
 const getRenderedClass = {
   data () {
     return {
-      status: null,
+      status: 'error',
       size: null,
       variant: null,
       disabled: false,
@@ -30,9 +30,15 @@ const getRenderedClass = {
   },
 
   methods: {
+    getInputToParseClass () {
+      return this.$refs.input;
+    },
+
     getRenderedClassWhenInputIsReady () {
       this.triesToGetRenderedClass++
-      const isReady = !! this.$refs.input
+      const isReady = !! this.getInputToParseClass()
+
+      
       if (this.triesToGetRenderedClass > 10) {
         console.warn('The inputs is not loaded')
       } else if (!isReady) {
@@ -43,9 +49,10 @@ const getRenderedClass = {
         this.updateRenderedClass()
       }
     },
+
     async updateRenderedClass() {
       await this.$nextTick()
-      this.renderedClass = this.$refs.input.currentClass
+      this.renderedClass = this.getInputToParseClass().currentClass
     }
   }
 }

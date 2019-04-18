@@ -1,24 +1,22 @@
 <template>
   <input-demo>
-    <label
-      v-for="(option, index) in options"
-      :for="`${id}-${index}`"
-      class="flex py-1"
-    >
-      <t-radio
-        ref="input"
-        :key="option.value"
-        :id="`${id}-${index}`"
-        v-model="model"
-        :disabled="disabled"
-        :name="name"
-        :value="option.value"
-      />
-      <span class="ml-3">{{ option.text }}</span>
-    </label>
+    <t-radio-group
+      ref="input"
+      v-model="model"
+      :disabled="disabled"
+      :id="id"
+      :name="name"
+      :options="options"
+      :status="status"
+      :size="size"
+    />
 
     <template slot="controls">
       <disabled-control v-model="disabled" />
+
+      <status-control class="mt-2" v-model="status" />
+
+      <size-control class="mt-2" v-model="size" />
 
       <p class="flex items-center mt-2">
         <label 
@@ -40,6 +38,11 @@
       <p>Current value: <pre class="text-white">{{ model }}</pre></p>
     </template>
 
+    <template slot="classes">
+      <p>Rendered class: 
+        <pre class="text-white">{{ renderedClass }}</pre>
+      </p>
+    </template>
   </input-demo>
 </template>
 
@@ -47,13 +50,13 @@
 import getRenderedClass from '../mixins/getRenderedClass'
 
 export default {
-  name: 'RadioField',
+  name: 'RadioGroupField',
 
   mixins: [getRenderedClass],
 
   data () {
     return {
-      model: 'Option 2',
+      model: 'Option 1',
       id: 'radio-field',
       name: 'radio-field',
       options: [
@@ -75,7 +78,6 @@ export default {
       const option = { value: this.newOption, text: this.newOption }
       this.options.push(option)
       this.model = option.value
-      this.newOption = ''
     },
   }
 }

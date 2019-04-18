@@ -37,18 +37,16 @@ const BootstrapTheme = {
     arrowClass: 'fill-current h-4 w-4',
   },
   TRadio: {
-    defaultClass: 'flex flex-col',
-    defaultStatusClass: ' ',
+    wrapperClass: '',
+    defaultClass: '',
+    defaultStatusClass: '',
+    warningStatusClass: 'text-yellow-dark',
     errorStatusClass: 'text-red',
     successStatusClass: 'text-green',
-    warningStatusClass: 'text-yellow-dark',
-    disabledClass: 'cursor-not-allowed opacity-75',
+    disabledClass: 'text-grey-lightest cursor-not-allowed opacity-75',
     defaultSizeClass: '',
     largeSizeClass: 'text-lg',
     smallSizeClass: 'text-sm',
-    labelClass: 'flex items-center mb-1',
-    inputClass: 'mr-2',
-    textClass: '',
   },
   TButton: {
     defaultClass: 'border block w-full rounded bg-white border-grey-light hover:bg-grey-lightest hover:bg-grey-lightest',
@@ -62,7 +60,10 @@ const BootstrapTheme = {
     defaultSizeClass: 'p-3',
     largeSizeClass: 'p-4 text-lg',
     smallSizeClass: 'p-2 text-sm',
-  }
+  },
+  TRadioGroup: {
+    defaultClass: 'flex flex-col',
+  },
 }
 
 export const {
@@ -71,6 +72,7 @@ export const {
   TSelect: TSelectTheme,
   TButton: TButtonTheme,
   TRadio: TRadioTheme,
+  TRadioGroup: TRadioGroupTheme,
 } = BootstrapTheme
 
 export default BootstrapTheme

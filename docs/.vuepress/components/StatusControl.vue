@@ -1,14 +1,15 @@
 <template>
-  <p>
+  <div>
     <span class="text-xs uppercase font-bold text-grey-dark">
       <slot>Field status:</slot>
     </span>
-    <t-radio
+
+    <t-radio-group
       :name="name"
       v-model="currentValue"
       :options="options"
     />
-  </p>
+  </div>
 </template>
 
 <script>

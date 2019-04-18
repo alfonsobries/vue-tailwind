@@ -3,149 +3,108 @@ import TRadio from '@/elements/TRadio.vue'
 import { mapValues } from 'lodash'
 
 describe('TRadio.vue', () => {
-  it('it renders the radio options', () => {
-    const options = ['Option A', 'Option B', 'Option C']
-    
-    const wrapper = shallowMount(TRadio, {
-    propsData: { options }
-    })
-
-    expect(wrapper.vm.$el.querySelectorAll('input[type=radio]').length).toBe(3)
+  it('it renders the input', () => {
+    const wrapper = shallowMount(TRadio)
+    expect(wrapper.contains('input[type=radio]')).toBe(true)
   })
 
-  it('selects the selected radio option', () => {
-    const options = ['Option A', 'Option B', 'Option C']
-    const value = 'Option B'
-    const wrapper = shallowMount(TRadio, {
-      propsData: { options, value }
-    })
-    expect(wrapper.vm.$el.querySelectorAll('input[type=radio]:checked')[0].value).toBe(value)
-  })
-
-  it('accept the options as array of strings', () => {
-    // Accepts an array of strings
-    const strings = ['Option A', 'Option B', 'Option C', 'Option D']
-
-    const expectedOptions = strings.map(str => ({
-      value: str,
-      text: str,
-    }))
-
-    const wrapper = shallowMount(TRadio, {
-      propsData: { options: strings }
-    })
-
-    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
-  })
-
-  it('accept the options as array of numbers', () => {
-    const numbers = [1, 2, 3]
-
-    const expectedOptions = numbers.map(str => ({
-   value: str,
-   text: str,
-    }))
-
-   const wrapper = shallowMount(TRadio, {
-      propsData: { options: numbers }
-    })
-
-    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
-  })
-
-  it('accept the options in default format', () => {
-   // Accepts an array of objects with value
-    const objectsWithValue = [
-     { value: 'A', text: 'A' },
-     { value: 'B', text: 'B' },
-     { value: 'C', text: 'C' },
-   ]
-    
-    const expectedOptions = objectsWithValue
+  it('set the props.value into the input value', () => {
+    const value = 'input value'
     
     const wrapper = shallowMount(TRadio, {
-      propsData: { options: objectsWithValue }
+      propsData: { value }
     })
 
-    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
+    const { input } = wrapper.vm.$refs
+
+    expect(input.value).toBe(value)
   })
 
-  it('accept the options using id as value', () => {
-    const objectsWithIds = [
-     { id: 1, text: 'A' },
-     { id: 2, text: 'B' },
-     { id: 3, text: 'C' },
-   ]
-
-    const expectedOptions = objectsWithIds.map(option => ({ value: option.id, text: option.text }))
-    
+  it('updates the model value', () => {
+    const value = 'input value'
+    const newValue = 'new value'
     const wrapper = shallowMount(TRadio, {
-      propsData: { options: objectsWithIds }
+      propsData: { value }
     })
+    wrapper.setProps({ value: newValue })
+    
+    const { input } = wrapper.vm.$refs
 
-    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
+    expect(input.value).toBe(newValue)
   })
 
-  it('accept the options and use the label as text', () => {
-    const objectsWithLabel = [
-     { value: 'A', label: 'A' },
-     { value: 'B', label: 'B' },
-     { value: 'C', label: 'C' },
-   ]
-    
-    const expectedOptions = objectsWithLabel.map(option => ({ value: option.value, text: option.label }))
-    
+  it('disables the input', () => {
     const wrapper = shallowMount(TRadio, {
-      propsData: { options: objectsWithLabel }
-    })
-
-    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
-  })
-
-  it('accept the options and pair value:text object', () => {
-    const optionsObject = {
-     'A': 'Option A',
-     'B': 'Option B',
-     'C': 'Option C',
-   }
-    
-    const expectedOptions = Object.keys(optionsObject).map(key => ({
-      value: key,
-      text: optionsObject[key],
-    }))
-
-    const wrapper = shallowMount(TRadio, {
-      propsData: { options: optionsObject }
-    })
-
-    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
-  })
-
-  it('disables the radio inputs', () => {
-    const options = ['Option A', 'Option B', 'Option C']
-    const wrapper = shallowMount(TRadio, {
-      propsData: { disabled: false, options }
+      propsData: { disabled: false }
     })
     
-    expect(wrapper.vm.$el.querySelectorAll('input[type=radio]:not(:disabled)').length).toBe(3)
+    const { input } = wrapper.vm.$refs
+
+    expect(input.disabled).toBe(false)
 
     wrapper.setProps({ disabled: true })
-
-    expect(wrapper.vm.$el.querySelectorAll('input[type=radio]:not(:disabled)').length).toBe(0)
-    expect(wrapper.vm.$el.querySelectorAll('input[type=radio]:disabled').length).toBe(3)
+    
+    expect(input.disabled).toBe(true)
   })
 
+  it('has input attributes', () => {
+    const wrapper = shallowMount(TRadio)
 
-  it('emits an input event with the radio value', () => {
-    const options = ['A', 'B', 'C']
-    const wrapper = shallowMount(TRadio, {
-     propsData: { options }
+    const values = {
+      id: {
+        default: '',
+        new: 'new-id'
+      },
+      autofocus: {
+        default: false,
+        new: true
+      },
+      disabled: {
+        default: false,
+        new: true
+      },
+      name: {
+        default: '',
+        new: 'new-name'
+      },
+      required: {
+        default: false,
+        new: true
+      },
+      value: {
+        default: 'on',
+        new: 'my value'
+      },
+    }
+
+    const { input } = wrapper.vm.$refs
+
+    // Check for the default values
+    Object.keys(values).forEach(key => {
+      const elementValue = values[key]
+      expect(input[elementValue.keyName || key]).toBe(elementValue.default)
     })
 
-    const inputValue = 'B'
+    const newProps = mapValues(values, ({ new: newValue }, key) => {
+      return newValue
+    })
+
+    wrapper.setProps(newProps)
+
+    // Check for the new values
+    Object.keys(values).forEach(key => {
+      const elementValue = values[key]
+      expect(input[elementValue.keyName || key]).toBe(elementValue.new)
+    })
+  })
+
+  it('emits an input event when the model change', () => {
+    const wrapper = shallowMount(TRadio)
+
+    const inputValue = 'Hello World'
 
     wrapper.setProps({
-      value: inputValue
+      model: inputValue
     })
 
     expect(wrapper.emitted('input')).toBeTruthy()
@@ -157,17 +116,35 @@ describe('TRadio.vue', () => {
     expect(wrapper.emitted('input')[0]).toEqual([inputValue])
   })
 
-  it('emits an change event with the radio value', () => {
-   const options = ['A', 'B', 'C']
+  it('emits an input event using the checked attribute', () => {
+    const inputValue = 'A'
     
     const wrapper = shallowMount(TRadio, {
-     propsData: { options }
+      propsData: {
+        value: inputValue
+      }
     })
 
-    const inputValue = 'B'
+    wrapper.setProps({
+      checked: 'checked'
+    })
+
+    expect(wrapper.emitted('input')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(1)
+
+    // assert event payload
+    expect(wrapper.emitted('input')[0]).toEqual([inputValue])
+  })
+
+  it('emits an change event with the input value', () => {
+    const wrapper = shallowMount(TRadio)
+
+    const inputValue = 'Hello World'
 
     wrapper.setProps({
-      value: inputValue
+      model: inputValue
     })
 
     expect(wrapper.emitted('change')).toBeTruthy()
@@ -179,55 +156,75 @@ describe('TRadio.vue', () => {
     expect(wrapper.emitted('change')[0]).toEqual([inputValue])
   })
 
- //  it('emits a blur event when the radio is blurred', () => {
- //   const options = ['A', 'B', 'C']
- //    const value = 'B'
- //    const wrapper = shallowMount(TRadio, {
- //     propsData: { options, value }
- //    })
+  it('emits an change event using the checked attribute', () => {
+    const inputValue = 'A'
+    
+    const wrapper = shallowMount(TRadio, {
+      propsData: {
+        value: inputValue
+      }
+    })
 
- //    const radio = wrapper.vm.$el.getElementsByTagName('radio')[0]
+    wrapper.setProps({
+      checked: 'checked'
+    })
 
- //    // The change event should be emitted when the radio is blurred
- //    radio.dispatchEvent(new Event('blur'))
+    expect(wrapper.emitted('change')).toBeTruthy()
 
- //    expect(wrapper.emitted('blur')).toBeTruthy()
+    // assert event count
+    expect(wrapper.emitted('change').length).toBe(1)
 
- //    // assert event count
- //    expect(wrapper.emitted('blur').length).toBe(1)
- //  })
+    // assert event payload
+    expect(wrapper.emitted('change')[0]).toEqual([inputValue])
+  })
 
- //  it('emits a focus event when the radio is focused', () => {
- //    const options = ['A', 'B', 'C']
- //    const value = 'B'
- //    const wrapper = shallowMount(TRadio, {
- //     propsData: { options, value }
- //    })
+  it('emits a blur event when the input is blurred', () => {
+    const inputValue = 'input value'
+    const wrapper = shallowMount(TRadio, {
+      propsData: { value: inputValue }
+    })
 
- //    const radio = wrapper.vm.$el.getElementsByTagName('radio')[0]
+    const { input } = wrapper.vm.$refs
 
- //    // The change event should be emitted when the radio is focusred
- //    radio.dispatchEvent(new Event('focus'))
+    // The change event should be emitted when the input is blurred
+    input.dispatchEvent(new Event('blur'))
 
- //    expect(wrapper.emitted('focus')).toBeTruthy()
+    expect(wrapper.emitted('blur')).toBeTruthy()
 
- //    // assert event count
- //    expect(wrapper.emitted('focus').length).toBe(1)
- //  })
+    // assert event count
+    expect(wrapper.emitted('blur').length).toBe(1)
+  })
 
- //  it('has a focus and a blur method', () => {
- //    const wrapper = shallowMount(TRadio)
+  it('emits a focus event when the input is focused', () => {
+    const inputValue = 'input value'
+    const wrapper = shallowMount(TRadio, {
+      propsData: { value: inputValue }
+    })
 
- //    wrapper.vm.focus()
+    const { input } = wrapper.vm.$refs
 
- //    expect(wrapper.emitted('focus')).toBeTruthy()
+    // The change event should be emitted when the input is focusred
+    input.dispatchEvent(new Event('focus'))
 
- //    expect(wrapper.emitted('focus').length).toBe(1)
+    expect(wrapper.emitted('focus')).toBeTruthy()
 
- //    wrapper.vm.blur()
+    // assert event count
+    expect(wrapper.emitted('focus').length).toBe(1)
+  })
 
- //    expect(wrapper.emitted('blur')).toBeTruthy()
+  it('has a focus and a blur method', () => {
+    const wrapper = shallowMount(TRadio)
 
- //    expect(wrapper.emitted('blur').length).toBe(1)
- //  })
+    wrapper.vm.focus()
+
+    expect(wrapper.emitted('focus')).toBeTruthy()
+
+    expect(wrapper.emitted('focus').length).toBe(1)
+
+    wrapper.vm.blur()
+
+    expect(wrapper.emitted('blur')).toBeTruthy()
+
+    expect(wrapper.emitted('blur').length).toBe(1)
+  })
 })

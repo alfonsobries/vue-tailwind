@@ -3,6 +3,7 @@ import TTextarea from './TTextarea.vue'
 import TSelect from './TSelect.vue'
 import TButton from './TButton.vue'
 import TRadio from './TRadio.vue'
+import TRadioGroup from './TRadioGroup.vue'
 import DefaultTheme from '../themes/default.js'
 
 const fields = {
@@ -11,6 +12,7 @@ const fields = {
   TSelect: TSelect,
   TButton: TButton,
   TRadio: TRadio,
+  TRadioGroup: TRadioGroup,
 }
 
 /**

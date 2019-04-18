@@ -1,44 +1,48 @@
----
-title: Radio
-lang: en-US
----
+<template>
+  <input-demo>
+    <t-radio
+      ref="input"
+      v-model="model"
+      :disabled="disabled"
+      :id="`${id}-2`"
+      :name="`${name}-2`"
+      :options="options"
+      :status="status"
+      :size="size"
+      class="rich-radio"
+    />
 
-# Radio
+    <template slot="controls">
+      <status-control class="mt-0" v-model="status" name="rich-radio" />
+    </template>
+  </input-demo>
+</template>
 
-<radio-field />
+<script>
+import getRenderedClass from '../mixins/getRenderedClass'
 
-### Attributes / props
+export default {
+  name: 'CustomRadioGroupField',
 
-| Property    | Type        | Default value | Accepted values |
-|---      |---        |---      |---      |
-| id      | String      | null      | _Any valid type_ |
-| autofocus   | Boolean     | false     | _Any valid type_ |
-| disabled    | Boolean     | false     | _Any valid type_ |
-| name      | String      | null      | _Any valid type_ |
-| tabindex    | String / Number | null      | _Any valid type_ |
-| readonly    | Boolean     | undefined   | _Any valid type_ |
-| required    | Boolean     | false     | _Any valid type_ |
-| model (v-model)    | String / Object / Number / Boolean   | null   | _Any valid type_ |
-| value (input value)    | String / Object / Number / Boolean   | 'on'   | _Any valid type_ |
-| checked    | Boolean / String    | false   | true, false, 'checked' |
+  mixins: [getRenderedClass],
 
-### Events
+  data () {
+    return {
+      model: 'Option 1',
+      id: 'rich-field',
+      name: 'rich-field',
+      options: [
+        { value: 'Option 1', text: 'Option 1' },
+        { value: 'Option 2', text: 'Option 2' },
+        { value: 'Option 3', text: 'Option 3' },
+      ],
+      newOption: '',
+    }
+  },
+}
+</script>
 
-| Event   | Arguments                   | Description   |
-|---      |---                          |---      |
-| input   | String (The current value of the select)  | Emitted every time the value of the `v-model` change |
-| change  | String (The current value of the select)  | Emitted when the select is blurred and the value was changed since it was focused |
-| focus   | FocusEvent                  | Emitted when the select is focused  |
-| blur    | FocusEvent                  | Emitted when the select is blurred  |
-
-### Custom styles
-
-¿What if you need some custom radio buttons? Of course you can do it, but you will need to define some styles, check at this example:
-
-<custom-radio-field />
-
-```css
-/** <t-radio class="rich-radio" /> */
+<style>
 .rich-radio input[type=radio]:checked,
 .rich-radio input[type=radio]:not(:checked) {
     position: absolute;
@@ -103,4 +107,4 @@ lang: en-US
 .rich-radio.t-radio-status-warning input[type=radio]:not(:checked) + label:after {
   background: #f2d024;
 }
-```       
+</style>

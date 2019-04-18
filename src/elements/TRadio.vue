@@ -1,151 +1,99 @@
 <template>
-  <div 
-    ref="radio-group" 
+  <input
+    ref="input"
     :id="id"
+    :value="value"
+    v-model="currentValue"
+    :autofocus="autofocus"
+    :readonly="readonly"
+    :disabled="disabled"
+    :checked="checked"
+    :name="name"
+    :required="required"
     :class="currentClass"
+    type="radio"
+    @blur="onBlur"
+    @focus="onFocus"
   >
-    <span
-      v-for="(option, index) in normalizedOptions"
-      :key="`${option.value}-${index}`"
-      :value="option.value"
-      :class="labelClass"
-    >
-      <input
-        :id="`${ id || name || '' }-${option.value}`"
-        v-model="currentValue"
-        :value="option.value"
-        :disabled="disabled"
-        :name="name"
-        :required="required"
-        :class="inputClass"
-        type="radio"
-        @blur="onBlur"
-        @focus="onFocus"
-      >
-      <label 
-        :class="textClass" 
-        :for="`${ id || name || '' }-${option.value}`"
-      >{{ option.text }}</label>
-    </span>
-  </div>
 </template>
 
 <script>
-import hasMultioptions from '../mixins/hasMultioptions.js'
-import handleClasses from '../mixins/handleClasses.js'
+import commonAttributes from '../mixins/commonAttributes.js'
+import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import { TRadioTheme } from '../themes/default.js'
+import handleClasses from '../mixins/handleClasses.js'
 
 const {
   defaultClass,
-  defaultStatusClass,
-  errorStatusClass,
-  successStatusClass,
-  warningStatusClass,
   disabledClass,
-  defaultSizeClass,
-  largeSizeClass,
-  smallSizeClass,
-  labelClass,
-  inputClass,
-  textClass,
-  controlClass,
 } = TRadioTheme
 
 export default {
   name: 'TRadio',
-  
-  mixins: [handleClasses, hasMultioptions],
+
+  mixins: [commonAttributes, htmlInputMethods, handleClasses],
+
+  model: {
+    prop: 'model',
+    event: 'input'
+  },
 
   props: {
-    id: {
-      type: String,
-      default: null
+    value: {
+      type: [String, Object, Number, Boolean],
+      default: 'on'
     },
-    disabled: {
-      type: Boolean,
+    checked: {
+      type: [Boolean, String],
       default: false
     },
-    name: {
-      type: String,
+    model: {
+      // v-model
+      type: [String, Object, Number, Boolean],
       default: null
     },
-    value: {
-      type: [String, Number, Boolean],
-      default: null
+    readonly: {
+      type: Boolean,
+      default: false
     },
     required: {
       type: Boolean,
       default: false
     },
-    status: {
-      type: [Boolean, String],
-      default: undefined
-    },
-    defaultClass: {
-      type: [String, Object, Array],
-      default: defaultClass
-    },
-    defaultStatusClass: {
-      type: [String, Object, Array],
-      default: defaultStatusClass
-    },
-    errorStatusClass: {
-      type: [String, Object, Array],
-      default: errorStatusClass
-    },
-    successStatusClass: {
-      type: [String, Object, Array],
-      default: successStatusClass
-    },
-    warningStatusClass: {
-      type: [String, Object, Array],
-      default: warningStatusClass
-    },
-    disabledClass: {
-      type: [String, Object, Array],
-      default: disabledClass
-    },
-    defaultSizeClass: {
-      type: [String, Object, Array],
-      default: defaultSizeClass
-    },
-    largeSizeClass: {
-      type: [String, Object, Array],
-      default: largeSizeClass
-    },
-    smallSizeClass: {
-      type: [String, Object, Array],
-      default: smallSizeClass
-    },
-    labelClass: {
-      type: [String, Object, Array],
-      default: labelClass
-    },
-    inputClass: {
-      type: [String, Object, Array],
-      default: inputClass
-    },
-    textClass: {
-      type: [String, Object, Array],
-      default: inputClass
-    },
   },
 
   data () {
     return {
-      currentValue: this.value,
+      currentValue: this.checked ? this.value : this.model
     }
   },
 
   watch: {
-    value (value) {
-      this.currentValue = value
+    model(model) {
+      if (model !== this.currentValue) {
+        this.currentValue = model
+        if (this.model === this.currentValue) {
+          this.$emit('input', model)
+          this.$emit('change', model)
+        }
+      }
     },
-
-    currentValue (currentValue) {
-      this.$emit('input', currentValue)
-      this.$emit('change', currentValue)
-    }
+    checked(checked) {
+      const currentValue = checked ? this.value : null
+      if (currentValue !== this.currentValue) {
+        this.currentValue = currentValue
+        if (this.model === this.currentValue) {
+          this.$emit('input', model)
+          this.$emit('change', model)
+        }
+      }
+    },
+    currentValue(currentValue) {
+      if (this.model !== this.currentValue) {
+        this.$emit('input', currentValue)
+        this.$emit('change', currentValue)
+      }
+    },
   },
 
   methods: {
@@ -155,15 +103,7 @@ export default {
 
     onFocus (e) {
       this.$emit('focus', e)
-    },
-
-    blur () {
-      this.$refs.select.blur()
-    },
-
-    focus () {
-      this.$refs.select.focus()
-    },
+    }
   },
 }
 </script>
