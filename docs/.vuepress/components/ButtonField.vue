@@ -43,7 +43,7 @@ export default {
       id: 't-button',
       name: 't-button',
       options: [
-        { value: undefined, text: 'Default' },
+        { value: null, text: 'Default' },
         { value: 'primary', text: 'Primary' },
         { value: 'secondary', text: 'Secondary' },
         { value: 'tertiary', text: 'Tertiary' },

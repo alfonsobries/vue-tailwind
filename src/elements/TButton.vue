@@ -46,18 +46,18 @@ export default {
       type: String,
       default: 'button'
     },
-    size: {
-      type: String,
-      default: undefined,
-      validator: function (value) {
-        return value === undefined || ['lg', 'sm'].indexOf(value) !== -1
-      }
-    },
     variant: {
       type: String,
-      default: undefined,
+      default: null,
       validator: function (value) {
-        return value === undefined || ['primary', 'secondary', 'tertiary', 'danger', 'warning', 'success'].indexOf(value) !== -1
+        return value === null || ['primary', 'secondary', 'tertiary', 'danger', 'warning', 'success'].indexOf(value) !== -1
+      }
+    },
+    size: {
+      type: String,
+      default: null,
+      validator: function (value) {
+        return value === null || ['lg', 'sm'].indexOf(value) !== -1
       }
     },
     defaultClass: {
@@ -107,8 +107,30 @@ export default {
   },
 
   computed: {
+    /**
+     * The default classes for the button
+     * 
+     * @return {Array}
+     */
     currentClass () {
-      let classes = []
+      let classes = [
+        `${this.$options._componentTag}`,
+        `${this.$options._componentTag}-size-${ this.size || 'default' }`,
+        `${this.$options._componentTag}-status-${ this.statusName }`,
+      ]
+      
+      if (this.disabled) {
+        classes.push(`${this.$options._componentTag}-disabled`)
+        classes.push(this.disabledClass)
+      }
+
+      if (this.size === null) {
+        classes.push(this.defaultSizeClass)
+      } else if (this.size === 'sm') {
+        classes.push(this.smallSizeClass)
+      } else if (this.size === 'lg') {
+        classes.push(this.largeSizeClass)
+      }
 
       switch(this.variant) {
         case 'primary':
@@ -131,22 +153,12 @@ export default {
           break;
         default:
           classes.push(this.defaultClass)
-      }
-
-      if (this.size === undefined) {
-        classes.push(this.defaultSizeClass)
-      } else if (this.size === 'sm') {
-        classes.push(this.smallSizeClass)
-      } else if (this.size === 'lg') {
-        classes.push(this.largeSizeClass)
-      }
-
-      if (this.disabled) {
-        classes.push(this.disabledClass)
+          break;
       }
 
       return classes
-    },
+
+    }
   },
 
   methods: {

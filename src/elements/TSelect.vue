@@ -155,7 +155,7 @@ export default {
 
   computed: {
     /**
-     * The default classes for the textarea are different for multiptions
+     * The default classes for the select are different for multiptions
      * 
      * @return {Array}
      */
@@ -166,6 +166,10 @@ export default {
         `${this.$options._componentTag}-size-${ this.size || 'default' }`,
         `${this.$options._componentTag}-status-${ this.statusName }`,
       ]
+
+      if (this.multiple) {
+        classes.push(`${this.$options._componentTag}-multiple`)
+      }
 
       return classes.concat(this.statusClasses)
     }
