@@ -120,6 +120,8 @@ export default {
       } else {
         this.model = option.value
       }
+
+      this.newOption = ''
     },
   }
 }
