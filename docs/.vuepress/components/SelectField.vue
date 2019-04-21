@@ -26,9 +26,9 @@
         </span>
       </label>
 
-      <status-control v-model="status" />
+      <status-control class="mt-2" v-model="status" />
 
-      <size-control v-model="size" />
+      <size-control class="mt-2" v-model="size" />
 
       <p class="flex items-center mt-2">
         <label 

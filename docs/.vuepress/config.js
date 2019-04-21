@@ -16,6 +16,7 @@ module.exports = {
             '/elements/textarea',
             '/elements/select',
             '/elements/radio',
+            '/elements/radio-group',
             '/elements/button',
         ]
       }

@@ -1,38 +1,65 @@
 <template>
   <div 
+    :id="id"
     ref="radio-group" 
-    :class="defaultClass"
+    :class="currentClass"
   >
-    <div v-for="(option, index) in normalizedOptions">
+    <div 
+      v-for="(option, index) in normalizedOptions" 
+      :key="`${ id || name }-${index}`"
+      :class="optionClass"
+    >
       <t-radio
-        :id="`${ id || name || '' }-${option.value}`"
+        :id="`${ id || name || 'option' }-${index}`"
         :key="`${ id || name }-${index}`"
-        :value="option.value"
         v-model="currentValue"
+        :value="option.value"
         :name="name"
         :required="required"
+        :disabled="disabled"
         :status="status"
         :size="size"
         @input="onInput"
+        @blur="onBlur"
+        @focus="onFocus"
       />
 
-      <label :for="`${ id || name }-${index}`">{{ option.text }}</label>
+      <label 
+        :class="labelClass" 
+        :for="`${ id || name || 'option' }-${index}`"
+      >{{ option.text }}</label>
     </div>
   </div>
 </template>
 
 <script>
 import hasMultioptions from '../mixins/hasMultioptions.js'
+import handleClasses from '../mixins/handleClasses.js'
 import { TRadioGroupTheme } from '../themes/default.js'
+import TRadio from './TRadio'
 
 const {
   defaultClass,
+  defaultStatusClass,
+  errorStatusClass,
+  successStatusClass,
+  warningStatusClass,
+  disabledClass,
+  defaultSizeClass,
+  largeSizeClass,
+  smallSizeClass,
+  optionClass,
+  labelClass,
 } = TRadioGroupTheme
 
 export default {
   name: 'TRadioGroup',
+
+  components: {
+    TRadio
+  },
   
-  mixins: [hasMultioptions],
+  mixins: [hasMultioptions, handleClasses],
 
   props: {
     id: {
@@ -55,23 +82,49 @@ export default {
       type: Boolean,
       default: false
     },
-    status: {
-      type: [Boolean, String],
-      default: null,
-      validator: function (value) {
-        return [null, true, false, 'success', 'error', 'warning'].indexOf(value) !== -1
-      }
-    },
-    size: {
-      type: String,
-      default: null,
-      validator: function (value) {
-        return value === null || ['lg', 'sm'].indexOf(value) !== -1
-      }
-    },
     defaultClass: {
       type: [String, Object, Array],
       default: defaultClass
+    },
+    defaultStatusClass: {
+      type: [String, Object, Array],
+      default: defaultStatusClass
+    },
+    errorStatusClass: {
+      type: [String, Object, Array],
+      default: errorStatusClass
+    },
+    successStatusClass: {
+      type: [String, Object, Array],
+      default: successStatusClass
+    },
+    warningStatusClass: {
+      type: [String, Object, Array],
+      default: warningStatusClass
+    },
+    disabledClass: {
+      type: [String, Object, Array],
+      default: disabledClass
+    },
+    defaultSizeClass: {
+      type: [String, Object, Array],
+      default: defaultSizeClass
+    },
+    largeSizeClass: {
+      type: [String, Object, Array],
+      default: largeSizeClass
+    },
+    smallSizeClass: {
+      type: [String, Object, Array],
+      default: smallSizeClass
+    },
+    optionClass: {
+      type: [String, Object, Array],
+      default: optionClass
+    },
+    labelClass: {
+      type: [String, Object, Array],
+      default: labelClass
     },
   },
 
@@ -95,6 +148,14 @@ export default {
   methods: {
     onInput (value) {
       this.currentValue = value
+    },
+
+    onBlur (e) {
+      this.$emit('blur', e)
+    },
+
+    onFocus (e) {
+      this.$emit('focus', e)
     }
   }
 }

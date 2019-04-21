@@ -63,6 +63,17 @@ const BootstrapTheme = {
   },
   TRadioGroup: {
     defaultClass: 'flex flex-col',
+    defaultStatusClass: '',
+    errorStatusClass: 'text-red',
+    successStatusClass: 'text-green',
+    warningStatusClass: 'text-yellow-dark',
+    disabledClass: 'cursor-not-allowed opacity-75',
+    defaultSizeClass: '',
+    largeSizeClass: 'text-lg',
+    smallSizeClass: 'text-sm',
+    optionClass: 'py-1',
+    inputClass: '',
+    labelClass: 'ml-1',
   },
 }
 

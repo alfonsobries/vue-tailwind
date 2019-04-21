@@ -12,8 +12,7 @@
         :disabled="disabled"
         :name="name"
         :value="option.value"
-        :status="status"
-        class="custom-radio"
+        :status="status" class="custom-radio"
       />
       <label class="ml-3" :for="`${id}-${index}`">{{ option.text }}</label>
     </div>
@@ -48,6 +47,7 @@
 
 <script>
 import getRenderedClass from '../mixins/getRenderedClass'
+
 
 export default {
   name: 'CustomRadioField',

@@ -1,7 +1,7 @@
 const getRenderedClass = {
   data () {
     return {
-      status: 'error',
+      status: null,
       size: null,
       variant: null,
       disabled: false,

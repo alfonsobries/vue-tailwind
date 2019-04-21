@@ -39,7 +39,8 @@
     </template>
 
     <template slot="classes">
-      <p>Rendered class: 
+      <p>
+        Rendered class: 
         <pre class="text-white">{{ renderedClass }}</pre>
       </p>
     </template>
@@ -56,7 +57,7 @@ export default {
 
   data () {
     return {
-      model: 'Option 1',
+      model: 'Option 2',
       id: 'radio-field',
       name: 'radio-field',
       options: [

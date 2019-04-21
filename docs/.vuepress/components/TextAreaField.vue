@@ -15,9 +15,9 @@
     <template slot="controls">
       <disabled-control v-model="disabled" />
 
-      <status-control v-model="status" />
+      <status-control class="mt-2" v-model="status" />
 
-      <size-control v-model="size" />
+      <size-control class="mt-2" v-model="size" />
     </template>
 
     <template slot="value">
