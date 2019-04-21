@@ -1,9 +1,9 @@
 <template>
   <input
-    ref="input"
     :id="id"
-    :value="value"
+    ref="input"
     v-model="currentValue"
+    :value="value"
     :autofocus="autofocus"
     :readonly="readonly"
     :disabled="disabled"
