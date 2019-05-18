@@ -18,6 +18,7 @@ module.exports = {
             '/elements/radio',
             '/elements/radio-group',
             '/elements/button',
+            '/elements/checkbox',
         ]
       }
     ]

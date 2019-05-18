@@ -4,6 +4,7 @@ import TSelect from './TSelect.vue'
 import TButton from './TButton.vue'
 import TRadio from './TRadio.vue'
 import TRadioGroup from './TRadioGroup.vue'
+import TCheckbox from './TCheckbox.vue'
 import DefaultTheme from '../themes/default.js'
 
 const fields = {
@@ -13,6 +14,7 @@ const fields = {
   TButton: TButton,
   TRadio: TRadio,
   TRadioGroup: TRadioGroup,
+  TCheckbox: TCheckbox,
 }
 
 /**

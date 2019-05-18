@@ -48,6 +48,18 @@ const BootstrapTheme = {
     largeSizeClass: 'text-lg',
     smallSizeClass: 'text-sm',
   },
+  TCheckbox: {
+    wrapperClass: '',
+    defaultClass: '',
+    defaultStatusClass: '',
+    warningStatusClass: 'text-yellow-dark',
+    errorStatusClass: 'text-red',
+    successStatusClass: 'text-green',
+    disabledClass: 'text-grey-lightest cursor-not-allowed opacity-75',
+    defaultSizeClass: '',
+    largeSizeClass: 'text-lg',
+    smallSizeClass: 'text-sm',
+  },
   TButton: {
     defaultClass: 'border block w-full rounded bg-white border-grey-light hover:bg-grey-lightest hover:bg-grey-lightest',
     primaryClass: 'border block w-full rounded text-white bg-blue border-blue hover:bg-blue-dark hover:bg-blue-dark',
@@ -83,6 +95,7 @@ export const {
   TSelect: TSelectTheme,
   TButton: TButtonTheme,
   TRadio: TRadioTheme,
+  TCheckbox: TCheckboxTheme,
   TRadioGroup: TRadioGroupTheme,
 } = BootstrapTheme
 

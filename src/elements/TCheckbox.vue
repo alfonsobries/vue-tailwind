@@ -11,7 +11,7 @@
     :name="name"
     :required="required"
     :class="currentClass"
-    type="radio"
+    type="checkbox"
     @blur="onBlur"
     @focus="onFocus"
   >
@@ -20,17 +20,17 @@
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TRadioTheme } from '../themes/default.js'
+import { TCheckboxTheme } from '../themes/default.js'
 import handleClasses from '../mixins/handleClasses.js'
 const isEqual = require('lodash.isequal');
 
 const {
   defaultClass,
   disabledClass,
-} = TRadioTheme
+} = TCheckboxTheme
 
 export default {
-  name: 'TRadio',
+  name: 'TCheckbox',
 
   mixins: [commonAttributes, htmlInputMethods, handleClasses],
 
@@ -41,7 +41,7 @@ export default {
 
   props: {
     value: {
-      type: [String, Object, Number, Boolean],
+      type: [String, Object, Number, Boolean, Array],
       default: 'on'
     },
     checked: {
@@ -50,7 +50,7 @@ export default {
     },
     model: {
       // v-model
-      type: [String, Object, Number, Boolean],
+      type: [String, Object, Number, Boolean, Array],
       default: null
     },
     readonly: {
