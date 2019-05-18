@@ -74,7 +74,7 @@ export default {
     content: '';
     width: 18px;
     height: 18px;
-    background: #3490dc;
+    background: #4299e1;
     position: absolute;
     top: 4px;
     left: 4px;
@@ -97,14 +97,14 @@ export default {
 /** By status */
 .rich-radio.t-radio-status-error input[type=radio]:checked + label:after,
 .rich-radio.t-radio-status-error input[type=radio]:not(:checked) + label:after {
-  background: #e3342f;
+  @apply bg-red-500
 }
 .rich-radio.t-radio-status-success input[type=radio]:checked + label:after,
 .rich-radio.t-radio-status-success input[type=radio]:not(:checked) + label:after {
-  background: #38c172;
+  @apply bg-green-500
 }
 .rich-radio.t-radio-status-warning input[type=radio]:checked + label:after,
 .rich-radio.t-radio-status-warning input[type=radio]:not(:checked) + label:after {
-  background: #f2d024;
+  @apply bg-yellow-500
 }
 </style>

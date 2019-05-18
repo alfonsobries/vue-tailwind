@@ -116,7 +116,7 @@ input.custom-radio:not(:checked) + label:after {
   content: '';
   width: 18px;
   height: 18px;
-  background: #3490dc;
+  background: #4299e1;
   position: absolute;
   top: 4px;
   left: 4px;
@@ -143,14 +143,14 @@ input.custom-radio.t-radio-disabled + label:after {
 /** By status */
 input.custom-radio.t-radio-status-error:checked + label:after,
 input.custom-radio.t-radio-status-error:not(:checked) + label:after {
-background: #e3342f;
+@apply bg-red-500
 }
 input.custom-radio.t-radio-status-success:checked + label:after,
 input.custom-radio.t-radio-status-success:not(:checked) + label:after {
-background: #38c172;
+@apply bg-green-500
 }
 input.custom-radio.t-radio-status-warning:checked + label:after,
 input.custom-radio.t-radio-status-warning:not(:checked) + label:after {
-background: #f2d024;
+@apply bg-yellow-500
 }
 </style>
