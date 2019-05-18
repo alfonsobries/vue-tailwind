@@ -20,6 +20,7 @@ import { TButtonTheme } from '../themes/default.js'
 
 const {
   defaultClass,
+  baseClass,
   primaryClass,
   secondaryClass,
   tertiaryClass,
@@ -63,6 +64,10 @@ export default {
     defaultClass: {
       type: [String, Object, Array],
       default: defaultClass
+    },
+    baseClass: {
+      type: [String, Object, Array],
+      default: baseClass
     },
     primaryClass: {
       type: [String, Object, Array],
@@ -117,6 +122,7 @@ export default {
         `${this.$options._componentTag}`,
         `${this.$options._componentTag}-size-${ this.size || 'default' }`,
         `${this.$options._componentTag}-status-${ this.statusName }`,
+        this.baseClass
       ]
       
       if (this.disabled) {
