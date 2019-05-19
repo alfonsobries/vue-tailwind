@@ -7,7 +7,6 @@
       :name="name"
       :size="size"
       :variant="variant"
-      @click="test"
     >{{ label }}</t-button>
 
     <template slot="controls">
@@ -55,11 +54,5 @@ export default {
       ]
     }
   },
-
-  methods: {
-    test() {
-      console.log("test")
-    }
-  }
 }
 </script>
