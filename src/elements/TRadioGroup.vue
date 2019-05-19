@@ -39,7 +39,7 @@ import { TRadioGroupTheme } from '../themes/default.js'
 import TRadio from './TRadio'
 
 const {
-  defaultClass,
+  baseClass,
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
@@ -82,9 +82,9 @@ export default {
       type: Boolean,
       default: false
     },
-    defaultClass: {
+    baseClass: {
       type: [String, Object, Array],
-      default: defaultClass
+      default: baseClass
     },
     defaultStatusClass: {
       type: [String, Object, Array],

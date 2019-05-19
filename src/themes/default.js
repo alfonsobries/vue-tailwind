@@ -1,6 +1,6 @@
 const BootstrapTheme = {
   TInput: {
-    defaultClass: 'border block w-full rounded',
+    baseClass: 'border block w-full rounded',
     defaultStatusClass: 'bg-white',
     warningStatusClass: 'border-yellow-400 bg-yellow-100',
     errorStatusClass: 'border-red-300 bg-red-100',
@@ -11,7 +11,7 @@ const BootstrapTheme = {
     smallSizeClass: 'p-2 text-sm',
   },
   TTextarea: {
-    defaultClass: 'border block w-full rounded',
+    baseClass: 'border block w-full rounded',
     defaultStatusClass: 'bg-white',
     errorStatusClass: 'border-red-300 bg-red-100',
     warningStatusClass: 'border-yellow-400 bg-yellow-100',
@@ -22,8 +22,8 @@ const BootstrapTheme = {
     smallSizeClass: 'p-2 text-sm',
   },
   TSelect: {
-    defaultClass: 'block appearance-none w-full border pr-8 rounded leading-tight',
-    defaultClassMultiple: 'block appearance-none w-full border rounded leading-tight',
+    baseClass: 'block appearance-none w-full border pr-8 rounded leading-tight',
+    baseClassMultiple: 'block appearance-none w-full border rounded leading-tight',
     defaultStatusClass: 'bg-white',
     errorStatusClass: 'border-red-300 bg-red-100',
     successStatusClass: 'border-green-300 bg-green-100',
@@ -37,20 +37,11 @@ const BootstrapTheme = {
     arrowClass: 'fill-current h-4 w-4',
   },
   TRadio: {
-    wrapperClass: '',
-    defaultClass: '',
-    defaultStatusClass: '',
-    warningStatusClass: 'text-yellow-500',
-    errorStatusClass: 'text-red-500',
-    successStatusClass: 'text-green-500',
-    disabledClass: 'text-gray-100 cursor-not-allowed opacity-75',
-    defaultSizeClass: '',
-    largeSizeClass: 'text-lg',
-    smallSizeClass: 'text-sm',
+    baseClass: '',
   },
   TCheckbox: {
     wrapperClass: '',
-    defaultClass: '',
+    baseClass: '',
     defaultStatusClass: '',
     warningStatusClass: 'text-yellow-500',
     errorStatusClass: 'text-red-500',
@@ -75,7 +66,7 @@ const BootstrapTheme = {
     smallSizeClass: 'px-4 py-2 text-sm',
   },
   TRadioGroup: {
-    defaultClass: 'flex flex-col',
+    baseClass: 'flex flex-col',
     defaultStatusClass: '',
     errorStatusClass: 'text-red-500',
     successStatusClass: 'text-green-500',

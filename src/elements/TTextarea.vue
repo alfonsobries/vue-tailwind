@@ -27,7 +27,7 @@ import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import { TTextareaTheme } from '../themes/default.js'
 
 const {
-  defaultClass,
+  baseClass,
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
@@ -76,9 +76,9 @@ export default {
       type: [Boolean, String],
       default: undefined
     },
-    defaultClass: {
+    baseClass: {
       type: [String, Object, Array],
-      default: defaultClass
+      default: baseClass
     },
     defaultStatusClass: {
       type: [String, Object, Array],

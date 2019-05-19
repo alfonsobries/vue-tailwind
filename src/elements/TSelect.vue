@@ -56,8 +56,8 @@ import handleClasses from '../mixins/handleClasses.js'
 import { TSelectTheme } from '../themes/default.js'
 
 const {
-  defaultClass,
-  defaultClassMultiple,
+  baseClass,
+  baseClassMultiple,
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
@@ -93,13 +93,13 @@ export default {
       type: [Boolean, String],
       default: undefined
     },
-    defaultClass: {
+    baseClass: {
       type: [String, Object, Array],
-      default: defaultClass
+      default: baseClass
     },
-    defaultClassMultiple: {
+    baseClassMultiple: {
       type: [String, Object, Array],
-      default: defaultClassMultiple
+      default: baseClassMultiple
     },
     defaultStatusClass: {
       type: [String, Object, Array],
@@ -161,10 +161,10 @@ export default {
      */
     currentClass () {
       let classes = [
-        !this.multiple ? this.defaultClass : this.defaultClassMultiple,
         `${this.$options._componentTag}`,
         `${this.$options._componentTag}-size-${ this.size || 'default' }`,
         `${this.$options._componentTag}-status-${ this.statusName }`,
+        !this.multiple ? this.baseClass : this.baseClassMultiple,
       ]
 
       if (this.multiple) {

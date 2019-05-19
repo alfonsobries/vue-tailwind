@@ -29,7 +29,7 @@ lang: en-US
 
 | Property				| Description												|
 |---					|---														|
-| defaultClass			| Default textarea class (never changes) 						|
+| baseClass				| Base textarea class (never changes) 						|
 | defaultStatusClass	| Classes when textarea doesnt has status and is not disabled	|
 | errorStatusClass		| Classes when textarea has status of `false` or `"error"`		|
 | successStatusClass	| Classes when textarea has status of `true` or `"success"` 	|

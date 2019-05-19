@@ -143,14 +143,14 @@ input.custom-radio.t-radio-disabled + label:after {
 /** By status */
 input.custom-radio.t-radio-status-error:checked + label:after,
 input.custom-radio.t-radio-status-error:not(:checked) + label:after {
-@apply bg-red-500
+  @apply bg-red-500
 }
 input.custom-radio.t-radio-status-success:checked + label:after,
 input.custom-radio.t-radio-status-success:not(:checked) + label:after {
-@apply bg-green-500
+   @apply bg-green-500
 }
 input.custom-radio.t-radio-status-warning:checked + label:after,
 input.custom-radio.t-radio-status-warning:not(:checked) + label:after {
-@apply bg-yellow-500
+  @apply bg-yellow-500
 }
 </style>

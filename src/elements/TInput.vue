@@ -32,7 +32,7 @@ import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import { TInputTheme } from '../themes/default.js'
 
 const {
-  defaultClass,
+  baseClass,
   defaultStatusClass,
   errorStatusClass,
   successStatusClass,
@@ -97,9 +97,9 @@ export default {
       type: String,
       default: 'text'
     },
-    defaultClass: {
+    baseClass: {
       type: [String, Object, Array],
-      default: defaultClass
+      default: baseClass
     },
     defaultStatusClass: {
       type: [String, Object, Array],

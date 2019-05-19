@@ -34,7 +34,7 @@ lang: en-US
 
 | Property				| Description												|
 |---					|---														|
-| defaultClass			| Default input class (never changes) 						|
+| baseClass				| Base input class (never changes) 						|
 | defaultStatusClass	| Classes when input doesnt has status and is not disabled	|
 | errorStatusClass		| Classes when input has status of `false` or `"error"`		|
 | successStatusClass	| Classes when input has status of `true` or `"success"` 	|

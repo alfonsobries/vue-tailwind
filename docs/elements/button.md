@@ -25,7 +25,8 @@ lang: en-US
 
 | Property          | Description                       |
 |---                |---                            |
-| defaultClass      | Default classes for the button   |
+| baseClass         | Base button class (never changes)                      |
+| defaultClass      | Classes for the default button variant   |
 | primaryClass      | Classes for the primary button variant   |
 | secondaryClass    | Classes for the secondary button variant   |
 | tertiaryClass     | Classes for the tertiary button variant   |

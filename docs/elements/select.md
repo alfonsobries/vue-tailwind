@@ -27,8 +27,8 @@ lang: en-US
 
 | Property        | Description                                                         |
 |---                    |---                                                            |
-| defaultClass          | Default select box class (never changes)                      |
-| defaultClassMultiple  | Default select box class when is multiple (never changes)     |
+| baseClass             | Base select box class (never changes)                      |
+| baseClassMultiple     | Base select box class when is multiple (never changes)     |
 | defaultStatusClass    | Classes when select box doesnt has status and is not disabled |
 | errorStatusClass      | Classes when select box has status of `false` or `"error"`    |
 | successStatusClass    | Classes when select box has status of `true` or `"success"`   |

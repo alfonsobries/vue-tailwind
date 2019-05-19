@@ -19,8 +19,8 @@ import commonAttributes from '../mixins/commonAttributes.js'
 import { TButtonTheme } from '../themes/default.js'
 
 const {
-  defaultClass,
   baseClass,
+  defaultClass,
   primaryClass,
   secondaryClass,
   tertiaryClass,
@@ -61,13 +61,13 @@ export default {
         return value === null || ['lg', 'sm'].indexOf(value) !== -1
       }
     },
-    defaultClass: {
-      type: [String, Object, Array],
-      default: defaultClass
-    },
     baseClass: {
       type: [String, Object, Array],
       default: baseClass
+    },
+    defaultClass: {
+      type: [String, Object, Array],
+      default: defaultClass
     },
     primaryClass: {
       type: [String, Object, Array],

@@ -25,8 +25,7 @@ import handleClasses from '../mixins/handleClasses.js'
 const isEqual = require('lodash.isequal');
 
 const {
-  defaultClass,
-  disabledClass,
+  baseClass,
 } = TRadioTheme
 
 export default {
