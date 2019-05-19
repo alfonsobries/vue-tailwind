@@ -1,22 +1,15 @@
 <template>
-  <p class="mt-2">
-    <span class="text-xs uppercase font-bold text-grey-dark">
+  <p>
+    <span class="text-xs uppercase font-bold text-gray-600">
       <slot>Field variant:</slot>
     </span>
-    <label 
-      v-for="variant in options" 
-      :key="variant.value" 
-      class="flex items-center"
-    >
-      <input 
-        v-model="currentValue" 
-        :value="variant.value"
-        type="radio"
-      >
-      <span 
-        class="ml-2" 
-        v-text="variant.text" />
-    </label>
+
+    <t-radio-group
+      :name="name"
+      v-model="currentValue"
+      :options="options"
+      option-class=""
+    />
   </p>
 </template>
 

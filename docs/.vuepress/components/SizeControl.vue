@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="text-xs uppercase font-bold text-grey-dark">
+    <span class="text-xs uppercase font-bold text-gray-600">
       <slot>Field size:</slot>
     </span>
 
@@ -8,6 +8,7 @@
       :name="name"
       v-model="currentValue"
       :options="options"
+      option-class=""
     />
   </div>
 </template>

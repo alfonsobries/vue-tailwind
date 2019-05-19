@@ -21,7 +21,7 @@
           v-model="multiple" 
           type="checkbox"
         >
-        <span class="ml-2 text-xs uppercase font-bold text-grey-dark">
+        <span class="ml-2 text-xs uppercase font-bold text-gray-600">
           Multiple
         </span>
       </label>
@@ -33,7 +33,7 @@
       <p class="flex items-center mt-2">
         <label 
           for="rows" 
-          class="mr-2">
+          class="mr-2 text-xs uppercase font-bold text-gray-600">
           Add option:
         </label>
         <t-input

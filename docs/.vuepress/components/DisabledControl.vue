@@ -4,7 +4,7 @@
       v-model="currentValue" 
       type="checkbox"
     >
-    <span class="ml-2 text-xs uppercase font-bold text-grey-dark">
+    <span class="ml-2 text-xs uppercase font-bold text-gray-600">
       Disabled
     </span>
   </label>

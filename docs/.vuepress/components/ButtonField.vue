@@ -12,9 +12,10 @@
     <template slot="controls">
       <disabled-control v-model="disabled" />
 
-      <size-control v-model="size">Button size</size-control>
+      <size-control class="mt-2" v-model="size">Button size</size-control>
       
       <variant-control
+        class="mt-2"
         v-model="variant"
         :options="options"
       >Button variant</variant-control>
