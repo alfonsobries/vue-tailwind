@@ -5,7 +5,7 @@
     </span>
 
     <t-radio-group
-      :name="name"
+      name="variant"
       v-model="currentValue"
       :options="options"
       option-class=""

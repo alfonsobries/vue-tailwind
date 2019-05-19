@@ -9,6 +9,7 @@
     :class="currentClass"
     @blur="onBlur"
     @focus="onFocus"
+    @click="onClick"
   >
     <slot />
   </button>
@@ -121,7 +122,6 @@ export default {
       let classes = [
         `${this.$options._componentTag}`,
         `${this.$options._componentTag}-size-${ this.size || 'default' }`,
-        `${this.$options._componentTag}-status-${ this.statusName }`,
         this.baseClass
       ]
       
@@ -163,7 +163,6 @@ export default {
       }
 
       return classes
-
     }
   },
 
@@ -174,6 +173,10 @@ export default {
 
     onFocus (e) {
       this.$emit('focus', e)
+    },
+
+    onClick (e) {
+      this.$emit('click', e)
     },
 
     blur () {

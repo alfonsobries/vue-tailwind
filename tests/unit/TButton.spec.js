@@ -135,4 +135,16 @@ describe('TButton.vue', () => {
 
     expect(wrapper.emitted('blur').length).toBe(1)
   })
+
+  it('has a click event', () => {
+    const wrapper = shallowMount(TButton)
+
+    // The click event should be emitted when the button is blurred
+    wrapper.trigger('click')
+
+    expect(wrapper.emitted('click')).toBeTruthy()
+
+    // assert event count
+    expect(wrapper.emitted('click').length).toBe(1)
+  })
 })

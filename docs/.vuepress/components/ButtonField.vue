@@ -7,6 +7,7 @@
       :name="name"
       :size="size"
       :variant="variant"
+      @click="test"
     >{{ label }}</t-button>
 
     <template slot="controls">
@@ -52,6 +53,12 @@ export default {
         { value: 'warning', text: 'Warning' },
         { value: 'danger', text: 'Danger' },
       ]
+    }
+  },
+
+  methods: {
+    test() {
+      console.log("test")
     }
   }
 }
