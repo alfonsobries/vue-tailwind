@@ -26,10 +26,10 @@ lang: en-US
 
 | Event   | Arguments                   | Description   |
 |---      |---                          |---      |
-| input   | String (The current value of the select)  | Emitted every time the value of the `v-model` change |
-| change  | String (The current value of the select)  | Emitted when the select is blurred and the value was changed since it was focused |
-| focus   | FocusEvent                  | Emitted when the select is focused  |
-| blur    | FocusEvent                  | Emitted when the select is blurred  |
+| input   | String (The current value of the checkbox)  | Emitted every time the value of the `v-model` change |
+| change  | String (The current value of the checkbox)  | Emitted when the checkbox is blurred and the value was changed since it was focused |
+| focus   | FocusEvent                  | Emitted when the checkbox is focused  |
+| blur    | FocusEvent                  | Emitted when the checkbox is blurred  |
 
 ### Custom styles
 

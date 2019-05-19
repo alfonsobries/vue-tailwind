@@ -34,10 +34,10 @@ The radio buttons doesnt accept a lot of styles so you can only define the baseC
 
 | Event   | Arguments                   | Description   |
 |---      |---                          |---      |
-| input   | String (The current value of the select)  | Emitted every time the value of the `v-model` change |
-| change  | String (The current value of the select)  | Emitted when the select is blurred and the value was changed since it was focused |
-| focus   | FocusEvent                  | Emitted when the select is focused  |
-| blur    | FocusEvent                  | Emitted when the select is blurred  |
+| input   | String (The current value of the radio)  | Emitted every time the value of the `v-model` change |
+| change  | String (The current value of the radio)  | Emitted when the radio is blurred and the value was changed since it was focused |
+| focus   | FocusEvent                  | Emitted when the radio is focused  |
+| blur    | FocusEvent                  | Emitted when the radio is blurred  |
 
 ### Custom styles
 

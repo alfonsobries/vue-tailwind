@@ -42,5 +42,6 @@ lang: en-US
 
 | Event   | Arguments                   | Description   |
 |---    |---                      |---      |
-| focus   | FocusEvent                  | Emitted when the select is focused  |
-| blur    | FocusEvent                  | Emitted when the select is blurred  |
+| focus   | FocusEvent                  | Emitted when the button is focused  |
+| blur    | FocusEvent                  | Emitted when the button is blurred  |
+| click   | MouseEvent                  | Emitted when the button is clicked  |

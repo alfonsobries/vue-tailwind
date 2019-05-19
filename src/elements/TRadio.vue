@@ -72,27 +72,17 @@ export default {
     model(model) {
       if (! isEqual(model, this.currentValue)) {
         this.currentValue = model
-        if (isEqual(this.model, this.currentValue)) {
-          this.$emit('input', model)
-          this.$emit('change', model)
-        }
       }
     },
     checked(checked) {
       const currentValue = checked ? this.value : null
       if (! isEqual(currentValue, this.currentValue)) {
         this.currentValue = currentValue
-        if (isEqual(this.model, this.currentValue)) {
-          this.$emit('input', this.model)
-          this.$emit('change', this.model)
-        }
       }
     },
-    currentValue(currentValue) {
-      if (! isEqual(this.model, this.currentValue)) {
-        this.$emit('input', currentValue)
-        this.$emit('change', currentValue)
-      }
+    currentValue(currentValue, oldCurrentValue) {
+      this.$emit('input', currentValue)
+      this.$emit('change', currentValue)
     },
   },
 
