@@ -60,6 +60,10 @@ export default {
       type: Boolean,
       default: false
     },
+    baseClass: {
+      type: [String, Object, Array],
+      default: baseClass
+    },
   },
 
   data () {
