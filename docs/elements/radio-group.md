@@ -7,6 +7,19 @@ lang: en-US
 
 <radio-group-field />
 
+### Simple example of use
+
+```html
+<t-radio-group
+  v-model="model"
+  name="radio-group"
+  :options="[
+    { value: 1, text: 'Option 1' },
+    { value: 2, text: 'Option 2' }
+  ]"
+/>
+```
+
 ### Attributes / props
 
 | Property    | Type        | Default value | Accepted values |

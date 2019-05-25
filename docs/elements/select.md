@@ -7,6 +7,20 @@ lang: en-US
 
 <select-field />
 
+### Simple example of use
+
+```html
+<t-select
+  v-model="model"
+  name="my-input"
+  :options="[
+    { value: 1, text: 'Option 1' },
+    { value: 2, text: 'Option 2' }
+  ]"
+/>
+```
+
+
 ### Attributes / props
 
 | Property    | Type        | Default value | Accepted values |

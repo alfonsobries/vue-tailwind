@@ -7,6 +7,24 @@ lang: en-US
 
 <checkbox-field />
 
+### Simple example of use
+
+```html
+<label
+  for="single-checkbox"
+  class="flex py-1 items-center"
+>
+  <t-checkbox
+    v-model="singleModel"
+    value="accepted"
+    unchecked-value="not_accepted"
+    id="single-checkbox"
+    name="single-checkbox"
+  />
+  <span class="ml-3">Accept</span>
+</label>
+```
+
 ### Attributes / props
 
 | Property    | Type        | Default value | Accepted values |

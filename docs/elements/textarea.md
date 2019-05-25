@@ -7,6 +7,13 @@ lang: en-US
 
 <text-area-field />
 
+### Simple example of use
+
+```html
+<t-textarea v-model="model" name="my-textarea"/>
+```
+
+
 ### Attributes
 
 

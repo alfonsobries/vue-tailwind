@@ -7,6 +7,14 @@ lang: en-US
 
 <button-field />
 
+### Simple example of use
+
+```html
+<t-button variant="primary">Primary button</t-button>
+<t-button variant="secondary">Secondary button</t-button>
+<t-button size="lg">Large button</t-button>
+```
+
 ### Attributes / props
 
 | Property    | Type        | Default value | Accepted values |

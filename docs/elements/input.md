@@ -7,6 +7,12 @@ lang: en-US
 
 <text-input />
 
+### Simple example of use
+
+```html
+<t-input v-model="model" name="my-input"/>
+```
+
 ### Attributes / Props
 
 | Property		| Type 				| Default value | Accepted values |

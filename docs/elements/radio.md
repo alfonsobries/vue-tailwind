@@ -7,6 +7,25 @@ lang: en-US
 
 <radio-field />
 
+### Simple example of use
+
+```html
+<label
+  v-for="(option, index) in options"
+  :for="`${id}-${index}`"
+  class="flex py-1"
+>
+  <t-radio
+    :key="option.value"
+    :id="`${id}-${index}`"
+    v-model="model"
+    :name="name"
+    :value="option.value"
+  />
+  <span class="ml-3">{{ option.text }}</span>
+</label>
+```
+
 ### Attributes / props
 
 | Property    | Type        | Default value | Accepted values |
