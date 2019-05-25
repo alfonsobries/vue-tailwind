@@ -1,4 +1,4 @@
-const BootstrapTheme = {
+const DefaultTheme = {
   TInput: {
     baseClass: 'border block w-full rounded',
     defaultStatusClass: 'bg-white',
@@ -80,6 +80,6 @@ export const {
   TRadio: TRadioTheme,
   TCheckbox: TCheckboxTheme,
   TRadioGroup: TRadioGroupTheme,
-} = BootstrapTheme
+} = DefaultTheme
 
-export default BootstrapTheme
+export default DefaultTheme
