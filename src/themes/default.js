@@ -40,16 +40,7 @@ const BootstrapTheme = {
     baseClass: '',
   },
   TCheckbox: {
-    wrapperClass: '',
     baseClass: '',
-    defaultStatusClass: '',
-    warningStatusClass: 'text-yellow-500',
-    errorStatusClass: 'text-red-500',
-    successStatusClass: 'text-green-500',
-    disabledClass: 'text-gray-100 cursor-not-allowed opacity-75',
-    defaultSizeClass: '',
-    largeSizeClass: 'text-lg',
-    smallSizeClass: 'text-sm',
   },
   TButton: {
     baseClass: 'border block rounded inline-flex items-center justify-center',
