@@ -35,7 +35,7 @@ lang: en-US
 
 ### Custom styles
 
-¿What if you need some custom checkbox? You can do it, but you will need to define some styles, check at this example:
+What if you need some custom checkbox? Of course we can do it but for now we will need to define some CSS, check at this example:
 
 <custom-checkbox-field />
 

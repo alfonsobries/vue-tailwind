@@ -41,7 +41,7 @@ The radio buttons doesnt accept a lot of styles so you can only define the baseC
 
 ### Custom styles
 
-What if you need some custom radio buttons? Of course you can do it, you can use the status classes in the input to define some styles, check at this example:
+What if you need some custom radio buttons? Of course we can do it but for now we will need to define some CSS, check at this example:
 
 <custom-radio-field />
 
