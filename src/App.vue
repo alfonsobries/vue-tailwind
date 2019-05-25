@@ -3,9 +3,9 @@
     <h1>Text Field</h1>
 
     <t-input
+      :id="text.id"
       v-model="text.value"
       :disabled="text.disabled"
-      :id="text.id"
       :name="text.name"
     />
 
@@ -17,7 +17,8 @@
           <input 
             id="text-disabled" 
             v-model="text.disabled" 
-            type="checkbox" >
+            type="checkbox"
+          >
           Disabled
         </label>
       </li>

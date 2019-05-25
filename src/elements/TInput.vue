@@ -1,7 +1,7 @@
 <template>
   <input
-    ref="input"
     :id="id"
+    ref="input"
     v-model="currentValue"
     :type="type"
     :autocomplete="autocomplete"

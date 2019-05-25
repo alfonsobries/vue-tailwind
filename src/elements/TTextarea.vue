@@ -1,7 +1,7 @@
 <template>
   <textarea
-    ref="textarea"
     :id="id"
+    ref="textarea"
     v-model="currentValue"
     :autofocus="autofocus"
     :disabled="disabled"

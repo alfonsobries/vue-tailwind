@@ -1,10 +1,11 @@
 <template>
   <div 
     ref="select-wrapper" 
-    :class="wrapperClass">
+    :class="wrapperClass"
+  >
     <select
-      ref="select"
       :id="id"
+      ref="select"
       v-model="currentValue"
       :autofocus="autofocus"
       :disabled="disabled"
@@ -39,7 +40,8 @@
     </select>
     <div 
       v-if="!multiple" 
-      :class="arrowWrapperClass">
+      :class="arrowWrapperClass"
+    >
       <svg 
         :class="arrowClass" 
         xmlns="http://www.w3.org/2000/svg" 
