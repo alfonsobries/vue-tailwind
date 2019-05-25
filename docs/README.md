@@ -14,24 +14,22 @@ npm install vue-tailwind --save
 ``` 
 
 Or: 
-```
+```console
 yarn add vue-tailwind
 ``` 
 
 2. Configure your project to use `vue-tailwind` 
-2.1 Using default theme for Tailwindcss:
+
+2.1 By using the default theme for Tailwindcss:
 
 ```js
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import theme from './myOwnTheme.js'
 
-Vue.use(VueTailwind, {
-	theme
-})
+Vue.use(VueTailwind)
 ```
 
-2.1 Or better create your theme:
+2.2 Or better create your theme:
 
 ```js
 // `./myOwnTheme.js`
@@ -86,7 +84,7 @@ import VueTailwind from 'vue-tailwind'
 import theme from './myOwnTheme.js'
 
 Vue.use(VueTailwind, {
-	theme
+  theme
 })
 ```
 

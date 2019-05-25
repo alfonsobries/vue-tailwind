@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/alfonsobries/vue-tailwind.svg?branch=master)](https://travis-ci.org/alfonsobries/vue-tailwind) [![Netlify Status](https://api.netlify.com/api/v1/badges/40acc43a-7f44-4030-b18a-62c08e0b03d2/deploy-status)](https://app.netlify.com/sites/vue-tailwind/deploys)
 
-# Vue Tailwind (https://vue-tailwind.com/)
-
 **VueTailwind** is a set of HTML components powered by Vuejs that doesnt depends of any CSS frameworks but works great with [TailwindCss](https://tailwindcss.com).
 
 That means that you can define your own classes for every component according to his status and the unique style of your application.
@@ -18,24 +16,22 @@ npm install vue-tailwind --save
 ``` 
 
 Or: 
-```
+```console
 yarn add vue-tailwind
 ``` 
 
 2. Configure your project to use `vue-tailwind` 
-2.1 Using default theme for Tailwindcss:
+
+2.1 By using the default theme for Tailwindcss:
 
 ```js
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import theme from './myOwnTheme.js'
 
-Vue.use(VueTailwind, {
-	theme
-})
+Vue.use(VueTailwind)
 ```
 
-2.1 Or better create your theme:
+2.2 Or better create your theme:
 
 ```js
 // `./myOwnTheme.js`
@@ -90,7 +86,7 @@ import VueTailwind from 'vue-tailwind'
 import theme from './myOwnTheme.js'
 
 Vue.use(VueTailwind, {
-	theme
+  theme
 })
 ```
 
@@ -144,3 +140,4 @@ For now this are the priorities (subject to change).
 
 ## Contribute
 Do you like this project? Contribute!, any help is welcome. (Im not an english speaker so also any comments in my redaction are very welcome)
+
