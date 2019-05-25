@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "./dist/vue-tailwind.common.js",
   "private": false,
   "scripts": {
