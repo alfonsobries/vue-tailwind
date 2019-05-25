@@ -72,7 +72,7 @@ describe('TCheckbox.vue', () => {
         new: true
       },
       value: {
-        default: 'on',
+        default: "true",
         new: 'my value'
       },
     }
@@ -98,91 +98,56 @@ describe('TCheckbox.vue', () => {
     })
   })
 
-  it('emits an input event when the model change', () => {
+  it('emits an change & input event with the expected boolean values', () => {
     const wrapper = shallowMount(TCheckbox)
 
-    const inputValue = 'Hello World'
-
-    wrapper.setProps({
-      model: inputValue
-    })
+    wrapper.setChecked(true)
+    wrapper.setChecked(false)
 
     expect(wrapper.emitted('input')).toBeTruthy()
-
-    // assert event count
-    expect(wrapper.emitted('input').length).toBe(1)
-
-    // assert event payload
-    expect(wrapper.emitted('input')[0]).toEqual([inputValue])
-  })
-
-  it('emits an input event using the checked attribute', () => {
-    const inputValue = 'A'
-    
-    const wrapper = shallowMount(TCheckbox, {
-      propsData: {
-        value: inputValue
-      }
-    })
-
-    wrapper.setProps({
-      checked: 'checked'
-    })
-
-    expect(wrapper.emitted('input')).toBeTruthy()
-
-    // assert event count
-    expect(wrapper.emitted('input').length).toBe(1)
-
-    // assert event payload
-    expect(wrapper.emitted('input')[0]).toEqual([inputValue])
-  })
-
-  it('emits an change event with the input value', () => {
-    const wrapper = shallowMount(TCheckbox)
-
-    const inputValue = 'Hello World'
-
-    wrapper.setProps({
-      model: inputValue
-    })
-
     expect(wrapper.emitted('change')).toBeTruthy()
 
     // assert event count
-    expect(wrapper.emitted('change').length).toBe(1)
+    expect(wrapper.emitted('input').length).toBe(2)
+    expect(wrapper.emitted('change').length).toBe(2)
 
     // assert event payload
-    expect(wrapper.emitted('change')[0]).toEqual([inputValue])
+    expect(wrapper.emitted('input')[0]).toEqual([true])
+    expect(wrapper.emitted('input')[1]).toEqual([false])
+    expect(wrapper.emitted('change')[0]).toEqual([true])
+    expect(wrapper.emitted('change')[1]).toEqual([false])
   })
 
-  it('emits an change event using the checked attribute', () => {
-    const inputValue = 'A'
-    
-    const wrapper = shallowMount(TCheckbox, {
-      propsData: {
-        value: inputValue
-      }
-    })
+  it('emits an change & input event with the according checked & unchecked value', () => {
+    const wrapper = shallowMount(TCheckbox)
+
+    const value = 'checked'
+    const uncheckedValue = 'not_checled'
 
     wrapper.setProps({
-      checked: 'checked'
+      value,
+      uncheckedValue
     })
 
+    wrapper.setChecked(true)
+    wrapper.setChecked(false)
+
+    expect(wrapper.emitted('input')).toBeTruthy()
     expect(wrapper.emitted('change')).toBeTruthy()
 
     // assert event count
-    expect(wrapper.emitted('change').length).toBe(1)
+    expect(wrapper.emitted('input').length).toBe(2)
+    expect(wrapper.emitted('change').length).toBe(2)
 
     // assert event payload
-    expect(wrapper.emitted('change')[0]).toEqual([inputValue])
+    expect(wrapper.emitted('input')[0]).toEqual([value])
+    expect(wrapper.emitted('input')[1]).toEqual([uncheckedValue])
+    expect(wrapper.emitted('change')[0]).toEqual([value])
+    expect(wrapper.emitted('change')[1]).toEqual([uncheckedValue])
   })
 
-  it('emits a blur event when the input is blurred', () => {
-    const inputValue = 'input value'
-    const wrapper = shallowMount(TCheckbox, {
-      propsData: { value: inputValue }
-    })
+  it('emits a blur event when the checkbox is blurred', () => {
+    const wrapper = shallowMount(TCheckbox)
 
     const { input } = wrapper.vm.$refs
 
@@ -195,11 +160,8 @@ describe('TCheckbox.vue', () => {
     expect(wrapper.emitted('blur').length).toBe(1)
   })
 
-  it('emits a focus event when the input is focused', () => {
-    const inputValue = 'input value'
-    const wrapper = shallowMount(TCheckbox, {
-      propsData: { value: inputValue }
-    })
+  it('emits a focus event when the checkbox is focused', () => {
+    const wrapper = shallowMount(TCheckbox)
 
     const { input } = wrapper.vm.$refs
 

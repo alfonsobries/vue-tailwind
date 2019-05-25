@@ -2,18 +2,18 @@
   <input
     :id="id"
     ref="input"
-    v-model="currentValue"
+    v-model="isChecked"
     :value="value"
     :autofocus="autofocus"
     :readonly="readonly"
     :disabled="disabled"
-    :checked="checked"
     :name="name"
     :required="required"
     :class="currentClass"
     type="checkbox"
     @blur="onBlur"
     @focus="onFocus"
+    @change="onChange"
   >
 </template>
 
@@ -25,8 +25,7 @@ import handleClasses from '../mixins/handleClasses.js'
 const isEqual = require('lodash.isequal');
 
 const {
-  defaultClass,
-  disabledClass,
+  baseClass,
 } = TCheckboxTheme
 
 export default {
@@ -42,9 +41,13 @@ export default {
   props: {
     value: {
       type: [String, Object, Number, Boolean, Array],
-      default: 'on'
+      default: true
     },
-    checked: {
+    uncheckedValue: {
+      type: [String, Object, Number, Boolean, Array],
+      default: false
+    },
+    indeterminate: {
       type: [Boolean, String],
       default: false
     },
@@ -61,50 +64,102 @@ export default {
       type: Boolean,
       default: false
     },
+    checked: {
+      type: Boolean,
+      default: null
+    },
+    baseClass: {
+      type: [String, Object, Array],
+      default: baseClass
+    },
   },
 
   data () {
     return {
-      currentValue: this.checked ? this.value : this.model
+      currentValue: this.model
+    }
+  },
+
+  computed: {
+    isChecked: {
+      get () {
+        if (Array.isArray(this.model)) {
+          return this.model
+        } else {
+          return this.model === this.value
+        }
+      },
+      set (checked) {
+        this.currentValue = checked
+      }
     }
   },
 
   watch: {
-    model(model) {
-      if (! isEqual(model, this.currentValue)) {
-        this.currentValue = model
-        if (isEqual(this.model, this.currentValue)) {
-          this.$emit('input', model)
-          this.$emit('change', model)
-        }
-      }
+    indeterminate: {
+      handler(indeterminate) {
+        this.setIndeterminate(indeterminate)
+      },
+      immediate: true
     },
-    checked(checked) {
-      const currentValue = checked ? this.value : null
-      if (! isEqual(currentValue, this.currentValue)) {
-        this.currentValue = currentValue
-        if (isEqual(this.model, this.currentValue)) {
-          this.$emit('input', this.model)
-          this.$emit('change', this.model)
-        }
-      }
-    },
-    currentValue(currentValue) {
-      if (! isEqual(this.model, this.currentValue)) {
-        this.$emit('input', currentValue)
-        this.$emit('change', currentValue)
-      }
+    checked: {
+      handler(checked) {
+        this.setChecked(checked)
+      },
+      immediate: true
     },
   },
 
   methods: {
+    setIndeterminate(indeterminate) {
+      if (this.$refs && this.$refs.input) {
+        this.$refs.input.indeterminate = indeterminate
+        // Emit update event to prop
+        this.$emit('update:indeterminate', indeterminate)
+      }
+    },
+
+    setChecked(checked) {
+       if (this.$refs && this.$refs.input) {
+        this.$refs.input.checked = !checked
+        this.$refs.input.click()
+        // Emit update event to prop
+        this.$emit('update:checked', checked)
+      }
+    },
+
+    onChange (e) {
+      let currentValue
+      let isChecked
+      if (Array.isArray(this.isChecked)) {
+        currentValue = this.currentValue
+        isChecked = this.isChecked.indexOf(this.value) >= 0
+      } else {
+        currentValue = this.currentValue ? this.value : this.uncheckedValue
+        isChecked = this.currentValue ? true : false
+      }
+
+      this.$emit('input', currentValue)
+      this.$emit('change', currentValue)
+      this.$emit('update:indeterminate', false)
+      this.$emit('update:checked', isChecked)
+    },
+
     onBlur (e) {
       this.$emit('blur', e)
     },
 
     onFocus (e) {
       this.$emit('focus', e)
-    }
+    },
+
+    focus () {
+      this.$refs.input.focus()
+    },
+
+    blur () {
+      this.$refs.input.blur()
+    },
   },
 }
 </script>
