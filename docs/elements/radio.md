@@ -46,60 +46,40 @@ What if you need some custom radio buttons? Of course you can do it, you can use
 <custom-radio-field />
 
 ```css
-/** <t-radio class="rich-radio" /> */
+/** <t-radio class="custom-radio" /> */
 input.custom-radio:checked,
 input.custom-radio:not(:checked) {
-  position: absolute;
+  @apply absolute;
   left: -9999px;
 }
 input.custom-radio:checked + label,
 input.custom-radio:not(:checked) + label
 {
-  position: relative;
-  padding-left: 30px;
-  cursor: pointer;
-  line-height: 26px;
-  display: inline-block;
+  @apply relative pl-8 cursor-pointer leading-normal inline-block;
 }
 input.custom-radio:checked + label:before,
 input.custom-radio:not(:checked) + label:before {
+  @apply rounded-full absolute border border-gray-400 top-0 left-0 w-6 h-6 bg-white;
   content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 26px;
-  height: 26px;
-  border: 1px solid #dae1e7;
-  border-radius: 100%;
-  background: #fff;
 }
 input.custom-radio:checked + label:after,
 input.custom-radio:not(:checked) + label:after {
+  @apply w-4 h-4 top-0 left-0 m-1 bg-blue-500 absolute rounded-full;
   content: '';
-  width: 18px;
-  height: 18px;
-  background: #4299e1;
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  border-radius: 100%;
-  -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
 
 input.custom-radio:not(:checked) + label:after {
-  opacity: 0;
-  -webkit-transform: scale(0);
+  @apply opacity-0;
   transform: scale(0);
 }
 input.custom-radio:checked + label:after {
-  opacity: 1;
-  -webkit-transform: scale(1);
+  @apply opacity-100;
   transform: scale(1);
 }
 
 input.custom-radio.t-radio-disabled + label:after {
-  opacity: 0.5;
+  @apply opacity-50;
 }
 
 /** By status */

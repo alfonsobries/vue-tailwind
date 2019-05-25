@@ -1,57 +1,124 @@
 <template>
-  <input-demo>
-    <label
-      v-for="(option, index) in options"
-      :for="`${id}-${index}`"
-      class="flex py-1"
-    >
-      <t-checkbox
-        ref="input"
-        :key="option.value"
-        :id="`${id}-${index}`"
-        v-model="model"
-        :disabled="disabled"
-        :name="name"
-        :value="option.value"
-      />
-      <span class="ml-3">{{ option.text }}</span>
-    </label>
-
-    <t-checkbox
-        ref="input"
-        id="test"
-        v-model="test"
-        :value="':D'"
-        name="test"
-        checked
-        
-      />
-
-  {{ test }}
-    <template slot="controls">
-      <disabled-control v-model="disabled" />
-
-      <p class="flex items-center mt-2">
-        <label 
-          for="rows" 
-          class="mr-2">
-          Add option:
-        </label>
-        <t-input
-          id="newOption"
-          v-model.number="newOption"
-          name="newOption"
-          default-class="p-1 border text-sm"
-          @keyup.enter="addNewOption"
+  <div>
+    <input-demo>
+      <label
+        for="single-checkbox"
+        class="flex py-1 items-center"
+      >
+        <t-checkbox
+          ref="input"
+          v-model="singleModel"
+          :disabled="singleDisabled"
+          :value="checkedValue"
+          :checked.sync="checked"
+          :unchecked-value="unCheckedValue"
+          :indeterminate.sync="indeterminate"
+          id="single-checkbox"
+          name="single-checkbox"
         />
-      </p>
-    </template>
+        <span class="ml-3">Accept</span>
+      </label>
 
-    <template slot="value">
-      <p>Current value: <pre class="text-white">{{ model }}</pre></p>
-    </template>
+      <template slot="controls">
+        <disabled-control v-model="singleDisabled" />
 
-  </input-demo>
+        <label class="flex items-center mt-2">
+          <input 
+            v-model="indeterminate" 
+            type="checkbox"
+          >
+          <span class="ml-2 text-xs uppercase font-bold text-gray-600">
+            Indeterminate
+          </span>
+        </label>
+
+        <label class="flex items-center mt-2">
+          <input 
+            v-model="checked" 
+            type="checkbox"
+          >
+          <span class="ml-2 text-xs uppercase font-bold text-gray-600">
+            Checked
+          </span>
+        </label>
+
+        <p class="flex items-center mt-2">
+          <label 
+            for="rows" 
+            class="mr-2 text-xs uppercase font-bold text-gray-600">
+            Checked Value:
+          </label>
+          <t-input
+            id="checkedValue"
+            v-model.number="checkedValue"
+            name="checkedValue"
+            default-class="p-1 border text-sm"
+          />
+        </p>
+
+        <p class="flex items-center mt-2">
+          <label 
+            for="rows" 
+            class="mr-2 text-xs uppercase font-bold text-gray-600">
+            Unchecked value:
+          </label>
+          <t-input
+            id="unCheckedValue"
+            v-model.number="unCheckedValue"
+            name="unCheckedValue"
+            default-class="p-1 border text-sm"
+          />
+        </p>
+      </template>
+
+      <template slot="value">
+        <p>Current value: <pre class="text-white">{{ singleModel }}</pre></p>
+      </template>
+    </input-demo>
+
+    <input-demo>
+      <label
+        v-for="(option, index) in options"
+        :for="`${id}-${index}`"
+        class="flex py-1 items-center"
+      >
+        <t-checkbox
+          ref="input"
+          :key="option.value"
+          :id="`${id}-${index}`"
+          v-model="model"
+          :disabled="disabled"
+          :name="name"
+          :value="option.value"
+        />
+        <span class="ml-3">{{ option.text }}</span>
+      </label>
+
+      <template slot="controls">
+        <disabled-control v-model="disabled" />
+
+        <p class="flex items-center mt-2">
+          <label 
+            for="rows" 
+            class="mr-2">
+            Add option:
+          </label>
+          <t-input
+            id="newOption"
+            v-model.number="newOption"
+            name="newOption"
+            default-class="p-1 border text-sm"
+            @keyup.enter="addNewOption"
+          />
+        </p>
+      </template>
+
+      <template slot="value">
+        <p>Current value: <pre class="text-white">{{ model }}</pre></p>
+      </template>
+
+    </input-demo>
+  </div>
 </template>
 
 <script>
@@ -64,8 +131,7 @@ export default {
 
   data () {
     return {
-      test: null,
-      model: ['Option 2', 'Option 5'],
+      model: ['Option 2', 'Option 3', 'Option 5'],
       id: 'radio-field',
       name: 'radio-field',
       options: [
@@ -76,6 +142,13 @@ export default {
         { value: 'Option 5', text: 'Option 5' },
       ],
       newOption: '',
+      
+      singleModel: 'accepted',
+      checkedValue: 'accepted',
+      unCheckedValue: 'not_accepted',
+      indeterminate: false,
+      checked: true,
+      singleDisabled: false,
     }
   },
 

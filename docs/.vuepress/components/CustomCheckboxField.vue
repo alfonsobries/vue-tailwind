@@ -4,7 +4,7 @@
       v-for="(option, index) in options"
       class="flex py-1"
     >
-      <t-radio
+      <t-checkbox
         ref="input"
         :key="option.value"
         :id="`${id}-${index}`"
@@ -13,7 +13,7 @@
         :name="name"
         :value="option.value"
         :status="status"
-        class="custom-radio"
+        class="custom-checkbox"
       />
       <label class="ml-3" :for="`${id}-${index}`">{{ option.text }}</label>
     </div>
@@ -51,15 +51,15 @@ import getRenderedClass from '../mixins/getRenderedClass'
 
 
 export default {
-  name: 'CustomRadioField',
+  name: 'CustomCheckboxField',
 
   mixins: [getRenderedClass],
 
   data () {
     return {
-      model: 'Option 2',
-      id: 'custom-radio-field',
-      name: 'custom-radio-field',
+      model: ['Option 1', 'Option 3'],
+      id: 'custom-checkbox-field',
+      name: 'custom-checkbox-field',
       options: [
         { value: 'Option 1', text: 'Option 1' },
         { value: 'Option 2', text: 'Option 2' },
@@ -78,7 +78,7 @@ export default {
       }
       const option = { value: this.newOption, text: this.newOption }
       this.options.push(option)
-      this.model = option.value
+      this.model.push(option.value)
       this.newOption = ''
     },
   }
@@ -86,52 +86,52 @@ export default {
 </script>
 
 <style>
-input.custom-radio:checked,
-input.custom-radio:not(:checked) {
+input.custom-checkbox:checked,
+input.custom-checkbox:not(:checked) {
   @apply absolute;
   left: -9999px;
 }
-input.custom-radio:checked + label,
-input.custom-radio:not(:checked) + label
+input.custom-checkbox:checked + label,
+input.custom-checkbox:not(:checked) + label
 {
   @apply relative pl-8 cursor-pointer leading-normal inline-block;
 }
-input.custom-radio:checked + label:before,
-input.custom-radio:not(:checked) + label:before {
-  @apply rounded-full absolute border border-gray-400 top-0 left-0 w-6 h-6 bg-white;
+input.custom-checkbox:checked + label:before,
+input.custom-checkbox:not(:checked) + label:before {
+  @apply absolute border border-gray-400 top-0 left-0 w-6 h-6 bg-white;
   content: '';
 }
-input.custom-radio:checked + label:after,
-input.custom-radio:not(:checked) + label:after {
-  @apply w-4 h-4 top-0 left-0 m-1 bg-blue-500 absolute rounded-full;
-  content: '';
+input.custom-checkbox:checked + label:after,
+input.custom-checkbox:not(:checked) + label:after {
+  @apply top-0 left-0 absolute flex items-center justify-center w-6 h-6 text-blue-500 font-bold text-xl;
+  content: '\2713\0020';
   transition: all 0.2s ease;
 }
 
-input.custom-radio:not(:checked) + label:after {
+input.custom-checkbox:not(:checked) + label:after {
   @apply opacity-0;
   transform: scale(0);
 }
-input.custom-radio:checked + label:after {
+input.custom-checkbox:checked + label:after {
   @apply opacity-100;
   transform: scale(1);
 }
 
-input.custom-radio.t-radio-disabled + label:after {
+input.custom-checkbox.t-checkbox-disabled + label:after {
   @apply opacity-50;
 }
 
 /** By status */
-input.custom-radio.t-radio-status-error:checked + label:after,
-input.custom-radio.t-radio-status-error:not(:checked) + label:after {
-  @apply bg-red-500
+input.custom-checkbox.t-checkbox-status-error:checked + label:after,
+input.custom-checkbox.t-checkbox-status-error:not(:checked) + label:after {
+  @apply text-red-500
 }
-input.custom-radio.t-radio-status-success:checked + label:after,
-input.custom-radio.t-radio-status-success:not(:checked) + label:after {
-   @apply bg-green-500
+input.custom-checkbox.t-checkbox-status-success:checked + label:after,
+input.custom-checkbox.t-checkbox-status-success:not(:checked) + label:after {
+   @apply text-green-500
 }
-input.custom-radio.t-radio-status-warning:checked + label:after,
-input.custom-radio.t-radio-status-warning:not(:checked) + label:after {
-  @apply bg-yellow-500
+input.custom-checkbox.t-checkbox-status-warning:checked + label:after,
+input.custom-checkbox.t-checkbox-status-warning:not(:checked) + label:after {
+  @apply text-yellow-500
 }
 </style>

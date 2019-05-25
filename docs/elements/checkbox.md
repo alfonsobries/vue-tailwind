@@ -18,9 +18,11 @@ lang: en-US
 | tabindex    | String / Number | null      | _Any valid type_ |
 | readonly    | Boolean     | undefined   | _Any valid type_ |
 | required    | Boolean     | false     | _Any valid type_ |
-| model (v-model)    | String / Object / Number / Boolean   | null   | _Any valid type_ |
-| value (input value)    | String / Object / Number / Boolean   | 'on'   | _Any valid type_ |
-| checked    | Boolean / String    | false   | true, false, 'checked' |
+| model (v-model)    | String / Object / Number / Boolean / Array   | null   | _Any valid type_ |
+| value (input value)    | String / Object / Number / Boolean / Array   | true   | _Any valid type_ |
+| uncheckedValue (input value)    | String / Object / Number / Boolean / Array   | false   | _Any valid type_ |
+| checked    | Boolean | false   | true, false |
+| indeterminate    | Boolean | false   | true, false |
 
 ### Events
 
@@ -33,74 +35,58 @@ lang: en-US
 
 ### Custom styles
 
-¿What if you need some custom radio buttons? Of course you can do it, but you will need to define some styles, check at this example:
+¿What if you need some custom checkbox? You can do it, but you will need to define some styles, check at this example:
 
-<custom-radio-field />
+<custom-checkbox-field />
 
 ```css
-/** <t-radio class="rich-radio" /> */
-.rich-radio input[type=radio]:checked,
-.rich-radio input[type=radio]:not(:checked) {
-    position: absolute;
-    left: -9999px;
+/** <t-checkbox class="custom-checkbox" /> */
+input.custom-checkbox:checked,
+input.custom-checkbox:not(:checked) {
+  @apply absolute;
+  left: -9999px;
 }
-.rich-radio input[type=radio]:checked + label,
-.rich-radio input[type=radio]:not(:checked) + label
+input.custom-checkbox:checked + label,
+input.custom-checkbox:not(:checked) + label
 {
-    position: relative;
-    padding-left: 30px;
-    cursor: pointer;
-    line-height: 26px;
-    display: inline-block;
+  @apply relative pl-8 cursor-pointer leading-normal inline-block;
 }
-.rich-radio input[type=radio]:checked + label:before,
-.rich-radio input[type=radio]:not(:checked) + label:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 26px;
-    height: 26px;
-    border: 1px solid #dae1e7;
-    border-radius: 100%;
-    background: #fff;
+input.custom-checkbox:checked + label:before,
+input.custom-checkbox:not(:checked) + label:before {
+  @apply absolute border border-gray-400 top-0 left-0 w-6 h-6 bg-white;
+  content: '';
 }
-.rich-radio input[type=radio]:checked + label:after,
-.rich-radio input[type=radio]:not(:checked) + label:after {
-    content: '';
-    width: 18px;
-    height: 18px;
-    background: #3490dc;
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    border-radius: 100%;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
+input.custom-checkbox:checked + label:after,
+input.custom-checkbox:not(:checked) + label:after {
+  @apply top-0 left-0 absolute flex items-center justify-center w-6 h-6 text-blue-500 font-bold text-xl;
+  content: '\2713\0020';
+  transition: all 0.2s ease;
 }
 
-.rich-radio input[type=radio]:not(:checked) + label:after {
-    opacity: 0;
-    -webkit-transform: scale(0);
-    transform: scale(0);
+input.custom-checkbox:not(:checked) + label:after {
+  @apply opacity-0;
+  transform: scale(0);
 }
-.rich-radio input[type=radio]:checked + label:after {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    transform: scale(1);
+input.custom-checkbox:checked + label:after {
+  @apply opacity-100;
+  transform: scale(1);
+}
+
+input.custom-checkbox.t-checkbox-disabled + label:after {
+  @apply opacity-50;
 }
 
 /** By status */
-.rich-radio.t-radio-status-error input[type=radio]:checked + label:after,
-.rich-radio.t-radio-status-error input[type=radio]:not(:checked) + label:after {
-  background: #e3342f;
+input.custom-checkbox.t-checkbox-status-error:checked + label:after,
+input.custom-checkbox.t-checkbox-status-error:not(:checked) + label:after {
+  @apply text-red-500
 }
-.rich-radio.t-radio-status-success input[type=radio]:checked + label:after,
-.rich-radio.t-radio-status-success input[type=radio]:not(:checked) + label:after {
-  background: #38c172;
+input.custom-checkbox.t-checkbox-status-success:checked + label:after,
+input.custom-checkbox.t-checkbox-status-success:not(:checked) + label:after {
+   @apply text-green-500
 }
-.rich-radio.t-radio-status-warning input[type=radio]:checked + label:after,
-.rich-radio.t-radio-status-warning input[type=radio]:not(:checked) + label:after {
-  background: #f2d024;
+input.custom-checkbox.t-checkbox-status-warning:checked + label:after,
+input.custom-checkbox.t-checkbox-status-warning:not(:checked) + label:after {
+  @apply text-yellow-500
 }
 ```       
