@@ -18,16 +18,16 @@ The idea is to create a big set of common components using the same philosophy o
 
 This are the priorities (subject to change).
 
-### Basic inputs
+**Basic inputs**
 - [ ] Checkbox group
 - [ ] File input
 
-### Rich inputs
+**Rich inputs**
 - [ ] Rich Select (with tagging, autocomplete, remote data sets, etc.)
 - [ ] Date/Time Picker
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
-### Components
+**Components**
 - [ ] Modal
 - [ ] Tooltip
 - [ ] Dropdown
