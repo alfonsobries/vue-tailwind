@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/alfonsobries/vue-tailwind.svg?branch=master)](https://travis-ci.org/alfonsobries/vue-tailwind) [![Netlify Status](https://api.netlify.com/api/v1/badges/40acc43a-7f44-4030-b18a-62c08e0b03d2/deploy-status)](https://app.netlify.com/sites/vue-tailwind/deploys)
 
+For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
+
 **VueTailwind** is a set of HTML components powered by Vuejs that doesnt depends of any CSS frameworks but works great with [TailwindCss](https://tailwindcss.com).
 
 That means that you can define your own classes for every component according to his status and the unique style of your application.
