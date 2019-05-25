@@ -1,6 +1,6 @@
-# Vue Tailwind
+# Vue-Tailwind 
 
-VueTailwind is a set of HTML components ready for Vuejs where you can define your classes for each element, in this way you can give your personality to your application.
+VueTailwind is a set of HTML components ready for Vuejs where you can define your classes for each element, in this way you can give your own personality to your application and avoid all those default styles that comes with every framework.
 
 Although this library works with any CSS library since you define the classes, VueTailwind works great together with [TailwindCss](https://tailwindcss.com).
 
