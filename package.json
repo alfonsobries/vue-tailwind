@@ -1,6 +1,20 @@
 {
   "name": "vue-tailwind",
-  "version": "0.1.6",
+  "version": "0.1.8",
+  "description": "Vue components styled with TailwindCss with configurable classes",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alfonsobries/vue-tailwind"
+  },
+  "keywords": [
+    "tailwindcss",
+    "vue",
+    "vue-tailwind",
+    "vue components",
+    "tailwind components"
+  ],
+  "author": "Alfonso Bribiesca <alfonso@vexilo.com> (https://www.vexilo.com/)",
+  "license": "MIT",
   "main": "./dist/vue-tailwind.common.js",
   "private": false,
   "scripts": {
@@ -46,5 +60,6 @@
   ],
   "resolutions": {
     "webpack-dev-middleware": "3.6.0"
-  }
+  },
+  "homepage": "https://vue-tailwind.com"
 }
