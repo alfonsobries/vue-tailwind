@@ -1,10 +1,7 @@
-import VueTailwind from '../../src/elements'
-// import BootstrapTheme from '../../src/themes/bootstrap'
+import VueTailwind from '../../src'
 
 export default ({
   Vue
 }) => {
-  Vue.use(VueTailwind, {
-    // theme: BootstrapTheme
-  })
+  Vue.use(VueTailwind)
 }

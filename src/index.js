@@ -1,13 +1,16 @@
-import TInput from './TInput.vue'
-import TTextarea from './TTextarea.vue'
-import TSelect from './TSelect.vue'
-import TButton from './TButton.vue'
-import TRadio from './TRadio.vue'
-import TRadioGroup from './TRadioGroup.vue'
-import TCheckbox from './TCheckbox.vue'
-import DefaultTheme from '../themes/default.js'
+import DefaultTheme from './themes/default.js'
 
-const fields = {
+import TInput from './elements/TInput.vue'
+import TTextarea from './elements/TTextarea.vue'
+import TSelect from './elements/TSelect.vue'
+import TButton from './elements/TButton.vue'
+import TRadio from './elements/TRadio.vue'
+import TRadioGroup from './elements/TRadioGroup.vue'
+import TCheckbox from './elements/TCheckbox.vue'
+
+import TDropdown from './components/TDropdown.vue'
+
+const components = {
   TInput: TInput,
   TTextarea: TTextarea,
   TSelect: TSelect,
@@ -15,6 +18,7 @@ const fields = {
   TRadio: TRadio,
   TRadioGroup: TRadioGroup,
   TCheckbox: TCheckbox,
+  TDropdown: TDropdown,
 }
 
 /**
@@ -23,7 +27,7 @@ const fields = {
 function extendComponent (Vue, CurrentTheme, componentName) {
   const propsDefaults = CurrentTheme[componentName]
 
-  let props = fields[componentName].props
+  let props = components[componentName].props
 
   Object.keys(propsDefaults).forEach(key => {
     const prop = {
@@ -33,7 +37,7 @@ function extendComponent (Vue, CurrentTheme, componentName) {
   })
 
   return Vue.extend({
-    ...fields[componentName],
+    ...components[componentName],
     ...{
       props
     }
@@ -53,9 +57,9 @@ const VueTailwind = {
       ...args.theme || {}
     }
 
-    const components = args.components || Object.keys(fields)
+    const componentsToRegister = args.components || Object.keys(components)
 
-    components.forEach(componentName => {
+    componentsToRegister.forEach(componentName => {
       Vue.component(componentName, extendComponent(Vue, CurrentTheme, componentName))
     })
   }

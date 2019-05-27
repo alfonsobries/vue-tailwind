@@ -20,6 +20,13 @@ module.exports = {
             '/elements/button',
             '/elements/checkbox',
         ]
+      },
+      {
+          title: 'Components',
+          collapsable: false,
+          children: [
+            '/components/dropdown',
+        ]
       }
     ]
   },

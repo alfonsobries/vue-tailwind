@@ -70,6 +70,14 @@ const DefaultTheme = {
     inputClass: '',
     labelClass: 'ml-1',
   },
+
+  TDropdown: {
+    wrapperClass: '',
+    buttonClass: '',
+    activeButtonClass: 'w-64 bg-white rounded border shadow-md py-2 z-10',
+    inactiveButtonClass: 'bg-green-500',
+    dropdownClass: 'w-64 bg-white rounded border shadow-md py-2 z-10',
+  },
 }
 
 export const {
@@ -80,6 +88,7 @@ export const {
   TRadio: TRadioTheme,
   TCheckbox: TCheckboxTheme,
   TRadioGroup: TRadioGroupTheme,
+  TDropdown: TDropdownTheme,
 } = DefaultTheme
 
 export default DefaultTheme

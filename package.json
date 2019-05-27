@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "lodash.isequal": "^4.5.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-popperjs": "^2.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.5",
