@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
@@ -61,5 +61,5 @@
   "resolutions": {
     "webpack-dev-middleware": "3.6.0"
   },
-  "homepage": "https://github.com/alfonsobries/vue-tailwind#readme"
+  "homepage": "https://vue-tailwind.com"
 }
