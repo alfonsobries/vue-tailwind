@@ -18,6 +18,28 @@ describe('TButton.vue', () => {
     expect(wrapper.vm.$el.disabled).toBe(true)
   })
 
+  it('default to button tag', () => {
+    const wrapper = shallowMount(TButton)
+
+    expect(wrapper.vm.$el.tagName).toBe('BUTTON')
+  })
+
+  it('accepts anchor tag', () => {
+    const wrapper = shallowMount(TButton, {
+      propsData: { tagName: 'a' }
+    })
+
+    expect(wrapper.vm.$el.tagName).toBe('A')
+  })
+
+  it('uses anchor tag when has href attribute', () => {
+    const wrapper = shallowMount(TButton, {
+      propsData: { href: 'https://www.vue-tailwind.com/' }
+    })
+
+    expect(wrapper.vm.$el.tagName).toBe('A')
+  })
+
   it('has common attributes', () => {
     const wrapper = shallowMount(TButton)
 

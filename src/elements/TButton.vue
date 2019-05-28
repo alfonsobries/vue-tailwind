@@ -1,18 +1,20 @@
 <template>
-  <button
+  <component
+    :is="validTagName"
     :id="id"
     :value="value"
     :autofocus="autofocus"
     :disabled="disabled"
     :name="name"
-    :type="type"
+    :href="href"
+    :type="validTagName === 'button' ? type : null"
     :class="currentClass"
     @blur="onBlur"
     @focus="onFocus"
     @click="onClick"
   >
     <slot />
-  </button>
+  </component>
 </template>
 
 <script>
@@ -40,6 +42,13 @@ export default {
   mixins: [commonAttributes],
 
   props: {
+    tagName: {
+      type: String,
+      default: 'button',
+      validator: function (value) {
+        return ['button', 'a'].indexOf(value) !== -1
+      }
+    },
     value: {
       type: [String, Number],
       default: null
@@ -47,6 +56,10 @@ export default {
     type: {
       type: String,
       default: 'button'
+    },
+    href: {
+      type: String,
+      default: null
     },
     variant: {
       type: String,
@@ -113,6 +126,17 @@ export default {
   },
 
   computed: {
+    /**
+     * The tag name according to the props
+     * @return {String}
+     */
+    validTagName () {
+      if (this.href) {
+        return 'a'
+      }
+
+      return this.tagName
+    },
     /**
      * The default classes for the button
      * 
