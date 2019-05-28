@@ -28,6 +28,10 @@ lang: en-US
 | type        | String      | 'button'      | _Any valid type_ |
 | variant        | String      | undefined      | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success' |
 | size        | String      | undefined      | 'sm', 'lg' |
+| href        | String      | null      | _Any valid type_ |
+| tagName+        | String      | 'button'      | 'button', 'a' |
+
+*Note:* when the `href` is set it changes the tagname to `a`
 
 ### Classes related attributes / props
 
