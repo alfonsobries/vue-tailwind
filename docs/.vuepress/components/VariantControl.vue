@@ -8,7 +8,7 @@
       name="variant"
       v-model="currentValue"
       :options="options"
-      option-class=""
+      option-class="flex items-center"
     />
   </p>
 </template>

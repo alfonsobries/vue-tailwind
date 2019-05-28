@@ -6,7 +6,8 @@ const getRenderedClass = {
       variant: null,
       disabled: false,
       renderedClass: null,
-      triesToGetRenderedClass: 0
+      triesToGetRenderedClass: 0,
+      ready: false,
     }
   },
 
@@ -53,6 +54,7 @@ const getRenderedClass = {
     async updateRenderedClass() {
       await this.$nextTick()
       this.renderedClass = this.getInputToParseClass().currentClass
+      this.ready = true
     }
   }
 }

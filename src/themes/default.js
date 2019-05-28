@@ -72,11 +72,9 @@ const DefaultTheme = {
   },
 
   TDropdown: {
-    wrapperClass: '',
-    buttonClass: '',
-    activeButtonClass: 'w-64 bg-white rounded border shadow-md py-2 z-10',
-    inactiveButtonClass: 'bg-green-500',
+    baseClass: '',
     dropdownClass: 'w-64 bg-white rounded border shadow-md py-2 z-10',
+    disabledClass: '',
   },
 }
 

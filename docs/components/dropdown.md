@@ -1,55 +1,145 @@
 ---
 title: DropDown
 lang: en-US
+
+
 ---
 
 # DropDown
 
 <dropdown-component />
 
-### Simple example of use
+### Examples
+
+#### Simple Example
 
 ```html
-<t-button variant="primary">Primary button</t-button>
-<t-button variant="secondary">Secondary button</t-button>
-<t-button size="lg">Large button</t-button>
+<t-dropdown text="Im a happy button">
+  <ul>
+    <li>
+      <a 
+        href="#" 
+        class="block no-underline px-4 py-2 hover:bg-blue-500 hover:text-white"
+      >My orders</a>
+    </li>
+    <li>
+      <a 
+        href="#" 
+        class="block no-underline px-4 py-2 hover:bg-blue-500 hover:text-white"
+      >Account settings</a>
+    </li>
+    <li class="border-b"></li>
+    <li>
+      <a 
+        href="#" 
+        class="block no-underline px-4 py-2 hover:bg-blue-500 hover:text-white"
+      >Sign out</a>
+    </li>
+  </ul>
+</t-dropdown>
+```
+
+#### Update child TButton classes (or any TButton prop)
+
+```html
+<t-dropdown :button-props="{ baseClass: 'shadow-md block rounded' }">
+  <ul>
+    <li>
+      <a 
+        href="#" 
+        class="block no-underline px-4 py-2 hover:bg-blue-500 hover:text-white"
+      >My orders</a>
+    </li>
+    ...
+  </ul>
+</t-dropdown>
+```
+
+#### Add HTML label
+
+```html
+<t-dropdown>
+ <template v-slot:button-content>
+    <span>Hello <strong>Alfonso</strong>!</span>
+  </template>
+  <ul>
+    <li>
+      <a 
+        href="#" 
+        class="block no-underline px-4 py-2 hover:bg-blue-500 hover:text-white"
+      >My orders</a>
+    </li>
+    ...
+  </ul>
+</t-dropdown>
+```
+
+#### Update child TButton classes (or any TButton prop)
+
+```html
+<t-dropdown :button-props="{ baseClass: 'shadow-md block rounded' }">
+  <ul>
+    <li>
+      <a 
+        href="#" 
+        class="block no-underline px-4 py-2 hover:bg-blue-500 hover:text-white"
+      >My orders</a>
+    </li>
+    ...
+  </ul>
+</t-dropdown>
 ```
 
 ### Attributes / props
 
-| Property    | Type        | Default value | Accepted values |
-|---          |---          |---      |--- |
-| id          | String      | null      | _Any valid type_ |
-| autofocus   | Boolean     | false     | _Any valid type_ |
-| disabled    | Boolean     | false     | _Any valid type_ |
-| name        | String      | null      | _Any valid type_ |
-| tabindex    | String / Number | null      | _Any valid type_ |
-| value       | String / Number | null      | _Any valid type_ |
-| type        | String      | 'button'      | _Any valid type_ |
-| variant        | String      | undefined      | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success' |
-| size        | String      | undefined      | 'sm', 'lg' |
+| Property      | Type    | Default value | Accepted values                                              | Description                                                  |
+| ------------- | ------- | ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| variant       | String  | undefined     | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success' |                                                              |
+| size          | String  | undefined     | 'sm', 'lg'                                                   |                                                              |
+| tagName       | String  | 'div'         | Any valid HTML tag                                           | The component wrapper tag                                    |
+| buttonTagName | String  | 'button'      | 'button', 'a'                                                | The button Tag                                               |
+| disabled      | Boolean | false         | true, false                                                  |                                                              |
+| buttonProps   | Object  | {}            |                                                              | All the attributes in the object will be used as props in the child TButton on this component |
+
+### Inherited vue-popper props [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
+
+| Props               | Type    | Default | Description                                                  |
+| ------------------- | :------ | ------- | ------------------------------------------------------------ |
+| delay-on-mouse-over | Number  | 10      | Delay in ms before showing popper during a mouse over        |
+| delay-on-mouse-out  | Number  | 10      | Delay in ms before hiding popper during a mouse out          |
+| append-to-body      | Boolean | false   |                                                              |
+| visible-arrow       | Boolean | true    |                                                              |
+| force-show          | Boolean | false   |                                                              |
+| trigger             | String  | hover   | Optional value: hover or click                               |
+| enter-active-class  | String  | null    |                                                              |
+| leave-active-class  | String  | null    |                                                              |
+| transition          | String  | empty   |                                                              |
+| options             | Object  | {}      | [popper.js](https://popper.js.org/popper-documentation.html) options |
+| stop-propagation    | Boolean | false   |                                                              |
+| prevent-default     | Boolean | false   |                                                              |
 
 ### Classes related attributes / props
 
-| Property          | Description                       |
-|---                |---                            |
-| baseClass         | Base button class (never changes)                      |
-| defaultClass      | Classes for the default button variant   |
-| primaryClass      | Classes for the primary button variant   |
-| secondaryClass    | Classes for the secondary button variant   |
-| tertiaryClass     | Classes for the tertiary button variant   |
-| successClass      | Classes for the success button variant   |
-| dangerClass       | Classes for the danger button variant   |
-| warningClass      | Classes for the warning button variant   |
-| disabledClass     | Classes for the disabled button variant (Added to the variant) |
-| defaultSizeClass  | Classes for the default size button (Added to the variant) |
-| largeSizeClass    | Classes for the large size button (Added to the variant) |
-| smallSizeClass    | Classes for the small size button (Added to the variant) |
+| Property      | Description                 |
+| ------------- | --------------------------- |
+| baseClass     | Base dropdown wrapper class |
+| dropdownClass | Dropdown class              |
+| disabledClass | Disabled wrapper class      |
 
 ### Events
 
-| Event   | Arguments                   | Description   |
-|---    |---                      |---      |
-| focus   | FocusEvent                  | Emitted when the button is focused  |
-| blur    | FocusEvent                  | Emitted when the button is blurred  |
-| click   | MouseEvent                  | Emitted when the button is clicked  |
+| Event | Arguments  | Description                        |
+| ----- | ---------- | ---------------------------------- |
+| focus | FocusEvent | Emitted when the button is focused |
+| blur  | FocusEvent | Emitted when the button is blurred |
+| click | MouseEvent | Emitted when the button is clicked |
+
+### Inherited vue-popper events [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
+
+| Event          | Arguments       | Description              |
+| -------------- | --------------- | ------------------------ |
+| created        | context[Object] | Created popper component |
+| show           | context[Object] | Show popover             |
+| hide           | context[Object] | Hide popover             |
+| document-click | context[Object] |                          |
+

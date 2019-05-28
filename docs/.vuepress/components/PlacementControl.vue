@@ -5,7 +5,7 @@
     </span>
 
     <t-radio-group
-      name="variant"
+      name="placement"
       v-model="currentValue"
       :options="options"
       option-class="flex items-center"

@@ -2,8 +2,8 @@
   <popper
     ref="popper"
     :key="rerenderKey"
-    tag-name="div"
-    :class="wrapperClass"
+    :tag-name="tagName"
+    :class="currentClass"
     :options="allOptions"
     :trigger="trigger"
     :disabled="disabled"
@@ -17,10 +17,10 @@
     :stop-propagation="stopPropagation"
     :prevent-default="preventDefault"
     :visible-arrow="false"
-    @created="$emit('created')"
-    @show="onShow"
-    @hide="onHide"
-    @document-click="$emit('document-click')"
+    @created="$emit('created', $event)"
+    @show="onShow($event)"
+    @hide="onHide($event)"
+    @document-click="$emit('document-click', $event)"
   >
     <div :class="dropdownClass">
       <slot />
@@ -28,12 +28,14 @@
 
     <t-button 
       slot="reference"
-      :value="value"
-      :type="type"
+      :disabled="disabled"
       :variant="variant"
       :active="shown"
       :size="size"
-      tag-name="a"
+      :tag-name="buttonTagName"
+      v-bind="buttonProps"
+      @focus="$emit('focus', $event)"
+      @click="$emit('click', $event)"
     >
       <slot name="button-content">
         {{ text }}
@@ -55,11 +57,9 @@ import Popper from 'vue-popperjs';
 import TButton from '../elements/TButton';
 
 const {
-  wrapperClass,
-  buttonClass,
-  activeButtonClass,
-  inactiveButtonClass,
+  baseClass,
   dropdownClass,
+  disabledClass,
 } = TDropdownTheme
 
 export default {
@@ -71,11 +71,11 @@ export default {
   },
 
   props: {
-    value: {
-      type: [String, Number],
-      default: null
+    tagName: {
+      type: String,
+      default: 'div'
     },
-    type: {
+    buttonTagName: {
       type: String,
       default: 'button'
     },
@@ -93,30 +93,9 @@ export default {
         return value === null || ['lg', 'sm'].indexOf(value) !== -1
       }
     },
-
     text: {
       type: String,
       default: ''
-    },
-    wrapperClass: {
-      type: [String, Object, Array],
-      default: wrapperClass
-    },
-    buttonClass: {
-      type: [String, Object, Array],
-      default: buttonClass
-    },
-    activeButtonClass: {
-      type: [String, Object, Array],
-      default: buttonClass
-    },
-    inactiveButtonClass: {
-      type: [String, Object, Array],
-      default: buttonClass
-    },
-    dropdownClass: {
-      type: [String, Object, Array],
-      default: dropdownClass
     },
     disabled: {
       type: Boolean,
@@ -174,6 +153,22 @@ export default {
       type: Boolean,
       default: false
     },
+    baseClass: {
+      type: [String, Object, Array],
+      default: baseClass
+    },
+    dropdownClass: {
+      type: [String, Object, Array],
+      default: dropdownClass
+    },
+    disabledClass: {
+      type: [String, Object, Array],
+      default: disabledClass
+    },
+    buttonProps: {
+      type: Object,
+      default: () => {}
+    },
   },
 
   data () {
@@ -191,6 +186,30 @@ export default {
           placement: this.placement
         }
       }
+    },
+    /**
+     * The default classes for the button
+     * 
+     * @return {Array}
+     */
+    currentClass () {
+      let classes = [
+        `${this.$options._componentTag}`,
+        `${this.$options._componentTag}-size-${ this.size || 'default' }`,
+      ]
+
+      if (this.baseClass) {
+        classes.push(this.baseClass)
+      }
+      
+      if (this.disabled) {
+        classes.push(`${this.$options._componentTag}-disabled`)
+        if (this.disabledClass) {
+          classes.push(this.disabledClass)
+        }
+      }
+
+      return classes
     }
   },
 
@@ -204,13 +223,13 @@ export default {
   },
 
   methods: {
-    onShow () {
+    onShow (e) {
       this.shown = true
-      this.$emit('show')
+      this.$emit('show', e)
     },
-    onHide () {
+    onHide (e) {
       this.shown = false
-      this.$emit('show')
+      this.$emit('show', e)
     },
     /**
      * Change the key forces to the component to re-render

@@ -31,7 +31,7 @@
   "dependencies": {
     "lodash.isequal": "^4.5.0",
     "vue": "^2.6.10",
-    "vue-popperjs": "^2.0.3"
+    "vue-popperjs": "git+https://github.com/alfonsobries/vue-popper.git"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.5",
