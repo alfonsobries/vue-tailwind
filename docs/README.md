@@ -1,6 +1,6 @@
 # Vue-Tailwind 
 
-**VueTailwind** is a set of HTML components powered by Vuejs that doesnt depends of any CSS frameworks but works great with [TailwindCss](https://tailwindcss.com).
+**VueTailwind** is a set of Vue components with configurable classes that don't depend on any CSS frameworks but works fantastic with [TailwindCss](https://tailwindcss.com).
 
 That means that you can define your own classes for every component according to his status and the unique style of your application.
 
@@ -20,7 +20,7 @@ yarn add vue-tailwind
 
 2. Configure your project to use `vue-tailwind` 
 
-2.1 By using the default theme for Tailwindcss:
+2.1 Do nothing if you want ot use the default theme for TailwindCss:
 
 ```js
 import Vue from 'vue'
@@ -29,7 +29,7 @@ import VueTailwind from 'vue-tailwind'
 Vue.use(VueTailwind)
 ```
 
-2.2 Or better create your theme:
+2.2 Or better yet, create your own theme:
 
 ```js
 // `./myOwnTheme.js`
@@ -63,6 +63,9 @@ const MyOwnTheme = {
   TRadioGroup: {
     // ...
   },
+  TDropdown: {
+    // ...
+  },
 }
 
 export const {
@@ -73,6 +76,7 @@ export const {
   TRadio: TRadioTheme,
   TCheckbox: TCheckboxTheme,
   TRadioGroup: TRadioGroupTheme,
+  TDropdown: TDropdownTheme,
 } = MyOwnTheme
 
 export default MyOwnTheme
@@ -88,7 +92,7 @@ Vue.use(VueTailwind, {
 })
 ```
 
-3. Using a postcss plugin? Add your theme file to the postcss config (or the default theme if using the default):
+3. Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
 ```js
 // postcss.config.js (from https://tailwindcss.com/docs/controlling-file-size#setting-up-purgecss)
 const purgecss = require('@fullhuman/postcss-purgecss')({
@@ -117,7 +121,7 @@ module.exports = {
 
 ## Whats next?
 
-The idea is to create a big set of common components using the same philosophy of configurable elements that could be adapted to your project style:
+The idea is to create a big set of common components using the same philosophy: Configurable elements that could be adapted to your project style:
 
 For now this are the priorities (subject to change).
 
@@ -133,8 +137,8 @@ For now this are the priorities (subject to change).
 **Components**
 - [ ] Modal
 - [ ] Tooltip
-- [ ] Dropdown
 - [ ] Progress bar
 
 ## Contribute
-Do you like this project? Contribute!, any help is welcome. (Im not an english speaker so also any comments in my redaction are very welcome)
+Do you like this project? Contribute!, Any help is welcome. (Im not an english speaker so also any comments on my redaction are welcome :D).
+
