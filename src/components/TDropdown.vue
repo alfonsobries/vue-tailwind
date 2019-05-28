@@ -2,6 +2,7 @@
   <popper
     ref="popper"
     :key="rerenderKey"
+    tag-name="div"
     :class="wrapperClass"
     :options="allOptions"
     :trigger="trigger"
@@ -32,6 +33,7 @@
       :variant="variant"
       :active="shown"
       :size="size"
+      tag-name="a"
     >
       <slot name="button-content">
         {{ text }}
