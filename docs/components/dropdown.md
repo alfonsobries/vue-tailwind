@@ -99,6 +99,7 @@ lang: en-US
 | tagName       | String  | 'div'         | Any valid HTML tag                                           | The component wrapper tag                                    |
 | buttonTagName | String  | 'button'      | 'button', 'a'                                                | The button Tag                                               |
 | disabled      | Boolean | false         | true, false                                                  |                                                              |
+| placement      | String | 'auto'         | 'auto', 'top', 'right', 'bottom', 'left' *and adding the suffix '-start' or '-end', example: 'top-start'...* |                                                              |
 | buttonProps   | Object  | {}            |                                                              | All the attributes in the object will be used as props in the child TButton on this component |
 
 ### Inherited vue-popper props [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
