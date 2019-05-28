@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-bundle": "vue-cli-service build --target lib --name vue-tailwind ./src/elements/index.js",
+    "build-bundle": "vue-cli-service build --target lib --name vue-tailwind ./src/index.js",
     "lint:test": "vue-cli-service lint --no-fix",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
