@@ -71,9 +71,9 @@ const DefaultTheme = {
     labelClass: 'ml-1',
   },
   TCard: {
-    baseClass: 'w-full rounded border',
+    baseClass: 'bg-white w-full rounded border',
     headerClass: 'px-6 py-3 text-xl border-b',
-    bodyClass: 'px-6 py-3',
+    bodyClass: 'p-6',
     footerClass: 'px-6 py-3 border-t',
   },
   TDropdown: {

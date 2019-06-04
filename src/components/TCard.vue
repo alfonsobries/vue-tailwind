@@ -27,9 +27,7 @@
         ref="footer"
         :class="footerClass"
       >
-        <slot
-          name="footer"
-        />
+        <slot name="footer" />
       </div>
     </template>
   </component>

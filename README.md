@@ -143,7 +143,8 @@ For now this are the priorities (subject to change).
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
 **Components**
-- [ ] Modal (In progres...)
+- [ ] Input group (In progres...)
+- [ ] Modal
 - [ ] Tooltip
 - [ ] Progress bar
 
