@@ -5,9 +5,11 @@ lang: en-US
 
 # Checkbox
 
+## Playground
+
 <checkbox-field />
 
-### Simple example of use
+## Basic example
 
 ```html
 <label
@@ -25,7 +27,7 @@ lang: en-US
 </label>
 ```
 
-### Attributes / props
+## Props
 
 | Property    | Type        | Default value | Accepted values |
 |---      |---        |---      |---      |
@@ -42,7 +44,7 @@ lang: en-US
 | checked    | Boolean | false   | true, false |
 | indeterminate    | Boolean | false   | true, false |
 
-### Events
+## Events
 
 | Event   | Arguments                   | Description   |
 |---      |---                          |---      |
@@ -51,7 +53,7 @@ lang: en-US
 | focus   | FocusEvent                  | Emitted when the checkbox is focused  |
 | blur    | FocusEvent                  | Emitted when the checkbox is blurred  |
 
-### Custom styles
+## Custom styles
 
 What if you need some custom checkbox? Of course we can do it but for now we will need to define some CSS, check at this example:
 

@@ -5,9 +5,11 @@ lang: en-US
 
 # Select
 
+## Playground
+
 <select-field />
 
-### Simple example of use
+## Basic example
 
 ```html
 <t-select
@@ -21,7 +23,7 @@ lang: en-US
 ```
 
 
-### Attributes / props
+## Props
 
 | Property    | Type        | Default value | Accepted values |
 |---      |---        |---      |---      |
@@ -37,7 +39,7 @@ lang: en-US
 | status        | String / Boolean  | null        | true, false, 'success', 'error', 'warning' |
 | size        | String          | null        | 'sm', 'lg' |
 
-### Classes related attributes / props
+## Classes related props
 
 | Property        | Description                                                         |
 |---                    |---                                                            |
@@ -55,11 +57,11 @@ lang: en-US
 | arrowWrapperClass     | Classes for the select box arrow wrapper                      |
 | arrowClass            | Classes for the select box arrow                              |
 
-### Options format
+## Options format
 
 The component accepts the options in different formats:
 
-#### Array of objects
+### Array of objects
 
 ```html
 <!-- Value, text attributes (preferred default) -->
@@ -76,7 +78,7 @@ The component accepts the options in different formats:
 </select>
 ```
 
-#### Object with value:text pairs
+### Object with value:text pairs
 ```html
 <t-select :options="{ A: 'Option A', B: 'Option B', C: 'Option C' }" />
 
@@ -88,7 +90,7 @@ The component accepts the options in different formats:
 </select>
 ```
 
-#### Array of strings
+### Array of strings
 ```html
 <t-select :options="['Red', 'Blue', 'Yellow']" />
 
@@ -99,7 +101,7 @@ The component accepts the options in different formats:
   <option value="Yellow">Yellow</option>
 </select>
 ```
-#### Array of numbers
+### Array of numbers
 ```html
 <t-select :options="[18, 19, 20]" />
 
@@ -111,7 +113,7 @@ The component accepts the options in different formats:
 </select>
 ```
 
-### Events
+## Events
 
 | Event   | Arguments                   | Description   |
 |---    |---                      |---      |

@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
   "dependencies": {
     "lodash.isequal": "^4.5.0",
     "vue": "^2.6.10",
-    "vue-popperjs": "git+https://github.com/alfonsobries/vue-popper.git"
+    "vue-popperjs": "^2.0.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.5",

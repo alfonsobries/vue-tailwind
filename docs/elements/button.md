@@ -5,9 +5,11 @@ lang: en-US
 
 # Button
 
+## Playground
+
 <button-field />
 
-### Simple example of use
+## Basic example
 
 ```html
 <t-button variant="primary">Primary button</t-button>
@@ -15,7 +17,7 @@ lang: en-US
 <t-button size="lg">Large button</t-button>
 ```
 
-### Attributes / props
+## Props
 
 | Property    | Type        | Default value | Accepted values |
 |---          |---          |---      |--- |
@@ -33,7 +35,7 @@ lang: en-US
 
 *Note:* when the `href` is set it changes the tagname to `a`
 
-### Classes related attributes / props
+## Classes related props
 
 | Property          | Description                       |
 |---                |---                            |
@@ -50,7 +52,7 @@ lang: en-US
 | largeSizeClass    | Classes for the large size button (Added to the variant) |
 | smallSizeClass    | Classes for the small size button (Added to the variant) |
 
-### Events
+## Events
 
 | Event   | Arguments                   | Description   |
 |---    |---                      |---      |

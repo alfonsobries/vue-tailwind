@@ -5,9 +5,11 @@ lang: en-US
 
 # Radio
 
+## Playground
+
 <radio-field />
 
-### Simple example of use
+## Basic example
 
 ```html
 <label
@@ -26,7 +28,7 @@ lang: en-US
 </label>
 ```
 
-### Attributes / props
+## Props
 
 | Property    | Type        | Default value | Accepted values |
 |---      |---        |---      |---      |
@@ -41,7 +43,7 @@ lang: en-US
 | value (input value)    | String / Object / Number / Boolean   | 'on'   | _Any valid type_ |
 | checked    | Boolean / String    | false   | true, false, 'checked' |
 
-### Classes related attributes / props
+## Classes related props
 
 The radio buttons doesnt accept a lot of styles so you can only define the baseClass.
 
@@ -49,7 +51,7 @@ The radio buttons doesnt accept a lot of styles so you can only define the baseC
 |---                    |---                                                            |
 | baseClass             | Base radio button class                                       |
 
-### Events
+## Events
 
 | Event   | Arguments                   | Description   |
 |---      |---                          |---      |
@@ -58,7 +60,7 @@ The radio buttons doesnt accept a lot of styles so you can only define the baseC
 | focus   | FocusEvent                  | Emitted when the radio is focused  |
 | blur    | FocusEvent                  | Emitted when the radio is blurred  |
 
-### Custom styles
+## Custom styles
 
 What if you need some custom radio buttons? Of course we can do it but for now we will need to define some CSS, check at this example:
 

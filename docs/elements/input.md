@@ -5,15 +5,17 @@ lang: en-US
 
 # Text input
 
+## Playground
+
 <text-input />
 
-### Simple example of use
+## Basic example
 
 ```html
 <t-input v-model="model" name="my-input"/>
 ```
 
-### Attributes / Props
+## Props
 
 | Property		| Type 				| Default value | Accepted values |
 |---			|---				|---			|---				|
@@ -36,7 +38,7 @@ lang: en-US
 | status        | String / Boolean  | null     		| true, false, 'success', 'error', 'warning' |
 | size       	| String      		| null      	| 'sm', 'lg' |
 
-### Classes related attributes / props
+## Classes related props
 
 | Property				| Description												|
 |---					|---														|
@@ -50,7 +52,7 @@ lang: en-US
 | largeSizeClass		| Classes when the input has the size defined as large (`lg`) |
 | smallSizeClass		| Classes when the input has the size defined as small (`sm`) |
 
-### Events
+## Events
 
 | Event		| Arguments 								| Description 	|
 |---		|---										|---			|

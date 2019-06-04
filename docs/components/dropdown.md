@@ -1,13 +1,16 @@
 ---
 title: DropDown
 lang: en-US
+
 ---
 
 # DropDown
 
+## Playground
+
 <dropdown-component />
 
-### Examples
+## Examples
 
 #### Simple Example
 
@@ -88,36 +91,33 @@ lang: en-US
 </t-dropdown>
 ```
 
-### Attributes / props
+## Props
 
-| Property      | Type    | Default value | Accepted values                                              | Description                                                  |
-| ------------- | ------- | ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| variant       | String  | undefined     | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success' |                                                              |
-| size          | String  | undefined     | 'sm', 'lg'                                                   |                                                              |
-| tagName       | String  | 'div'         | Any valid HTML tag                                           | The component wrapper tag                                    |
-| buttonTagName | String  | 'button'      | 'button', 'a'                                                | The button Tag                                               |
-| disabled      | Boolean | false         | true, false                                                  |                                                              |
-| placement      | String | 'auto'         | 'auto', 'top', 'right', 'bottom', 'left' *and adding the suffix '-start' or '-end', example: 'top-start'...* |                                                              |
-| buttonProps   | Object  | {}            |                                                              | All the attributes in the object will be used as props in the child TButton on this component |
+| Property                                                     | Type    | Default value | Accepted values                                              | Description                                                  |
+| ------------------------------------------------------------ | ------- | ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| variant                                                      | String  | undefined     | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success' |                                                              |
+| size                                                         | String  | undefined     | 'sm', 'lg'                                                   |                                                              |
+| tagName                                                      | String  | 'div'         | Any valid HTML tag                                           | The component wrapper tag                                    |
+| buttonTagName                                                | String  | 'button'      | 'button', 'a'                                                | The button Tag                                               |
+| disabled                                                     | Boolean | false         | true, false                                                  |                                                              |
+| placement                                                    | String  | 'auto'        | 'auto', 'top', 'right', 'bottom', 'left' *and adding the suffix '-start' or '-end', example: 'top-start'...* |                                                              |
+| buttonProps                                                  | Object  | {}            |                                                              | All the attributes in the object will be used as props in the child TButton on this component |
+| delay-on-mouse-over <span class="font-bold text-sm text-gray-500">1</span> | Number  | 10            | Delay in ms before showing popper during a mouse over        |                                                              |
+| delay-on-mouse-out  <span class="font-bold text-sm text-gray-500">1</span> | Number  | 10            | Delay in ms before hiding popper during a mouse out          |                                                              |
+| append-to-body <span class="font-bold text-sm text-gray-500">1</span> | Boolean | false         |                                                              |                                                              |
+| visible-arrow <span class="font-bold text-sm text-gray-500">1</span> | Boolean | true          |                                                              |                                                              |
+| force-show <span class="font-bold text-sm text-gray-500">1</span> | Boolean | false         |                                                              |                                                              |
+| trigger  <span class="font-bold text-sm text-gray-500">1</span> | String  | hover         | Optional value: hover or click                               |                                                              |
+| enter-active-class <span class="font-bold text-sm text-gray-500">1</span> | String  | null          |                                                              |                                                              |
+| leave-active-class <span class="font-bold text-sm text-gray-500">1</span> | String  | null          |                                                              |                                                              |
+| transition  <span class="font-bold text-sm text-gray-500">1</span> | String  | empty         |                                                              |                                                              |
+| options  <span class="font-bold text-sm text-gray-500">1</span> | Object  | {}            | [popper.js](https://popper.js.org/popper-documentation.html) options |                                                              |
+| stop-propagation <span class="font-bold text-sm text-gray-500">1</span> | Boolean | false         |                                                              |                                                              |
+| prevent-default   <span class="font-bold text-sm text-gray-500">1</span> | Boolean | false         |                                                              |                                                              |
 
-### Inherited vue-popper props [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
+<span class="font-bold text-sm text-gray-500">1</span> Props inherited from vue-popper dependency [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
 
-| Props               | Type    | Default | Description                                                  |
-| ------------------- | :------ | ------- | ------------------------------------------------------------ |
-| delay-on-mouse-over | Number  | 10      | Delay in ms before showing popper during a mouse over        |
-| delay-on-mouse-out  | Number  | 10      | Delay in ms before hiding popper during a mouse out          |
-| append-to-body      | Boolean | false   |                                                              |
-| visible-arrow       | Boolean | true    |                                                              |
-| force-show          | Boolean | false   |                                                              |
-| trigger             | String  | hover   | Optional value: hover or click                               |
-| enter-active-class  | String  | null    |                                                              |
-| leave-active-class  | String  | null    |                                                              |
-| transition          | String  | empty   |                                                              |
-| options             | Object  | {}      | [popper.js](https://popper.js.org/popper-documentation.html) options |
-| stop-propagation    | Boolean | false   |                                                              |
-| prevent-default     | Boolean | false   |                                                              |
-
-### Classes related attributes / props
+## Classes related props
 
 | Property      | Description                 |
 | ------------- | --------------------------- |
@@ -125,20 +125,17 @@ lang: en-US
 | dropdownClass | Dropdown class              |
 | disabledClass | Disabled wrapper class      |
 
-### Events
+## Events
 
-| Event | Arguments  | Description                        |
-| ----- | ---------- | ---------------------------------- |
-| focus | FocusEvent | Emitted when the button is focused |
-| blur  | FocusEvent | Emitted when the button is blurred |
-| click | MouseEvent | Emitted when the button is clicked |
+| Event                                                        | Arguments       | Description                        |
+| ------------------------------------------------------------ | --------------- | ---------------------------------- |
+| focus                                                        | FocusEvent      | Emitted when the button is focused |
+| blur                                                         | FocusEvent      | Emitted when the button is blurred |
+| click                                                        | MouseEvent      | Emitted when the button is clicked |
+| created <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Created popper component           |
+| show <span class="font-bold text-sm text-gray-500">1</span>  | context[Object] | Show popover                       |
+| hide     <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Hide popover                       |
+| document-click <span class="font-bold text-sm text-gray-500">1</span> | context[Object] |                                    |
 
-### Inherited vue-popper events [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
-
-| Event          | Arguments       | Description              |
-| -------------- | --------------- | ------------------------ |
-| created        | context[Object] | Created popper component |
-| show           | context[Object] | Show popover             |
-| hide           | context[Object] | Hide popover             |
-| document-click | context[Object] |                          |
+<span class="font-bold text-sm text-gray-500">1</span> Events inherited from vue-popper dependency [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
 

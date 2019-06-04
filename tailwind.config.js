@@ -487,6 +487,9 @@ module.exports = {
   plugins: [
     function({ addBase, config }) {
       addBase({
+        'a': {
+          color: config('theme.colors.teal.500'),
+        },
         'h1': {
           fontSize: config('theme.fontSize.2xl'),
           fontWeight: config('theme.fontWeight.bold')

@@ -5,17 +5,17 @@ lang: en-US
 
 # Textarea
 
+## Playground
+
 <text-area-field />
 
-### Simple example of use
+## Basic example
 
 ```html
 <t-textarea v-model="model" name="my-textarea"/>
 ```
 
-
-### Attributes
-
+## Props
 
 | Property		| Type 				| Default value | Accepted values |
 |---			|---				|---			|---				|
@@ -32,7 +32,7 @@ lang: en-US
 | status        | String / Boolean  | null     		| true, false, 'success', 'error', 'warning' |
 | size       	| String      		| null      	| 'sm', 'lg' |
 
-### Classes related attributes / props
+## Classes related props
 
 | Property				| Description												|
 |---					|---														|
@@ -46,7 +46,7 @@ lang: en-US
 | largeSizeClass		| Classes when the textarea has the size defined as large (`lg`) |
 | smallSizeClass		| Classes when the textarea has the size defined as small (`sm`) |
 
-### Events
+## Events
 
 | Event		| Arguments 									| Description 	|
 |---		|---											|---			|
