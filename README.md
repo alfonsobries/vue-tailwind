@@ -67,6 +67,9 @@ const MyOwnTheme = {
   TRadioGroup: {
     // ...
   },
+  TCard: {
+    // ...
+  },
   TDropdown: {
     // ...
   },
@@ -80,6 +83,7 @@ export const {
   TRadio: TRadioTheme,
   TCheckbox: TCheckboxTheme,
   TRadioGroup: TRadioGroupTheme,
+  TCard: TCardTheme,
   TDropdown: TDropdownTheme,
 } = MyOwnTheme
 
@@ -139,8 +143,7 @@ For now this are the priorities (subject to change).
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
 **Components**
-- [ ] Card
-- [ ] Modal
+- [ ] Modal (In progres...)
 - [ ] Tooltip
 - [ ] Progress bar
 
