@@ -8,17 +8,19 @@ import TRadio from './elements/TRadio.vue'
 import TRadioGroup from './elements/TRadioGroup.vue'
 import TCheckbox from './elements/TCheckbox.vue'
 
+import TCard from './components/TCard.vue'
 import TDropdown from './components/TDropdown.vue'
 
 const components = {
-  TInput: TInput,
-  TTextarea: TTextarea,
-  TSelect: TSelect,
-  TButton: TButton,
-  TRadio: TRadio,
-  TRadioGroup: TRadioGroup,
-  TCheckbox: TCheckbox,
-  TDropdown: TDropdown,
+  TInput,
+  TTextarea,
+  TSelect,
+  TButton,
+  TRadio,
+  TRadioGroup,
+  TCheckbox,
+  TDropdown,
+  TCard,
 }
 
 /**

@@ -25,8 +25,9 @@ module.exports = {
           title: 'Components',
           collapsable: false,
           children: [
+            '/components/card',
             '/components/dropdown',
-        ]
+          ]
       }
     ]
   },

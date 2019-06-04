@@ -70,7 +70,12 @@ const DefaultTheme = {
     inputClass: '',
     labelClass: 'ml-1',
   },
-
+  TCard: {
+    baseClass: 'w-full rounded border',
+    headerClass: 'px-6 py-3 text-xl border-b',
+    bodyClass: 'px-6 py-3',
+    footerClass: 'px-6 py-3 border-t',
+  },
   TDropdown: {
     baseClass: '',
     dropdownClass: 'w-64 bg-white rounded border shadow-md py-2 z-10',
@@ -86,6 +91,7 @@ export const {
   TRadio: TRadioTheme,
   TCheckbox: TCheckboxTheme,
   TRadioGroup: TRadioGroupTheme,
+  TCard: TCardTheme,
   TDropdown: TDropdownTheme,
 } = DefaultTheme
 

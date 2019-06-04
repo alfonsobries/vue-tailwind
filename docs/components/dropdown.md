@@ -1,8 +1,6 @@
 ---
 title: DropDown
 lang: en-US
-
-
 ---
 
 # DropDown

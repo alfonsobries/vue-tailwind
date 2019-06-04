@@ -53,6 +53,10 @@ export default {
       type: [String, Number],
       default: null
     },
+    reset: {
+      type: Boolean,
+      default: false
+    },
     required: {
       type: Boolean,
       default: false
