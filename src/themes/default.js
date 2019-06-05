@@ -1,3 +1,5 @@
+import TInputGroup from './default/TInputGroup'
+
 const DefaultTheme = {
   TInput: {
     baseClass: 'border block w-full rounded',
@@ -70,6 +72,7 @@ const DefaultTheme = {
     inputClass: '',
     labelClass: 'ml-1',
   },
+  TInputGroup,
   TCard: {
     baseClass: 'bg-white w-full rounded border',
     headerClass: 'px-6 py-3 text-xl border-b',
@@ -91,6 +94,7 @@ export const {
   TRadio: TRadioTheme,
   TCheckbox: TCheckboxTheme,
   TRadioGroup: TRadioGroupTheme,
+  TInputGroup: TInputGroupTheme,
   TCard: TCardTheme,
   TDropdown: TDropdownTheme,
 } = DefaultTheme

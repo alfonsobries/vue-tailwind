@@ -1,5 +1,4 @@
 import VueTailwind from '../../src'
-
 export default ({
   Vue
 }) => {

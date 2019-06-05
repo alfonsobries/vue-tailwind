@@ -22,7 +22,7 @@ import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import { TRadioTheme } from '../themes/default.js'
 import handleClasses from '../mixins/handleClasses.js'
-const isEqual = require('lodash.isequal');
+import isEqual from 'lodash/isEqual';
 
 const {
   baseClass,

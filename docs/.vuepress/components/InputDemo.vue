@@ -8,10 +8,10 @@
         <slot name="controls" />
       </div>
     </div>
-    <div class="m-2">
+    <div v-if="$slots['value']" class="m-2">
       <slot name="value" />
     </div>
-    <div class="m-2">
+    <div v-if="$slots['value']" class="m-2">
       <slot name="classes" />
     </div>
   </div>

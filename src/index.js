@@ -1,3 +1,4 @@
+import merge from 'lodash/merge'
 import DefaultTheme from './themes/default.js'
 
 import TInput from './elements/TInput.vue'
@@ -10,6 +11,7 @@ import TCheckbox from './elements/TCheckbox.vue'
 
 import TCard from './components/TCard.vue'
 import TDropdown from './components/TDropdown.vue'
+import TInputGroup from './components/TInputGroup.vue'
 
 const components = {
   TInput,
@@ -20,6 +22,7 @@ const components = {
   TRadioGroup,
   TCheckbox,
   TDropdown,
+  TInputGroup,
   TCard,
 }
 
@@ -27,13 +30,16 @@ const components = {
  * Will extend the component with the merged classes added in the settings
  */
 function extendComponent (Vue, CurrentTheme, componentName) {
-  const propsDefaults = CurrentTheme[componentName]
+  const themeSettings = CurrentTheme[componentName]
+  const themeDefaultSettings = DefaultTheme[componentName]
 
-  let props = components[componentName].props
-
-  Object.keys(propsDefaults).forEach(key => {
+  const newSettings = merge(themeDefaultSettings, themeSettings)
+  
+  let { props } = components[componentName]
+  
+  Object.keys(newSettings).forEach(key => {
     const prop = {
-      default: propsDefaults[key]
+      default: () => newSettings[key]
     }
     props[key] = prop
   })

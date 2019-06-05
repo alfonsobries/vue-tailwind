@@ -27,6 +27,7 @@ module.exports = {
           children: [
             '/components/card',
             '/components/dropdown',
+            '/components/input-group',
           ]
       }
     ]

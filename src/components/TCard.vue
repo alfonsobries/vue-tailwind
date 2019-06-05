@@ -93,7 +93,6 @@ export default {
     currentClass () {
       let classes = [
         `${this.$options._componentTag}`,
-        `${this.$options._componentTag}-size-${ this.size || 'default' }`,
       ]
 
       if (this.baseClass) {

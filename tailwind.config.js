@@ -499,7 +499,7 @@ module.exports = {
           fontWeight: config('theme.fontWeight.bold')
         },
         'h3': {
-          fontSize: config('theme.fontSize.lg'),
+          fontSize: config('theme.fontSize.base'),
           fontWeight: config('theme.fontWeight.bold')
         },
       })
