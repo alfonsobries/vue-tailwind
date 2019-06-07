@@ -1,3 +1,20 @@
+// For convenience we organize every component classes in his own file, but if you are planning to
+// create your own theme (and you prefer) remember that you can also define the classes directly.
+// So instead of importing the file:
+// `import TInput from './default/TInput'`
+// 
+// You can define have all your classes in your theme file like:
+// ```
+// const TInput = {
+//   baseClass: 'border block w-full rounded',
+//   ...
+// }
+// const TTextarea = {
+//   ...
+// }
+// ...
+// ```
+
 import TInput from './default/TInput'
 import TTextarea from './default/TTextarea'
 import TSelect from './default/TSelect'
@@ -32,7 +49,7 @@ export {
   TRadioGroup,
   TInputGroup,
   TCard,
-  TDropdown
+  TDropdown,
 }
 
 export default DefaultTheme
