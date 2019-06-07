@@ -35,7 +35,7 @@
 <script>
 import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
-import { TRadioGroupTheme } from '../themes/default.js'
+import { TRadioGroup as TRadioGroupTheme } from '../themes/default.js'
 import TRadio from './TRadio'
 
 const {

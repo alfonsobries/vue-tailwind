@@ -20,9 +20,9 @@
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TRadioTheme } from '../themes/default.js'
 import handleClasses from '../mixins/handleClasses.js'
 import isEqual from 'lodash/isEqual';
+import { TRadio as TRadioTheme } from '../themes/default.js'
 
 const {
   baseClass,

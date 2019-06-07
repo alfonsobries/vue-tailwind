@@ -19,7 +19,7 @@
 
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
-import { TButtonTheme } from '../themes/default.js'
+import { TButton as TButtonTheme } from '../themes/default.js'
 
 const {
   baseClass,

@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { TDropdownTheme } from '../themes/default.js'
+import { TDropdown as TDropdownTheme } from '../themes/default.js'
 import Popper from 'vue-popperjs';
 import TButton from '../elements/TButton';
 

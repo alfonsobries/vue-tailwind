@@ -24,7 +24,7 @@
 import handleClasses from '../mixins/handleClasses.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TTextareaTheme } from '../themes/default.js'
+import { TTextarea as TTextareaTheme } from '../themes/default.js'
 
 const {
   baseClass,

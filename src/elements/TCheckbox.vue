@@ -20,9 +20,9 @@
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TCheckboxTheme } from '../themes/default.js'
 import handleClasses from '../mixins/handleClasses.js'
 const isEqual = require('lodash.isequal');
+import { TCheckbox as TCheckboxTheme } from '../themes/default.js'
 
 const {
   baseClass,
