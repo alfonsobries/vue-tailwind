@@ -5,21 +5,25 @@ const TInputGroup = {
       label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-gray-700',
       body: '',
       feedback: 'text-sm text-gray-700',
+      description: 'text-sm text-gray-700',
     },
     error: {
       label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-red-700',
       body: '',
       feedback: 'text-sm text-gray-700 text-red-700',
+      description: 'text-sm text-gray-700',
     },
     success: {
       label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-green-700',
       body: '',
       feedback: 'text-sm text-gray-700 text-green-700',
+      description: 'text-sm text-gray-700',
     },
     warning: {
       label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-yellow-700',
       body: '',
       feedback: 'text-sm text-gray-700 text-yellow-700',
+      description: 'text-sm text-gray-700',
     }
   }
 }
