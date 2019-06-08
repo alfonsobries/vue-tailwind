@@ -35,7 +35,7 @@ Vue.use(VueTailwind)
 
 2.2 Or better yet, create your own theme:
 
-Lets say, for example, that for the specif needs of your project the text inputs should has a *blue two width border* instead of the default border, the button should has *more rounded borders*, and the primary button should be *purple*.
+Lets say, for example, that for the specific needs of your project the text inputs should has a `blue two width border` instead of the default border, the button should has `more rounded borders`, and the primary button should be `purple`.
 
 :::
 Notice that you dont need to override all the classes settings, just the ones you want to override from `src/themes/default.js`
@@ -53,16 +53,15 @@ const TInput = {
 }
 
 const TButton = {
-  // Using rounded-lg instead of rounded
   // baseClass: 'border block rounded inline-flex items-center justify-center',
   // Use `rounded-lg` instead
   baseClass: 'rounded-lg border block inline-flex items-center justify-center',
   // primaryClass: 'text-white bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600',
-  // Use `purple`` button instead:
+  // Use `purple` button instead:
   primaryClass: 'text-white bg-purple-500 border-purple-500 hover:bg-purple-600 hover:border-purple-600',
 }
 
-// You should follow these syntax for export the variables in order to work:
+// You should follow the same syntax for export the variables:
 const MyOwnTheme = {
   TInput,
   TButton,
@@ -78,7 +77,7 @@ export default MyOwnTheme
 
 Finally add your custom theme when configure VueTailwind
 
-```js{2,5}
+```js {2,5}
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 import MyOwnTheme from './myOwnTheme.js'
@@ -136,5 +135,6 @@ For now this are the priorities (subject to change).
 - [ ] Progress bar
 
 ## Contribute
-Do you like this project? Contribute!, Any help is welcome. (Im not an english speaker so also any comments on my redaction are welcome :D).
+Do you like this project? Contribute!, Any help is welcome. (Im not an english speaker so also any comments on my redaction are welcome).
 
+Made with love by [@alfonsobries](https://twitter.com/alfonsobries)
