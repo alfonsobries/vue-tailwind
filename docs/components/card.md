@@ -161,3 +161,28 @@ lang: en-US
 </t-card>
 ```
 
+## Default theme settings
+
+<<< @/src/themes/default/TCard.js
+
+* Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
+
+```vue
+<t-card
+  base-class="bg-blue-500 text-white border-blue-500 rounded-lg border shadow-md p-6 z-10"
+>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem possimus nihil minus rerum aperiam, quidem, reprehenderit! Atque, facere inventore nam suscipit, excepturi nesciunt incidunt, explicabo error molestiae iure optio enim.</p>
+</t-card>
+```
+
+### The result:
+
+<t-card class="mt-2 bg-gray-100">
+<t-card
+  base-class="bg-blue-500 text-white border-blue-500 rounded-lg border shadow-md p-6 z-10"
+>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem possimus nihil minus rerum aperiam, quidem, reprehenderit! Atque, facere inventore nam suscipit, excepturi nesciunt incidunt, explicabo error molestiae iure optio enim.</p>
+</t-card>
+</t-card>
+
+
