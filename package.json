@@ -47,7 +47,7 @@
     "lodash": "^4.17.11",
     "tailwindcss": "^1.0.1",
     "vue-template-compiler": "^2.6.10",
-    "vuepress": "^1.0.0-alpha.47",
+    "vuepress": "^1.0.0",
     "webpack-dev-middleware": "^3.6.2"
   },
   "files": [

@@ -48,36 +48,7 @@ lang: en-US
 
 <<< @/src/themes/default/TInputGroup.js
 
-## Change theme
-
-Lets say that for your app you need a purple label. you dont need to define all the classes only
-the ones you want to override, as explained in the main page that could be done in two different ways:
-
-### 1. By overriding the default theme when installed:
-
-```js
-// You can set the settings directly
-Vue.use(VueTailwind, {
-  theme:{
-    TInputGroup: {
-      statusClass: {
-        default: {
-          label: 'block font-bold text-sm text-purple-700',
-        },
-      }
-    }
-  }
-})
-
-// Or load the settings from your own theme file
-import theme from './myOwnTheme.js'
-Vue.use(VueTailwind, {
-  theme: theme
-})
-```
-
-### 2. Or by using the classes props:
-
+* Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
 ```vue
 <t-input-group label="Your full name" :status-class="{
   default: {
