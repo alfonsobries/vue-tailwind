@@ -90,6 +90,18 @@ lang: en-US
 </t-dropdown>
 ```
 
+## Events
+
+| Event                                                        | Arguments       | Description                        |
+| ------------------------------------------------------------ | --------------- | ---------------------------------- |
+| focus                                                        | FocusEvent      | Emitted when the button is focused |
+| blur                                                         | FocusEvent      | Emitted when the button is blurred |
+| click                                                        | MouseEvent      | Emitted when the button is clicked |
+| created <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Created popper component           |
+| show <span class="font-bold text-sm text-gray-500">1</span>  | context[Object] | Show popover                       |
+| hide     <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Hide popover                       |
+| document-click <span class="font-bold text-sm text-gray-500">1</span> | context[Object] |
+
 ## Props
 
 | Property                                                     | Type    | Default value | Accepted values                                              | Description                                                  |
@@ -122,19 +134,30 @@ lang: en-US
 | ------------- | --------------------------- |
 | baseClass     | Base dropdown wrapper class |
 | dropdownClass | Dropdown class              |
-| disabledClass | Disabled wrapper class      |
-
-## Events
-
-| Event                                                        | Arguments       | Description                        |
-| ------------------------------------------------------------ | --------------- | ---------------------------------- |
-| focus                                                        | FocusEvent      | Emitted when the button is focused |
-| blur                                                         | FocusEvent      | Emitted when the button is blurred |
-| click                                                        | MouseEvent      | Emitted when the button is clicked |
-| created <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Created popper component           |
-| show <span class="font-bold text-sm text-gray-500">1</span>  | context[Object] | Show popover                       |
-| hide     <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Hide popover                       |
-| document-click <span class="font-bold text-sm text-gray-500">1</span> | context[Object] |                                    |
+| disabledClass | Disabled wrapper class      |                                    |
 
 <span class="font-bold text-sm text-gray-500">1</span> Events inherited from vue-popper dependency [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
+
+
+## Default theme settings
+
+<<< @/src/themes/default/TDropdown.js
+
+* Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
+```vue
+<t-dropdown
+  dropdown-class="w-64 bg-blue-500 text-white border-blue-500 rounded-lg border shadow-md p-6 z-10"
+  text="Super duper dropdown"
+>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem possimus nihil minus rerum aperiam, quidem, reprehenderit! Atque, facere inventore nam suscipit, excepturi nesciunt incidunt, explicabo error molestiae iure optio enim.</p>
+</t-dropdown>
+```
+
+### The result:
+
+<t-card class="mt-2 bg-gray-100">
+<t-dropdown text="Super duper dropdown" dropdown-class="w-64 bg-blue-500 text-white border-blue-500 rounded-lg border shadow-md p-6 z-10">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem possimus nihil minus rerum aperiam, quidem, reprehenderit! Atque, facere inventore nam suscipit, excepturi nesciunt incidunt, explicabo error molestiae iure optio enim.</p>
+</t-dropdown>
+</t-card>
 
