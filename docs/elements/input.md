@@ -15,6 +15,17 @@ lang: en-US
 <t-input v-model="model" name="my-input"/>
 ```
 
+## Events
+
+| Event		| Arguments 								| Description 	|
+|---		|---										|---			|
+| input		| String (The current value of the input)	| Emitted every time the value of the `v-model` change |
+| change	| String (The current value of the input)	| Emitted when the input is blurred and the value was changed since it was focused |
+| focus		| FocusEvent								| Emitted when the input is focused	|
+| blur		| FocusEvent								| Emitted when the input is blurred	|
+| keyup		| KeyboardEvent								| Emitted when on the input keyup event	|
+| keydown	| KeyboardEvent								| Emitted when on the input keydown event	|
+
 ## Props
 
 | Property		| Type 				| Default value | Accepted values |
@@ -52,13 +63,22 @@ lang: en-US
 | largeSizeClass		| Classes when the input has the size defined as large (`lg`) |
 | smallSizeClass		| Classes when the input has the size defined as small (`sm`) |
 
-## Events
+## Default theme settings
 
-| Event		| Arguments 								| Description 	|
-|---		|---										|---			|
-| input		| String (The current value of the input)	| Emitted every time the value of the `v-model` change |
-| change	| String (The current value of the input)	| Emitted when the input is blurred and the value was changed since it was focused |
-| focus		| FocusEvent								| Emitted when the input is focused	|
-| blur		| FocusEvent								| Emitted when the input is blurred	|
-| keyup		| KeyboardEvent								| Emitted when on the input keyup event	|
-| keydown	| KeyboardEvent								| Emitted when on the input keydown event	|
+<<< @/src/themes/default/TInput.js
+
+* Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
+
+```vue
+<t-input
+  base-class="border-2 block w-full rounded-lg shadow-inner bg-yellow-100 border-gray-3	00 focus:outline-none focus:shadow-outline"
+/>
+```
+
+### The result:
+
+<t-card class="mt-2 bg-gray-100">
+<t-input
+  base-class="border-2 block w-full rounded-lg shadow-inner bg-yellow-100 border-gray-300 focus:outline-none focus:shadow-outline"
+/>
+</t-card>

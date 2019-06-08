@@ -22,7 +22,6 @@ lang: en-US
 />
 ```
 
-
 ## Props
 
 | Property    | Type        | Default value | Accepted values |
@@ -121,3 +120,27 @@ The component accepts the options in different formats:
 | change  | String (The current value of the select)  | Emitted when the select is blurred and the value was changed since it was focused |
 | focus   | FocusEvent                  | Emitted when the select is focused  |
 | blur    | FocusEvent                  | Emitted when the select is blurred  |
+
+## Default theme settings
+
+<<< @/src/themes/default/TSelect.js
+
+* Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
+
+```vue
+<t-select
+  :options="['Yellow', 'Blue', 'Red']"
+  value="Blue"
+  base-class="block appearance-none w-full border-2 border-blue-300 pr-8 rounded-lg leading-tight bg-blue-100"
+/>
+```
+
+### The result:
+
+<t-card class="mt-2 bg-gray-100">
+<t-select
+  :options="['Yellow', 'Blue', 'Red']"
+  value="Blue"
+  base-class="block appearance-none w-full border-2 border-blue-300 pr-8 rounded-lg leading-tight bg-blue-100"
+/>
+</t-card>

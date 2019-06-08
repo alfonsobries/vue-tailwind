@@ -17,6 +17,14 @@ lang: en-US
 <t-button size="lg">Large button</t-button>
 ```
 
+## Events
+
+| Event   | Arguments                   | Description   |
+|---    |---                      |---      |
+| focus   | FocusEvent                  | Emitted when the button is focused  |
+| blur    | FocusEvent                  | Emitted when the button is blurred  |
+| click   | MouseEvent                  | Emitted when the button is clicked  |
+
 ## Props
 
 | Property    | Type        | Default value | Accepted values |
@@ -52,10 +60,26 @@ lang: en-US
 | largeSizeClass    | Classes for the large size button (Added to the variant) |
 | smallSizeClass    | Classes for the small size button (Added to the variant) |
 
-## Events
 
-| Event   | Arguments                   | Description   |
-|---    |---                      |---      |
-| focus   | FocusEvent                  | Emitted when the button is focused  |
-| blur    | FocusEvent                  | Emitted when the button is blurred  |
-| click   | MouseEvent                  | Emitted when the button is clicked  |
+## Default theme settings
+
+<<< @/src/themes/default/TButton.js
+
+* Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
+
+```vue
+<t-button
+  base-class="shadow border block rounded inline-flex items-center justify-center uppercase text-sm font-bold"
+  default-class="bg-gray-100 border-gray-100 hover:shadow-lg"
+>Hello 😎</t-button>
+```
+
+### The result:
+
+<t-card class="mt-2 bg-white">
+<t-button
+  base-class="shadow border block rounded inline-flex items-center justify-center uppercase text-sm font-bold"
+  default-class="bg-gray-100 border-gray-100 hover:shadow-lg"
+>Hello 😎</t-button>
+</t-card>
+

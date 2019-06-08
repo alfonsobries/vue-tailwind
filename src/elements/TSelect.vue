@@ -91,10 +91,6 @@ export default {
       type: Boolean,
       default: false
     },
-    status: {
-      type: [Boolean, String],
-      default: undefined
-    },
     baseClass: {
       type: [String, Object, Array],
       default: baseClass
