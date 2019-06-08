@@ -42,18 +42,14 @@ Notice that you dont need to override all the classes settings, just the ones yo
 const TInput = {
   // Notice that this will override the full `baseClass` setting so probably you want to keep some
   // of the clases and just replace the ones you want to override.
-  // Default original setting;
   // baseClass: 'border block w-full rounded',
-  // New setting:
   baseClass: 'border-2 border-blue-500 block w-full rounded',
 }
 
 const TButton = {
   // baseClass: 'border block rounded inline-flex items-center justify-center',
-  // Use `rounded-lg` instead
   baseClass: 'rounded-lg border block inline-flex items-center justify-center',
   // primaryClass: 'text-white bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600',
-  // Use `purple` button instead:
   primaryClass: 'text-white bg-purple-500 border-purple-500 hover:bg-purple-600 hover:border-purple-600',
 }
 
@@ -71,7 +67,7 @@ export {
 export default MyOwnTheme
 ```
 
-Finally add your custom theme when configure VueTailwind
+Finally add your custom theme when configure VueTailwind:
 
 ```js {2,5}
 import Vue from 'vue'
