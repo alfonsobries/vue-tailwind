@@ -29,7 +29,7 @@
 import handleClasses from '../mixins/handleClasses.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
-import { TInput as TInputTheme } from '../themes/default.js'
+import TInputTheme from '../themes/default/TInput'
 
 const {
   baseClass,

@@ -22,7 +22,7 @@ import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import handleClasses from '../mixins/handleClasses.js'
 import isEqual from 'lodash/isEqual'
-import { TCheckbox as TCheckboxTheme } from '../themes/default.js'
+import TCheckboxTheme from '../themes/default/TCheckbox'
 
 const {
   baseClass,

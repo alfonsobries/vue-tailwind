@@ -55,7 +55,7 @@
 import commonAttributes from '../mixins/commonAttributes.js'
 import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
-import { TSelect as TSelectTheme } from '../themes/default.js'
+import TSelectTheme from '../themes/default/TSelect'
 
 const {
   baseClass,

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { TCard as TCardTheme } from '../themes/default.js'
+import TCardTheme from '../themes/default/TCard'
 
 const {
   baseClass,

@@ -18,7 +18,7 @@
 <script>
 import isEqual from 'lodash/isEqual'
 import handleStatus from '../mixins/handleStatus.js'
-import { TInputGroup as TInputGroupTheme } from '../themes/default.js'
+import TInputGroupTheme from '../themes/default/TInputGroup'
 
 const {
   baseClass,
