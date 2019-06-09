@@ -14,7 +14,9 @@
           v-if="hasHeaderSlot"
           name="header"
         />
-        <template v-else-if="header">{{ header }}</template>
+        <template v-else-if="header">
+          {{ header }}
+        </template>
       </div>
       <div
         ref="body"
