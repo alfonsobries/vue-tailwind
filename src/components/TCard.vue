@@ -6,18 +6,18 @@
     <slot v-if="noBody" />
     <template v-else>
       <div
-        v-if="header || hasHeaderSlot"
+        v-if="hasHeaderSlot"
         ref="header"
         :class="headerClass"
       >
-        <slot
-          v-if="hasHeaderSlot"
-          name="header"
-        />
-        <template v-else-if="header">
-          {{ header }}
-        </template>
+        <slot name="header" />
       </div>
+      <div
+        v-else-if="header"
+        ref="header"
+        :class="headerClass"
+        v-text="header"
+      />
       <div
         ref="body"
         :class="bodyClass"
