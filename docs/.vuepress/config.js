@@ -25,6 +25,7 @@ module.exports = {
           title: 'Components',
           collapsable: false,
           children: [
+            '/components/alert',
             '/components/card',
             '/components/dropdown',
             '/components/input-group',
