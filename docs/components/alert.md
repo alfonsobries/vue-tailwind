@@ -17,7 +17,7 @@ lang: en-US
 | tagName          | String  | div           | Any vaild HTML                                              | the tag used as wrapper           |
 | dismissible      | Boolean | true          | true, false                                                 | If the alert is dismissible       |
 | show             | Boolean | false         | true, false                                                 | If the alert should be shown      |
-| timeout          | Number  | null          | Time in milliseconds before the alert should be auto hidden |                                   |
+| timeout          | Number  | null          | Any number                                                  | Time in milliseconds before the alert should be auto hidden |                                   |
 | closeButtonTitle | String  | 'Close'       | true, false                                                 | The title tag in the close button |
 
 ## Classes related props
