@@ -11,13 +11,11 @@ lang: en-US
 
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias sit perspiciatis laboriosam doloribus, aliquam, porro quasi reiciendis.</p>
 
-  </t-dropdown>
 </t-card>
 
 ```html
 <t-card>
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias sit perspiciatis laboriosam doloribus, aliquam, porro quasi reiciendis.</p>
-  </t-dropdown>
 </t-card>
 ```
 
@@ -45,13 +43,11 @@ lang: en-US
 
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci ab vitae, facilis. Blanditiis fugiat ducimus, consectetur dolorum! Ea nisi, corporis laborum, numquam in, dolores maxime odio possimus similique voluptas officia?</p>
 
-  </t-dropdown>
 </t-card>
 
 ```html
 <t-card header="Card with Header">
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci ab vitae, facilis. Blanditiis fugiat ducimus, consectetur dolorum! Ea nisi, corporis laborum, numquam in, dolores maxime odio possimus similique voluptas officia?</p>
-  </t-dropdown>
 </t-card>
 ```
 
@@ -133,7 +129,6 @@ lang: en-US
     </div>
   </template>
 
-  </t-dropdown>
 </t-card>
 
 ```html
@@ -145,7 +140,6 @@ lang: en-US
       <t-button size="sm" variant="primary">Download</t-button>
     </div>
   </template>
-  </t-dropdown>
 </t-card>
 ```
 
