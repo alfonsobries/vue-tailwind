@@ -149,7 +149,7 @@ lang: en-US
 </t-card>
 ```
 
-#### Card witouth body
+#### Card without body
 
 <t-card no-body class="mt-3">
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla optio, veritatis architecto debitis ab culpa dolores deleniti, vel aut eos repellendus libero, laborum perspiciatis, quibusdam doloremque aliquam amet sit eaque!</p>
