@@ -1,6 +1,7 @@
 module.exports = {
   title: 'VueTailwind',
   description: 'A configurable UI library styled with TailwindCSS',
+  ga: 'UA-142051519-1',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
