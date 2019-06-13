@@ -39,5 +39,13 @@ module.exports = {
       require('tailwindcss')('tailwind.config.js'),
       require('autoprefixer')()
     ]
-  }
+  },
+  plugins: [
+    [ 
+      '@vuepress/google-analytics',
+      {
+        'ga': 'UA-142051519-1'
+      }
+    ]  
+  ] 
 }
