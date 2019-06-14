@@ -44,7 +44,7 @@ export default {
   props: {
     tagName: {
       type: String,
-      default: 'button',
+      default: 'div',
       validator: function (value) {
         return ['button', 'a'].indexOf(value) !== -1
       }
