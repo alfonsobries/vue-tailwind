@@ -97,6 +97,7 @@ lang: en-US
 | focus                                                        | FocusEvent      | Emitted when the button is focused |
 | blur                                                         | FocusEvent      | Emitted when the button is blurred |
 | click                                                        | MouseEvent      | Emitted when the button is clicked |
+| dropdown-click                                               | context[Object] |  Emitted when the dropdown is clicked |
 | created <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Created popper component           |
 | show <span class="font-bold text-sm text-gray-500">1</span>  | context[Object] | Show popover                       |
 | hide     <span class="font-bold text-sm text-gray-500">1</span> | context[Object] | Hide popover                       |
@@ -112,6 +113,7 @@ lang: en-US
 | buttonTagName                                                | String  | 'button'      | 'button', 'a'                                                | The button Tag                                               |
 | disabled                                                     | Boolean | false         | true, false                                                  |                                                              |
 | placement                                                    | String  | 'auto'        | 'auto', 'top', 'right', 'bottom', 'left' *and adding the suffix '-start' or '-end', example: 'top-start'...* |                                                              |
+| closeOnDropdownClick                                                    | Boolean  | true        | true, false                                                  | If should close the dropdown when clicked |                                                              |
 | buttonProps                                                  | Object  | {}            |                                                              | All the attributes in the object will be used as props in the child TButton on this component |
 | delay-on-mouse-over <span class="font-bold text-sm text-gray-500">1</span> | Number  | 10            | Delay in ms before showing popper during a mouse over        |                                                              |
 | delay-on-mouse-out  <span class="font-bold text-sm text-gray-500">1</span> | Number  | 10            | Delay in ms before hiding popper during a mouse out          |                                                              |

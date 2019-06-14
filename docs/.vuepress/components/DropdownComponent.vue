@@ -13,7 +13,7 @@
       <ul>
         <li>
           <a 
-            href="#" 
+            href="http://www.google.com" 
             class="block no-underline px-4 py-2 hover:bg-blue-500 hover:text-white"
           >My orders</a>
         </li>

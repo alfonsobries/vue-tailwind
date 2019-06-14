@@ -25,6 +25,7 @@
     <div
       ref="dropdown"
       :class="dropdownClass"
+      @click="dropdownClick"
     >
       <slot />
     </div>
@@ -159,6 +160,10 @@ export default {
       type: Boolean,
       default: false
     },
+    closeOnDropdownClick: {
+      type: Boolean,
+      default: true
+    },
     baseClass: {
       type: [String, Object, Array],
       default: baseClass
@@ -229,6 +234,14 @@ export default {
   },
 
   methods: {
+    dropdownClick (e) {
+      this.$emit('dropdown-click', e)
+      
+      if (this.closeOnDropdownClick) {
+        this.$refs.popper.doClose()
+      }
+    },
+
     onShow (e) {
       this.shown = true
       this.$emit('show', e)
@@ -240,7 +253,7 @@ export default {
     },
     /**
      * Change the key forces to the component to re-render
-     * @todo Make a PR in the vue-popper package for reset the values
+     * @TODO Make a PR in the vue-popper package for reset the values
      */
     async resetPopper () {
       this.rerenderKey++
