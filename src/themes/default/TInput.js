@@ -1,5 +1,5 @@
 const TInput = {
-  baseClass: 'border block w-full rounded',
+  baseClass: 'border block rounded',
   defaultStatusClass: 'bg-white',
   warningStatusClass: 'border-yellow-400 bg-yellow-100',
   errorStatusClass: 'border-red-300 bg-red-100',

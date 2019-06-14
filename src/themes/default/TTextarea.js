@@ -1,5 +1,5 @@
 const TTextarea = {
-  baseClass: 'border block w-full rounded',
+  baseClass: 'border block rounded',
   defaultStatusClass: 'bg-white',
   errorStatusClass: 'border-red-300 bg-red-100',
   warningStatusClass: 'border-yellow-400 bg-yellow-100',
