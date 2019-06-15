@@ -7,6 +7,7 @@
     <slot />
     <span
       v-if="dismissible"
+      ref="close"
       :class="closeButtonClass"
       @click="hide"
     >
