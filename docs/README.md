@@ -1,8 +1,8 @@
 # Vue-Tailwind 
 
-**VueTailwind** is a set of Vue components with configurable classes that don't depend on any CSS frameworks but works fantastic with [TailwindCss](https://tailwindcss.com).
+**VueTailwind** is a set of Vue components with configurable classes that don't depend on any CSS frameworks but is styled and works fantastic with [TailwindCss](https://tailwindcss.com).
 
-That means that you can define your own classes for every component according to his status and the unique style of your application.
+That means that you can define your classes for every component part according to his status and the unique style of your application.
 
 Yes, you read right, no more Bootstrap like sites, you just need to configure your classes once and all set.
 
@@ -20,7 +20,7 @@ yarn add vue-tailwind
 
 ### 2. Configure your project to use `vue-tailwind` 
 
-### 2.1 Do nothing if you want ot use the default theme for TailwindCss:
+### 2.1 Do nothing if you want to use the default theme for TailwindCss:
 
 ```js
 import Vue from 'vue'
@@ -31,11 +31,11 @@ Vue.use(VueTailwind)
 
 ### 2.2 Or better yet, create your own theme:
 
-Lets say, for example, that for the specific needs of your project the text inputs should has a `blue two width border` instead of the default border, the button should has `more rounded borders`, and the primary button should be `purple`.
+Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border` instead of the default border, the button should has `more rounded borders`, and the primary button should be `purple`.
 
 ::: tip 
 
-Notice that you dont need to set all the classes settings, just the ones you want to override from `src/themes/default.js`
+Notice that you don't need to set all the classes settings, just the ones you want to override from `src/themes/default.js`
 
 :::
 
@@ -63,7 +63,7 @@ const MyOwnTheme = {
 export default MyOwnTheme
 ```
 
-Finally add your custom theme when configure VueTailwind:
+Finally, add your custom theme when configuring VueTailwind:
 
 ```js {3,6}
 import Vue from 'vue'
@@ -75,7 +75,7 @@ Vue.use(VueTailwind, {
 })
 ```
 
-Another options is to set the settings directly, check at this example:
+Another option is to set the settings directly, check at this example:
 
 ```js {4,5,6,11}
 import Vue from 'vue'
@@ -126,18 +126,18 @@ module.exports = {
 }
 ```
 
-## Whats next?
+## What's next?
 
 The idea is to create a big set of common components using the same philosophy: Configurable elements that could be adapted to your project style:
 
-For now this are the priorities (subject to change).
+For now, these are the priorities (subject to change).
 
 **Basic inputs**
 - [ ] Checkbox group
 - [ ] File input
 
 **Rich inputs**
-- [ ] Rich Select (with tagging, autocomplete, remote data sets, etc.)
+- [ ] Rich Select (with tagging, autocomplete, remote data sets, etc.)  (In progress...)
 - [ ] Date/Time Picker
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
@@ -146,8 +146,12 @@ For now this are the priorities (subject to change).
 - [ ] Tooltip
 - [ ] Progress bar
 
+**More**
+I'm also planning to create some more default themes, improve the documentation with better playgrounds and at some point add a theme editor. (And what an about a "submit your theme" page?)
+
 ## Contribute
-Do you like this project? Contribute!, Any help is welcome. (Im not an english speaker so also any comments on my redaction are welcome).
+Do you like this project? Contribute! Any help is welcome. (I'm not an English speaker so also any comments on my redaction are welcome).
 
 Made with love by [@alfonsobries](https://twitter.com/alfonsobries)
 
+Is this project helpful for you? Consider [buying me a coffee](https://www.buymeacoffee.com/alfonsobries) to keep me awake at night when I maintain this project.
