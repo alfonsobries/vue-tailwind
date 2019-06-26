@@ -123,7 +123,7 @@ export default {
     },
     disabledClass: {
       type: [String, Object, Array],
-      default: successStatusClass
+      default: disabledClass
     },
     defaultSizeClass: {
       type: [String, Object, Array],
