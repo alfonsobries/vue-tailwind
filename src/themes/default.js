@@ -22,6 +22,7 @@ import TRadio from './default/TRadio'
 import TCheckbox from './default/TCheckbox'
 import TButton from './default/TButton'
 import TRadioGroup from './default/TRadioGroup'
+import TCheckboxGroup from './default/TCheckboxGroup'
 import TInputGroup from './default/TInputGroup'
 import TAlert from './default/TAlert'
 import TCard from './default/TCard'
@@ -35,6 +36,7 @@ const DefaultTheme = {
   TCheckbox,
   TButton,
   TRadioGroup,
+  TCheckboxGroup,
   TInputGroup,
   TAlert,
   TCard,
@@ -49,6 +51,7 @@ export {
   TRadio,
   TCheckbox,
   TRadioGroup,
+  TCheckboxGroup,
   TInputGroup,
   TAlert,
   TCard,
