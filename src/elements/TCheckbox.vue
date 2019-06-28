@@ -98,7 +98,9 @@ export default {
   watch: {
     indeterminate: {
       handler(indeterminate) {
-        this.setIndeterminate(indeterminate)
+        this.$nextTick(() => {
+          this.setIndeterminate(indeterminate)
+        })
       },
       immediate: true
     },
