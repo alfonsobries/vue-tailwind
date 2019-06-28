@@ -194,7 +194,7 @@ describe('TCheckboxGroup.vue', () => {
       propsData: { options }
     })
 
-    const inputValue = 'B'
+    const inputValue = ['B']
 
     wrapper.setProps({
       value: inputValue
@@ -211,7 +211,7 @@ describe('TCheckboxGroup.vue', () => {
 
   it('emits a blur event when any of the checkbox inputs are blurred', () => {
     const options = ['A', 'B', 'C']
-    const value = 'B'
+    const value = ['B']
     const wrapper = mount(TCheckboxGroup, {
       propsData: { options, value }
     })
@@ -229,7 +229,7 @@ describe('TCheckboxGroup.vue', () => {
 
   it('emits a focus event when the checkbox is focused', () => {
     const options = ['A', 'B', 'C']
-    const value = 'B'
+    const value = ['B']
     const wrapper = mount(TCheckboxGroup, {
       propsData: { options, value }
     })
