@@ -137,7 +137,6 @@ The idea is to create a big set of common components using the same philosophy: 
 For now, these are the priorities (subject to change).
 
 **Basic inputs**
-- [ ] Checkbox group
 - [ ] File input
 
 **Rich inputs**
