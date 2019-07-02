@@ -21,6 +21,7 @@ module.exports = {
             '/elements/button',
             '/elements/checkbox',
             '/elements/checkbox-group',
+            '/elements/file-input',
         ]
       },
       {

@@ -9,6 +9,7 @@ import TRadio from './elements/TRadio.vue'
 import TRadioGroup from './elements/TRadioGroup.vue'
 import TCheckbox from './elements/TCheckbox.vue'
 import TCheckboxGroup from './elements/TCheckboxGroup.vue'
+import TFileInput from './elements/TFileInput.vue'
 
 import TAlert from './components/TAlert.vue'
 import TCard from './components/TCard.vue'
@@ -24,6 +25,7 @@ const components = {
   TRadioGroup,
   TCheckbox,
   TCheckboxGroup,
+  TFileInput,
   TDropdown,
   TInputGroup,
   TCard,
