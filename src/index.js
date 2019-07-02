@@ -14,6 +14,7 @@ import TAlert from './components/TAlert.vue'
 import TCard from './components/TCard.vue'
 import TDropdown from './components/TDropdown.vue'
 import TInputGroup from './components/TInputGroup.vue'
+import TProgressBar from './components/TProgressBar.vue'
 
 const components = {
   TInput,
@@ -26,6 +27,7 @@ const components = {
   TCheckboxGroup,
   TDropdown,
   TInputGroup,
+  TProgressBar,
   TCard,
   TAlert,
 }

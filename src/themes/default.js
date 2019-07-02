@@ -24,6 +24,7 @@ import TButton from './default/TButton'
 import TRadioGroup from './default/TRadioGroup'
 import TCheckboxGroup from './default/TCheckboxGroup'
 import TInputGroup from './default/TInputGroup'
+import TProgressBar from './default/TProgressBar'
 import TAlert from './default/TAlert'
 import TCard from './default/TCard'
 import TDropdown from './default/TDropdown'
@@ -38,6 +39,7 @@ const DefaultTheme = {
   TRadioGroup,
   TCheckboxGroup,
   TInputGroup,
+  TProgressBar,
   TAlert,
   TCard,
   TDropdown,
@@ -53,6 +55,7 @@ export {
   TRadioGroup,
   TCheckboxGroup,
   TInputGroup,
+  TProgressBar,
   TAlert,
   TCard,
   TDropdown,

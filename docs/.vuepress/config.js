@@ -31,6 +31,7 @@ module.exports = {
             '/components/card',
             '/components/dropdown',
             '/components/input-group',
+            '/components/progress-bar',
           ]
       }
     ]
