@@ -39,10 +39,13 @@ lang: en-US
 </t-dropdown>
 ```
 
-#### Update child TButton classes (or any TButton prop)
+#### Add HTML label
 
 ```html
-<t-dropdown :button-props="{ baseClass: 'shadow-md block rounded' }">
+<t-dropdown>
+ <template v-slot:button-content>
+    <span>Hello <strong>Alfonso</strong>!</span>
+  </template>
   <ul>
     <li>
       <a 
@@ -55,13 +58,10 @@ lang: en-US
 </t-dropdown>
 ```
 
-#### Add HTML label
+#### Update child TButton classes (or any TButton prop)
 
 ```html
-<t-dropdown>
- <template v-slot:button-content>
-    <span>Hello <strong>Alfonso</strong>!</span>
-  </template>
+<t-dropdown :button-props="{ baseClass: 'shadow-md block rounded' }">
   <ul>
     <li>
       <a 
