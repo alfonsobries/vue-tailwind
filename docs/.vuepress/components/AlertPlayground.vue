@@ -51,6 +51,7 @@ export default {
       show: true,
       options: [
         { value: null, text: 'Default' },
+        { value: 'info', text: 'Info' },
         { value: 'success', text: 'Success' },
         { value: 'warning', text: 'Warning' },
         { value: 'danger', text: 'Danger' },

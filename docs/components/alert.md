@@ -13,7 +13,7 @@ lang: en-US
 
 | Property         | Type    | Default value | Accepted values                                             | Description                       |
 | ---------------- | ------- | ------------- | ----------------------------------------------------------- | --------------------------------- |
-| variant          | String  | null          | 'danger', 'warning', 'success'                              | Alert variant                     |
+| variant          | String  | null          | 'info', 'danger', 'warning', 'success'                              | Alert variant                     |
 | tagName          | String  | div           | Any vaild HTML                                              | the tag used as wrapper           |
 | dismissible      | Boolean | true          | true, false                                                 | If the alert is dismissible       |
 | show             | Boolean | false         | true, false                                                 | If the alert should be shown      |

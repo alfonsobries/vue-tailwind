@@ -31,6 +31,7 @@ import TAlertTheme from '../themes/default/TAlert'
 const {
   baseClass,
   defaultClass,
+  infoClass,
   successClass,
   warningClass,
   dangerClass,
@@ -76,6 +77,10 @@ export default {
       type: [String, Object, Array],
       default: defaultClass
     },
+    infoClass: {
+      type: [String, Object, Array],
+      default: infoClass
+    },
     successClass: {
       type: [String, Object, Array],
       default: successClass
@@ -117,6 +122,9 @@ export default {
         classes.push(this.defaultClass)
       } else {
         switch (this.variant) {
+          case 'info':
+            classes.push(this.infoClass)
+            break;
           case 'danger':
             classes.push(this.dangerClass)
             break;
