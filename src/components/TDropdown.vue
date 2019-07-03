@@ -43,7 +43,10 @@
       @focus="$emit('focus', $event)"
       @blur="$emit('blur', $event)"
     >
-      <slot name="button-content">
+      <slot 
+        :shown="shown" 
+        name="button-content"
+      >
         {{ text }}
       </slot>
       <svg 

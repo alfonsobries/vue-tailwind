@@ -140,6 +140,12 @@ lang: en-US
 
 <span class="font-bold text-sm text-gray-500">1</span> Events inherited from vue-popper dependency [see vue-popper docs](https://github.com/RobinCK/vue-popper#readme)
 
+## Slots
+
+| Slot name      | Description                 | Slot props                  |
+| ------------- | --------------------------- | --------------------------- |
+| button-content     | The content of the dropdown button | `shown`: shown status  | 
+
 ## Default theme settings
 
 <<< @/src/themes/default/TDropdown.js
