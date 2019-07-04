@@ -390,4 +390,20 @@ describe('TSelect.vue', () => {
 
     expect(wrapper.emitted('blur').length).toBe(1)
   })
+
+  it('has a focus and a blur method', () => {
+    const wrapper = shallowMount(TSelect)
+
+    wrapper.vm.focus()
+
+    expect(wrapper.emitted('focus')).toBeTruthy()
+
+    expect(wrapper.emitted('focus').length).toBe(1)
+
+    wrapper.vm.blur()
+
+    expect(wrapper.emitted('blur')).toBeTruthy()
+
+    expect(wrapper.emitted('blur').length).toBe(1)
+  })
 })

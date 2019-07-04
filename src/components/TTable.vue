@@ -1,71 +1,90 @@
 <template>
   <table :class="currentClass">
-    <thead 
-      v-if="showHeader" 
-      :class="theadClass.thead"
+    <slot
+      :tbody-class="theadClass.thead"
+      :data="normalizedHeaders"
+      name="thead"
     >
-      <tr :class="theadClass.tr">
-        <th 
-          v-for="({ text, className, id }, index) in normalizedHeaders" 
-          :id="id"
-          :key="index"
-          :class="[theadClass.th, className]"
-        >
-          {{ text }}
-        </th>
-      </tr>
-    </thead>
-    <tbody :class="tbodyClass.tbody">
-      <slot 
-        v-for="(row, rowIndex) in normalizedData" 
-        :tr-class="tbodyClass.tr"
-        :td-class="tbodyClass.td"
-        :row="row"
-        name="row"
+      <thead 
+        v-if="showHeader" 
+        :class="theadClass.thead"
       >
-        <tr 
-          :key="rowIndex"
-          :row-index="rowIndex"
-          :class="tbodyClass.tr"
-        >
-          <slot 
-            v-for="(item, columnIndex) in row" 
-            :row-index="rowIndex"
-            :column-index="columnIndex"
-            :td-class="tbodyClass.td"
-            :item="item"
-            name="column"
+        <tr :class="theadClass.tr">
+          <th 
+            v-for="({ text, className, id }, index) in normalizedHeaders" 
+            :id="id"
+            :key="index"
+            :class="[theadClass.th, className]"
           >
-            <td
-              :key="`${rowIndex}-${columnIndex}`"
-              :class="tbodyClass.td" 
-            >
-              {{ item.text }}
-            </td>
-          </slot>
+            {{ text }}
+          </th>
         </tr>
-      </slot>
-    </tbody>
-    <tfoot 
-      v-if="showFooter" 
-      :class="tfootClass.tfoot"
+      </thead>
+    </slot>
+    <slot
+      :tbody-class="tbodyClass.tbody"
+      :data="normalizedData"
+      name="tbody"
     >
-      <tr :class="tfootClass.tr">
-        <td 
-          v-for="({ text, className, id }, index) in normalizedFooterData" 
-          :id="id"
-          :key="index"
-          :class="[tfootClass.td, className]"
+      <tbody :class="tbodyClass.tbody">
+        <slot
+          v-for="(row, rowIndex) in normalizedData" 
+          :row-index="rowIndex"
+          :tr-class="tbodyClass.tr"
+          :td-class="tbodyClass.td"
+          :row="row"
+          name="row"
         >
-          {{ text }}
-        </td>
-      </tr>
-    </tfoot>
+          <tr 
+            :key="rowIndex"
+            :class="tbodyClass.tr"
+          >
+            <slot 
+              v-for="(item, columnIndex) in row" 
+              :row-index="rowIndex"
+              :column-index="columnIndex"
+              :td-class="tbodyClass.td"
+              :item="item"
+              name="column"
+            >
+              <td
+                :key="`${rowIndex}-${columnIndex}`"
+                :class="tbodyClass.td" 
+              >
+                {{ item }}
+              </td>
+            </slot>
+          </tr>
+        </slot>
+      </tbody>
+    </slot>
+    <slot
+      :tbody-class="tfootClass.tfoot"
+      :data="normalizedFooterData"
+      name="tfoot"
+    >
+      <tfoot 
+        v-if="showFooter" 
+        :class="tfootClass.tfoot"
+      >
+        <tr :class="tfootClass.tr">
+          <td 
+            v-for="({ text, className, id }, index) in normalizedFooterData" 
+            :id="id"
+            :key="index"
+            :class="[tfootClass.td, className]"
+          >
+            {{ text }}
+          </td>
+        </tr>
+      </tfoot>
+    </slot>
   </table>
 </template>
 
 <script>
 import TTableTheme from '../themes/default/TTable'
+import pick from 'lodash/pick'
 
 const {
   tableClass,
@@ -131,15 +150,12 @@ export default {
 
     normalizedData () {
       return this.data.map(row => {
-        return row.map(col => {
-          if (typeof col === 'string') {
-            return {
-              text: col
-            }
-          }
+        // Full object by default
+        if (! this.headersValues.length) {
+          return row;
+        }
 
-          return col
-        })
+        return pick(row, this.headersValues);
       })
     },
 
@@ -153,6 +169,10 @@ export default {
 
         return footer
       })
+    },
+
+    headersValues () {
+      return this.headers.filter(h => h.value).map(h => h.value)
     },
 
     showHeader () {
