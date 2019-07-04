@@ -12,6 +12,7 @@ import TCheckboxGroup from './elements/TCheckboxGroup.vue'
 
 import TAlert from './components/TAlert.vue'
 import TCard from './components/TCard.vue'
+import TTable from './components/TTable.vue'
 import TDropdown from './components/TDropdown.vue'
 import TInputGroup from './components/TInputGroup.vue'
 
@@ -27,6 +28,7 @@ const components = {
   TDropdown,
   TInputGroup,
   TCard,
+  TTable,
   TAlert,
 }
 

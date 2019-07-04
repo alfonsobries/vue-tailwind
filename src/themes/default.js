@@ -26,6 +26,7 @@ import TCheckboxGroup from './default/TCheckboxGroup'
 import TInputGroup from './default/TInputGroup'
 import TAlert from './default/TAlert'
 import TCard from './default/TCard'
+import TTable from './default/TTable'
 import TDropdown from './default/TDropdown'
 
 const DefaultTheme = {
@@ -39,6 +40,7 @@ const DefaultTheme = {
   TCheckboxGroup,
   TInputGroup,
   TAlert,
+  TTable,
   TCard,
   TDropdown,
 }
@@ -54,6 +56,7 @@ export {
   TCheckboxGroup,
   TInputGroup,
   TAlert,
+  TTable,
   TCard,
   TDropdown,
 }
