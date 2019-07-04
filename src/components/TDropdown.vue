@@ -240,7 +240,7 @@ export default {
     dropdownClick (e) {
       this.$emit('dropdown-click', e)
       
-      if (this.closeOnDropdownClick) {
+      if (this.closeOnDropdownClick && this.$refs.popper) {
         this.$refs.popper.doClose()
       }
     },
