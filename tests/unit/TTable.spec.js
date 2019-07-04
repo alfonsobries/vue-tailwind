@@ -205,7 +205,7 @@ describe('TTable.vue', () => {
         data,
       },
       scopedSlots: {
-        column: `<td>{{props.rowIndex}}:{{props.columnIndex}}:{{props.item}}</td>`
+        column: `<td>{{props.rowIndex}}:{{props.columnIndex}}:{{props.text}}</td>`
       }
     })
 

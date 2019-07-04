@@ -1,8 +1,6 @@
 ---
 title: Card
 lang: en-US
-
-
 ---
 
 # Card

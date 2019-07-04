@@ -1,5 +1,5 @@
 const TTable = {
-  tableClass: 'w-full bg-white rounded border',
+  tableClass: 'w-full bg-white rounded border table',
   theadClass: {
   	thead: '',
   	tr: 'border',

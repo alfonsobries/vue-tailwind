@@ -2,6 +2,8 @@
   <table :class="currentClass">
     <slot
       :tbody-class="theadClass.thead"
+      :tr-class="theadClass.tr"
+      :th-class="theadClass.th"
       :data="normalizedHeaders"
       name="thead"
     >
@@ -23,6 +25,8 @@
     </slot>
     <slot
       :tbody-class="tbodyClass.tbody"
+      :tr-class="tbodyClass.tr"
+      :td-class="tbodyClass.td"
       :data="normalizedData"
       name="tbody"
     >
@@ -40,18 +44,18 @@
             :class="tbodyClass.tr"
           >
             <slot 
-              v-for="(item, columnIndex) in row" 
+              v-for="(text, columnIndex) in row" 
               :row-index="rowIndex"
               :column-index="columnIndex"
               :td-class="tbodyClass.td"
-              :item="item"
+              :text="text"
               name="column"
             >
               <td
                 :key="`${rowIndex}-${columnIndex}`"
                 :class="tbodyClass.td" 
               >
-                {{ item }}
+                {{ text }}
               </td>
             </slot>
           </tr>

@@ -28,6 +28,7 @@ module.exports = {
           collapsable: false,
           children: [
             '/components/alert',
+            '/components/table',
             '/components/card',
             '/components/dropdown',
             '/components/input-group',
