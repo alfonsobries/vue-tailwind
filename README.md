@@ -152,9 +152,27 @@ For now, these are the priorities (subject to change).
 **More**
 I'm also planning to create some more default themes, improve the documentation with better playgrounds and at some point add a theme editor. (And what an about a "submit your theme" page?)
 
-## Contribute
+### Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Contributing
+
 Do you like this project? Contribute! Any help is welcome. (I'm not an English speaker so also any comments on my redaction are welcome).
 
-Made with love by [@alfonsobries](https://twitter.com/alfonsobries)
+Is this project helpful for you? Consider [buying me a coffee](https://www.buymeacoffee.com/alfonsobries) to keep me awake.
 
-Is this project helpful for you? Consider [buying me a coffee](https://www.buymeacoffee.com/alfonsobries) to keep me awake at night when I maintain this project.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+### Security
+
+If you discover any security related issues, please email alfonso@vexilo.com instead of using the issue tracker.
+
+## Credits
+
+- [Alfonso Bribiesca](https://github.com/alfonsobries)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

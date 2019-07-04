@@ -29,29 +29,29 @@ lang: en-US
 
 ## Props
 
-| Property | Type    | Default value | Accepted values   | Description                         |
-| -------- | ------- | ------------- | ----------------- | ----------------------------------- |
-| data   | Array  | []          | Array | A multidimensional array with rows and columns or an array of objects  |
-| headers   | Array | []         | Array | An array of strings that will be added as columns in the header or an array of objects with different attributes (explained above) |
-| footerData   | Array | []         | Array | An array of strings that will be added as columns in the footer or an array of objects with different attributes (explained above) |
+| Property   | Type  | Default value |  Description                                                  |
+| ---------- | ----- | ------------- |  ------------------------------------------------------------ |
+| data       | Array | []            |  A multidimensional array with rows and columns or an array of objects |
+| headers    | Array | []            |  An array of strings that will be added as columns in the header or an array of objects with different attributes (explained above) |
+| footerData | Array | []            |  An array of strings that will be added as columns in the footer or an array of objects with different attributes (explained above) |
 
 ## Classes related props
 
-| Property        | Description                                                         |
-|---                    |---                                                            |
-| tableClass             | The `<table>` class |
-| theadClass     | An {Object} with the classes for the child elements: |     |
-| theadClass.thead       | `thead` classes                                               |
-| theadClass.tr       | `thead > tr` classes                                               |
-| theadClass.th       | `thead > th` elements classes                                               |
-| tbodyClass     | An {Object} with the classes for the child elements: |     |
-| tbodyClass.thead       | `tbody` classes                                               |
-| tbodyClass.tr       | `tbody > tr` classes                                               |
-| tbodyClass.th       | `tbody > td` elements classes                                               |
-| tfootClass     | An {Object} with the classes for the child elements: |     |
-| tfootClass.thead       | `tbody > tfoot` classes                                               |
-| tfootClass.tr       | `tbody > tr` classes                                               |
-| tfootClass.th       | `tbody > td` elements classes                                               |
+| Property         | Description                                          |
+| ---------------- | ---------------------------------------------------- |
+| tableClass       | The `<table>` class                                  |
+| theadClass       | An {Object} with the classes for the child elements: |
+| theadClass.thead | `thead` classes                                      |
+| theadClass.tr    | `thead > tr` classes                                 |
+| theadClass.th    | `thead > th` elements classes                        |
+| tbodyClass       | An {Object} with the classes for the child elements: |
+| tbodyClass.thead | `tbody` classes                                      |
+| tbodyClass.tr    | `tbody > tr` classes                                 |
+| tbodyClass.th    | `tbody > td` elements classes                        |
+| tfootClass       | An {Object} with the classes for the child elements: |
+| tfootClass.thead | `tbody > tfoot` classes                              |
+| tfootClass.tr    | `tbody > tr` classes                                 |
+| tfootClass.th    | `tbody > td` elements classes                        |
 
 ## Headers data
 
@@ -59,7 +59,8 @@ lang: en-US
 
 ```html
 <t-table :headers="['Name', 'Email', 'Sales']" />
-``` 
+```
+
 ```html
 <table>
   <thead>
@@ -69,7 +70,7 @@ lang: en-US
   </thead>
   ...
 </table>
-``` 
+```
 
 ### Array of objects
 
@@ -89,7 +90,8 @@ lang: en-US
     }
   ]"
 />
-``` 
+```
+
 ```html
 <table>
   <thead>
@@ -98,7 +100,8 @@ lang: en-US
   </thead>
   ...
 </table>
-``` 
+```
+
 *Note: The `className` attribute will be concatenated to the theme `thead > th` className.*
 
 ## Table Data
@@ -143,7 +146,8 @@ lang: en-US
     },
   ]"
 />
-``` 
+```
+
 ```html
 <table>
   ...
@@ -153,7 +157,8 @@ lang: en-US
   </tbody>
   ...
 </table>
-``` 
+
+```
 
 ## Headers `value` attribute
 
@@ -171,7 +176,9 @@ With `value` attribute:
     {id: 2, name: 'Saida', email: 'saida@gmail.com'},
   ]"
 />
+
 ```
+
 <t-table
   :headers="[{value: 'name', text: 'Name'}, {value: 'email', text: 'E-mail'}]"
   :data="[
@@ -189,7 +196,9 @@ Without `value` attribute:
     {id: 1, name: 'Alfonso', email: 'alfonso@vexilo.com'},
     {id: 2, name: 'Saida', email: 'saida@gmail.com'},
   ]"
+
 ```
+
 <t-table
   :headers="['Name', 'E-mail']"
   :data="[
@@ -210,17 +219,19 @@ Use:
     <td :class="props.tdClass">{{ props.text }}</td>
   </template>
 </t-table>
-``` 
 
-The slot props contains the following data:
+```
 
-| Prop        | Description                                                         |
-|---                    |---                                                            |
-| props.text             | The text of the cell |
-| props.rowIndex             | The current row index |
-| props.tdClass             | The `tbody > td` theme class so you can add the class again or merge it with your custom class |
+The slot props contain the following data:
+
+| Prop           | Description                                                  |
+| -------------- | ------------------------------------------------------------ |
+| props.text     | The text of the cell                                         |
+| props.rowIndex | The current row index                                        |
+| props.tdClass  | The `tbody > td` theme class so you can add the class again or merge it with your custom class |
 
 ### Example 
+
 ```html
 <t-table
   :headers="['name', 'email']"
@@ -239,7 +250,9 @@ The slot props contains the following data:
     <td :class="[props.tdClass, 'bg-yellow-100 text-sm text-center']"><strong>{{ props.text }}</strong></td>
   </template>
 </t-table>
+
 ```
+
 <t-table
   :headers="['name', 'email']"
   :data="[
@@ -260,73 +273,34 @@ The slot props contains the following data:
 
 ## Slot: `row` 
 
-When rendering the table you can use the `row` scoped slot to render custom HTML per row, this is useful if you want to control all the html inside every row, define your custom columns, etc.
+When rendering the table you can use the `row` scoped slot to render custom HTML per row. This is useful if you want to control all the HTML inside every row, define your custom columns, add striped classes, etc.
 
 Use:
 
 ```html
 <t-table>
   <template v-slot:row="props">
-    <tr :class="props.trClass">
+    <tr :class="[props.trClass, props.rowIndex % 2 === 0 ? 'bg-gray-100' : '']">
       <td :class="props.tdClass">{{ props.row.name }}</td>
       <td :class="props.tdClass">{{ props.row.email }}</td>
       <td :class="props.tdClass">{{ props.row.etc }}</td>
     </tr>
   </template>
 </t-table>
-``` 
+```
 
-The slot props contains the following data:
+The slot props contain the following data:
 
-| Prop        | Description                                                         |
-|---                    |---                                                            |
-| props.row             | The full row Object or Array  |
-| props.rowIndex             | The current row index |
-| props.trClass             | The `tbody > tr` theme class so you can add the class again or merge it with your custom class |
-| props.tdClass             | The `tbody > td` theme class so you can add the class again to the columns or merge it with your custom class |
+| Prop           | Description                                                  |
+| -------------- | ------------------------------------------------------------ |
+| props.row      | The full row Object or Array                                 |
+| props.rowIndex | The current row index                                        |
+| props.trClass  | The `tbody > tr` theme class so you can add the class again or merge it with your custom class |
+| props.tdClass  | The `tbody > td` theme class so you can add the class back to the columns or merge it with your custom class |
 
 ### Example 
+
 ```html
-<t-table
-  :headers="['Name', 'Email', 'Sales', 'Actions']"
-  :data="[
-    {
-      name: 'Alfonso Bribiesca',
-      email: 'alfonso@vexilo.com',
-      sales: 9999,
-    },
-    {
-      name: 'Saida Redondo',
-      email: 'saida@gmail.com',
-      sales: 1500
-    },
-    {
-      name: 'Fátima Bribiesca',
-      email: 'fat@gmail.com',
-      sales: -200
-    },
-]"
->
-  <template v-slot:row="props">
-    <tr :class="props.trClass">
-      <td :class="props.tdClass">
-        {{ props.row.name }}
-      </td>
-      <td :class="props.tdClass">
-        <a :href="`mailto: ${props.row.email}`">{{ props.row.email }}</a>
-      </td>
-      <td :class="props.tdClass">
-        <span :class="{'text-green-500': props.row.sales >= 0, 'text-red-500': props.row.sales < 0 }">
-        ${{ props.row.sales.toFixed(2) }}
-        </span>
-      </td>
-      <td :class="props.tdClass">
-        <t-button size="sm" variant="secondary">Edit</t-button>
-      </td>
-    </tr>
-  </template>
-</t-table>
-```
 <t-table
   :headers="['Name', 'Email', 'Sales', 'Actions']"
   :data="[
@@ -345,31 +319,82 @@ The slot props contains the following data:
       email: 'fat@gmail.com',
       sales: -200.50
     },
+    {
+      name: 'Ricardo Martinez',
+      email: 'rickyrickky@gmail.com',
+      sales: 0.0
+    },
 ]"
 >
-  <template v-slot:row="props">
-    <tr :class="props.trClass">
-      <td :class="props.tdClass">
-        {{ props.row.name }}
-      </td>
-      <td :class="props.tdClass">
-        <a :href="`mailto: ${props.row.email}`">{{ props.row.email }}</a>
-      </td>
-      <td :class="props.tdClass">
-        <span :class="{'text-green-500': props.row.sales >= 0, 'text-red-500': props.row.sales < 0 }">
-        ${{ props.row.sales.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') }}
-        </span>
-      </td>
-      <td :class="props.tdClass">
-        <t-button size="sm" variant="secondary">Edit</t-button>
-      </td>
-    </tr>
-  </template>
+<template v-slot:row="props">
+  <tr :class="[props.trClass, props.rowIndex % 2 === 0 ? 'bg-gray-100' : '']">
+    <td :class="props.tdClass">
+      {{ props.row.name }}
+    </td>
+    <td :class="props.tdClass">
+      <a :href="`mailto: ${props.row.email}`">{{ props.row.email }}</a>
+    </td>
+    <td :class="props.tdClass">
+      <span :class="{'text-green-500': props.row.sales >= 0, 'text-red-500': props.row.sales < 0 }">
+      ${{ props.row.sales.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') }}
+      </span>
+    </td>
+    <td :class="props.tdClass">
+      <t-button size="sm" variant="secondary">Edit</t-button>
+    </td>
+  </tr>
+</template>
+</t-table>
+```
+
+<t-table
+  :headers="['Name', 'Email', 'Sales', 'Actions']"
+  :data="[
+    {
+      name: 'Alfonso Bribiesca',
+      email: 'alfonso@vexilo.com',
+      sales: 9999,
+    },
+    {
+      name: 'Saida Redondo',
+      email: 'saida@gmail.com',
+      sales: 1500
+    },
+    {
+      name: 'Fátima Bribiesca',
+      email: 'fat@gmail.com',
+      sales: -200.50
+    },
+    {
+      name: 'Ricardo Martinez',
+      email: 'rickyrickky@gmail.com',
+      sales: 0.0
+    },
+]"
+>
+<template v-slot:row="props">
+  <tr :class="[props.trClass, props.rowIndex % 2 === 0 ? 'bg-gray-100' : '']">
+    <td :class="props.tdClass">
+      {{ props.row.name }}
+    </td>
+    <td :class="props.tdClass">
+      <a :href="`mailto: ${props.row.email}`">{{ props.row.email }}</a>
+    </td>
+    <td :class="props.tdClass">
+      <span :class="{'text-green-500': props.row.sales >= 0, 'text-red-500': props.row.sales < 0 }">
+      ${{ props.row.sales.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') }}
+      </span>
+    </td>
+    <td :class="props.tdClass">
+      <t-button size="sm" variant="secondary">Edit</t-button>
+    </td>
+  </tr>
+</template>
 </t-table>
 
 ## Slot: `tbody` 
 
-You can use the `tbody` scoped slot to override the default tbody element with your custom HTML, this is useful if you want to add a message when no data, a busy message when you are fething the info or simply you want to add any custom HTML.
+You can use the `tbody` scoped slot to override the default tbody element with your custom HTML. This is useful if you want to add a message when no data, a busy message when you are fetching the info, or simply you want to add any custom HTML.
 
 Use:
 
@@ -385,16 +410,16 @@ Use:
     </tbody>
   </template>
 </t-table>
-``` 
+```
 
-The slot props contains the following data:
+The slot props contain the following data:
 
-| Prop                  | Description                                                         |
-|---                    |---                                                            |
-| props.data             | The data of the component (normalized) |
-| props.tbodyClass       | The `tbody` theme class so you can add the class again or merge it with your custom class |
-| props.trClass             | The `tbody > tr` theme class so you can add the class again to the tr rows you add or merge it with your custom class |
-| props.tdClass             | The `tbody > td` theme class so you can add the class again to the columns or merge it with your custom class |
+| Prop             | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| props.data       | The data of the component (normalized)                       |
+| props.tbodyClass | The `tbody` theme class so you can add the class back or merge it with your custom class |
+| props.trClass    | The `tbody > tr` theme class so you can add the class back to the tr rows you add or merge it with your custom class |
+| props.tdClass    | The `tbody > td` theme class so you can add the class again to the columns or merge it with your custom class |
 
 ### Example 
 
@@ -415,6 +440,7 @@ The slot props contains the following data:
     </tbody>
   </template>
 </t-table>
+
 ```
 
 <t-table
@@ -452,16 +478,16 @@ Use:
     </thead>
   </template>
 </t-table>
-``` 
+```
 
 The slot props contains the following data:
 
-| Prop                  | Description                                                         |
-|---                    |---                                                            |
-| props.data             | The data of the component (normalized) |
-| props.tbodyClass       | The `thead` theme class so you can add the class again or merge it with your custom class |
-| props.trClass             | The `thead > tr` theme class so you can add the class again to the tr rows you add or merge it with your custom class |
-| props.thClass             | The `thead > td` theme class so you can add the class again to the columns or merge it with your custom class |
+| Prop             | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| props.data       | The data of the component (normalized)                       |
+| props.tbodyClass | The `thead` theme class so you can add the class again or merge it with your custom class |
+| props.trClass    | The `thead > tr` theme class so you can add the class back to the tr rows you add or merge it with your custom class |
+| props.thClass    | The `thead > td` theme class so you can add the class again to the columns or merge it with your custom class |
 
 ### Example 
 
@@ -494,7 +520,7 @@ The slot props contains the following data:
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
   ]"
->
+/>
   <template v-slot:thead="props">
     <thead :class="props.theadClass">
       <tr :class="props.trClass">
@@ -528,16 +554,16 @@ Use:
     </tfoot>
   </template>
 </t-table>
-``` 
+```
 
-The slot props contains the following data:
+The slot props contain the following data:
 
-| Prop                  | Description                                                         |
-|---                    |---                                                            |
-| props.data             | The data of the component (normalized) |
-| props.tbodyClass       | The `tfoot` theme class so you can add the class again or merge it with your custom class |
-| props.trClass             | The `tfoot > tr` theme class so you can add the class again to the tr rows you add or merge it with your custom class |
-| props.tdClass             | The `tfoot > td` theme class so you can add the class again to the columns or merge it with your custom class |
+| Prop             | Description                                                  |
+| ---------------- | ------------------------------------------------------------ |
+| props.data       | The data of the component (normalized)                       |
+| props.tbodyClass | The `tfoot` theme class so you can add the class again or merge it with your custom class |
+| props.trClass    | The `tfoot > tr` theme class so you can add the class back to the tr rows you add or merge it with your custom class |
+| props.tdClass    | The `tfoot > td` theme class so you can add the class again to the columns or merge it with your custom class |
 
 ### Example 
 
@@ -572,11 +598,11 @@ The slot props contains the following data:
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
   ]"
->
+/>
   <template v-slot:tfoot="props">
     <tfoot :class="props.tfootClass">
       <tr :class="[props.trClass, 'bg-gray-200']">
-        <td colspan="3" :class="[props.tdClass, 'text-right']"> 
+        <td colspan="3" :class="[props.tdClass, 'text-right']">
           <strong>Total:</strong>
         </td>
         <td>
@@ -591,7 +617,7 @@ The slot props contains the following data:
 
 <<< @/src/themes/default/TTable.js
 
-* Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
+- Remember that in order to change the default settings you can [change default theme](/#_2-2-or-better-yet-create-your-own-theme) or use the props: 
 
 ```vue
 <t-table
@@ -638,5 +664,3 @@ The slot props contains the following data:
   ]"
 />
 </t-card>
-
-
