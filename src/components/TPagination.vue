@@ -9,7 +9,8 @@
       :class="pageClass"
     >
       <button
-        :class="[buttonClass, controlButtonClass]"
+        :class="[buttonClass, prevIsDisabled ? disabledControlButtonClass : controlButtonClass]"
+        :disabled="prevIsDisabled"
         @click="goToFirstPage"
         v-html="firstLabel"
       />
@@ -20,7 +21,8 @@
       :class="pageClass"
     >
       <button
-        :class="[buttonClass, controlButtonClass]"
+        :class="[buttonClass, prevIsDisabled ? disabledControlButtonClass : controlButtonClass]"
+        :disabled="prevIsDisabled"
         @click="goToPrevPage"
         v-html="prevLabel"
       />
@@ -38,7 +40,13 @@
       />
       <button
         v-else
-        :class="[buttonClass, isPageActive(page) ? activeButtonClass : inactiveButtonClass]"
+        :class="[
+          buttonClass,
+          disabled
+            ? disabledButtonClass
+            : (isPageActive(page) ? activeButtonClass : inactiveButtonClass)
+        ]"
+        :disabled="disabled"
         @click="selectPage(page)"
       >
         {{ page }}
@@ -50,7 +58,8 @@
       :class="pageClass"
     >
       <button
-        :class="[buttonClass, controlButtonClass]"
+        :class="[buttonClass, nextIsDisabled ? disabledControlButtonClass : controlButtonClass]"
+        :disabled="nextIsDisabled"
         @click="goToNextPage"
         v-html="nextLabel"
       />
@@ -61,7 +70,8 @@
       :class="pageClass"
     >
       <button
-        :class="[buttonClass, controlButtonClass]"
+        :class="[buttonClass, nextIsDisabled ? disabledControlButtonClass : controlButtonClass]"
+        :disabled="nextIsDisabled"
         @click="goToLastPage"
         v-html="nextLabel"
       />
@@ -79,7 +89,9 @@ const {
   buttonClass,
   activeButtonClass,
   inactiveButtonClass,
+  disabledButtonClass,
   controlButtonClass,
+  disabledControlButtonClass,
   moreLabelClass,
 } = TPaginationTheme
 
@@ -98,6 +110,10 @@ export default {
     elementTagName: {
       type: String,
       default: 'li'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     perPage: {
       type: [String, Number],
@@ -150,9 +166,17 @@ export default {
       type: [String, Object, Array],
       default: activeButtonClass
     },
+    disabledButtonClass: {
+      type: [String, Object, Array],
+      default: disabledButtonClass
+    },
     controlButtonClass: {
       type: [String, Object, Array],
       default: controlButtonClass
+    },
+    disabledControlButtonClass: {
+      type: [String, Object, Array],
+      default: disabledControlButtonClass
     },
     moreLabelClass: {
       type: [String, Object, Array],
@@ -196,6 +220,14 @@ export default {
 
         return page
       })
+    },
+
+    prevIsDisabled () {
+      return this.disabled || this.currentPage <= 1
+    },
+
+    nextIsDisabled () {
+      return this.disabled || this.currentPage >= this.totalPages
     },
     /**
      * The default classes for the table

@@ -4,10 +4,13 @@
       :total-rows="totalRows"
       :per-page="perPage"
       :limit="limit"
+      :disabled="disabled"
       v-model="currentPage"
     />
 
     <template slot="controls">
+      <disabled-control v-model="disabled" />
+
       <p class="flex items-center mt-2">
         <label 
           for="rows" 
@@ -88,6 +91,7 @@ export default {
       perPage: 10,
       limit: 5,
       currentPage: 2,
+      disabled: false
     }
   },
 }
