@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex">
+    <div :class="{'flex': true, 'flex-row': !col, 'flex-col': col}">
       <div class="flex-1 m-2">
         <slot />
       </div>
@@ -20,5 +20,11 @@
 <script>
 export default {
   name: 'InputDemo',
+  props: {
+    col: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>

@@ -29,6 +29,7 @@ module.exports = {
           children: [
             '/components/alert',
             '/components/table',
+            '/components/pagination',
             '/components/card',
             '/components/dropdown',
             '/components/input-group',

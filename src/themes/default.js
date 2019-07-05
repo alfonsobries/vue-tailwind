@@ -27,6 +27,7 @@ import TInputGroup from './default/TInputGroup'
 import TAlert from './default/TAlert'
 import TCard from './default/TCard'
 import TTable from './default/TTable'
+import TPagination from './default/TPagination'
 import TDropdown from './default/TDropdown'
 
 const DefaultTheme = {
@@ -41,6 +42,7 @@ const DefaultTheme = {
   TInputGroup,
   TAlert,
   TTable,
+  TPagination,
   TCard,
   TDropdown,
 }
@@ -57,6 +59,7 @@ export {
   TInputGroup,
   TAlert,
   TTable,
+  TPagination,
   TCard,
   TDropdown,
 }
