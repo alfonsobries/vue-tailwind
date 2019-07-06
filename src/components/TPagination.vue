@@ -5,6 +5,7 @@
   >
     <component
       :is="elementTagName"
+      v-if="!hideEndLastControls"
       key="first"
       :class="pageClass"
     >
@@ -17,6 +18,7 @@
     </component>
     <component
       :is="elementTagName"
+      v-if="!hidePrevLastControls"
       key="prev"
       :class="pageClass"
     >
@@ -36,7 +38,7 @@
       <span
         v-if="page === 'less' || page === 'more'"
         :class="[buttonClass, moreLabelClass]"
-        v-text="'...'"
+        v-html="moreLabel"
       />
       <button
         v-else
@@ -54,6 +56,7 @@
     </component>
     <component
       :is="elementTagName"
+      v-if="!hidePrevLastControls"
       key="next"
       :class="pageClass"
     >
@@ -66,6 +69,7 @@
     </component>
     <component
       :is="elementTagName"
+      v-if="!hideEndLastControls"
       key="last"
       :class="pageClass"
     >
@@ -73,7 +77,7 @@
         :class="[buttonClass, nextIsDisabled ? disabledControlButtonClass : controlButtonClass]"
         :disabled="nextIsDisabled"
         @click="goToLastPage"
-        v-html="nextLabel"
+        v-html="lastLabel"
       />
     </component>
   </component>
@@ -145,6 +149,18 @@ export default {
     lastLabel: {
       type: String,
       default: '&raquo;'
+    },
+    moreLabel: {
+      type: String,
+      default: '&hellip;'
+    },
+    hideEndLastControls: {
+      type: Boolean,
+      default: false
+    },
+    hidePrevLastControls: {
+      type: Boolean,
+      default: false
     },
     wrapperClass: {
       type: [String, Object, Array],
@@ -230,6 +246,7 @@ export default {
       return this.disabled || this.currentPage >= this.totalPages
     },
     /**
+     * 
      * The default classes for the table
      * 
      * @return {Array}
