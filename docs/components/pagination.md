@@ -46,6 +46,7 @@ lang: en-US
 | ---------------- | ---------------------------------------------------- |
 | wrapperClass       | Pagination wrapper class |
 | itemClass       | Pagination item class |
+| pageClass       | Page wrapper class |
 | buttonClass       | Pagination button class |
 | inactiveButtonClass       | Inactive button class (added to the `buttonClass`) |
 | activeButtonClass       | Active button class (added to the `buttonClass`)|
