@@ -148,7 +148,7 @@ For now, these are the comp (subject to change).
 - [ ] File input
 
 **Rich inputs**
-- [ ] [In Progress] Rich Select (tagging, autocomplete, remote data sets, etc.)  
+- [ ] __IN PROGRESS__ Rich Select (tagging, autocomplete, remote data sets, etc.)  
 - [ ] Date/Time Picker
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
@@ -159,9 +159,9 @@ For now, these are the comp (subject to change).
 - [x] [InputGroup](https://vue-tailwind.com/components/input-group.html.html)
 - [x] __NEW__ [Table](https://vue-tailwind.com/components/table.html)
 - [x] __NEW__ [Pagination](https://vue-tailwind.com/components/pagination.html)
-- [ ] [In Progress] Pagination Nav
-- [ ] [In Progress] Dialogs
-- [ ] [In Progress] Modal
+- [ ] __IN PROGRESS__ Pagination Nav
+- [ ] __IN PROGRESS__ Dialogs
+- [ ] __IN PROGRESS__ Modal
 - [ ] Tooltip
 - [ ] Progress bar
 
@@ -176,8 +176,6 @@ For now, these are the comp (subject to change).
   - Improve the documentation with better playgrounds
   - Create a theme editor. (And maybe a "submit your theme" page)
   - Add more features to the components
-
-_Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
 
 ### Changelog
 
@@ -203,3 +201,6 @@ If you discover any security related issues, please email alfonso@vexilo.com ins
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+_Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
+
