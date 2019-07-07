@@ -4,11 +4,11 @@
 
 For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
 
-**VueTailwind** is a set of Vue components with configurable classes that don't depend on any CSS frameworks but is styled and works fantastic with [TailwindCss](https://tailwindcss.com).
+**VueTailwind** is a set of Vue components created to be customized to adapt to the unique design of your application.
 
-That means that you can define your classes for every component part according to his status and the unique style of your application.
+It uses [TailwindCss](https://tailwindcss.com) classes by default, and all classes are configurable, that give you total control of how the components will look like.
 
-Yes, you read right, no more Bootstrap like sites, you just need to configure your classes once and all set.
+No more Bootstrap like sites, you just need to configure your theme classes once and all set.
 
 ## Install and use
 ### 1. Install the dependencies 
@@ -24,7 +24,7 @@ yarn add vue-tailwind
 
 ### 2. Configure your project to use `vue-tailwind` 
 
-### 2.1 Do nothing if you want to use the default theme for TailwindCss:
+### 2.1 Do nothing if you want to use our default theme:
 
 ```js
 import Vue from 'vue'
@@ -67,7 +67,7 @@ const MyOwnTheme = {
 export default MyOwnTheme
 ```
 
-Finally, add your custom theme when configuring VueTailwind:
+Finally, add your custom theme when you install VueTailwind:
 
 ```js {3,6}
 import Vue from 'vue'
@@ -134,23 +134,50 @@ module.exports = {
 
 The idea is to create a big set of common components using the same philosophy: Configurable elements that could be adapted to your project style:
 
-For now, these are the priorities (subject to change).
+For now, these are the comp (subject to change).
 
 **Basic inputs**
+- [x] Text input(https://vue-tailwind.com/components/input.html)
+- [x] Textarea(https://vue-tailwind.com/components/textarea.html)
+- [x] Select(https://vue-tailwind.com/components/select.html)
+- [x] Radio(https://vue-tailwind.com/components/radio.html)
+- [x] Radio Group(https://vue-tailwind.com/components/radio-group.html)
+- [x] Button(https://vue-tailwind.com/components/button.html)
+- [x] Checkbox(https://vue-tailwind.com/components/checkbox.html)
+- [x] Checkbox Group(https://vue-tailwind.com/components/checkbox-group.html)
 - [ ] File input
 
 **Rich inputs**
-- [ ] Rich Select (with tagging, autocomplete, remote data sets, etc.)  (In progress...)
+- [ ] [In Progress] Rich Select (tagging, autocomplete, remote data sets, etc.)  
 - [ ] Date/Time Picker
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
 **Components**
-- [ ] Modal (In progress...)
+- [x] [Alert](https://vue-tailwind.com/components/alert.html)
+- [x] [Card](https://vue-tailwind.com/components/card.html)
+- [x] [Dropdown](https://vue-tailwind.com/components/dropdown.html)
+- [x] [InputGroup](https://vue-tailwind.com/components/input-group.html.html)
+- [x] __NEW__ [Table](https://vue-tailwind.com/components/table.html)
+- [x] __NEW__ [Pagination](https://vue-tailwind.com/components/pagination.html)
+- [ ] [In Progress] Pagination Nav
+- [ ] [In Progress] Dialogs
+- [ ] [In Progress] Modal
 - [ ] Tooltip
 - [ ] Progress bar
 
+**More features**
+- [ ] Table filter, pagination & sorting
+- *Send your feature requests*
+
 **More**
-I'm also planning to create some more default themes, improve the documentation with better playgrounds and at some point add a theme editor. (And what an about a "submit your theme" page?)
+
+- Once we have a reasonable amount of components I'm also planning:
+  - Create some more default themes
+  - Improve the documentation with better playgrounds
+  - Create a theme editor. (And maybe a "submit your theme" page)
+  - Add more features to the components
+
+_Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
 
 ### Changelog
 
