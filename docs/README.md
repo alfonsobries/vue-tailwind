@@ -130,7 +130,7 @@ module.exports = {
 
 The idea is to create a big set of common components using the same philosophy: Configurable elements that could be adapted to your project style:
 
-For now, these are the comp (subject to change).
+For now, these are the priorities, of course are subject to change.
 
 **Basic inputs**
 - [x] Text input(https://vue-tailwind.com/components/input.html)

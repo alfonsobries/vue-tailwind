@@ -40,8 +40,6 @@ lang: en-US
 
 ## Classes related props
 
-
-
 | Property         | Description                                          |
 | ---------------- | ---------------------------------------------------- |
 | wrapperClass       | Pagination wrapper class |
