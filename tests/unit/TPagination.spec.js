@@ -1,7 +1,6 @@
 import { shallowMount, mount } from '@vue/test-utils'
 import TPagination from '@/components/TPagination.vue'
 import range from 'lodash/range'
-import unescape from 'lodash/unescape'
 
 describe('TPagination.vue', () => {
   it('renders the component', () => {
@@ -20,10 +19,10 @@ describe('TPagination.vue', () => {
     expect(wrapper.contains('div')).toBe(true)
   })
 
-  it('renders every item according to the totalRows, perPage and limit', () => {
+  it('renders every item according to the totalItems, perPage and limit', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
       }
@@ -39,6 +38,30 @@ describe('TPagination.vue', () => {
     expect(wrapper.findAll('li').at(4).text()).toBe('3')
     expect(wrapper.findAll('li').at(5).text()).toBe('4')
     expect(wrapper.findAll('li').at(6).text()).toBe('…')
+    expect(wrapper.findAll('li').at(7).text()).toBe('›')
+    expect(wrapper.findAll('li').at(8).text()).toBe('»')
+  })
+
+  it('when ellipsis is hidden still show the number of items according to the limit', () => {
+    const wrapper = shallowMount(TPagination, {
+      propsData: {
+        totalItems: 100,
+        perPage: 10,
+        limit: 5,
+        hideEllipsis: true
+      }
+    })
+
+    // 5 rows + 4 controls
+    expect(wrapper.findAll('li').length).toBe(5 + 4)
+    
+    expect(wrapper.findAll('li').at(0).text()).toBe('«')
+    expect(wrapper.findAll('li').at(1).text()).toBe('‹')
+    expect(wrapper.findAll('li').at(2).text()).toBe('1')
+    expect(wrapper.findAll('li').at(3).text()).toBe('2')
+    expect(wrapper.findAll('li').at(4).text()).toBe('3')
+    expect(wrapper.findAll('li').at(5).text()).toBe('4')
+    expect(wrapper.findAll('li').at(6).text()).toBe('5')
     expect(wrapper.findAll('li').at(7).text()).toBe('›')
     expect(wrapper.findAll('li').at(8).text()).toBe('»')
   })
@@ -65,10 +88,10 @@ describe('TPagination.vue', () => {
     expect(wrapper.vm.currentPage).toBe(1)
   })
 
-  it('When click a page it change the current value', () => {
+  it('when click a page it change the current value', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
         value: 1,
@@ -101,32 +124,32 @@ describe('TPagination.vue', () => {
   it('limit the number of pages buttons', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
       }
     })
 
     // More pages set the limit
-    expect(wrapper.vm.pagesButtons.length).toBe(5)
+    expect(wrapper.vm.pageButtons.length).toBe(5)
 
     // Exact number of pages
-    wrapper.setProps({ totalRows: 50, perPage: 10 })
-    expect(wrapper.vm.pagesButtons.length).toBe(5)
+    wrapper.setProps({ totalItems: 50, perPage: 10 })
+    expect(wrapper.vm.pageButtons.length).toBe(5)
 
     // Less pages
-    wrapper.setProps({ totalRows: 23, perPage: 10 })
-    expect(wrapper.vm.pagesButtons.length).toBe(3)
+    wrapper.setProps({ totalItems: 23, perPage: 10 })
+    expect(wrapper.vm.pageButtons.length).toBe(3)
 
     // One more for fun
-    wrapper.setProps({ totalRows: 10, perPage: 3 })
-    expect(wrapper.vm.pagesButtons.length).toBe(4)
+    wrapper.setProps({ totalItems: 10, perPage: 3 })
+    expect(wrapper.vm.pageButtons.length).toBe(4)
   })
 
   it('calculate the number of pages', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
       }
@@ -152,88 +175,88 @@ describe('TPagination.vue', () => {
     wrapper.setProps({ perPage: 101 })
     expect(wrapper.vm.totalPages).toBe(1)
 
-    wrapper.setProps({ totalRows: 0, perPage: 0 })
+    wrapper.setProps({ totalItems: 0, perPage: 0 })
     expect(wrapper.vm.totalPages).toBe(0)
 
-    wrapper.setProps({ totalRows: 0, perPage: 0 })
+    wrapper.setProps({ totalItems: 0, perPage: 0 })
     expect(wrapper.vm.totalPages).toBe(0)
   })
 
   it('add the more button when it have more items', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
       }
     })
 
-    expect(wrapper.vm.pagesButtons).toEqual([1, 2, 3, 4, 'more'])
+    expect(wrapper.vm.pageButtons).toEqual([1, 2, 3, 4, 'more'])
   })
 
   it('add the less button when it have less items', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
         value: 5,
       }
     })
 
-    expect(wrapper.vm.pagesButtons).toEqual(['less', 4, 5, 6, 'more'])
+    expect(wrapper.vm.pageButtons).toEqual(['less', 4, 5, 6, 'more'])
   })
 
   it('add the less button until after the half range', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
         value: 3,
       }
     })
 
-    expect(wrapper.vm.pagesButtons).toEqual([1, 2, 3, 4, 'more'])
+    expect(wrapper.vm.pageButtons).toEqual([1, 2, 3, 4, 'more'])
 
     wrapper.setProps({ value: 4 })
 
-    expect(wrapper.vm.pagesButtons).toEqual(['less', 3, 4, 5, 'more'])
+    expect(wrapper.vm.pageButtons).toEqual(['less', 3, 4, 5, 'more'])
   })
 
   it('the limit of the range is the last page', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 10,
+        totalItems: 10,
         perPage: 1,
         value: 7,
         limit: 5,
       }
     })
 
-    expect(wrapper.vm.pagesButtons).toEqual(['less', 6, 7, 8, 'more'])
+    expect(wrapper.vm.pageButtons).toEqual(['less', 6, 7, 8, 'more'])
 
     wrapper.setProps({ value: 8 })
-    expect(wrapper.vm.pagesButtons).toEqual(['less', 7, 8, 9, 10])
+    expect(wrapper.vm.pageButtons).toEqual(['less', 7, 8, 9, 10])
   })
 
   it('doesnt add more or less buttons when doesnt has enough pages', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 10,
+        totalItems: 10,
         perPage: 2,
         value: 3
       }
     })
 
-    expect(wrapper.vm.pagesButtons).toEqual([1, 2, 3, 4, 5])
+    expect(wrapper.vm.pageButtons).toEqual([1, 2, 3, 4, 5])
   })
 
 
   it('hides the end/last controlls when configured', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
       }
@@ -247,7 +270,7 @@ describe('TPagination.vue', () => {
     expect(wrapper.findAll('li').at(7).text()).toBe('›')
     expect(wrapper.findAll('li').at(8).text()).toBe('»')
 
-    wrapper.setProps({ hideEndLastControls: true })
+    wrapper.setProps({ hideFirstLastControls: true })
 
     // 5 rows (just 2 controls)
     expect(wrapper.findAll('li').length).toBe(5 + 2)
@@ -260,7 +283,7 @@ describe('TPagination.vue', () => {
   it('hides the prev/last controlls when configured', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
       }
@@ -274,7 +297,7 @@ describe('TPagination.vue', () => {
     expect(wrapper.findAll('li').at(7).text()).toBe('›')
     expect(wrapper.findAll('li').at(8).text()).toBe('»')
 
-    wrapper.setProps({ hidePrevLastControls: true })
+    wrapper.setProps({ hidePrevNextControls: true })
 
     // 5 rows (just 2 controls)
     expect(wrapper.findAll('li').length).toBe(5 + 2)
@@ -287,7 +310,7 @@ describe('TPagination.vue', () => {
   it('accepts different labels in controls', () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
-        totalRows: 100,
+        totalItems: 100,
         perPage: 10,
         limit: 5,
       }
@@ -304,7 +327,7 @@ describe('TPagination.vue', () => {
       lastLabel: 'último',
       nextLabel: 'siguiente',
       prevLabel: 'antes',
-      moreLabel: 'más...',
+      ellipsisLabel: 'más...',
     })
 
     expect(wrapper.findAll('li').at(0).text()).toBe('principio')

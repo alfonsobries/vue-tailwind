@@ -1,24 +1,34 @@
 <template>
   <input-demo col>
     <t-pagination
-      :total-rows="totalRows"
+      :total-items="totalItems"
       :per-page="perPage"
       :limit="limit"
       :disabled="disabled"
+      :hide-ellipsis="hideEllipsis"
       v-model="currentPage"
     />
 
     <template slot="controls">
       <disabled-control v-model="disabled" />
+      
+      <label class="flex items-center">
+        <input 
+          v-model="hideEllipsis" 
+          type="checkbox"
+        >
+        <span class="ml-2 text-xs uppercase font-bold text-gray-600">
+          Hide ellipsis
+        </span>
+      </label>
 
       <p class="flex items-center mt-2">
         <label 
-          for="rows" 
           class="mr-2 text-xs uppercase font-bold text-gray-600">
-          Total rows:
+          Total items:
         </label>
         <t-input
-          v-model.number="totalRows"
+          v-model.number="totalItems"
           default-class="p-1 border text-sm"
           type="number"
           min="0"
@@ -27,7 +37,6 @@
 
       <p class="flex items-center mt-2">
         <label 
-          for="rows" 
           class="mr-2 text-xs uppercase font-bold text-gray-600">
           Per page:
         </label>
@@ -41,7 +50,6 @@
 
       <p class="flex items-center mt-2">
         <label 
-          for="rows" 
           class="mr-2 text-xs uppercase font-bold text-gray-600">
           Limit pages:
         </label>
@@ -55,7 +63,6 @@
 
       <p class="flex items-center mt-2">
         <label 
-          for="rows" 
           class="mr-2 text-xs uppercase font-bold text-gray-600">
           Current Page:
         </label>
@@ -67,13 +74,6 @@
         />
       </p>
     </template>
-
-    <!-- <template slot="classes">
-      <p>
-        Rendered class: 
-        <pre class="text-white">{{ renderedClass }}</pre>
-      </p>
-    </template> -->
   </input-demo>
 </template>
 
@@ -87,12 +87,28 @@ export default {
 
   data () {
     return {
-      totalRows: 100,
+      totalItems: 100,
       perPage: 10,
       limit: 5,
       currentPage: 2,
-      disabled: false
+      disabled: false,
+      hideEllipsis: false,
     }
   },
+
+  watch: {
+    perPage (perPage) {
+      const num = Number(perPage);
+      if (num <= 0 || Number.isNaN(num)) {
+        this.perPage = 1
+      }
+    },
+    currentPage (currentPage) {
+      const num = Number(currentPage);
+      if (num <= 0 || Number.isNaN(num)) {
+        this.currentPage = 1
+      }
+    },
+  }
 }
 </script>

@@ -5,9 +5,9 @@
   >
     <component
       :is="elementTagName"
-      v-if="!hideEndLastControls"
+      v-if="!hideFirstLastControls"
       key="first"
-      :class="pageClass"
+      :class="[itemClass, prevIsDisabled ? disabledControlClass : controlClass]"
     >
       <button
         :class="[buttonClass, prevIsDisabled ? disabledControlButtonClass : controlButtonClass]"
@@ -18,9 +18,9 @@
     </component>
     <component
       :is="elementTagName"
-      v-if="!hidePrevLastControls"
+      v-if="!hidePrevNextControls"
       key="prev"
-      :class="pageClass"
+      :class="[itemClass, prevIsDisabled ? disabledControlClass : controlClass]"
     >
       <button
         :class="[buttonClass, prevIsDisabled ? disabledControlButtonClass : controlButtonClass]"
@@ -29,36 +29,43 @@
         v-html="prevLabel"
       />
     </component>
-    <component
-      :is="elementTagName"
-      v-for="page in pagesButtons"
-      :key="page"
-      :class="pageClass"
-    >
-      <span
-        v-if="page === 'less' || page === 'more'"
-        :class="[buttonClass, moreLabelClass]"
-        v-html="moreLabel"
-      />
-      <button
-        v-else
-        :class="[
-          buttonClass,
-          disabled
-            ? disabledButtonClass
-            : (isPageActive(page) ? activeButtonClass : inactiveButtonClass)
-        ]"
-        :disabled="disabled"
-        @click="selectPage(page)"
+    <template v-for="page in pageButtons">
+      <component
+        :is="elementTagName"
+        v-if="page === 'less' || page === 'more' ? ellipsisClass : ''"
+        :key="page"
+        :class="[itemClass, ellipsisClass]"
       >
-        {{ page }}
-      </button>
-    </component>
+        <span
+          :class="[buttonClass, ellipsisButtonClass]"
+          v-html="ellipsisLabel"
+        />
+      </component>
+      <component
+        :is="elementTagName"
+        v-else
+        :key="page"
+        :class="[itemClass, pageClass]"
+      >
+        <button
+          :class="[
+            buttonClass,
+            disabled
+              ? disabledButtonClass
+              : (isPageActive(page) ? activeButtonClass : inactiveButtonClass)
+          ]"
+          :disabled="disabled"
+          @click="selectPage(page)"
+        >
+          {{ page }}
+        </button>
+      </component>
+    </template>
     <component
       :is="elementTagName"
-      v-if="!hidePrevLastControls"
+      v-if="!hidePrevNextControls"
       key="next"
-      :class="pageClass"
+      :class="[itemClass, nextIsDisabled ? disabledControlClass : controlClass]"
     >
       <button
         :class="[buttonClass, nextIsDisabled ? disabledControlButtonClass : controlButtonClass]"
@@ -69,9 +76,9 @@
     </component>
     <component
       :is="elementTagName"
-      v-if="!hideEndLastControls"
+      v-if="!hideFirstLastControls"
       key="last"
-      :class="pageClass"
+      :class="[itemClass, nextIsDisabled ? disabledControlClass : controlClass]"
     >
       <button
         :class="[buttonClass, nextIsDisabled ? disabledControlButtonClass : controlButtonClass]"
@@ -89,14 +96,18 @@ import range from 'lodash/range'
 
 const {
   wrapperClass,
+  itemClass,
   pageClass,
   buttonClass,
   activeButtonClass,
   inactiveButtonClass,
   disabledButtonClass,
+  controlClass,
+  disabledControlClass,
   controlButtonClass,
   disabledControlButtonClass,
-  moreLabelClass,
+  ellipsisClass,
+  ellipsisButtonClass,
 } = TPaginationTheme
 
 export default {
@@ -104,7 +115,7 @@ export default {
 
   props: {
     value: {
-      type: [String, Number],
+      type: Number,
       default: null
     },
     tagName: {
@@ -120,11 +131,11 @@ export default {
       default: false
     },
     perPage: {
-      type: [String, Number],
+      type: Number,
       default: 20,
       validator: (value) => Number(value) > 0
     },
-    totalRows: {
+    totalItems: {
       type: [String, Number],
       default: 0,
       validator: (value) => Number(value) >= 0
@@ -150,21 +161,29 @@ export default {
       type: String,
       default: '&raquo;'
     },
-    moreLabel: {
+    ellipsisLabel: {
       type: String,
       default: '&hellip;'
     },
-    hideEndLastControls: {
+    hideFirstLastControls: {
       type: Boolean,
       default: false
     },
-    hidePrevLastControls: {
+    hidePrevNextControls: {
+      type: Boolean,
+      default: false
+    },
+    hideEllipsis: {
       type: Boolean,
       default: false
     },
     wrapperClass: {
       type: [String, Object, Array],
       default: wrapperClass
+    },
+    itemClass: {
+      type: [String, Object, Array],
+      default: itemClass
     },
     pageClass: {
       type: [String, Object, Array],
@@ -194,9 +213,21 @@ export default {
       type: [String, Object, Array],
       default: disabledControlButtonClass
     },
-    moreLabelClass: {
+    ellipsisClass: {
       type: [String, Object, Array],
-      default: moreLabelClass
+      default: ellipsisClass
+    },
+    ellipsisButtonClass: {
+      type: [String, Object, Array],
+      default: ellipsisButtonClass
+    },
+    controlClass: {
+      type: [String, Object, Array],
+      default: controlClass
+    },
+    disabledControlClass: {
+      type: [String, Object, Array],
+      default: disabledControlClass
     },
   },
 
@@ -212,10 +243,10 @@ export default {
         return 0
       }
 
-      return Math.ceil(this.totalRows / this.perPage)
+      return Math.ceil(this.totalItems / this.perPage)
     },
 
-    pagesButtons() {
+    pageButtons() {
       const from = Math.max(
         Math.min(
           this.currentPage - Math.round(this.limit/2) + 1,
@@ -226,11 +257,11 @@ export default {
       const to = Math.min(from + this.limit - 1, this.totalPages)
       
       return range(from, to + 1).map(page => {
-        if (page === from && from > 1) {
+        if (!this.hideEllipsis && page === from && from > 1) {
           return 'less'
         }
         
-        if (page === to && to < this.totalPages) {
+        if (!this.hideEllipsis && page === to && to < this.totalPages) {
           return 'more'
         }
 
