@@ -1,7 +1,7 @@
 <template>
   <input-demo>
     <t-modal
-      :shown.sync="show"
+      v-model="show"
       :header="header"
     >
       <p v-html="nl2br(body)" />

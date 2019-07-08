@@ -91,14 +91,9 @@ export default {
       type: String,
       default: null
     },
-    shown: {
+    value: {
       type: Boolean,
       default: false,
-    },
-    name: {
-      type: [String, Number],
-      default: null,
-      required: false,
     },
     header: {
       type: String,
@@ -164,7 +159,7 @@ export default {
 
   data() {
     return {
-      localShow: this.shown,
+      localShow: this.value,
       marginTop: null,
       windowResizeListener: null,
       params: [],
@@ -222,12 +217,14 @@ export default {
   },
 
   watch: {
-    shown (shown) {
-      this.localShow = shown
+    value (value) {
+      this.localShow = value
     },
     localShow: {
       async handler(shown) {
-        this.$emit('update:shown', shown);
+        this.$emit('input', shown);
+        this.$emit('change', shown);
+
         if (shown) {
           this.beforeOpen();
           await this.$nextTick();
