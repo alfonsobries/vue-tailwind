@@ -1,6 +1,10 @@
 <template>
-  <table :class="currentClass">
+  <table 
+    v-if="ready" 
+    :class="currentClass"
+  >
     <slot
+      v-if="!renderResponsive"
       :tbody-class="theadClass.thead"
       :tr-class="theadClass.tr"
       :th-class="theadClass.th"
@@ -27,7 +31,9 @@
       :tbody-class="tbodyClass.tbody"
       :tr-class="tbodyClass.tr"
       :td-class="tbodyClass.td"
+      :th-class="theadClass.th"
       :data="normalizedData"
+      :render-responsive="renderResponsive"
       name="tbody"
     >
       <tbody :class="tbodyClass.tbody">
@@ -67,6 +73,7 @@
       :tr-class="tfootClass.tr"
       :td-class="tfootClass.td"
       :data="normalizedFooterData"
+      :render-responsive="renderResponsive"
       name="tfoot"
     >
       <tfoot 
@@ -139,9 +146,28 @@ export default {
       type: Object,
       default: () => tfootClass
     },
+    responsive: {
+      type: Boolean,
+      default: false
+    },
+    responsiveBreakpoint: {
+      type: Number,
+      default: 768
+    },
+  },
+
+  data () {
+    return {
+      ready: !this.responsive,
+      windowWidth: null
+    }
   },
 
   computed: {
+    renderResponsive () {
+      return this.responsive && this.windowWidth && this.windowWidth < this.responsiveBreakpoint
+    },
+
     normalizedHeaders () {
       return this.headers.map(header => {
         if (typeof header === 'string') {
@@ -200,6 +226,19 @@ export default {
       }
 
       return classes
+    }
+  },
+
+  mounted () {
+    // If responsive we will need to calculate the windowWidth
+    if (this.responsive) {
+      this.windowWidth = window.innerWidth
+      // To prevent double rendering in case of responsive table we will use a ready flag until
+      // we know the size of the window
+      this.ready = true
+      window.addEventListener("resize", () => {
+        this.windowWidth = window.innerWidth
+      })
     }
   },
 }

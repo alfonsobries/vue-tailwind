@@ -60,7 +60,7 @@ function extendComponent (Vue, CurrentTheme, componentName) {
   })
 }
 
-export default {
+const VueTailwind = {
   install (Vue, args = {}) {
     if (this.installed) {
       return
@@ -80,3 +80,5 @@ export default {
     })
   }
 }
+
+export default VueTailwind

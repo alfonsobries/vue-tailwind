@@ -34,6 +34,8 @@ lang: en-US
 | data       | Array | []            |  A multidimensional array with rows and columns or an array of objects |
 | headers    | Array | []            |  An array of strings that will be added as columns in the header or an array of objects with different attributes (explained above) |
 | footerData | Array | []            |  An array of strings that will be added as columns in the footer or an array of objects with different attributes (explained above) |
+| responsive _(experimental)_ | Boolean | false            |  When set the header will be hidden and the rest of the slots will have a `renderResponsive` prop variable with the value of `true` when the screen is smaller than the `responsiveBreakpoint` option, that variable is useful to define a custom layout in smaller screens. [Check the example below](#responsive-table-experimental) |
+| responsiveBreakpoint _(experimental)_ | Number | 768            |  When the screen is smaller yo the value the `responsiveBreakpoint` slot prop will set to true |
 
 ## Classes related props
 
@@ -612,6 +614,298 @@ The slot props contain the following data:
     </tfoot>
   </template>
 </t-table>
+
+## Responsive table (experimental)
+
+When you set the `responsive` option and the screen is smaller than the `responsiveBreakpoint` option (default to 768) the header will be hidden and the rest of the slots will have a `renderResponsive` prop variable with the value of `true`.
+
+You can use that variable to render custom layouts for mobile devices.
+
+Check the following full working example (Resize your screen to see the responsive layout):
+
+<t-table 
+  :headers="['Name', 'E-mail', 'Status', '']" 
+  :data="[
+    {
+      id: 1,
+      name: 'Alfonso Bribiesca',
+      email: 'alfonso@vexilo.com',
+      is_approved: true,
+    },
+    {
+      id: 2,
+      name: 'Saida Redondo',
+      email: 'saida@gmail.com',
+      is_approved: false,
+    },
+  ]"
+  :responsive="true"
+  :responsive-breakpoint="1024"
+  :tbody-class="{ tbody: 'border-t lg:border-0', tr: 'border-0 lg:border-t', td: 'p-3' }"
+>
+  <template v-slot:tbody="{ tbodyClass, trClass, tdClass, thClass, renderResponsive, data }">
+    <template v-if="renderResponsive">
+      <tbody 
+        v-for="(row, rowIndex) in data"
+        :key="rowIndex" 
+        :class="[tbodyClass, rowIndex % 2 === 0 ? 'bg-gray-100' : '']">
+        <tr :class="trClass">
+          <th :class="thClass">Name</th>
+          <td :class="[tdClass, 'relative']">
+            <t-dropdown 
+              :visible-arrow="false"
+              placement="left-start"
+              variant="tertiary"
+              class="absolute right-0 top-0"
+            >
+              <template v-slot:button-content>
+                <svg version="1.1" viewBox="0 0 16 16" class="fill-current text-gray-600 svg-icon svg-fill" heigth="20" style="width: 20px;"><path pid="0" d="M13 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 13 7zM8 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 8 7zM3 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 3 7z"></path></svg>
+              </template>
+              <button
+                class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+              >Edit</button>
+              <button
+                class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+              >Delete</button>
+            </t-dropdown>
+            {{ row.name }}
+          </td>
+        </tr>
+        <tr :class="trClass">
+          <th :class="thClass">Email</th>
+          <td :class="[tdClass, 'td-overflow']">
+            <a 
+              :href="`mailto: ${row.email}`" 
+              class="text-gray-600 hover:underline"
+            >{{ row.email }}</a>
+          </td>
+        </tr>
+        <tr :class="trClass">
+          <th :class="thClass">Status</th>
+          <td :class="[tdClass]">
+            <span
+              v-if="row.is_approved"
+              class="d-flex py-1 px-5 bg-green-200 text-green-900 text-sm rounded-full font-bold"
+            >
+              Active
+            </span>
+            <span
+              v-else
+              class="d-flex py-1 px-5 bg-gray-200 text-gray-900 text-sm rounded-full font-bold"
+            >
+              Inactive
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+  </template>
+  <template v-slot:row="{ trClass, tdClass, rowIndex, row }">
+    <tr :class="[trClass, rowIndex % 2 === 0 ? 'bg-gray-100' : '']">
+      <td :class="[tdClass, 'w-full']">
+        {{ row.name }}
+      </td>
+      <td :class="tdClass">
+        <a 
+          :href="`mailto: ${row.email}`" 
+          class="text-gray-600 hover:underline"
+        >{{ row.email }}</a>
+      </td>
+      <td :class="[tdClass, 'text-center']">
+        <span
+          v-if="row.is_approved"
+          class="d-flex py-2 px-5 bg-green-200 text-green-900 text-sm rounded-full font-bold"
+        >
+          Active
+        </span>
+        <span
+          v-else
+          class="d-flex py-2 px-5 bg-gray-200 text-gray-900 text-sm rounded-full font-bold"
+        >
+          Inactive
+        </span>
+      </td>
+      <td :class="[tdClass, 'text-right']">
+        <t-dropdown 
+          :visible-arrow="false"
+          placement="bottom-end"
+          variant="tertiary"
+        >
+          <template v-slot:button-content>
+            <svg version="1.1" viewBox="0 0 16 16" class="fill-current text-gray-600 svg-icon svg-fill" heigth="20" style="width: 20px;"><path pid="0" d="M13 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 13 7zM8 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 8 7zM3 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 3 7z"></path></svg>
+          </template>
+          <button
+            class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+          >Edit</button>
+          <button
+            :to="{ name: 'settings.profile' }"
+            class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+          >Delete</button>
+        </t-dropdown>
+      </td>
+    </tr>
+  </template>
+  <template v-slot:tfoot="{ tfootClass, trClass, tdClass, renderResponsive }">
+    <tfoot :class="tfootClass">
+      <tr :class="trClass">
+        <td 
+          :class="tdClass" 
+          :colspan="renderResponsive ? 2 : 4"
+        >
+          <t-pagination
+            :hide-prev-next-controls="renderResponsive"
+            :total-items="100"
+            :per-page="renderResponsive ? 3 : 5"
+            :class="{'ml-auto': !renderResponsive, 'mx-auto': renderResponsive}"
+          />
+        </td>
+      </tr>
+    </tfoot>
+  </template>
+</t-table>
+
+``` html  {17,18,22,128,131,133,134}
+<t-table 
+  :headers="['Name', 'E-mail', 'Status', '']" 
+  :data="[
+    {
+      id: 1,
+      name: 'Alfonso Bribiesca',
+      email: 'alfonso@vexilo.com',
+      is_approved: true,
+    },
+    {
+      id: 2,
+      name: 'Saida Redondo',
+      email: 'saida@gmail.com',
+      is_approved: false,
+    },
+  ]"
+  :responsive="true"
+  :responsive-breakpoint="1024"
+  :tbody-class="{ tbody: 'border-t lg:border-0', tr: 'border-0 lg:border-t', td: 'p-3' }"
+>
+  <template v-slot:tbody="{ tbodyClass, trClass, tdClass, thClass, renderResponsive, data }">
+    <template v-if="renderResponsive">
+      <tbody 
+        v-for="(row, rowIndex) in data"
+        :key="rowIndex" 
+        :class="[tbodyClass, rowIndex % 2 === 0 ? 'bg-gray-100' : '']">
+        <tr :class="trClass">
+          <th :class="thClass">Name</th>
+          <td :class="[tdClass, 'relative']">
+            <t-dropdown 
+              :visible-arrow="false"
+              placement="left-start"
+              variant="tertiary"
+              class="absolute right-0 top-0"
+            >
+              <template v-slot:button-content>
+                <svg version="1.1" viewBox="0 0 16 16" class="fill-current text-gray-600 svg-icon svg-fill" heigth="20" style="width: 20px;"><path pid="0" d="M13 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 13 7zM8 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 8 7zM3 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 3 7z"></path></svg>
+              </template>
+              <button
+                class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+              >Edit</button>
+              <button
+                class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+              >Delete</button>
+            </t-dropdown>
+            {{ row.name }}
+          </td>
+        </tr>
+        <tr :class="trClass">
+          <th :class="thClass">Email</th>
+          <td :class="[tdClass, 'td-overflow']">
+            <a 
+              :href="`mailto: ${row.email}`" 
+              class="text-gray-600 hover:underline"
+            >{{ row.email }}</a>
+          </td>
+        </tr>
+        <tr :class="trClass">
+          <th :class="thClass">Status</th>
+          <td :class="[tdClass]">
+            <span
+              v-if="row.is_approved"
+              class="d-flex py-1 px-5 bg-green-200 text-green-900 text-sm rounded-full font-bold"
+            >
+              Active
+            </span>
+            <span
+              v-else
+              class="d-flex py-1 px-5 bg-gray-200 text-gray-900 text-sm rounded-full font-bold"
+            >
+              Inactive
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+  </template>
+  <template v-slot:row="{ trClass, tdClass, rowIndex, row }">
+    <tr :class="[trClass, rowIndex % 2 === 0 ? 'bg-gray-100' : '']">
+      <td :class="[tdClass, 'w-full']">
+        {{ row.name }}
+      </td>
+      <td :class="tdClass">
+        <a 
+          :href="`mailto: ${row.email}`" 
+          class="text-gray-600 hover:underline"
+        >{{ row.email }}</a>
+      </td>
+      <td :class="[tdClass, 'text-center']">
+        <span
+          v-if="row.is_approved"
+          class="d-flex py-2 px-5 bg-green-200 text-green-900 text-sm rounded-full font-bold"
+        >
+          Active
+        </span>
+        <span
+          v-else
+          class="d-flex py-2 px-5 bg-gray-200 text-gray-900 text-sm rounded-full font-bold"
+        >
+          Inactive
+        </span>
+      </td>
+      <td :class="[tdClass, 'text-right']">
+        <t-dropdown 
+          :visible-arrow="false"
+          placement="bottom-end"
+          variant="tertiary"
+        >
+          <template v-slot:button-content>
+            <svg version="1.1" viewBox="0 0 16 16" class="fill-current text-gray-600 svg-icon svg-fill" heigth="20" style="width: 20px;"><path pid="0" d="M13 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 13 7zM8 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 8 7zM3 7a2 2 0 1 1 .001 3.999A2 2 0 0 1 3 7z"></path></svg>
+          </template>
+          <button
+            class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+          >Edit</button>
+          <button
+            :to="{ name: 'settings.profile' }"
+            class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
+          >Delete</button>
+        </t-dropdown>
+      </td>
+    </tr>
+  </template>
+  <template v-slot:tfoot="{ tfootClass, trClass, tdClass, renderResponsive }">
+    <tfoot :class="tfootClass">
+      <tr :class="trClass">
+        <td 
+          :class="tdClass" 
+          :colspan="renderResponsive ? 2 : 4"
+        >
+          <t-pagination
+            :hide-prev-next-controls="renderResponsive"
+            :total-items="100"
+            :per-page="renderResponsive ? 3 : 5"
+            :class="{'ml-auto': !renderResponsive, 'mx-auto': renderResponsive}"
+          />
+        </td>
+      </tr>
+    </tfoot>
+  </template>
+</t-table>
+```
 
 ## Default theme settings
 
