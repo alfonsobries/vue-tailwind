@@ -63,7 +63,9 @@
       </tbody>
     </slot>
     <slot
-      :tbody-class="tfootClass.tfoot"
+      :tfoot-class="tfootClass.tfoot"
+      :tr-class="tfootClass.tr"
+      :td-class="tfootClass.td"
       :data="normalizedFooterData"
       name="tfoot"
     >
