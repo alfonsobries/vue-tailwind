@@ -502,6 +502,7 @@ module.exports = {
           fontSize: config('theme.fontSize.base'),
           fontWeight: config('theme.fontWeight.bold')
         },
+        'p': { marginTop: '0.5em' },
       })
     },
   ]
