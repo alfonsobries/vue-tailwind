@@ -176,5 +176,3 @@ lang: en-US
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem possimus nihil minus rerum aperiam, quidem, reprehenderit! Atque, facere inventore nam suscipit, excepturi nesciunt incidunt, explicabo error molestiae iure optio enim.</p>
 </t-card>
 </t-card>
-
-

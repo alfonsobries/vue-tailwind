@@ -13,6 +13,7 @@ import TCheckboxGroup from './elements/TCheckboxGroup.vue'
 import TAlert from './components/TAlert.vue'
 import TCard from './components/TCard.vue'
 import TTable from './components/TTable.vue'
+import TModal from './components/TModal.vue'
 import TPagination from './components/TPagination.vue'
 import TDropdown from './components/TDropdown.vue'
 import TInputGroup from './components/TInputGroup.vue'
@@ -30,6 +31,7 @@ const components = {
   TInputGroup,
   TCard,
   TTable,
+  TModal,
   TPagination,
   TAlert,
 }

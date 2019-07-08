@@ -29,6 +29,7 @@
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "body-scroll-lock": "^2.6.3",
     "vue": "^2.6.10",
     "vue-popperjs": "^2.0.4"
   },
