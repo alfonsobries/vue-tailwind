@@ -155,9 +155,9 @@ For now, these are the priorities, of course are subject to change.
 - [x] [InputGroup](https://vue-tailwind.com/components/input-group.html.html)
 - [x] __NEW__ [Table](https://vue-tailwind.com/components/table.html)
 - [x] __NEW__ [Pagination](https://vue-tailwind.com/components/pagination.html)
+- [x] __NEW__ [Modal](https://vue-tailwind.com/components/modal.html)
 - [ ] [In Progress] Pagination Nav
 - [ ] [In Progress] Dialogs
-- [ ] [In Progress] Modal
 - [ ] Tooltip
 - [ ] Progress bar
 
