@@ -166,7 +166,8 @@ For now, these are the priorities, of course are subject to change.
 - [ ] Progress bar
 
 **More features**
-- [ ] Table filter, pagination & sorting
+- [ ] Filter, pagination & sorting
+- [ ] Responsive table
 - *Send your feature requests*
 
 **More**
