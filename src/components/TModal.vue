@@ -18,6 +18,7 @@
         >
           <button
             v-if="!hideCloseButton"
+            ref="close"
             :class="closeIconClass"
             @click="hide"
           >
@@ -240,16 +241,21 @@ export default {
   },
 
   mounted() {
-    window.onresize = () => {
-      if (this.localShow) {
-        this.calculateMarginTop();
-      }
-    };
+    if (window) {
+      window.onresize = () => {
+        if (this.localShow) {
+          this.calculateMarginTop();
+        }
+      };
+    }
   },
 
   methods: {
     calculateMarginTop() {
       const { container } = this.$refs;
+      if (!window || !container) {
+        return
+      }
       const paddingTop = parseInt(window.getComputedStyle(container).getPropertyValue('padding-top'), 10);
       const paddingBottom = parseInt(window.getComputedStyle(container).getPropertyValue('padding-bottom'), 10);
       const modalHeight = container.clientHeight;
@@ -275,7 +281,9 @@ export default {
     prepareDomForModal() {
       disableBodyScroll(this.$refs.modal);
       this.calculateMarginTop();
-      this.$refs.modal.focus()
+      if (this.$refs.modal) {
+        this.$refs.modal.focus()
+      }
     },
     hide() {
       this.localShow = false;
