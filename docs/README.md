@@ -133,14 +133,14 @@ The idea is to create a big set of common components using the same philosophy: 
 For now, these are the priorities, of course are subject to change.
 
 **Basic inputs**
-- [x] [Text input](https://vue-tailwind.com/components/input.html)
-- [x] [Textarea](https://vue-tailwind.com/components/textarea.html)
-- [x] [Select](https://vue-tailwind.com/components/select.html)
-- [x] [Radio](https://vue-tailwind.com/components/radio.html)
-- [x] [Radio Group](https://vue-tailwind.com/components/radio-group.html)
-- [x] [Button](https://vue-tailwind.com/components/button.html)
-- [x] [Checkbox](https://vue-tailwind.com/components/checkbox.html)
-- [x] [Checkbox Group](https://vue-tailwind.com/components/checkbox-group.html)
+- [x] [Text input](/elements/input.html)
+- [x] [Textarea](/elements/textarea.html)
+- [x] [Select](/elements/select.html)
+- [x] [Radio](/elements/radio.html)
+- [x] [Radio Group](/elements/radio-group.html)
+- [x] [Button](/elements/button.html)
+- [x] [Checkbox](/elements/checkbox.html)
+- [x] [Checkbox Group](/elements/checkbox-group.html)
 - [ ] File input
 
 **Rich inputs**
@@ -149,13 +149,13 @@ For now, these are the priorities, of course are subject to change.
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
 **Components**
-- [x] [Alert](https://vue-tailwind.com/components/alert.html)
-- [x] [Card](https://vue-tailwind.com/components/card.html)
-- [x] [Dropdown](https://vue-tailwind.com/components/dropdown.html)
-- [x] [InputGroup](https://vue-tailwind.com/components/input-group.html.html)
-- [x] __NEW__ [Table](https://vue-tailwind.com/components/table.html)
-- [x] __NEW__ [Pagination](https://vue-tailwind.com/components/pagination.html)
-- [x] __NEW__ [Modal](https://vue-tailwind.com/components/modal.html)
+- [x] [Alert](/components/alert.html)
+- [x] [Card](/components/card.html)
+- [x] [Dropdown](/components/dropdown.html)
+- [x] [InputGroup](/components/input-group.html)
+- [x] __NEW__ [Table](/components/table.html)
+- [x] __NEW__ [Pagination](/components/pagination.html)
+- [x] __NEW__ [Modal](/components/modal.html)
 - [ ] [In Progress] Pagination Nav
 - [ ] [In Progress] Dialogs
 - [ ] Tooltip
