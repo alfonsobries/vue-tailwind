@@ -1,0 +1,62 @@
+env:
+    browser: true
+    es6: true
+    node: true
+extends:
+    - 'plugin:vue/essential'
+    - '@vue/prettier'
+parserOptions:
+    parser: "babel-eslint"
+    ecmaVersion: 2018
+plugins:
+    - vue
+rules:
+    vue/no-spaces-around-equal-signs-in-attribute: ["error"]
+    vue/name-property-casing: ["error", "kebab-case"]
+    vue/attribute-hyphenation: ['error', 'always']
+    #vue/component-name-in-template-casing: ["error", "PascalCase"]
+    vue/component-name-in-template-casing: ["error", "kebab-case", {
+        "registeredComponentsOnly": true,
+        "ignores": []
+    }]
+    "vue/html-closing-bracket-spacing": ["error", {
+        "selfClosingTag": "always"
+    }]
+    vue/html-indent: ['error', 4]
+    vue/script-indent: ["error", 4]
+    vue/no-shared-component-data: 'error'
+    vue/order-in-components: ["error", {
+        "order": [
+            "el",
+            "name",
+            "parent",
+            "functional",
+            ["delimiters", "comments"],
+            ["components", "directives"],
+            "extends",
+            "mixins",
+            "inheritAttrs",
+            "model",
+            ["props", "propsData"],
+            "data",
+            "computed",
+            "watch",
+            "LIFECYCLE_HOOKS",
+            "filters",
+            "methods",
+            "created",
+            ["template", "render"],
+            "renderError"
+        ]
+    }]
+    indent: ["error", 4]
+    prettier/prettier:
+        - error
+        -   trailingComma: es5
+            singleQuote: true
+            tabWidth: 4
+    # Production
+    #no-console: ['error']
+    #no-debugger: ['error']
+    no-console: ['off']
+    no-debugger: ['off']
