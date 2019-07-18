@@ -13,3 +13,7 @@ All notable changes to `vue-tailwind` will be documented in this file
 ## 0.1.26 - 2019-07-08
 
 - New Pagination & Modal components
+
+## 0.1.28 - 2019-07-17
+
+- TButton vue router compatibility
