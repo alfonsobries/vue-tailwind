@@ -40,6 +40,25 @@ describe('TButton.vue', () => {
     expect(wrapper.vm.$el.tagName).toBe('A')
   })
 
+  it('get the default regular props in regular circustancies', () => {
+    const wrapper = shallowMount(TButton)
+
+    expect(Object.keys(wrapper.vm.attrs)).toEqual(['id', 'value', 'autofocus', 'disabled', 'name', 'href', 'type'])
+  })
+
+  it('uses router-link props when `to` prop is defined and the route link component is defined', () => {
+    const wrapper = shallowMount(TButton, {
+      propsData: { to: '/some-place' },
+      computed: {
+        isRouterLinkComponentAvailable() {
+          return true
+        }
+      }
+    })
+
+    expect(Object.keys(wrapper.vm.attrs)).toEqual(['to', 'replace', 'append', 'tag', 'activeClass', 'exact', 'event', 'exactActiveClass'])
+  })
+
   it('has common attributes', () => {
     const wrapper = shallowMount(TButton)
 

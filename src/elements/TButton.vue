@@ -42,6 +42,10 @@ export default {
       type: String,
       default: null
     },
+    to: {
+      type: [String, Object],
+      default: undefined
+    },
     variant: {
       type: String,
       default: null,
@@ -108,17 +112,6 @@ export default {
 
   computed: {
     /**
-     * The tag name according to the props
-     * @return {String}
-     */
-    validTagName () {
-      if (this.href) {
-        return 'a'
-      }
-
-      return this.tagName
-    },
-    /**
      * The default classes for the button
      * 
      * @return {Array}
@@ -168,6 +161,65 @@ export default {
       }
 
       return classes
+    },
+
+    isRouterLinkComponentAvailable () {
+      return !! (this.$options.components.RouterLink || this.$options.components.NuxtLink);
+    },
+
+    /**
+     * If we have the `to` defined and the routerLink or Nuxt link component is available we can 
+     * use the create a router link
+     * 
+     * @return {Boolean}
+     */
+    isARouterLink () {
+      return this.to !== undefined && this.isRouterLinkComponentAvailable
+    },
+
+    /**
+     * The component to render according to the props
+     * @return {String}
+     */
+    componentToRender () {
+      if (this.isARouterLink) {
+        return this.$options.components.NuxtLink || this.$options.components.RouterLink
+      }
+
+      if (this.href) {
+        return 'a'
+      }
+
+      return this.tagName
+    },
+
+    /**
+     * Attrs according to the button type
+     * @return {Object}
+     */
+    attrs () {
+      if (this.isARouterLink) {
+        return {
+          to: this.to,
+          replace: this.replace,
+          append: this.append,
+          tag: this.tagName,
+          activeClass: this.activeClass,
+          exact: this.exact,
+          event: ['click', 'focus', 'blur'],
+          exactActiveClass: this.exactActiveClass,
+        }
+      }
+
+      return {
+          id: this.id,
+          value: this.value,
+          autofocus: this.autofocus,
+          disabled: this.disabled,
+          name: this.name,
+          href: this.href,
+          type: this.type,
+        }
     }
   },
 
@@ -192,21 +244,14 @@ export default {
       this.$el.focus()
     },
   },
+
   render: function (createElement) {
     return createElement(
-      this.validTagName,
+      this.componentToRender,
       {
-        attrs: {
-          id: this.id,
-          value: this.value,
-          autofocus: this.autofocus,
-          disabled: this.disabled,
-          name: this.name,
-          href: this.href,
-          type: this.type,
-          class: this.currentClass,
-        },
-         on: {
+        attrs: this.attrs,
+        class: this.currentClass,
+        on: {
           click: this.onClick,
           focus: this.onFocus,
           blur: this.onBlur,
