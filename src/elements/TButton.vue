@@ -1,22 +1,3 @@
-<template>
-  <component
-    :is="validTagName"
-    :id="id"
-    :value="value"
-    :autofocus="autofocus"
-    :disabled="disabled"
-    :name="name"
-    :href="href"
-    :type="validTagName === 'button' ? type : null"
-    :class="currentClass"
-    @blur="onBlur"
-    @focus="onFocus"
-    @click="onClick"
-  >
-    <slot />
-  </component>
-</template>
-
 <script>
 import commonAttributes from '../mixins/commonAttributes.js'
 import TButtonTheme from '../themes/default/TButton'
@@ -210,6 +191,29 @@ export default {
     focus () {
       this.$el.focus()
     },
+  },
+  render: function (createElement) {
+    return createElement(
+      this.validTagName,
+      {
+        attrs: {
+          id: this.id,
+          value: this.value,
+          autofocus: this.autofocus,
+          disabled: this.disabled,
+          name: this.name,
+          href: this.href,
+          type: this.type,
+          class: this.currentClass,
+        },
+         on: {
+          click: this.onClick,
+          focus: this.onFocus,
+          blur: this.onBlur,
+        },
+      },
+      this.$slots.default
+    )
   },
 }
 </script>
