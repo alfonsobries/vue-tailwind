@@ -42,10 +42,6 @@ export default {
       type: String,
       default: null
     },
-    to: {
-      type: [String, Object],
-      default: undefined
-    },
     variant: {
       type: String,
       default: null,
@@ -59,6 +55,30 @@ export default {
       validator: function (value) {
         return value === null || ['lg', 'sm'].indexOf(value) !== -1
       }
+    },
+    to: {
+      type: [String, Object],
+      default: undefined,
+    },
+    replace: {
+      type: Boolean,
+      default: false,
+    },
+    append: {
+      type: Boolean,
+      default: false,
+    },
+    activeClass: {
+      type: String,
+      default: 'router-link-active',
+    },
+    exact: {
+      type: Boolean,
+      default: false,
+    },
+    exactActiveClass: {
+      type: String,
+      default: 'router-link-exact-active',
     },
     baseClass: {
       type: [String, Object, Array],
@@ -208,6 +228,12 @@ export default {
           exact: this.exact,
           event: ['click', 'focus', 'blur'],
           exactActiveClass: this.exactActiveClass,
+          id: this.id,
+          value: this.value,
+          autofocus: this.autofocus,
+          disabled: this.disabled,
+          name: this.name,
+          type: this.type,
         }
       }
 

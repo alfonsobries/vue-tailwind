@@ -17,6 +17,10 @@ lang: en-US
 <t-button size="lg">Large button</t-button>
 ```
 
+## VueRouter compatibility
+
+This button is compatible with `vue-router`, you just need to define the `to` prop and if the `router-link` or `nuxt-link` component is available it will render the component.
+
 ## Events
 
 | Event   | Arguments                   | Description   |
@@ -42,6 +46,21 @@ lang: en-US
 | tagName+        | String      | 'button'      | 'button', 'a' |
 
 *Note:* when the `href` is set it changes the tagname to `a`
+
+## RouterLink Props
+
+This button is compatible with `vue-router`, you just need to define the `to` prop and if the `router-link` or `nuxt-link` component is available it will render it.
+
+In that case the valid props are the following:
+
+| Property    | Type        | Default value | Accepted values |
+|---          |---          |---      |--- |
+| to          | String / Object      | undefined      | Valide `router-link` locatiion |
+| replace   | Boolean     | false     | true, false |
+| append   | Boolean     | false     | true, false |
+| activeClass   | String     | 'router-link-active'     | _Any string_ |
+| exact   | Boolean     | false     | true, false |
+| exactActiveClass   | String     | 'router-link-active'     | _Any string_ |
 
 ## Classes related props
 

@@ -56,7 +56,7 @@ describe('TButton.vue', () => {
       }
     })
 
-    expect(Object.keys(wrapper.vm.attrs)).toEqual(['to', 'replace', 'append', 'tag', 'activeClass', 'exact', 'event', 'exactActiveClass'])
+    expect(Object.keys(wrapper.vm.attrs)).toEqual(['to', 'replace', 'append', 'tag', 'activeClass', 'exact', 'event', 'exactActiveClass', 'id', 'value', 'autofocus', 'disabled', 'name', 'type'])
   })
 
   it('has common attributes', () => {
