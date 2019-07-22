@@ -238,6 +238,9 @@ export default {
   },
 
   mounted() {
+    if (this.localShow) {
+      this.prepareDomForModal()
+    }
     if (window) {
       window.onresize = () => {
         if (this.localShow) {

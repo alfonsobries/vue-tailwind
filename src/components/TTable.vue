@@ -32,13 +32,13 @@
       :tr-class="tbodyClass.tr"
       :td-class="tbodyClass.td"
       :th-class="theadClass.th"
-      :data="normalizedData"
+      :data="data"
       :render-responsive="renderResponsive"
       name="tbody"
     >
       <tbody :class="tbodyClass.tbody">
         <slot
-          v-for="(row, rowIndex) in normalizedData" 
+          v-for="(row, rowIndex) in data" 
           :row-index="rowIndex"
           :tr-class="tbodyClass.tr"
           :td-class="tbodyClass.td"
@@ -50,7 +50,7 @@
             :class="tbodyClass.tr"
           >
             <slot 
-              v-for="(text, columnIndex) in row" 
+              v-for="(text, columnIndex) in getRowColumns(row)"
               :row-index="rowIndex"
               :column-index="columnIndex"
               :td-class="tbodyClass.td"
@@ -180,17 +180,6 @@ export default {
       })
     },
 
-    normalizedData () {
-      return this.data.map(row => {
-        // Full object by default
-        if (! this.headersValues.length) {
-          return row;
-        }
-
-        return pick(row, this.headersValues);
-      })
-    },
-
     normalizedFooterData () {
       return this.footerData.map(footer => {
         if (typeof footer === 'string') {
@@ -241,5 +230,15 @@ export default {
       })
     }
   },
+
+  methods: {
+    getRowColumns(row) {
+      if (! this.headersValues.length) {
+        return row;
+      }
+
+      return pick(row, this.headersValues);
+    }
+  }
 }
 </script>
