@@ -94,7 +94,9 @@ Vue.use(VueTailwind, {
 // Or why not define the settings inline:
 Vue.use(VueTailwind, {
   theme: {
-    baseClass: 'border-2 border-blue-500 block w-full rounded',
+    TInput: {
+      baseClass: 'border-2 border-blue-500 block w-full rounded',
+    }
   }
 })
 ```
