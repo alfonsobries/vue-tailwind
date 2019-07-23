@@ -20,5 +20,10 @@ All notable changes to `vue-tailwind` will be documented in this file
 
 ## 0.1.30 - 2019-07-22
 
-- [Fixed] When TTable headers has value still send the full row to the prop
-- [Fixed] When TModal is openend on load now calculated the margin correctly
+- [Fixed] When TTable headers has value still send the full row data to the props
+- [Fixed] When TModal is opened on load still calculates the margin
+
+## 0.1.31 - 2019-07-23
+
+- [Improve] The TTable thead & tfoot props now include the headers (useful for a dynamic colspan)
+- [Fixed] The TButton props are not getted using a method instead a computed property, that avoid exceptions 
