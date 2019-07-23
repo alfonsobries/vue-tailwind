@@ -27,3 +27,5 @@ All notable changes to `vue-tailwind` will be documented in this file
 
 - [Improve] The TTable thead & tfoot props now include the headers (useful for a dynamic colspan)
 - [Fixed] The TButton props are not getted using a method instead a computed property, that avoid exceptions 
+- [Fixed] The TSelect now handles null values correctly
+- [Fixed] When the TModal is destroyed witouth closing now clears the body lock

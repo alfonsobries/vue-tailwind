@@ -171,18 +171,15 @@ export default {
     hasHeaderSlot () {
       return !!this.$slots['header']
     },
-
     hasFooterSlot () {
       return !!this.$slots['footer']
     },
-
     containerStyle() {
       return {
         width: this.normalizedWidth,
         marginTop: this.marginTop,
       };
     },
-
     normalizedWidth() {
       if (! Number.isNaN(this.width)) {
         return `${this.width}px`;
@@ -248,6 +245,10 @@ export default {
         }
       };
     }
+  },
+
+  beforeDestroy() {
+    enableBodyScroll(this.$refs.modal);
   },
 
   methods: {

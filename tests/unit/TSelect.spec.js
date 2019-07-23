@@ -194,6 +194,20 @@ describe('TSelect.vue', () => {
     expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
   })
 
+  it('handle null values', () => {
+    const options = [
+      { value: null, text: 'Select an option' },
+      { value: 'B', text: 'B' },
+      { value: 'C', text: 'C' },
+    ]
+
+    const wrapper = shallowMount(TSelect, {
+      propsData: { options: options }
+    })
+
+    expect(wrapper.vm.normalizedOptions).toEqual(options);
+  })
+
   it('updates the model in multiselect', () => {
     const options = ['Option A', 'Option B', 'Option C', 'Option D']
     const value = ['Option A', 'Option B', 'Option D']

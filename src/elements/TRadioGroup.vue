@@ -19,6 +19,7 @@
         :disabled="disabled"
         :status="status"
         :size="size"
+        :class="inputClass"
         @input="onInput"
         @blur="onBlur"
         @focus="onFocus"
@@ -50,6 +51,7 @@ const {
   smallSizeClass,
   optionClass,
   labelClass,
+  inputClass,
 } = TRadioGroupTheme
 
 export default {
@@ -125,6 +127,10 @@ export default {
     labelClass: {
       type: [String, Object, Array],
       default: labelClass
+    },
+    inputClass: {
+      type: [String, Object, Array],
+      default: inputClass
     },
   },
 
