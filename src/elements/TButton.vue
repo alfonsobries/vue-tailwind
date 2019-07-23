@@ -212,12 +212,34 @@ export default {
 
       return this.tagName
     },
+  },
+
+  methods: {
+    onBlur (e) {
+      this.$emit('blur', e)
+    },
+
+    onFocus (e) {
+      this.$emit('focus', e)
+    },
+
+    onClick (e) {
+      this.$emit('click', e)
+    },
+
+    blur () {
+      this.$el.blur()
+    },
+
+    focus () {
+      this.$el.focus()
+    },
 
     /**
      * Attrs according to the button type
      * @return {Object}
      */
-    attrs () {
+    getAttributes () {
       if (this.isARouterLink) {
         return {
           to: this.to,
@@ -249,33 +271,11 @@ export default {
     }
   },
 
-  methods: {
-    onBlur (e) {
-      this.$emit('blur', e)
-    },
-
-    onFocus (e) {
-      this.$emit('focus', e)
-    },
-
-    onClick (e) {
-      this.$emit('click', e)
-    },
-
-    blur () {
-      this.$el.blur()
-    },
-
-    focus () {
-      this.$el.focus()
-    },
-  },
-
   render: function (createElement) {
     return createElement(
       this.componentToRender,
       {
-        attrs: this.attrs,
+        attrs: this.getAttributes(),
         class: this.currentClass,
         on: {
           click: this.onClick,
