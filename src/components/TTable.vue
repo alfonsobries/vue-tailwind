@@ -33,6 +33,7 @@
       :td-class="tbodyClass.td"
       :th-class="theadClass.th"
       :data="data"
+      :headers="normalizedHeaders"
       :render-responsive="renderResponsive"
       name="tbody"
     >
@@ -73,6 +74,7 @@
       :tr-class="tfootClass.tr"
       :td-class="tfootClass.td"
       :data="normalizedFooterData"
+      :headers="normalizedHeaders"
       :render-responsive="renderResponsive"
       name="tfoot"
     >

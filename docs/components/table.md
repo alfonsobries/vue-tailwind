@@ -419,6 +419,7 @@ The slot props contain the following data:
 | Prop             | Description                                                  |
 | ---------------- | ------------------------------------------------------------ |
 | props.data       | The data of the component (normalized)                       |
+| props.headers    | The data of the headers                                      |
 | props.tbodyClass | The `tbody` theme class so you can add the class back or merge it with your custom class |
 | props.trClass    | The `tbody > tr` theme class so you can add the class back to the tr rows you add or merge it with your custom class |
 | props.tdClass    | The `tbody > td` theme class so you can add the class again to the columns or merge it with your custom class |
@@ -486,7 +487,7 @@ The slot props contains the following data:
 
 | Prop             | Description                                                  |
 | ---------------- | ------------------------------------------------------------ |
-| props.data       | The data of the component (normalized)                       |
+| props.data       | The data of the headers                     |
 | props.tbodyClass | The `thead` theme class so you can add the class again or merge it with your custom class |
 | props.trClass    | The `thead > tr` theme class so you can add the class back to the tr rows you add or merge it with your custom class |
 | props.thClass    | The `thead > td` theme class so you can add the class again to the columns or merge it with your custom class |
@@ -562,7 +563,8 @@ The slot props contain the following data:
 
 | Prop             | Description                                                  |
 | ---------------- | ------------------------------------------------------------ |
-| props.data       | The data of the component (normalized)                       |
+| props.data       | The data of the footer                      |
+| props.headers    | The data of the headers                                      |
 | props.tbodyClass | The `tfoot` theme class so you can add the class again or merge it with your custom class |
 | props.trClass    | The `tfoot > tr` theme class so you can add the class back to the tr rows you add or merge it with your custom class |
 | props.tdClass    | The `tfoot > td` theme class so you can add the class again to the columns or merge it with your custom class |
