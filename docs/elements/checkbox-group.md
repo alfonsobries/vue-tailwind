@@ -31,6 +31,8 @@ lang: en-US
 | name      | String      | null      | _Any valid type_ |
 | required    | Boolean     | false     | _Any valid type_ |
 | options   | Array / Object  | []      | _Any valid type_ |
+| valueAttribute   | String  | undefined      | _Any valid type_ |
+| textAttribute   | String  | undefined      | _Any valid type_ |
 | status        | String / Boolean  | null        | true, false, 'success', 'error', 'warning' |
 | size        | String          | null        | 'sm', 'lg' |
 | selectAll | Boolean          | false        | true, false |
@@ -136,6 +138,35 @@ The component accepts the options in different formats:
   <div>
     <input id="checkbox-field-2" name="checkbox-field" type="checkbox" value="20">
     <label for="checkbox-field-2">20</label>
+  </div>
+</div>
+```
+
+### Define the value/text attributes
+```html
+<t-checkbox-group
+  :options="[
+    { key: 'A', description: 'One option' },
+    { key: 'B', description: 'Another option' },
+    { key: 'C', description: 'One more' },
+  ]"
+  value-attribute="key"
+  text-attribute="description"
+/>
+
+<!-- Will Render: -->
+<div>
+  <div>
+    <input id="checkbox-field-0" name="checkbox-field" type="checkbox" value="A">
+    <label for="checkbox-field-0">One option</label>
+  </div>
+  <div>
+    <input id="checkbox-field-1" name="checkbox-field" type="checkbox" value="B">
+    <label for="checkbox-field-1">Another option</label>
+  </div>
+  <div>
+    <input id="checkbox-field-2" name="checkbox-field" type="checkbox" value="C">
+    <label for="checkbox-field-2">One more</label>
   </div>
 </div>
 ```

@@ -31,6 +31,8 @@ lang: en-US
 | name      | String      | null      | _Any valid type_ |
 | required    | Boolean     | false     | _Any valid type_ |
 | options   | Array / Object  | []      | _Any valid type_ |
+| valueAttribute   | String  | undefined      | _Any valid type_ |
+| textAttribute   | String  | undefined      | _Any valid type_ |
 | status        | String / Boolean  | null        | true, false, 'success', 'error', 'warning' |
 | size        | String          | null        | 'sm', 'lg' |
 
@@ -133,6 +135,35 @@ The component accepts the options in different formats:
   <div>
     <input id="radio-field-2" name="radio-field" type="radio" value="20">
     <label for="radio-field-2">20</label>
+  </div>
+</div>
+```
+
+### Define the value/text attributes
+```html
+<t-radio-group
+  :options="[
+    { key: 'A', description: 'One option' },
+    { key: 'B', description: 'Another option' },
+    { key: 'C', description: 'One more' },
+  ]"
+  value-attribute="key"
+  text-attribute="description"
+/>
+
+<!-- Will Render: -->
+<div>
+  <div>
+    <input id="radio-field-0" name="radio-field" type="radio" value="A">
+    <label for="radio-field-0">One option</label>
+  </div>
+  <div>
+    <input id="radio-field-1" name="radio-field" type="radio" value="B">
+    <label for="radio-field-1">Another option</label>
+  </div>
+  <div>
+    <input id="radio-field-2" name="radio-field" type="radio" value="C">
+    <label for="radio-field-2">One more</label>
   </div>
 </div>
 ```

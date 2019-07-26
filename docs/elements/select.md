@@ -35,8 +35,11 @@ lang: en-US
 | tabindex    | String / Number | null      | _Any valid type_ |
 | multiple    | Boolean     | false     | _Any valid type_ |
 | options   | Array / Object  | []      | _Any valid type_ |
+| valueAttribute   | String  | undefined      | _Any valid type_ |
+| textAttribute   | String  | undefined      | _Any valid type_ |
 | status        | String / Boolean  | null        | true, false, 'success', 'error', 'warning' |
 | size        | String          | null        | 'sm', 'lg' |
+| placeholder        | String          | undefined        | __Any valid type__ |
 
 ## Classes related props
 
@@ -109,6 +112,26 @@ The component accepts the options in different formats:
   <option value="18">18</option>
   <option value="19">19</option>
   <option value="20">20</option>
+</select>
+```
+
+### Define the value/text attributes
+```html
+<t-select
+  :options="[
+    { key: 'A', description: 'One option' },
+    { key: 'B', description: 'Another option' },
+    { key: 'C', description: 'One more' },
+  ]"
+  value-attribute="key"
+  text-attribute="description"
+/>
+
+<!-- Will Render: -->
+<select>
+  <option value="A">One option</option>
+  <option value="B">Another option</option>
+  <option value="C">One more</option>
 </select>
 ```
 

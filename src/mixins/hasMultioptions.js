@@ -5,11 +5,11 @@ const hasMultioptions = {
   props: {
     valueAttribute: {
       type: String,
-      default: null
+      default: undefined
     },
     textAttribute: {
       type: String,
-      default: null
+      default: undefined
     },
     options: {
       type: [Array, Object],
