@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 import flatten from 'lodash/flatten'
 import get from 'lodash/get'
 
->>>>>>> cea04db... The multioption components now allows you to select which attribute should be used as as value and text in the options
 const hasMultioptions = {
   props: {
     valueAttribute: {
@@ -29,6 +26,16 @@ const hasMultioptions = {
           text: this.options[key]
         }))
       }
+    },
+
+    flattenedOptions () {
+      return flatten(this.normalizedOptions.map(option => {
+        if (option.children) {
+          return option.children
+        }
+        
+        return option
+      }))
     },
   },
   methods: {

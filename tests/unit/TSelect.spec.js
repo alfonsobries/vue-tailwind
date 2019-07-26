@@ -134,7 +134,7 @@ describe('TSelect.vue', () => {
       { value: 'C', text: 'C' },
     ]
     
-    const expectedOptions = objectsWithValue
+    const expectedOptions = objectsWithValue.slice(0)
     
     const wrapper = shallowMount(TSelect, {
       propsData: { options: objectsWithValue }
@@ -212,6 +212,33 @@ describe('TSelect.vue', () => {
     })
 
     expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
+  })
+
+  it('creates and null option when a placeholder is added', () => {
+    const options = [
+      { value: 'A', text: 'A' },
+      { value: 'B', text: 'B' },
+      { value: 'C', text: 'C' },
+    ]
+
+    const placeholder = 'Select one'
+    
+    const expectedOptions = options.slice(0)
+
+    expectedOptions.unshift({
+      value: null,
+      text: placeholder
+    })
+
+
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        options,
+        placeholder
+      }
+    })
+
+    expect(wrapper.vm.normalizedOptionsWithPlaceholder).toEqual(expectedOptions);
   })
 
   it('handle null values', () => {

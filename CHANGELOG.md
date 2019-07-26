@@ -38,3 +38,4 @@ All notable changes to `vue-tailwind` will be documented in this file
 ## 0.3.0 - 2019-07-26
 
 - [Feature] The multioption components now allows you to select which attribute should be used as as value and text in the options
+- [Feature] The t-select now accepts a placeholder that creates an empty option

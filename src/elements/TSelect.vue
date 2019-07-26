@@ -16,7 +16,7 @@
       @blur="onBlur"
       @focus="onFocus"
     >
-      <template v-for="(option, index) in normalizedOptions">
+      <template v-for="(option, index) in normalizedOptionsWithPlaceholder">
         <optgroup
           v-if="option.children"
           :key="`${option.value}-optgroup-${index}`"
@@ -91,6 +91,10 @@ export default {
       type: Boolean,
       default: false
     },
+    placeholder: {
+      type: String,
+      default: undefined
+    },
     baseClass: {
       type: [String, Object, Array],
       default: baseClass
@@ -152,6 +156,19 @@ export default {
   },
 
   computed: {
+    normalizedOptionsWithPlaceholder() {
+      if (this.placeholder === undefined) {
+        return this.normalizedOptions
+      }
+
+      const { normalizedOptions } = this
+      normalizedOptions.unshift({
+        value: null,
+        text: this.placeholder
+      })
+      return normalizedOptions
+    },
+
     /**
      * The default classes for the select are different for multiptions
      * 
