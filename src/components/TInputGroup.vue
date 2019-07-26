@@ -5,7 +5,8 @@
         :is="getTagName(slotName)"
         :key="slotName"
         :ref="slotName"
-        :class="statusClass[statusName][slotName]"
+        :class="getTagClasses(statusName, slotName)"
+        :for="slotName === 'label' ? inputName : null"
       >
         <slot :name="slotName">
           {{ $props[slotName] }}
@@ -23,6 +24,10 @@ import TInputGroupTheme from '../themes/default/TInputGroup'
 const {
   baseClass,
   statusClass,
+  labelClass,
+  bodyClass,
+  feedbackClass,
+  descriptionClass,
 } = TInputGroupTheme
 
 export default {
@@ -31,6 +36,10 @@ export default {
   mixins: [handleStatus],
 
   props: {
+    inputName: {
+      type: String,
+      default: null
+    },
     label: {
       type: String,
       default: null
@@ -55,6 +64,22 @@ export default {
     baseClass: {
       type: [String, Object, Array],
       default: baseClass
+    },
+    labelClass: {
+      type: [String, Object, Array],
+      default: labelClass
+    },
+    bodyClass: {
+      type: [String, Object, Array],
+      default: bodyClass
+    },
+    feedbackClass: {
+      type: [String, Object, Array],
+      default: feedbackClass
+    },
+    descriptionClass: {
+      type: [String, Object, Array],
+      default: descriptionClass
     },
     statusClass: {
       type: [String, Object, Array],
@@ -102,6 +127,17 @@ export default {
       }
 
       return 'div'
+    },
+
+    /**
+     * The tag classes + the status specific classes
+     * @param  {String} statusName
+     * @param  {String} slotName
+     * @return {Array}
+     */
+    getTagClasses (statusName, slotName) {
+      const slotClassName = slotName === 'default' ? 'body' : slotName
+      return [this[`${slotClassName}Class`], this.statusClass[statusName][slotClassName]]
     },
   },
 }

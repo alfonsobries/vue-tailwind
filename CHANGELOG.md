@@ -29,3 +29,8 @@ All notable changes to `vue-tailwind` will be documented in this file
 - [Fixed] The TButton props are not getted using a method instead a computed property, that avoid exceptions 
 - [Fixed] The TSelect now handles null values correctly
 - [Fixed] When the TModal is destroyed witouth closing now clears the body lock
+
+## 0.2.0 - 2019-07-25
+
+- [Style] Radio group & checkbox group now uses the same tone for status colors
+- [Improvement] Better organization for InputGroup theming

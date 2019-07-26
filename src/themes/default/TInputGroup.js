@@ -1,29 +1,33 @@
 const TInputGroup = {
   baseClass: 'mb-3',
+  labelClass: 'block uppercase tracking-wide text-xs font-bold mb-1',
+  bodyClass: '',
+  feedbackClass: 'text-sm',
+  descriptionClass: 'text-sm',
   statusClass: {
     default: {
-      label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-gray-700',
+      label: 'text-gray-700',
       body: '',
-      feedback: 'text-sm text-gray-700',
-      description: 'text-sm text-gray-700',
+      feedback: 'text-gray-700',
+      description: 'text-gray-700',
     },
     error: {
-      label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-red-700',
+      label: 'text-red-700',
       body: '',
-      feedback: 'text-sm text-gray-700 text-red-700',
-      description: 'text-sm text-gray-700',
+      feedback: 'text-red-700',
+      description: 'text-gray-700',
     },
     success: {
-      label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-green-700',
+      label: 'text-green-700',
       body: '',
-      feedback: 'text-sm text-gray-700 text-green-700',
-      description: 'text-sm text-gray-700',
+      feedback: 'text-green-700',
+      description: 'text-gray-700',
     },
     warning: {
-      label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-yellow-700',
+      label: 'text-yellow-700',
       body: '',
-      feedback: 'text-sm text-gray-700 text-yellow-700',
-      description: 'text-sm text-gray-700',
+      feedback: 'text-yellow-700',
+      description: 'text-gray-700',
     }
   }
 }
