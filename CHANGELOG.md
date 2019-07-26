@@ -25,7 +25,7 @@ All notable changes to `vue-tailwind` will be documented in this file
 
 ## 0.1.31 - 2019-07-23
 
-- [Improve] The TTable thead & tfoot props now include the headers (useful for a dynamic colspan)
+- [Feature] The TTable thead & tfoot props now include the headers (useful for a dynamic colspan)
 - [Fixed] The TButton props are not getted using a method instead a computed property, that avoid exceptions 
 - [Fixed] The TSelect now handles null values correctly
 - [Fixed] When the TModal is destroyed witouth closing now clears the body lock
@@ -33,4 +33,8 @@ All notable changes to `vue-tailwind` will be documented in this file
 ## 0.2.0 - 2019-07-25
 
 - [Style] Radio group & checkbox group now uses the same tone for status colors
-- [Improvement] Better organization for InputGroup theming
+- [Feature] Better organization for InputGroup theming
+
+## 0.3.0 - 2019-07-26
+
+- [Feature] The multioption components now allows you to select which attribute should be used as as value and text in the options

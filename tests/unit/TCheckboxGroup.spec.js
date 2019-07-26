@@ -152,6 +152,26 @@ describe('TCheckboxGroup.vue', () => {
     expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
   })
 
+  it('accept dynamic value/text attributes', () => {
+    const objectsWithCustomAttribs = [
+      { key: 'A', description: 'A' },
+      { key: 'B', description: 'B' },
+      { key: 'C', description: 'C' },
+    ]
+    
+    const expectedOptions = objectsWithCustomAttribs.map(option => ({ value: option.key, text: option.description }))
+    
+    const wrapper = shallowMount(TCheckboxGroup, {
+      propsData: {
+        options: objectsWithCustomAttribs,
+        valueAttribute: 'key',
+        textAttribute: 'description',
+      }
+    })
+
+    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
+  })
+
   it('disables the checkbox inputs', () => {
     const options = ['Option A', 'Option B', 'Option C']
     const wrapper = mount(TCheckboxGroup, {

@@ -194,6 +194,26 @@ describe('TSelect.vue', () => {
     expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
   })
 
+  it('accept dynamic value/text attributes', () => {
+    const objectsWithCustomAttribs = [
+      { key: 'A', description: 'A' },
+      { key: 'B', description: 'B' },
+      { key: 'C', description: 'C' },
+    ]
+    
+    const expectedOptions = objectsWithCustomAttribs.map(option => ({ value: option.key, text: option.description }))
+    
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        options: objectsWithCustomAttribs,
+        valueAttribute: 'key',
+        textAttribute: 'description',
+      }
+    })
+
+    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
+  })
+
   it('handle null values', () => {
     const options = [
       { value: null, text: 'Select an option' },

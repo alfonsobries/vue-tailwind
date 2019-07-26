@@ -56,7 +56,6 @@ import commonAttributes from '../mixins/commonAttributes.js'
 import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
 import TSelectTheme from '../themes/default/TSelect'
-import get from 'lodash/get'
 
 const {
   baseClass,
@@ -186,14 +185,8 @@ export default {
   },
 
   methods: {
-    guessOptionValue(option) {
-      return get(option, 'value', get(option, 'id', get(option, 'text')))
-    },
-    guessOptionText(option) {
-      return get(option, 'text', get(option, 'label'))
-    },
     normalizeOption (option) {
-      if (typeof option === 'string' || typeof option === 'number') {
+      if (['string', 'number', 'boolean'].includes(typeof option)) {
         return {
           value: option,
           text: option,

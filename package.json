@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
-    "body-scroll-lock": "^2.6.3",
+    "body-scroll-lock": "^2.6.4",
     "vue": "^2.6.10",
     "vue-popperjs": "^2.0.4"
   },
@@ -37,7 +37,7 @@
     "@vue/cli-plugin-babel": "^3.9.2",
     "@vue/cli-plugin-eslint": "^3.9.2",
     "@vue/cli-plugin-unit-jest": "^3.9.0",
-    "@vue/cli-service": "^3.9.2",
+    "@vue/cli-service": "^3.9.3",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "@vuepress/plugin-google-analytics": "^1.0.2",
@@ -46,8 +46,8 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
-    "lodash": "^4.17.11",
-    "tailwindcss": "^1.0.4",
+    "lodash": "^4.17.15",
+    "tailwindcss": "^1.0.5",
     "vue-template-compiler": "^2.6.10",
     "vuepress": "^1.0.2",
     "webpack-dev-middleware": "^3.7.0"
