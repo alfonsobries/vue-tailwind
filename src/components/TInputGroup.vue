@@ -18,6 +18,7 @@
 
 <script>
 import isEqual from 'lodash/isEqual'
+import intersection from 'lodash/intersection'
 import handleStatus from '../mixins/handleStatus.js'
 import TInputGroupTheme from '../themes/default/TInputGroup'
 
@@ -56,9 +57,8 @@ export default {
       type: Array,
       default: () => ['label', 'default', 'feedback', 'description'],
       validator: function (value) {
-        const sortedExpectedValue = ['default', 'description', 'feedback', 'label'];
-        // The array should contain exactly the same values (in any order)
-        return isEqual(value.slice().sort(), sortedExpectedValue)
+        const expectedValues = ['default', 'description', 'feedback', 'label'];
+        return value.length === intersection(value, expectedValues).length
       }
     },
     baseClass: {
