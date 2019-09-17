@@ -50,7 +50,7 @@ export default {
       type: String,
       default: null,
       validator: function (value) {
-        return value === null || ['danger', 'warning', 'success'].indexOf(value) !== -1
+        return value === null || ['danger', 'warning', 'success', 'info'].indexOf(value) !== -1
       }
     },
     dismissible: {
@@ -112,7 +112,7 @@ export default {
   computed: {
     /**
      * The classes related with the input status
-     * 
+     *
      * @return {Array}
      */
     statusClasses () {
@@ -142,7 +142,7 @@ export default {
 
     /**
      * The default classes
-     * 
+     *
      * @return {Array}
      */
     currentClass () {
