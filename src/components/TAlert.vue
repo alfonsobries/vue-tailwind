@@ -112,7 +112,7 @@ export default {
   computed: {
     /**
      * The classes related with the input status
-     * 
+     *
      * @return {Array}
      */
     statusClasses () {
@@ -142,7 +142,7 @@ export default {
 
     /**
      * The default classes
-     * 
+     *
      * @return {Array}
      */
     currentClass () {
