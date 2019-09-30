@@ -10,7 +10,7 @@ lang: en-US
   :data="[
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
-    ['Regina Bribiesca', 'fat@hotmail.com', 1, '$0.00']
+    ['Regina Bribiesca', 'regina@gmail.com', 1, '$0.00']
   ]"
 />
 
@@ -22,7 +22,7 @@ lang: en-US
   :data="[
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
-    ['Regina Bribiesca', 'fat@hotmail.com', 1, '$0.00']
+    ['Regina Bribiesca', 'regina@gmail.com', 1, '$0.00']
   ]"
 />
 ```
@@ -114,7 +114,7 @@ lang: en-US
 <t-table :data="[
   ['Alfonso Bribiesca', 'alfonso@vexilo.com', '$9,999.00'],
   ['Saida Redondo', 'saida@gmail.com', '$124.00'],
-  ['Regina Bribiesca', 'fat@hotmail.com', '$0.00']
+  ['Regina Bribiesca', 'regina@gmail.com', '$0.00']
 ]" />
 ```
 
@@ -124,7 +124,7 @@ lang: en-US
   <tbody>
     <tr><td>Alfonso Bribiesca</td><td>alfonso@vexilo.com</td><td>$9,999.00</td></tr>
     <tr><td>Saida Redondo</td><td>saida@gmail.com</td><td>$124.00</td></tr>
-    <tr><td>Regina Bribiesca</td><td>fat@hotmail.com</td><td>$0.00</td></tr>
+    <tr><td>Regina Bribiesca</td><td>regina@gmail.com</td><td>$0.00</td></tr>
   </tbody>
   ...
 </table>
@@ -318,7 +318,7 @@ The slot props contain the following data:
     },
     {
       name: 'Regina Bribiesca',
-      email: 'fat@gmail.com',
+      email: 'regina@gmail.com',
       sales: -200.50
     },
     {
@@ -364,7 +364,7 @@ The slot props contain the following data:
     },
     {
       name: 'Regina Bribiesca',
-      email: 'fat@gmail.com',
+      email: 'regina@gmail.com',
       sales: -200.50
     },
     {
@@ -932,7 +932,7 @@ Check the following full working example (Resize your screen to see the responsi
   :data="[
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
-    ['Regina Bribiesca', 'fat@hotmail.com', 1, '$0.00']
+    ['Regina Bribiesca', 'regina@gmail.com', 1, '$0.00']
   ]"
 />
 ```
@@ -956,7 +956,7 @@ Check the following full working example (Resize your screen to see the responsi
   :data="[
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
-    ['Regina Bribiesca', 'fat@hotmail.com', 1, '$0.00']
+    ['Regina Bribiesca', 'regina@gmail.com', 1, '$0.00']
   ]"
 />
 </t-card>
