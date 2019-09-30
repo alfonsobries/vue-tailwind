@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import TCardTheme from '../themes/default/TCard'
 
 const {
@@ -47,6 +48,10 @@ const {
 
 export default {
   name: 'TCard',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   props: {
     tagName: {

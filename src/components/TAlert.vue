@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import TAlertTheme from '../themes/default/TAlert'
 
 const {
@@ -41,6 +42,11 @@ const {
 
 export default {
   name: 'TAlert',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
+
   props: {
     tagName: {
       type: String,

@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
 import handleClasses from '../mixins/handleClasses.js'
@@ -30,6 +31,10 @@ const {
 
 export default {
   name: 'TCheckbox',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   mixins: [commonAttributes, htmlInputMethods, handleClasses],
 

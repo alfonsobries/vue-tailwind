@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import Popper from 'vue-popperjs';
 import TButton from '../elements/TButton';
 import TDropdownTheme from '../themes/default/TDropdown'
@@ -74,6 +75,10 @@ const {
 
 export default {
   name: 'TDropdown',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   components: {
     Popper,

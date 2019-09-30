@@ -1,4 +1,5 @@
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import TButtonTheme from '../themes/default/TButton'
 
@@ -19,6 +20,10 @@ const {
 
 export default {
   name: 'TButton',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
   
   mixins: [commonAttributes],
 

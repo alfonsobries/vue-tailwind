@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
 import TRadio from './TRadio'
@@ -56,6 +57,10 @@ const {
 
 export default {
   name: 'TRadioGroup',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   components: {
     TRadio

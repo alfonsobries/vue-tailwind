@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import TTableTheme from '../themes/default/TTable'
 import pick from 'lodash/pick'
 
@@ -110,6 +111,10 @@ const {
 
 export default {
   name: 'TTable',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   props: {
     data: {

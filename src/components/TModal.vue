@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import TModalTheme from '../themes/default/TModal'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
@@ -86,6 +87,10 @@ const {
 
 export default {
   name: 'TModal',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   props: {
     transition: {
