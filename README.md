@@ -22,9 +22,14 @@ Or:
 yarn add vue-tailwind
 ``` 
 
+::: tip 
+If you using the default theme you need to [install TailwindCSS](https://tailwindcss.com/docs/installation) first
+:::
+
+
 ### 2. Configure your project to use `vue-tailwind` 
 
-### 2.1 Do nothing if you want to use our default theme:
+#### 2.1 Do nothing if you want to use our default theme:
 
 ```js
 import Vue from 'vue'
@@ -105,7 +110,10 @@ Vue.use(VueTailwind, {
 })
 ```
 
-3. Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
+### 3. (Optional) configure `purgecss`
+
+Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
+
 ```js
 // postcss.config.js (from https://tailwindcss.com/docs/controlling-file-size#setting-up-purgecss)
 const purgecss = require('@fullhuman/postcss-purgecss')({
@@ -130,6 +138,40 @@ module.exports = {
       : []
   ]
 }
+```
+
+## Install only the components you need
+
+If you want to reduce the bundle size by importing only the components you need you can do it by importing the component directly and registering it like this:
+
+```
+import TInput from 'vue-tailwind/src/elements/TInput.vue'
+Vue.use(TInput, {
+  successStatusClass: 'border-green-600 bg-green-300 text-white',
+})
+```
+
+_* Notice that you can pass the classes you want to override as you do when importing the full library._
+
+_** Also notice that the form inputs are in the `src/elements/` path and the components in `src/components/` path._
+
+You can also import the component from another custom component but in that case, you currently can't override the default theme, still, you can set the classes by using the props though, look at this example:
+
+```
+<template>
+<div>
+  <t-input :success-status-class="border-green-600 bg-green-300 text-white" >
+</div>
+</template>
+
+<script>
+import TInput from 'vue-tailwind/src/elements/TInput.vue'
+export default {
+  components: {
+    TInput
+  }
+}
+</script>
 ```
 
 ## What's next?
