@@ -10,6 +10,7 @@ const {
   tertiaryClass,
   successClass,
   dangerClass,
+  roundedClass,
   warningClass,
   disabledClass,
   defaultSizeClass,
@@ -46,7 +47,7 @@ export default {
       type: String,
       default: null,
       validator: function (value) {
-        return value === null || ['primary', 'secondary', 'tertiary', 'danger', 'warning', 'success'].indexOf(value) !== -1
+        return value === null || ['primary', 'secondary', 'tertiary', 'danger', 'warning', 'success', 'rounded'].indexOf(value) !== -1
       }
     },
     size: {
@@ -103,6 +104,10 @@ export default {
     successClass: {
       type: [String, Object, Array],
       default: successClass
+    },
+    roundedClass: {
+      type: [String, Object, Array],
+      default: roundedClass
     },
     dangerClass: {
       type: [String, Object, Array],
@@ -174,6 +179,9 @@ export default {
           break;
         case 'success':
           classes.push(this.successClass)
+          break;
+        case 'rounded':
+          classes.push(this.roundedClass)
           break;
         default:
           classes.push(this.defaultClass)

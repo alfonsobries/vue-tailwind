@@ -6,6 +6,7 @@ const TButton = {
   tertiaryClass: 'border block underline text-blue-500 border-transparent bg-transparent hover:text-blue-600',
   successClass: 'text-white bg-green-500 border-green-500 hover:bg-green-600 hover:border-green-600',
   dangerClass: 'text-white bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600',
+  roundedClass: 'text-white font-bold py-2 px-4 rounded-full bg-blue-500 hover:bg-blue-700',
   warningClass: 'text-yellow-900 bg-yellow-500 border-yellow-500 hover:bg-yellow-600 hover:border-yellow-600',
   disabledClass: 'cursor-not-allowed opacity-75',
   defaultSizeClass: 'px-6 py-3',
