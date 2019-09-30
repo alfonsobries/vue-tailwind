@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import handleClasses from '../mixins/handleClasses.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import htmlInputMethods from '../mixins/htmlInputMethods.js'
@@ -45,6 +46,10 @@ const {
 
 export default {
   name: 'TInput',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   mixins: [commonAttributes, handleClasses, htmlInputMethods],
 
