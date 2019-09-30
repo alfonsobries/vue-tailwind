@@ -40,7 +40,7 @@ This button is compatible with `vue-router`, you just need to define the `to` pr
 | tabindex    | String / Number | null      | _Any valid type_ |
 | value       | String / Number | null      | _Any valid type_ |
 | type        | String      | 'button'      | _Any valid type_ |
-| variant        | String      | undefined      | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success' |
+| variant        | String      | undefined      | 'primary', 'secondary', 'tertiary', 'danger', 'warning', 'success', 'rounded' |
 | size        | String      | undefined      | 'sm', 'lg' |
 | href        | String      | null      | _Any valid type_ |
 | tagName+        | String      | 'button'      | 'button', 'a' |
@@ -72,6 +72,7 @@ In that case the valid props are the following:
 | secondaryClass    | Classes for the secondary button variant   |
 | tertiaryClass     | Classes for the tertiary button variant   |
 | successClass      | Classes for the success button variant   |
+| roundedClass      | Classes for the rounded button variant   |
 | dangerClass       | Classes for the danger button variant   |
 | warningClass      | Classes for the warning button variant   |
 | disabledClass     | Classes for the disabled button variant (Added to the variant) |

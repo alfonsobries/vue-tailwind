@@ -49,6 +49,7 @@ export default {
         { value: 'secondary', text: 'Secondary' },
         { value: 'tertiary', text: 'Tertiary' },
         { value: 'success', text: 'Success' },
+        { value: 'rounded', text: 'Rounded' },
         { value: 'warning', text: 'Warning' },
         { value: 'danger', text: 'Danger' },
       ]
