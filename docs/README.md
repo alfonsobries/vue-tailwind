@@ -18,9 +18,14 @@ Or:
 yarn add vue-tailwind
 ``` 
 
+::: tip 
+If you using the default theme you need to [install TailwindCSS](https://tailwindcss.com/docs/installation) first
+:::
+
+
 ### 2. Configure your project to use `vue-tailwind` 
 
-### 2.1 Do nothing if you want to use our default theme:
+#### 2.1 Do nothing if you want to use our default theme:
 
 ```js
 import Vue from 'vue'
@@ -101,7 +106,10 @@ Vue.use(VueTailwind, {
 })
 ```
 
-3. Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
+### 3. (Optional) configure `purgecss`
+
+Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
+
 ```js
 // postcss.config.js (from https://tailwindcss.com/docs/controlling-file-size#setting-up-purgecss)
 const purgecss = require('@fullhuman/postcss-purgecss')({
@@ -128,6 +136,40 @@ module.exports = {
 }
 ```
 
+## Install only the components you need
+
+If you want to reduce the bundle size by importing only the components you need you can do it by importing the component directly and registering it like this:
+
+```
+import TInput from 'vue-tailwind/src/elements/TInput.vue'
+Vue.use(TInput, {
+  successStatusClass: 'border-green-600 bg-green-300 text-white',
+})
+```
+
+_* Notice that you can pass the classes you want to override as you do when importing the full library._
+
+_** Also notice that the form inputs are in the `src/elements/` path and the components in `src/components/` path._
+
+You can also import the component from another custom component but in that case, you currently can't override the default theme, still, you can set the classes by using the props though, look at this example:
+
+```
+<template>
+<div>
+  <t-input :success-status-class="border-green-600 bg-green-300 text-white" >
+</div>
+</template>
+
+<script>
+import TInput from 'vue-tailwind/src/elements/TInput.vue'
+export default {
+  components: {
+    TInput
+  }
+}
+</script>
+```
+
 ## What's next?
 
 The idea is to create a big set of common components using the same philosophy: Configurable elements that could be adapted to your project style:
@@ -146,7 +188,7 @@ For now, these are the priorities, of course are subject to change.
 - [ ] File input
 
 **Rich inputs**
-- [ ] [In Progress] Rich Select (tagging, autocomplete, remote data sets, etc.)  
+- [ ] __IN PROGRESS__ Rich Select (tagging, autocomplete, remote data sets, etc.)  
 - [ ] Date/Time Picker
 - [ ] Rich file input (drop, multiupload, progress bar, etc)
 
@@ -158,8 +200,8 @@ For now, these are the priorities, of course are subject to change.
 - [x] __NEW__ [Table](/components/table.html)
 - [x] __NEW__ [Pagination](/components/pagination.html)
 - [x] __NEW__ [Modal](/components/modal.html)
-- [ ] [In Progress] Pagination Nav
-- [ ] [In Progress] Dialogs
+- [ ] __IN PROGRESS__ Pagination Nav
+- [ ] __IN PROGRESS__ Dialogs
 - [ ] Tooltip
 - [ ] Progress bar
 
@@ -175,4 +217,31 @@ For now, these are the priorities, of course are subject to change.
   - Create a theme editor. (And maybe a "submit your theme" page)
   - Add more features to the components
 
+### Changelog
+
+Please see [CHANGELOG](https://github.com/alfonsobries/vue-tailwind/blob/master/CHANGELOG.md) for more information what has changed recently.
+
+## Contributing
+
+Do you like this project? Contribute! Any help is welcome. (I'm not an English speaker so also any comments on my redaction are welcome).
+
+Is this project helpful for you? Consider [buying me a coffee](https://www.buymeacoffee.com/alfonsobries) to keep me awake.
+
+Please see [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
+
+### Security
+
+If you discover any security related issues, please email alfonso@vexilo.com instead of using the issue tracker.
+
+## Credits
+
+- [Alfonso Bribiesca](https://github.com/alfonsobries)
+- [All Contributors](https://github.com/alfonsobries/vue-tailwind/graphs/contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
 _Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
+
+

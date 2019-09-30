@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
 import TCheckbox from './TCheckbox'
@@ -74,6 +75,10 @@ const {
 
 export default {
   name: 'TCheckboxGroup',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   components: {
     TCheckbox

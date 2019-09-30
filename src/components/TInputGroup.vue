@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import isEqual from 'lodash/isEqual'
 import intersection from 'lodash/intersection'
 import handleStatus from '../mixins/handleStatus.js'
@@ -33,6 +34,10 @@ const {
 
 export default {
   name: 'TInputGroup',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   mixins: [handleStatus],
 

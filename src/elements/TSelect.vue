@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import commonAttributes from '../mixins/commonAttributes.js'
 import hasMultioptions from '../mixins/hasMultioptions.js'
 import handleClasses from '../mixins/handleClasses.js'
@@ -75,6 +76,10 @@ const {
 
 export default {
   name: 'TSelect',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
   
   mixins: [commonAttributes, handleClasses, hasMultioptions],
 

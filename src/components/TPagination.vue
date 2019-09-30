@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import selfInstall from '../utils/selfInstall.js'
 import TPaginationTheme from '../themes/default/TPagination'
 import range from 'lodash/range'
 
@@ -112,6 +113,10 @@ const {
 
 export default {
   name: 'TPagination',
+
+  install(Vue, theme) {
+    selfInstall(Vue, theme, this)
+  },
 
   props: {
     value: {
