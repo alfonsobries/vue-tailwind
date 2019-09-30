@@ -74,7 +74,7 @@ describe('TTable.vue', () => {
     const data = [
       ['Alfonso', 'alfonso@vexilo.com', '$9,999'],
       ['Saida', 'saida@gmail.com', '$1,999'],
-      ['Fátima', 'fatima.134@gmail.com', '$0'],
+      ['Regina', 'regina.134@gmail.com', '$0'],
     ]
     
     const wrapper = shallowMount(TTable, {
@@ -110,8 +110,8 @@ describe('TTable.vue', () => {
         },
         {
           id: 3,
-          name: 'Fátima',
-          email: 'fatima.123@gmail.com',
+          name: 'Regina',
+          email: 'regina.123@gmail.com',
           sales: '$0',
         },
       ]
@@ -152,8 +152,8 @@ describe('TTable.vue', () => {
       },
       {
         id: 3,
-        name: 'Fátima',
-        email: 'fatima.123@gmail.com',
+        name: 'Regina',
+        email: 'regina.123@gmail.com',
         sales: '$0',
       },
     ]
@@ -194,8 +194,8 @@ describe('TTable.vue', () => {
       },
       {
         id: 3,
-        name: 'Fátima',
-        email: 'fatima.123@gmail.com',
+        name: 'Regina',
+        email: 'regina.123@gmail.com',
         sales: '$0',
       },
     ]
@@ -238,8 +238,8 @@ describe('TTable.vue', () => {
       },
       {
         id: 3,
-        name: 'Fátima',
-        email: 'fatima.123@gmail.com',
+        name: 'Regina',
+        email: 'regina.123@gmail.com',
         sales: '$0',
       },
     ]
@@ -287,8 +287,8 @@ describe('TTable.vue', () => {
       },
       {
         id: 3,
-        name: 'Fátima',
-        email: 'fatima.123@gmail.com',
+        name: 'Regina',
+        email: 'regina.123@gmail.com',
         sales: '$0',
       },
     ]
