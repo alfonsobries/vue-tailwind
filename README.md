@@ -110,7 +110,7 @@ Vue.use(VueTailwind, {
 })
 ```
 
-### 3. (Optional) configure `purgecss`
+### 3. (Optional) configure `purgecss`
 
 Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
 
@@ -146,8 +146,14 @@ If you want to reduce the bundle size by importing only the components you need 
 
 ```
 import TInput from 'vue-tailwind/src/elements/TInput.vue'
-Vue.use(TInput, {
+import TAlert from 'vue-tailwind/src/components/TAlert.vue'
+
+  Vue.use(TInput, {
   successStatusClass: 'border-green-600 bg-green-300 text-white',
+})
+
+Vue.use(TAlert, {
+  baseClass: 'border-2 p-3 relative flex',
 })
 ```
 
