@@ -62,11 +62,13 @@ function extendComponent (Vue, CurrentTheme, componentName) {
   })
 }
 
-const VueTailwind = {
+export default {
   install (Vue, args = {}) {
     if (this.installed) {
       return
     }
+
+    Vue.component('t-input', TInput)
 
     this.installed = true
 
@@ -82,5 +84,3 @@ const VueTailwind = {
     })
   }
 }
-
-export default VueTailwind
