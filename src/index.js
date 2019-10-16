@@ -68,8 +68,6 @@ export default {
       return
     }
 
-    Vue.component('t-input', TInput)
-
     this.installed = true
 
     const CurrentTheme = {
