@@ -6,6 +6,7 @@ module.exports = {
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Github', link: 'https://github.com/alfonsobries/vue-tailwind' },
+      { text: 'Nearshore Software Development', link: 'https://www.vexilo.com/en' },
     ],
     sidebar: [
       '/',
