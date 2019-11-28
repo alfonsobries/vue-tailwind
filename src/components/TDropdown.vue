@@ -30,7 +30,7 @@
       <slot />
     </div>
 
-    <t-button 
+    <t-button
       ref="button"
       slot="reference"
       :disabled="disabled"
@@ -43,16 +43,16 @@
       @focus="$emit('focus', $event)"
       @blur="$emit('blur', $event)"
     >
-      <slot 
-        :shown="shown" 
+      <slot
+        :shown="shown"
         name="button-content"
       >
         {{ text }}
       </slot>
-      <svg 
+      <svg
         v-if="visibleArrow"
-        xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 24 24" 
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
         class="ml-1 h-5 w-5 fill-current text-gray-700"
       >
         <path d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z" />
@@ -208,7 +208,7 @@ export default {
     },
     /**
      * The default classes for the button
-     * 
+     *
      * @return {Array}
      */
     currentClass () {
@@ -220,7 +220,7 @@ export default {
       if (this.baseClass) {
         classes.push(this.baseClass)
       }
-      
+
       if (this.disabled) {
         classes.push(`${this.$options._componentTag}-disabled`)
         if (this.disabledClass) {
@@ -244,7 +244,7 @@ export default {
   methods: {
     dropdownClick (e) {
       this.$emit('dropdown-click', e)
-      
+
       if (this.closeOnDropdownClick && this.$refs.popper) {
         this.$refs.popper.doClose()
       }
@@ -257,7 +257,7 @@ export default {
 
     onHide (e) {
       this.shown = false
-      this.$emit('show', e)
+      this.$emit('hide', e)
     },
     /**
      * Change the key forces to the component to re-render
