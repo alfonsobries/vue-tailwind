@@ -22,7 +22,7 @@ describe('TDropdown.vue', () => {
 
   it('default wrapper tag to div', () => {
     const wrapper = mount(TDropdown)
-    
+
     expect(wrapper.vm.$el.tagName).toBe('DIV')
   })
 
@@ -30,7 +30,7 @@ describe('TDropdown.vue', () => {
     const wrapper = mount(TDropdown, {
       propsData: { tagName: 'li' }
     })
-    
+
     expect(wrapper.vm.$el.tagName).toBe('LI')
   })
 
@@ -58,7 +58,7 @@ describe('TDropdown.vue', () => {
       name: 'button-name',
       successClass: 'bg-green-100',
     }
-    
+
     const wrapper = mount(TDropdown, {
       propsData: { buttonProps }
     })
@@ -72,7 +72,7 @@ describe('TDropdown.vue', () => {
 
 
   it('emits a blur event when the button is blurred', () => {
-   const wrapper = mount(TDropdown)
+    const wrapper = mount(TDropdown)
 
     const button = wrapper.vm.$refs.button.$el
 
@@ -97,5 +97,45 @@ describe('TDropdown.vue', () => {
 
     // assert event count
     expect(wrapper.emitted('focus').length).toBe(1)
+  })
+
+  it('emits a hide event when the dropdown is closed', () => {
+    // document.createRange is going to be created below because of the following error
+    // [Vue warn]: Error in nextTick: "TypeError: document.createRange is not a function"
+    global.document.createRange = () => ({
+      setStart: () => {},
+      setEnd: () => {},
+      commonAncestorContainer: {
+        nodeName: 'BODY',
+        ownerDocument: document,
+      },
+    });
+    // component is mounted with a slot
+    const htmlElement = '<ul><li><a id="is-link" href="#">Link</a></li></ul>'
+    const wrapper = mount(TDropdown, {
+      slots: {
+        default: htmlElement
+      }
+    })
+    // finds the button which is the dropdown opener
+    const button = wrapper.find('button')
+    // triggers the click to open the dropdown
+    button.trigger('click')
+    // the dropdown component is opened and the event is emitted
+    expect(wrapper.emitted('click')).toBeTruthy()
+    // it was clicked only one time
+    expect(wrapper.emitted('click').length).toBe(1)
+    // finds the link which is the slot inside the dropdown component
+    const link = wrapper.find('#is-link')
+    // triggers the click to select an option
+    link.trigger('click')
+    // the click event is emitted
+    expect(wrapper.emitted('click')).toBeTruthy()
+    // the dropdown is closed and the hide event is emitted
+    expect(wrapper.emitted('hide')).toBeTruthy()
+    // it was clicked only one time in the link
+    expect(wrapper.emitted('click').length).toBe(1)
+    // it was closed only one time
+    expect(wrapper.emitted('hide').length).toBe(1)
   })
 })
