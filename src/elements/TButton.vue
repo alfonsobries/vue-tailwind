@@ -24,7 +24,7 @@ export default {
   install(Vue, theme) {
     selfInstall(Vue, theme, this)
   },
-  
+
   mixins: [commonAttributes],
 
   props: {
@@ -60,6 +60,22 @@ export default {
       validator: function (value) {
         return value === null || ['lg', 'sm'].indexOf(value) !== -1
       }
+    },
+    method: {
+      type: String,
+      default: undefined
+    },
+    data: {
+      type: [Object, FormData],
+      default: {}
+    },
+    preserveState :{
+      type: Boolean,
+      default: false,
+    },
+    preserveScroll :{
+      type: Boolean,
+      default: false,
     },
     to: {
       type: [String, Object],
@@ -138,7 +154,7 @@ export default {
   computed: {
     /**
      * The default classes for the button
-     * 
+     *
      * @return {Array}
      */
     currentClass () {
@@ -147,7 +163,7 @@ export default {
         `${this.$options._componentTag}-size-${ this.size || 'default' }`,
         this.baseClass
       ]
-      
+
       if (this.disabled) {
         classes.push(`${this.$options._componentTag}-disabled`)
         classes.push(this.disabledClass)
@@ -188,18 +204,32 @@ export default {
       return classes
     },
 
+    isInertiaLinkComponentAvailable() {
+      return !!this.$options.components.InertiaLink;
+    },
+
     isRouterLinkComponentAvailable () {
       return !! (this.$options.components.RouterLink || this.$options.components.NuxtLink);
     },
 
     /**
-     * If we have the `to` defined and the routerLink or Nuxt link component is available we can 
+     * If we have the `to` defined and the routerLink or Nuxt link component is available we can
      * use the create a router link
-     * 
+     *
      * @return {Boolean}
      */
     isARouterLink () {
       return this.to !== undefined && this.isRouterLinkComponentAvailable
+    },
+
+    /**
+     * If we have the `href` defined and the InertiaLink component is available we can
+     * use to create an interia link
+     *
+     * @return {Boolean}
+     */
+    isAnIntertiaLink() {
+      return this.href !== undefined && this.isInertiaLinkComponentAvailable
     },
 
     /**
@@ -208,7 +238,11 @@ export default {
      */
     componentToRender () {
       if (this.isARouterLink) {
-        return this.$options.components.NuxtLink || this.$options.components.RouterLink
+        return this.$options.components.NuxtLink || this.$options.components.RouterLink;
+      }
+
+      if (this.isAnIntertiaLink) {
+        return this.$options.components.InertiaLink;
       }
 
       if (this.href) {
@@ -245,6 +279,21 @@ export default {
      * @return {Object}
      */
     getAttributes () {
+      if (this.isAnIntertiaLink) {
+        return {
+          href: this.href,
+          method: this.method,
+          data: this.data,
+          preserveState: this.preserveState,
+          preserveScroll: this.preserveScroll,
+          id: this.id,
+          value: this.value,
+          autofocus: this.autofocus,
+          disabled: this.disabled,
+          name: this.name,
+          type: this.type,
+        }
+      }
       if (this.isARouterLink) {
         return {
           to: this.to,
@@ -265,14 +314,13 @@ export default {
       }
 
       return {
-          id: this.id,
-          value: this.value,
-          autofocus: this.autofocus,
-          disabled: this.disabled,
-          name: this.name,
-          href: this.href,
-          type: this.type,
-        }
+        id: this.id,
+        value: this.value,
+        autofocus: this.autofocus,
+        name: this.name,
+        href: this.href,
+        type: this.type,
+      }
     }
   },
 
