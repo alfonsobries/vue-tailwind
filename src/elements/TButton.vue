@@ -66,7 +66,7 @@ export default {
       default: undefined
     },
     data: {
-      type: [Object, FormData],
+      type: Object,
       default: {}
     },
     preserveState :{
