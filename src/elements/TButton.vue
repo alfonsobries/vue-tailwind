@@ -63,11 +63,11 @@ export default {
     },
     method: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     data: {
       type: Object,
-      default: {}
+      default: undefined,
     },
     preserveState :{
       type: Boolean,
