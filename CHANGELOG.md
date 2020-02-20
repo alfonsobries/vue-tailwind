@@ -43,3 +43,7 @@ All notable changes to `vue-tailwind` will be documented in this file
 ## 0.4.0 - 2019-07-26
 
 - [Feature] You can import a single components passing the theme as configuration
+
+## 0.4.3 - 2020-02-20
+
+- [Fixed] Modal is not in default template

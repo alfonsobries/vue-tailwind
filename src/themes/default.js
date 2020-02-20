@@ -29,6 +29,7 @@ import TCard from './default/TCard'
 import TTable from './default/TTable'
 import TPagination from './default/TPagination'
 import TDropdown from './default/TDropdown'
+import TModal from './default/TModal'
 
 const DefaultTheme = {
   TInput,
@@ -45,6 +46,7 @@ const DefaultTheme = {
   TPagination,
   TCard,
   TDropdown,
+  TModal,
 }
 
 export {
@@ -62,6 +64,7 @@ export {
   TPagination,
   TCard,
   TDropdown,
+  TModal,
 }
 
 export default DefaultTheme
