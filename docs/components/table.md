@@ -509,7 +509,7 @@ The slot props contains the following data:
           v-for="(item, index) in props.data" 
           :class="[props.thClass, `bg-yellow-${index+1}00`]"
         >
-          [{{ item.text }}]
+          {{ item.text }}
         </th>
       </tr>
     </thead>
@@ -523,7 +523,7 @@ The slot props contains the following data:
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
   ]"
-/>
+>
   <template v-slot:thead="props">
     <thead :class="props.theadClass">
       <tr :class="props.trClass">
@@ -531,7 +531,7 @@ The slot props contains the following data:
           v-for="(item, index) in props.data" 
           :class="[props.thClass, `bg-yellow-${index+1}00`]"
         >
-          [{{ item.text }}]
+          {{ item.text }}
         </th>
       </tr>
     </thead>
@@ -602,7 +602,7 @@ The slot props contain the following data:
     ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
     ['Saida Redondo', 'saida@gmail.com', 27, '$124.00'],
   ]"
-/>
+>
   <template v-slot:tfoot="props">
     <tfoot :class="props.tfootClass">
       <tr :class="[props.trClass, 'bg-gray-200']">
