@@ -317,6 +317,7 @@ export default {
         id: this.id,
         value: this.value,
         autofocus: this.autofocus,
+        disabled: this.disabled,
         name: this.name,
         href: this.href,
         type: this.type,
