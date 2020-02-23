@@ -285,7 +285,9 @@ export default {
       this.$emit('closed');
     },
     prepareDomForModal() {
-      disableBodyScroll(this.$refs.modal);
+      disableBodyScroll(this.$refs.modal, {
+        reserveScrollBarGap: true,
+      });
       this.calculateMarginTop();
       if (this.$refs.modal) {
         this.$refs.modal.focus()
