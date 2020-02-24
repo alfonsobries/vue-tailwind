@@ -17,6 +17,7 @@ import TModal from './components/TModal.vue'
 import TPagination from './components/TPagination.vue'
 import TDropdown from './components/TDropdown.vue'
 import TInputGroup from './components/TInputGroup.vue'
+import TDatepicker from './components/TDatepicker.vue'
 
 const components = {
   TInput,
@@ -34,6 +35,7 @@ const components = {
   TModal,
   TPagination,
   TAlert,
+  TDatepicker,
 }
 
 /**

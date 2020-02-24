@@ -31,7 +31,8 @@
   "dependencies": {
     "body-scroll-lock": "^2.6.4",
     "vue": "^2.6.10",
-    "vue-popperjs": "^2.1.0"
+    "vue-popperjs": "^2.1.0",
+    "vue2-datepicker": "^3.3.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
