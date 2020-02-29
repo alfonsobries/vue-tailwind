@@ -40,7 +40,7 @@ Vue.use(VueTailwind)
 
 ### 2.2 Or better yet, create your own theme:
 
-Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border` instead of the default border, the button should has `more rounded borders`, and the primary button should be `purple`.
+Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border` instead of the default border, the button should have `more rounded borders`, and the primary button should be `purple`.
 
 ::: tip 
 
@@ -161,7 +161,7 @@ _* Notice that you can pass the classes you want to override as you do when impo
 
 _** Also notice that the form inputs are in the `src/elements/` path and the components in `src/components/` path._
 
-You can also import the component from another custom component but in that case, you currently can't override the default theme, still, you can set the classes by using the props though, look at this example:
+You can also import the component from another custom component but in that case, you currently can't override the default theme. However, you can set the classes by using the props, look at this example:
 
 ```
 <template>
@@ -184,7 +184,7 @@ export default {
 
 The idea is to create a big set of common components using the same philosophy: Configurable elements that could be adapted to your project style:
 
-For now, these are the priorities, of course are subject to change.
+For now, these are the priorities, which may be subject to change.
 
 **Basic inputs**
 - [x] [Text input](https://vue-tailwind.com/elements/input.html)
@@ -221,10 +221,10 @@ For now, these are the priorities, of course are subject to change.
 
 **More**
 
-- Once we have a reasonable amount of components I'm also planning:
+- Once we have a reasonable amount of components, I'm also planning to:
   - Create some more default themes
   - Improve the documentation with better playgrounds
-  - Create a theme editor. (And maybe a "submit your theme" page)
+  - Create a theme editor (And maybe a "submit your theme" page)
   - Add more features to the components
 
 ### Changelog
