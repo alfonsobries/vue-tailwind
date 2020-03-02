@@ -8,11 +8,11 @@ No more Bootstrap like sites, you just need to configure your theme classes once
 
 ## Help me to grow this library
 
-Is this project helpful for you?, consider to sponsor me. I have the goal of quit my work and spend full-time in this project, Im sure I can make the best library of customizable components with a little more time, check my site in Patreon:
+Is this project helpful for you? Consider sponsoring me. I have the goal of quit my work and spend full-time in this project; I'm sure I can make the best library of customizable components with a little more time, check my site in Patreon:
 
 [https://www.patreon.com/alfonsobries](https://www.patreon.com/alfonsobries)
 
-Of course any other kind help is welcome, see [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
+Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
 
 ## Install and use
 ### 1. Install the dependencies 
