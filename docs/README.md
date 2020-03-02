@@ -6,6 +6,14 @@ It uses [TailwindCss](https://tailwindcss.com) classes by default, and all class
 
 No more Bootstrap like sites, you just need to configure your theme classes once and all set.
 
+## Help me to grow this library
+
+Is this project helpful for you?, consider to sponsor me. I have the goal of quit my work and spend full-time in this project, Im sure I can make the best library of customizable components with a little more time, check my site in Patreon:
+
+https://www.patreon.com/alfonsobries
+
+Of course any other kind help is welcome, see [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
+
 ## Install and use
 ### 1. Install the dependencies 
 
@@ -224,14 +232,6 @@ For now, these are the priorities, of course are subject to change.
 ### Changelog
 
 Please see [CHANGELOG](https://github.com/alfonsobries/vue-tailwind/blob/master/CHANGELOG.md) for more information what has changed recently.
-
-## Contributing
-
-Do you like this project? Contribute! Any help is welcome. (I'm not an English speaker so also any comments on my redaction are welcome).
-
-Is this project helpful for you? Consider [buying me a coffee](https://www.buymeacoffee.com/alfonsobries) to keep me awake.
-
-Please see [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
 
 ### Security
 
