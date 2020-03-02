@@ -14,7 +14,7 @@ No more Bootstrap like sites, you just need to configure your theme classes once
 
 Is this project helpful for you?, consider to sponsor me. I have the goal of quit my work and spend full-time in this project, Im sure I can make the best library of customizable components with a little more time, check my site in Patreon:
 
-https://www.patreon.com/alfonsobries
+[https://www.patreon.com/alfonsobries](https://www.patreon.com/alfonsobries)
 
 Of course any other kind help is welcome, see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
