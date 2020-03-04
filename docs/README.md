@@ -8,7 +8,7 @@ No more Bootstrap like sites, you just need to configure your theme classes once
 
 ## Help me to grow this library
 
-Is this project helpful for you? Consider sponsoring me. I have the goal of quit my work and spend full-time in this project; I'm sure I can make the best library of customizable components with a little more time, check my site in Patreon:
+Is this project helpful for you? Consider sponsoring me. I have the goal of be able to spend full-time in this project; I'm sure I can make the best library of customizable components with a little more time, check my site in Patreon:
 
 [https://www.patreon.com/alfonsobries](https://www.patreon.com/alfonsobries)
 
