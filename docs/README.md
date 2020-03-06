@@ -44,7 +44,7 @@ Vue.use(VueTailwind)
 
 ### 2.2 Or better yet, create your own theme:
 
-Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border` instead of the default border, the button should has `more rounded borders`, and the primary button should be `purple`.
+Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border` instead of the default border, the button should have `more rounded borders`, and the primary button should be `purple`.
 
 ::: tip 
 
@@ -146,6 +146,8 @@ module.exports = {
 
 ## Install only the components you need
 
+If you want to reduce the bundle size by importing only the components you need you can do it by importing the component directly and registering it like this:
+
 ```
 import TInput from 'vue-tailwind/src/elements/TInput.vue'
 import TAlert from 'vue-tailwind/src/components/TAlert.vue'
@@ -163,7 +165,7 @@ _* Notice that you can pass the classes you want to override as you do when impo
 
 _** Also notice that the form inputs are in the `src/elements/` path and the components in `src/components/` path._
 
-You can also import the component from another custom component but in that case, you currently can't override the default theme, still, you can set the classes by using the props though, look at this example:
+You can also import the component from another custom component but in that case, you currently can't override the default theme. However, you can set the classes by using the props, look at this example:
 
 ```
 <template>
