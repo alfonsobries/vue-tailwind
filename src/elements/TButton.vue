@@ -302,7 +302,6 @@ export default {
           tag: this.tagName,
           activeClass: this.activeClass,
           exact: this.exact,
-          event: ['click', 'focus', 'blur'],
           exactActiveClass: this.exactActiveClass,
           id: this.id,
           value: this.value,
