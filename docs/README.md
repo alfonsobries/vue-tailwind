@@ -6,11 +6,34 @@ It uses [TailwindCss](https://tailwindcss.com) classes by default, and all class
 
 No more Bootstrap like sites, you just need to configure your theme classes once and all set.
 
+### Roadmap to version 1
+
+Even though some components are missing, I decided that I want to create a new version of this package based on my experience in the projects I used it.
+
+For this new version, I will not focus (yet) in more complex components, but in creating a more robust and flexible version of the components we have:
+
+These will go to be the main features:
+
+- Rebuilt in typescript
+- Avoid (as possible) to use third party library and focus on optimizing the size in the bundle
+- A better way to import just single components
+- A better way to define the classes based on dynamic states and a single prop to define the "blueprint" thinking in something like this (WIP):
+
+```
+<t-input :classes-blueprint="{
+  'success':  '...',
+  'success-smal':  '... text-sm'
+  'custom-state':  '... border-2'
+}" state="custom-state" />
+```
+
+- Also considering create separate packages for the more complex components that for this version could be based in third party libraries (date picker, rich select, etc.)
+
 ## Help me to grow this library
 
-Is this project helpful for you? Consider sponsoring me. I have the goal of be able to spend full-time in this project; I'm sure I can make the best library of customizable components with a little more time, check my site in Patreon:
+Is this project helpful for you? Consider sponsoring me. I have the goal of me able to spend full-time in this project; I'm sure I can make the best library of customizable components with a little more time:
 
-[https://www.patreon.com/alfonsobries](https://www.patreon.com/alfonsobries)
+[https://github.com/sponsors/alfonsobries)
 
 Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
 
