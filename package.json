@@ -1,31 +1,53 @@
 {
   "name": "vue-tailwind",
   "version": "1.0.0",
-  "description": "Vue tailwind package",
-  "main": ".eslintrc.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alfonsobries/vue-tailwind.git"
+    "url": "git+https://github.com/alfonsobries/vue-tailwind"
   },
   "keywords": [
-    "tailwind",
+    "tailwindcss",
+    "vue",
     "vue-tailwind",
-    "vue"
+    "vue components",
+    "tailwind components"
   ],
-  "author": "Alfonso Bribiesca",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/alfonsobries/vue-tailwind/issues"
-  },
-  "homepage": "https://github.com/alfonsobries/vue-tailwind#readme",
-  "devDependencies": {
-    "release-it": "^13.5.8"
+  "author": "Alfonso Bribiesca <alfonso@vexilo.com> (https://www.vexilo.com/)",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
+    "test:watch": "vue-cli-service test:unit --watch",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "tailwindcss": "^1.4.6",
-    "vue": "^2.6.11"
-  }
+    "core-js": "^3.6.4",
+    "lodash": "^4.17.15",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-property-decorator": "^8.4.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "@types/lodash": "^4.14.151",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-plugin-typescript": "~4.3.0",
+    "@vue/cli-plugin-unit-jest": "~4.3.0",
+    "@vue/cli-service": "~4.3.0",
+    "@vue/eslint-config-airbnb": "^5.0.2",
+    "@vue/eslint-config-typescript": "^5.0.2",
+    "@vue/test-utils": "1.0.0-beta.31",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "typescript": "~3.8.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "homepage": "https://vue-tailwind.com"
 }
