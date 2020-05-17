@@ -39,12 +39,24 @@ const TextInput = HtmlInput.extend({
       default: undefined,
     },
   },
+
   data() {
     return {
       localValue: this.value as string | null,
       valueWhenFocus: null as string | null,
     };
   },
+
+  computed: {
+    variantClass() {
+      if (this.classes && typeof this.classes[this.variant || 'default'] !== 'undefined') {
+        return this.classes[this.variant || 'default'];
+      }
+
+      return '';
+    },
+  },
+
   watch: {
     localValue(localValue: string | null) {
       this.$emit('input', localValue);
