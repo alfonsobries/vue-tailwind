@@ -48,40 +48,7 @@
 </template>
 
 <script lang="ts">
-import Component from 'vue-class-component';
-import { Watch } from 'vue-property-decorator';
-import Select from '../inputs/Select';
-import InputOptions from '../types/InputOptions';
+import TSelect from '../inputs/Select';
 
-@Component({})
-export default class TSelect extends Select {
-  readonly $el!: HTMLSelectElement;
-
-  @Watch('localValue')
-  onLocalValueChange(localValue: string | null) {
-    this.$emit('input', localValue);
-    this.$emit('change', localValue);
-  }
-
-  @Watch('value')
-  onValueChange(value: InputOptions): void {
-    this.localValue = value;
-  }
-
-  onBlur(e: FocusEvent) {
-    this.$emit('blur', e);
-  }
-
-  onFocus(e: FocusEvent) {
-    this.$emit('focus', e);
-  }
-
-  blur() {
-    this.$el.blur();
-  }
-
-  focus(options?: FocusOptions | undefined) {
-    this.$el.focus(options);
-  }
-}
+export default TSelect;
 </script>

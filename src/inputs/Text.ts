@@ -1,13 +1,20 @@
-import { Prop } from 'vue-property-decorator';
 import TextInput from './TextInput';
 
-export default class Text extends TextInput {
-  @Prop({ default: 'text' })
-  type?: string
+const Text = TextInput.extend({
+  props: {
+    type: {
+      type: String,
+      default: 'text',
+    },
+    max: {
+      type: [String, Number],
+      default: undefined,
+    },
+    min: {
+      type: [String, Number],
+      default: undefined,
+    },
+  },
+});
 
-  @Prop()
-  readonly max?: string | number
-
-  @Prop()
-  readonly min?: string | number
-}
+export default Text;

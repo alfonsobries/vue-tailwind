@@ -5,7 +5,7 @@ import { mapValues } from 'lodash';
 describe('TTextarea.vue', () => {
   it('it renders the input', () => {
     const wrapper = shallowMount(TTextarea);
-    expect(wrapper.contains('textarea')).toBe(true);
+    expect(wrapper.get('textarea')).toBeTruthy();
   });
 
   it('set the props.value into the input value', () => {

@@ -1,13 +1,20 @@
-import { Prop } from 'vue-property-decorator';
 import TextInput from './TextInput';
 
-export default class Textarea extends TextInput {
-  @Prop()
-  readonly rows?: number
+const Textarea = TextInput.extend({
+  props: {
+    rows: {
+      type: String,
+      default: undefined,
+    },
+    cols: {
+      type: String,
+      default: undefined,
+    },
+    wrap: {
+      type: String,
+      default: 'soft',
+    },
+  },
+});
 
-  @Prop()
-  readonly cols?: number
-
-  @Prop({ default: 'soft' })
-  readonly wrap?: 'hard' | 'soft'
-}
+export default Textarea;

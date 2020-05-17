@@ -1,25 +1,59 @@
 import Vue from 'vue';
-import { Prop } from 'vue-property-decorator';
+// import { Prop } from 'vue-property-decorator';
 
-export default abstract class HtmlInput extends Vue {
-  @Prop()
-  readonly id?: string
+const HtmlInput = Vue.extend({
+  props: {
+    id: {
+      type: String,
+      default: undefined,
+    },
+    name: {
+      type: String,
+      default: undefined,
+    },
+    disabled: {
+      type: Boolean,
+      default: undefined,
+    },
+    readonly: {
+      type: Boolean,
+      default: undefined,
+    },
+    autofocus: {
+      type: Boolean,
+      default: undefined,
+    },
+    required: {
+      type: Boolean,
+      default: undefined,
+    },
+    tabindex: {
+      type: [String, Number],
+      default: undefined,
+    },
+  },
+});
 
-  @Prop()
-  readonly name?: string
+export default HtmlInput;
+// export default abstract class HtmlInput extends Vue {
+//   @Prop()
+//   readonly id?: string
 
-  @Prop()
-  readonly disabled?: boolean
+//   @Prop()
+//   readonly name?: string
 
-  @Prop()
-  readonly readonly?: boolean
+//   @Prop()
+//   readonly disabled?: boolean
 
-  @Prop()
-  readonly autofocus?: boolean
+//   @Prop()
+//   readonly readonly?: boolean
 
-  @Prop()
-  readonly required?: boolean
+//   @Prop()
+//   readonly autofocus?: boolean
 
-  @Prop()
-  readonly tabindex?: string | number
-}
+//   @Prop()
+//   readonly required?: boolean
+
+//   @Prop()
+//   readonly tabindex?: string | number
+// }

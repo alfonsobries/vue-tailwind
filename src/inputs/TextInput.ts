@@ -1,36 +1,106 @@
-import { Prop } from 'vue-property-decorator';
 import HtmlInput from './HtmlInput';
-import Classes from '../types/Classes';
 
-export default abstract class TextInput extends HtmlInput {
-  @Prop()
-  readonly value?: string | null
+const TextInput = HtmlInput.extend({
+  props: {
+    value: {
+      type: String,
+      default: undefined,
+    },
+    autocomplete: {
+      type: Boolean,
+      default: undefined,
+    },
+    maxlength: {
+      type: [String, Number],
+      default: undefined,
+    },
+    minlength: {
+      type: [String, Number],
+      default: undefined,
+    },
+    multiple: {
+      type: Boolean,
+      default: undefined,
+    },
+    pattern: {
+      type: String,
+      default: undefined,
+    },
+    placeholder: {
+      type: String,
+      default: undefined,
+    },
+    variant: {
+      type: String,
+      default: undefined,
+    },
+    classes: {
+      type: Object,
+      default: undefined,
+    },
+  },
+  data() {
+    return {
+      localValue: this.value as string | null,
+      valueWhenFocus: null as string | null,
+    };
+  },
+  watch: {
+    localValue(localValue: string | null) {
+      this.$emit('input', localValue);
+    },
+    value(value: string | null) {
+      this.localValue = value;
+    },
+  },
 
-  @Prop()
-  readonly autocomplete?: boolean
+  methods: {
+    onBlur(e: FocusEvent) {
+      this.$emit('blur', e);
 
-  @Prop()
-  readonly maxlength?: string | number
+      if (this.localValue !== this.valueWhenFocus) {
+        this.$emit('change', this.localValue);
+      }
+    },
 
-  @Prop()
-  readonly minlength?: string | number
+    onFocus(e: FocusEvent) {
+      this.$emit('focus', e);
 
-  @Prop()
-  readonly multiple?: boolean
+      this.valueWhenFocus = this.localValue;
+    },
 
-  @Prop()
-  readonly pattern?: string
+    onKeyUp(e: KeyboardEvent) {
+      this.$emit('keyup', e);
+    },
 
-  @Prop()
-  readonly placeholder?: string
+    onKeyDown(e: KeyboardEvent) {
+      this.$emit('keydown', e);
+    },
 
-  @Prop({ default: 'default' })
-  variant?: string
+    blur() {
+      (this.$el as HTMLInputElement).blur();
+    },
 
-  @Prop()
-  readonly classes: Classes
+    click() {
+      (this.$el as HTMLInputElement).click();
+    },
 
-  public localValue?: string | null = this.value
+    focus(options?: FocusOptions | undefined) {
+      (this.$el as HTMLInputElement).focus(options);
+    },
 
-  public valueWhenFocus?: string | null = null
-}
+    select() {
+      (this.$el as HTMLInputElement).select();
+    },
+
+    setSelectionRange(start: number, end: number, direction?: 'forward' | 'backward' | 'none' | undefined) {
+      (this.$el as HTMLInputElement).setSelectionRange(start, end, direction);
+    },
+
+    setRangeText(replacement: string) {
+      (this.$el as HTMLInputElement).setRangeText(replacement);
+    },
+  },
+});
+
+export default TextInput;
