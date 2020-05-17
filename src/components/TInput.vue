@@ -16,6 +16,7 @@
     :placeholder="placeholder"
     :required="required"
     :type="type"
+    :class="variantClass"
     @blur="onBlur"
     @focus="onFocus"
     @keyup="onKeyUp"
@@ -86,6 +87,14 @@ export default class TInput extends TextInput {
 
   setRangeText(replacement: string) {
     this.$el.setRangeText(replacement);
+  }
+
+  get variantClass() {
+    if (this.classes && typeof this.classes[this.variant || 'default'] !== 'undefined') {
+      return this.classes[this.variant || 'default'];
+    }
+
+    return '';
   }
 }
 </script>

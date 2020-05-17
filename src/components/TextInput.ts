@@ -1,6 +1,7 @@
 import { Prop } from 'vue-property-decorator';
 import HtmlInput from './HtmlInput';
 
+type Classes = { [k: string]: string } | undefined
 
 export default class TextInput extends HtmlInput {
   @Prop()
@@ -32,6 +33,12 @@ export default class TextInput extends HtmlInput {
 
   @Prop({ default: 'text' })
   type?: string
+
+  @Prop({ default: 'default' })
+  variant?: string
+
+  @Prop()
+  readonly classes: Classes
 
   public localValue?: string | null = this.value
 
