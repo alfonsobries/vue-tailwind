@@ -37,7 +37,6 @@ const HtmlInput = Vue.extend({
     classes: {
       type: Object,
       default() {
-        console.log(this.$options.name);
         const componentName = this.$options.name;
         const defaultClasses = componentName ? Vue.vueTailwindTheme[componentName] : undefined;
         return defaultClasses || undefined;
