@@ -16,7 +16,7 @@
     :placeholder="placeholder"
     :required="required"
     :type="type"
-    :class="variantClass"
+    :class="inputClass"
     @blur="onBlur"
     @focus="onFocus"
     @keyup="onKeyUp"

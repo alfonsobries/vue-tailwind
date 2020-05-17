@@ -16,7 +16,7 @@
     :wrap="wrap"
     :rows="rows"
     :cols="cols"
-    :class="variantClass"
+    :class="inputClass"
     @blur="onBlur"
     @focus="onFocus"
     @keyup="onKeyUp"

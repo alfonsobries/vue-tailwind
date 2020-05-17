@@ -44,7 +44,7 @@ const TextInput = HtmlInput.extend({
   },
 
   computed: {
-    variantClass(): CssClass {
+    inputClass(): CssClass {
       return get(this.classes, this.variant, undefined);
     },
   },
