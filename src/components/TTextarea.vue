@@ -27,5 +27,7 @@
 <script lang="ts">
 import TTextarea from '../inputs/Textarea';
 
-export default TTextarea;
+export default TTextarea.extend({
+  name: 'TTextarea',
+});
 </script>

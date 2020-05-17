@@ -6,8 +6,6 @@ import NormalizedOptions from '../types/NormalizedOptions';
 import InputOption from '../types/InputOption';
 
 const Select = MultipleInput.extend({
-  name: 'TSelect',
-
   props: {
     placeholder: {
       type: String,

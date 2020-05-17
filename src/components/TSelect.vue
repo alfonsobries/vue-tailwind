@@ -58,5 +58,7 @@
 <script lang="ts">
 import TSelect from '../inputs/Select';
 
-export default TSelect;
+export default TSelect.extend({
+  name: 'TSelect',
+});
 </script>

@@ -3,8 +3,6 @@ import get from 'lodash/get';
 import HtmlInput from './HtmlInput';
 
 const TextInput = HtmlInput.extend({
-  name: 'TInput',
-
   props: {
     value: {
       type: String,

@@ -1,8 +1,6 @@
 import TextInput from './TextInput';
 
 const Textarea = TextInput.extend({
-  name: 'TTextarea',
-
   props: {
     rows: {
       type: String,

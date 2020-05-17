@@ -18,7 +18,7 @@
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "scripts/build.sh",
     "test:unit": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
     "lint": "vue-cli-service lint"
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/jest": "^25.2.2",
     "@types/lodash": "^4.14.151",
+    "@types/vue": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.3.1",
@@ -47,5 +48,12 @@
     "typescript": "~3.9.2",
     "vue-template-compiler": "^2.6.11"
   },
-  "homepage": "https://vue-tailwind.com"
+  "homepage": "https://vue-tailwind.com",
+  "files": [
+    "dist/*",
+    "src/*",
+    "*.json",
+    "*.js"
+  ],
+  "main": "./dist/vue-tailwind.umd.min.js"
 }

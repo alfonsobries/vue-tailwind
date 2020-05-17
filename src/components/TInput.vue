@@ -27,5 +27,7 @@
 <script lang="ts">
 import TInput from '../inputs/Text';
 
-export default TInput;
+export default TInput.extend({
+  name: 'TInput',
+});
 </script>
