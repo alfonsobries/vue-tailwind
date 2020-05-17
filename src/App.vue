@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import TInput from './components/TInput.vue';
+import TInput from './inputs/TInput.vue';
 
 @Component({
   components: {

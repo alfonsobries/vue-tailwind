@@ -1,37 +1,34 @@
 import { shallowMount } from '@vue/test-utils';
-import TInput from '@/inputs/TInput.vue';
-import mapValues from 'lodash/mapValues';
+import TTextarea from '@/inputs/TTextarea.vue';
+import { mapValues } from 'lodash';
 
-
-describe('TInput.vue', () => {
+describe('TTextarea.vue', () => {
   it('it renders the input', () => {
-    const wrapper = shallowMount(TInput);
-    expect(wrapper.get('input')).toBeTruthy();
+    const wrapper = shallowMount(TTextarea);
+    expect(wrapper.contains('textarea')).toBe(true);
   });
 
   it('set the props.value into the input value', () => {
     const value = 'input value';
-    const wrapper = shallowMount(TInput, {
+    const wrapper = shallowMount(TTextarea, {
       propsData: { value },
     });
-
     expect(wrapper.vm.$el.value).toBe(value);
   });
 
   it('updates the model value', async () => {
     const value = 'input value';
     const newValue = 'new value';
-    const wrapper = shallowMount(TInput, {
+    const wrapper = shallowMount(TTextarea, {
       propsData: { value },
     });
     wrapper.setProps({ value: newValue });
-    expect(wrapper.vm.value).toBe(newValue);
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$el.value).toBe(newValue);
   });
 
   it('disables the input', async () => {
-    const wrapper = shallowMount(TInput, {
+    const wrapper = shallowMount(TTextarea, {
       propsData: { disabled: false },
     });
     expect(wrapper.vm.$el.disabled).toBe(false);
@@ -41,17 +38,13 @@ describe('TInput.vue', () => {
     expect(wrapper.vm.$el.disabled).toBe(true);
   });
 
-  it('has input attributes', async () => {
-    const wrapper = shallowMount(TInput);
+  it('has common attributes', async () => {
+    const wrapper = shallowMount(TTextarea);
 
     const values = {
       id: {
         default: '',
         new: 'new-id',
-      },
-      autocomplete: {
-        default: '',
-        new: 'on',
       },
       autofocus: {
         default: false,
@@ -61,39 +54,9 @@ describe('TInput.vue', () => {
         default: false,
         new: true,
       },
-      max: {
-        default: '',
-        new: '10',
-      },
-      maxlength: {
-        keyName: 'maxLength',
-        default: 524288,
-        new: 12,
-      },
-      minlength: {
-        keyName: 'minLength',
-        default: 0,
-        new: 2,
-      },
-      min: {
-        default: '',
-        new: '3',
-      },
-      multiple: {
-        default: false,
-        new: true,
-      },
       name: {
         default: '',
         new: 'new-name',
-      },
-      pattern: {
-        default: '',
-        new: '[A-Za-z]{3}',
-      },
-      placeholder: {
-        default: '',
-        new: 'new placeholder',
       },
       readonly: {
         keyName: 'readOnly',
@@ -108,9 +71,47 @@ describe('TInput.vue', () => {
         default: '',
         new: 'my value',
       },
-      type: {
-        default: 'text',
-        new: 'email',
+    };
+
+    // Check for the default values
+    Object.keys(values).forEach((key) => {
+      const elementValue = values[key];
+      expect(wrapper.vm.$el[elementValue.keyName || key]).toBe(elementValue.default);
+    });
+
+    const newProps = mapValues(values, ({ new: newValue }, key) => newValue);
+
+    wrapper.setProps(newProps);
+
+    await wrapper.vm.$nextTick();
+
+    // Check for the new values
+    Object.keys(values).forEach((key) => {
+      const elementValue = values[key];
+      expect(wrapper.vm.$el[elementValue.keyName || key]).toBe(elementValue.new);
+    });
+  });
+
+  it('has textarea attributes', async () => {
+    const wrapper = shallowMount(TTextarea);
+
+    const values = {
+      maxlength: {
+        keyName: 'maxLength',
+        default: 0,
+        new: 12,
+      },
+      placeholder: {
+        default: '',
+        new: 'new placeholder',
+      },
+      rows: {
+        default: 2,
+        new: 6,
+      },
+      wrap: {
+        default: 'soft',
+        new: 'hard',
       },
     };
 
@@ -134,9 +135,8 @@ describe('TInput.vue', () => {
   });
 
   it('emits an input event with the input value', async () => {
-    const value = 'new value';
-    const wrapper = shallowMount(TInput, {
-      propsData: { value },
+    const wrapper = shallowMount(TTextarea, {
+      propsData: { value: 'original' },
     });
 
     const inputValue = 'Hello World';
@@ -157,7 +157,8 @@ describe('TInput.vue', () => {
   });
 
   it('emits an change event with the input value', async () => {
-    const wrapper = shallowMount(TInput);
+    const wrapper = shallowMount(TTextarea);
+    const input = wrapper.vm.$el;
 
     const inputValue = 'Hello World';
 
@@ -168,7 +169,6 @@ describe('TInput.vue', () => {
     await wrapper.vm.$nextTick();
 
     // The change event should be emitted when the input is blurred
-    const input = wrapper.vm.$el;
     input.dispatchEvent(new Event('blur'));
 
     expect(wrapper.emitted('change')).toBeTruthy();
@@ -182,7 +182,7 @@ describe('TInput.vue', () => {
 
   it('emits a blur event when the input is blurred', () => {
     const inputValue = 'input value';
-    const wrapper = shallowMount(TInput, {
+    const wrapper = shallowMount(TTextarea, {
       propsData: { value: inputValue },
     });
 
@@ -199,7 +199,7 @@ describe('TInput.vue', () => {
 
   it('emits a focus event when the input is focused', () => {
     const inputValue = 'input value';
-    const wrapper = shallowMount(TInput, {
+    const wrapper = shallowMount(TTextarea, {
       propsData: { value: inputValue },
     });
 
@@ -215,7 +215,7 @@ describe('TInput.vue', () => {
   });
 
   it('emits a keyup event', () => {
-    const wrapper = shallowMount(TInput);
+    const wrapper = shallowMount(TTextarea);
 
     wrapper.trigger('keyup', { keyCode: 40 });
 
@@ -226,7 +226,7 @@ describe('TInput.vue', () => {
   });
 
   it('emits a keydown event', () => {
-    const wrapper = shallowMount(TInput);
+    const wrapper = shallowMount(TTextarea);
 
     wrapper.trigger('keydown', { keyCode: 40 });
 
@@ -237,7 +237,7 @@ describe('TInput.vue', () => {
   });
 
   it('has a focus and a blur method', () => {
-    const wrapper = shallowMount(TInput);
+    const wrapper = shallowMount(TTextarea);
 
     wrapper.vm.focus();
 
@@ -253,7 +253,7 @@ describe('TInput.vue', () => {
   });
 
   it('has a click/select/setSelectionRange/setRangeText method', () => {
-    const wrapper = shallowMount(TInput);
+    const wrapper = shallowMount(TTextarea);
 
     const input = wrapper.vm.$el;
 

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { Prop } from 'vue-property-decorator';
 
-export default class HtmlInput extends Vue {
+export default abstract class HtmlInput extends Vue {
   @Prop()
   readonly id?: string
 

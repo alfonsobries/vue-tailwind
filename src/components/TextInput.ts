@@ -1,7 +1,6 @@
 import { Prop } from 'vue-property-decorator';
 import HtmlInput from './HtmlInput';
-
-type Classes = { [k: string]: string } | undefined
+import Classes from '../types/Classes';
 
 export default class TextInput extends HtmlInput {
   @Prop()
@@ -11,13 +10,7 @@ export default class TextInput extends HtmlInput {
   readonly autocomplete?: boolean
 
   @Prop()
-  readonly max?: string | number
-
-  @Prop()
   readonly maxlength?: string | number
-
-  @Prop()
-  readonly min?: string | number
 
   @Prop()
   readonly minlength?: string | number
@@ -30,9 +23,6 @@ export default class TextInput extends HtmlInput {
 
   @Prop()
   readonly placeholder?: string
-
-  @Prop({ default: 'text' })
-  type?: string
 
   @Prop({ default: 'default' })
   variant?: string

@@ -26,12 +26,21 @@
 
 <script lang="ts">
 import Component from 'vue-class-component';
-import { Watch } from 'vue-property-decorator';
-import TextInput from './TextInput';
+import { Watch, Prop } from 'vue-property-decorator';
+import TextInput from '../components/TextInput';
 
 @Component({})
 export default class TInput extends TextInput {
   readonly $el!: HTMLInputElement;
+
+  @Prop({ default: 'text' })
+  type?: string
+
+  @Prop()
+  readonly max?: string | number
+
+  @Prop()
+  readonly min?: string | number
 
   @Watch('localValue')
   onLocalValueChange(localValue: string | null) {
