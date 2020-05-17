@@ -1,6 +1,4 @@
 import Vue from 'vue';
-import CssClass from '@/types/CssClass';
-import get from 'lodash/get';
 
 const HtmlInput = Vue.extend({
   props: {

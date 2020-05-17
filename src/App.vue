@@ -5,6 +5,7 @@
   >
     <t-select
       v-model="variant"
+      :variant="variant"
       :options="variants"
     />
 
@@ -40,8 +41,18 @@ Vue.use(VueTailwind, {
       error: 'border block rounded bg-red-500 text-white p-3',
     },
     TSelect: {
-      default: 'border block rounded bg-white p-3',
-      error: 'border block rounded bg-red-500 text-white p-3',
+      default: {
+        wrapper: 'relative',
+        input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-white p-3',
+        arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700',
+        arrow: 'fill-current h-4 w-4',
+      },
+      error: {
+        wrapper: 'relative',
+        input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-red-500 text-white   p-3',
+        arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700',
+        arrow: 'fill-current h-4 w-4',
+      },
     },
     TTextarea: {
       default: 'border block rounded bg-white p-3',
@@ -49,7 +60,6 @@ Vue.use(VueTailwind, {
     },
   },
 });
-
 
 export default {
   components: {

@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+import CssClass from '@/types/CssClass';
 import MultipleInput from './MultipleInput';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
@@ -14,6 +16,22 @@ const Select = MultipleInput.extend({
   },
 
   computed: {
+    wrapperClass(): CssClass {
+      return get(this.classes, `${this.variant}.wrapper`);
+    },
+
+    inputClass(): CssClass {
+      return get(this.classes, `${this.variant}.input`);
+    },
+
+    arrowClass(): CssClass {
+      return get(this.classes, `${this.variant}.arrow`);
+    },
+
+    arrowWrapperClass(): CssClass {
+      return get(this.classes, `${this.variant}.arrowWrapper`);
+    },
+
     normalizedOptionsWithPlaceholder(): NormalizedOptions {
       if (typeof this.placeholder === 'undefined') {
         return this.normalizedOptions;
