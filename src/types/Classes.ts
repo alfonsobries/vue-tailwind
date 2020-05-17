@@ -1,3 +1,3 @@
-type Classes = { [k: string]: string } | undefined
+type Classes = { [k: string]: Classes | string } | undefined
 
 export default Classes;

@@ -1,6 +1,8 @@
 import HtmlInput from './HtmlInput';
 
 const TextInput = HtmlInput.extend({
+  name: 'TInput',
+
   props: {
     value: {
       type: String,
@@ -28,14 +30,6 @@ const TextInput = HtmlInput.extend({
     },
     placeholder: {
       type: String,
-      default: undefined,
-    },
-    variant: {
-      type: String,
-      default: undefined,
-    },
-    classes: {
-      type: Object,
       default: undefined,
     },
   },
