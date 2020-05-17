@@ -54,7 +54,9 @@ const Select = MultipleInput.extend({
       return {
         value: this.guessOptionValue(option),
         text: this.guessOptionText(option),
-        children: option.children ? option.children.map((childOption) => this.normalizeOption(childOption)) : undefined,
+        children: option.children
+          ? option.children.map((childOption) => this.normalizeOption(childOption))
+          : undefined,
       };
     },
     onBlur(e: FocusEvent) {
