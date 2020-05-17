@@ -1,3 +1,5 @@
+import CssClass from '@/types/CssClass';
+import get from 'lodash/get';
 import HtmlInput from './HtmlInput';
 
 const TextInput = HtmlInput.extend({
@@ -42,12 +44,8 @@ const TextInput = HtmlInput.extend({
   },
 
   computed: {
-    variantClass() {
-      if (this.classes && typeof this.classes[this.variant || 'default'] !== 'undefined') {
-        return this.classes[this.variant || 'default'];
-      }
-
-      return '';
+    variantClass(): CssClass {
+      return get(this.classes, this.variant, undefined);
     },
   },
 

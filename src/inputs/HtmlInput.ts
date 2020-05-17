@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import CssClass from '@/types/CssClass';
+import get from 'lodash/get';
 
 const HtmlInput = Vue.extend({
   props: {
@@ -38,8 +40,15 @@ const HtmlInput = Vue.extend({
       type: Object,
       default() {
         const componentName = this.$options.name;
-        const defaultClasses = componentName ? Vue.vueTailwindTheme[componentName] : undefined;
-        return defaultClasses || undefined;
+        if (!componentName || !Vue.vueTailwindTheme) {
+          return undefined;
+        }
+
+        const defaultClasses = componentName && Vue.vueTailwindTheme[componentName]
+          ? Vue.vueTailwindTheme[componentName]
+          : undefined;
+
+        return defaultClasses;
       },
     },
   },

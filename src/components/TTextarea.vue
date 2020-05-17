@@ -13,7 +13,6 @@
     :pattern="pattern"
     :placeholder="placeholder"
     :required="required"
-    :type="type"
     :wrap="wrap"
     :rows="rows"
     :cols="cols"

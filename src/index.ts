@@ -1,8 +1,8 @@
 import { PluginObject } from 'vue';
-import Classes from './types/Classes';
+import CssClasses from './types/CssClasses';
 
 type Theme = {
-  [k: string]: Classes;
+  [k: string]: CssClasses;
 }
 
 declare module 'vue/types/vue' {
