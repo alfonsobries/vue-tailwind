@@ -21,7 +21,8 @@
     "build": "scripts/build.sh",
     "test:unit": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "release": "release-it"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -45,6 +46,7 @@
     "eslint": "^7.0.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
+    "release-it": "^13.6.1",
     "typescript": "~3.9.2",
     "vue-template-compiler": "^2.6.11"
   },
