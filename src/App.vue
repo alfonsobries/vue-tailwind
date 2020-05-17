@@ -39,6 +39,12 @@ Vue.use(VueTailwind, {
     TInput: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
+      asarray: ['border', 'block', 'rounded', 'bg-blue-500', 'text-white', 'p-3'],
+      asobject: {
+        border: true,
+        block: 'yes',
+        'rounded bg-yellow-300 text-red-500 p-3': 'yes',
+      },
     },
     TSelect: {
       default: {
@@ -71,10 +77,8 @@ export default {
     return {
       model: '',
       variant: 'default',
-      variants: ['default', 'error'],
+      variants: ['default', 'error', 'notdefined', 'asarray', 'asobject'],
     };
   },
 };
-
-
 </script>
