@@ -1,7 +1,7 @@
 import { Prop } from 'vue-property-decorator';
 import TextInput from './TextInput';
 
-export default class TextareaInput extends TextInput {
+export default class Textarea extends TextInput {
   @Prop()
   readonly rows?: number
 

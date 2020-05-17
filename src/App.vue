@@ -3,20 +3,11 @@
     id="app"
     class="flex flex-col max-w-lg mx-auto p-5"
   >
-    <select
-      id=""
+    <t-select
       v-model="variant"
-      name="variant"
-      class="p-3 h-6"
-    >
-      <option
-        v-for="variant in variants"
-        :key="variant"
-        :value="variant"
-      >
-        {{ variant }}
-      </option>
-    </select>
+      :options="variants"
+    />
+
     <t-input
       v-model="model"
       :classes="classes"
@@ -31,11 +22,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import TInput from './inputs/TInput.vue';
+import TInput from './components/TInput.vue';
+import TSelect from './components/TSelect.vue';
 
 @Component({
   components: {
     TInput,
+    TSelect,
   },
 })
 export default class App extends Vue {

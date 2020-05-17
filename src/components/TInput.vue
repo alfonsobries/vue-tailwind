@@ -1,5 +1,5 @@
 <template>
-  <textarea
+  <input
     :id="id"
     v-model="localValue"
     :name="name"
@@ -7,32 +7,31 @@
     :readonly="readonly"
     :autocomplete="autocomplete"
     :autofocus="autofocus"
+    :max="max"
     :maxlength="maxlength"
+    :min="min"
     :minlength="minlength"
     :multiple="multiple"
     :pattern="pattern"
     :placeholder="placeholder"
     :required="required"
     :type="type"
-    :wrap="wrap"
-    :rows="rows"
-    :cols="cols"
     :class="variantClass"
     @blur="onBlur"
     @focus="onFocus"
     @keyup="onKeyUp"
     @keydown="onKeyDown"
-  />
+  >
 </template>
 
 <script lang="ts">
 import Component from 'vue-class-component';
 import { Watch } from 'vue-property-decorator';
-import TextareaInput from '../components/TextareaInput';
+import Text from '../inputs/Text';
 
 @Component({})
-export default class TInput extends TextareaInput {
-  readonly $el!: HTMLTextAreaElement;
+export default class TInput extends Text {
+  readonly $el!: HTMLInputElement;
 
   @Watch('localValue')
   onLocalValueChange(localValue: string | null) {

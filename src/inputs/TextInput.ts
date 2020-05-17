@@ -2,7 +2,7 @@ import { Prop } from 'vue-property-decorator';
 import HtmlInput from './HtmlInput';
 import Classes from '../types/Classes';
 
-export default class TextInput extends HtmlInput {
+export default abstract class TextInput extends HtmlInput {
   @Prop()
   readonly value?: string | null
 
