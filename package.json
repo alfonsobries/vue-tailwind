@@ -57,5 +57,5 @@
     "*.json",
     "*.js"
   ],
-  "main": "./dist/vue-tailwind.umd.min.js"
+  "main": "./dist/vue-tailwind.umd.js"
 }
