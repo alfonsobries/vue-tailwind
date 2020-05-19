@@ -16,6 +16,7 @@ type Theme = {
   [k: string]: CssClasses;
 }
 
+
 // install function executed by Vue.use()
 const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, args: Args = {}) {
   if (install.installed) return;
@@ -33,6 +34,7 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, a
         },
       },
     });
+
     Vue.component(componentName, componentWithCustomClasses);
   });
 };
