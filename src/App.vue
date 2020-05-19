@@ -30,9 +30,9 @@
 import Vue from 'vue';
 import VueTailwind from './index';
 
-import TInput from './components/TInput.vue';
-import TTextarea from './components/TTextarea.vue';
-import TSelect from './components/TSelect.vue';
+// import TInput from './components/TInput.vue';
+// import TTextarea from './components/TTextarea.vue';
+// import TSelect from './components/TSelect.vue';
 
 Vue.use(VueTailwind, {
   theme: {
@@ -69,9 +69,9 @@ Vue.use(VueTailwind, {
 
 export default {
   components: {
-    TInput,
-    TSelect,
-    TTextarea,
+    // TInput,
+    // TSelect,
+    // TTextarea,
   },
   data() {
     return {

@@ -36,18 +36,7 @@ const HtmlInput = Vue.extend({
     },
     classes: {
       type: Object,
-      default() {
-        const componentName = this.$options.name;
-        if (!componentName || !Vue.vueTailwindTheme) {
-          return undefined;
-        }
-
-        const defaultClasses = componentName && Vue.vueTailwindTheme[componentName]
-          ? Vue.vueTailwindTheme[componentName]
-          : undefined;
-
-        return defaultClasses;
-      },
+      default: undefined,
     },
   },
 });

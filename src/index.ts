@@ -1,31 +1,66 @@
-import { PluginObject } from 'vue';
-import CssClasses from './types/CssClasses';
+import _Vue, { PluginFunction, VueConstructor } from 'vue';
+import CssClasses from '@/types/CssClasses';
+
+// Import vue components
+import * as components from './components/index';
+
+// Define typescript interfaces for autoinstaller
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface InstallFunction extends PluginFunction<any> {
+  installed?: boolean;
+}
+
+type Args = { theme?: Theme } | undefined
 
 type Theme = {
   [k: string]: CssClasses;
 }
 
-declare module 'vue/types/vue' {
-  interface VueConstructor {
-    vueTailwindTheme: Theme;
+// install function executed by Vue.use()
+const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, args: Args = {}) {
+  if (install.installed) return;
+  install.installed = true;
+  // eslint-disable-next-line no-param-reassign
+  const theme = args.theme && typeof args.theme === 'object' ? args.theme : {};
+
+  Object.entries(components).forEach(([componentName, component]) => {
+    const componentClasses: CssClasses = theme[componentName] || undefined;
+    const componentWithCustomClasses = (component as VueConstructor).extend({
+      props: {
+        classes: {
+          type: Object,
+          default: () => componentClasses,
+        },
+      },
+    });
+    Vue.component(componentName, componentWithCustomClasses);
+  });
+};
+
+// Create module definition for Vue.use()
+const plugin = {
+  install,
+};
+
+// To auto-install on non-es builds, when vue is found
+// eslint-disable-next-line no-redeclare
+/* global window, global */
+if (process.env.ES_BUILD === 'false') {
+  let GlobalVue = null;
+  if (typeof window !== 'undefined') {
+    GlobalVue = window.Vue;
+  } else if (typeof global !== 'undefined') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    GlobalVue = (global as any).Vue;
+  }
+  if (GlobalVue) {
+    (GlobalVue as typeof _Vue).use(plugin);
   }
 }
 
-type Args = { theme?: Theme } | undefined
+// Default export is library as a whole, registered via Vue.use()
+export default plugin;
 
-
-const VueTailwind: PluginObject<Args> = {
-  installed: false,
-  install(Vue, args: Args = {}) {
-    if (this.installed) {
-      return;
-    }
-
-    this.installed = true;
-
-    // eslint-disable-next-line no-param-reassign
-    Vue.vueTailwindTheme = args.theme && typeof args.theme === 'object' ? args.theme : {};
-  },
-};
-
-export default VueTailwind;
+// To allow individual component use, export components
+// each can be registered via Vue.component()
+export * from './components/index';
