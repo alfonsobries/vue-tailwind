@@ -1,5 +1,3 @@
-import CssClass from '@/types/CssClass';
-import get from 'lodash/get';
 import HtmlInput from './HtmlInput';
 
 const TextInput = HtmlInput.extend({
@@ -32,6 +30,10 @@ const TextInput = HtmlInput.extend({
       type: String,
       default: undefined,
     },
+    classes: {
+      type: [String, Array, Object],
+      default: 'border bg-white',
+    },
   },
 
   data() {
@@ -39,12 +41,6 @@ const TextInput = HtmlInput.extend({
       localValue: this.value as string | null,
       valueWhenFocus: null as string | null,
     };
-  },
-
-  computed: {
-    inputClass(): CssClass {
-      return get(this.classes, this.variant, 'border bg-white');
-    },
   },
 
   watch: {

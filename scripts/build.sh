@@ -12,4 +12,7 @@ echo 'Building TTextarea...'
 echo 'Building TSelect...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TSelect --filename components/TSelect --no-clean ./src/t-select.ts
 
+echo 'Building TRadio...'
+./node_modules/.bin/vue-cli-service build --target lib --name TRadio --filename components/TRadio --no-clean ./src/t-radio.ts
+
 echo 'Done building assets.'

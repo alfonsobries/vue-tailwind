@@ -1,6 +1,4 @@
-import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
-import CssClass from '@/types/CssClass';
 import HtmlInput from './HtmlInput';
 
 const Radio = HtmlInput.extend({
@@ -29,12 +27,6 @@ const Radio = HtmlInput.extend({
   model: {
     prop: 'model',
     event: 'input',
-  },
-
-  computed: {
-    inputClass(): CssClass {
-      return get(this.classes, this.variant, undefined);
-    },
   },
 
   watch: {

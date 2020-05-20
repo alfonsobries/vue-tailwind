@@ -1,5 +1,5 @@
-import get from 'lodash/get';
 import CssClass from '@/types/CssClass';
+import CssClasses from '@/types/CssClasses';
 import MultipleInput from './MultipleInput';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
@@ -11,23 +11,32 @@ const Select = MultipleInput.extend({
       type: String,
       default: undefined,
     },
+    classes: {
+      type: [String, Array, Object],
+      default: (): CssClasses => ({
+        wrapper: 'relative',
+        input: 'block appearance-none w-full border bg-white rounded-none',
+        arrow: 'fill-current h-4 w-4',
+        arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-1',
+      }),
+    },
   },
 
   computed: {
     wrapperClass(): CssClass {
-      return get(this.classes, `${this.variant}.wrapper`, 'relative');
+      return this.getElementCssClass('wrapper');
     },
 
     inputClass(): CssClass {
-      return get(this.classes, `${this.variant}.input`, 'block appearance-none w-full border bg-white rounded-none');
+      return this.getElementCssClass('input');
     },
 
     arrowClass(): CssClass {
-      return get(this.classes, `${this.variant}.arrow`, 'fill-current h-4 w-4');
+      return this.getElementCssClass('arrow');
     },
 
     arrowWrapperClass(): CssClass {
-      return get(this.classes, `${this.variant}.arrowWrapper`, 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-1');
+      return this.getElementCssClass('arrowWrapper');
     },
 
     normalizedOptionsWithPlaceholder(): NormalizedOptions {

@@ -1,5 +1,7 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
-import CssClasses from '@/types/CssClasses';
+import LibrarySettings from '@/types/LibrarySettings';
+import CustomProps from '@/types/CustomProps';
+import { extractPropsFromLibrarySettings } from '@/utils/extractPropsFromSettings';
 
 // Import vue components
 import * as components from './components/index';
@@ -10,33 +12,21 @@ interface InstallFunction extends PluginFunction<any> {
   installed?: boolean;
 }
 
-type Args = { theme?: Theme } | undefined
-
-type Theme = {
-  [k: string]: CssClasses;
-}
-
-
 // install function executed by Vue.use()
-const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, args: Args = {}) {
+// eslint-disable-next-line max-len
+const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, args: LibrarySettings = {}) {
   if (install.installed) return;
   install.installed = true;
-  // eslint-disable-next-line no-param-reassign
-  const theme = args.theme && typeof args.theme === 'object' ? args.theme : {};
 
   Object.entries(components).forEach(([componentName, component]) => {
-    const componentClasses: CssClasses = theme[componentName] || undefined;
-    if (componentClasses) {
-      const componentWithCustomClasses = (component as VueConstructor).extend({
-        props: {
-          classes: {
-            type: Object,
-            default: () => componentClasses,
-          },
-        },
+    const customProps: CustomProps = extractPropsFromLibrarySettings(args, componentName);
+
+    if (customProps) {
+      const componentWithCustomTheme = (component as VueConstructor).extend({
+        props: customProps,
       });
 
-      Vue.component(componentName, componentWithCustomClasses);
+      Vue.component(componentName, componentWithCustomTheme);
     } else {
       Vue.component(componentName, component);
     }

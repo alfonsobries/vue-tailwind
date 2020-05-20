@@ -1,7 +1,8 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
-import CssClasses from '@/types/CssClasses';
-// Import vue component
+import { extractPropsFromComponentSettings } from '@/utils/extractPropsFromSettings';
 import component from './components/TSelect.vue';
+import ComponentSettings from './types/ComponentSettings';
+import CustomProps from './types/CustomProps';
 
 const componentName = 'TSelect';
 
@@ -15,25 +16,19 @@ interface InstallableComponent extends VueConstructor<_Vue> {
   install: InstallFunction;
 }
 
-type Args = { classes?: CssClasses } | undefined
-
 // install function executed by Vue.use()
-const install: InstallFunction = function installComponent(Vue: typeof _Vue, args: Args = {}) {
+// eslint-disable-next-line max-len
+const install: InstallFunction = function installComponent(Vue: typeof _Vue, args: ComponentSettings = {}) {
   if (install.installed) return;
   install.installed = true;
-  const componentClasses: CssClasses = args.classes && typeof args.classes === 'object' ? args.classes : undefined;
 
-  if (componentClasses) {
-    const componentWithCustomClasses = (component as VueConstructor).extend({
-      props: {
-        classes: {
-          type: Object,
-          default: () => componentClasses,
-        },
-      },
+  const customProps: CustomProps = extractPropsFromComponentSettings(args);
+  if (customProps) {
+    const componentWithCustomTheme = (component as VueConstructor).extend({
+      props: customProps,
     });
 
-    Vue.component(componentName, componentWithCustomClasses);
+    Vue.component(componentName, componentWithCustomTheme);
   } else {
     Vue.component(componentName, component);
   }

@@ -5,8 +5,8 @@
   >
     <t-select
       v-model="variant"
-      :variant="variant"
       :options="variants"
+      :variant="variant"
     />
 
     <t-input
@@ -48,27 +48,34 @@
 import Vue from 'vue';
 import VueTailwind from './index';
 
-// import TInput from './components/TInput.vue';
-// import TTextarea from './components/TTextarea.vue';
-// import TSelect from './components/TSelect.vue';
+// import TInput from './t-input';
+// import TTextarea from './t-textarea';
+// import TSelect from './t-select';
+// import TRadio from './t-radio';
+
+// Vue.use((TInput as any), {
+//   classes: 'border block rounded bg-white p-3',
+//   theme: {
+//     default: 'border block rounded bg-white p-3',
+//     error: 'border block rounded bg-red-500 text-white p-3',
+//     asarray: ['border', 'block', 'rounded', 'bg-blue-500', 'text-white', 'p-3'],
+//     asobject: {
+//       border: true,
+//       block: 'yes',
+//       'rounded bg-yellow-300 text-red-500 p-3': 'yes',
+//     },
+//   },
+// });
 
 Vue.use(VueTailwind, {
-  theme: {
-    TRadio: {
-      default: '',
-      error: '',
+  TSelect: {
+    classes: {
+      wrapper: 'relative',
+      input: 'block appearance-none w-full border bg-white rounded p-3 border-2',
+      arrow: 'fill-current h-4 w-4',
+      arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-1',
     },
-    TInput: {
-      default: 'border block rounded bg-white p-3',
-      error: 'border block rounded bg-red-500 text-white p-3',
-      asarray: ['border', 'block', 'rounded', 'bg-blue-500', 'text-white', 'p-3'],
-      asobject: {
-        border: true,
-        block: 'yes',
-        'rounded bg-yellow-300 text-red-500 p-3': 'yes',
-      },
-    },
-    TSelect: {
+    theme: {
       default: {
         wrapper: 'relative',
         input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-white p-3',
@@ -82,7 +89,23 @@ Vue.use(VueTailwind, {
         arrow: 'fill-current h-4 w-4',
       },
     },
-    TTextarea: {
+  },
+  TInput: {
+    classes: 'border block rounded bg-white p-3',
+    theme: {
+      default: 'border block rounded bg-white p-3',
+      error: 'border block rounded bg-red-500 text-white p-3',
+      asarray: ['border', 'block', 'rounded', 'bg-blue-500', 'text-white', 'p-3'],
+      asobject: {
+        border: true,
+        block: 'yes',
+        'rounded bg-yellow-300 text-red-500 p-3': 'yes',
+      },
+    },
+  },
+  TTextarea: {
+    classes: 'border block rounded bg-white p-3',
+    theme: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
     },
@@ -94,11 +117,12 @@ export default {
     // TInput,
     // TSelect,
     // TTextarea,
+    // TRadio,
   },
   data() {
     return {
       model: '',
-      variant: 'default',
+      variant: undefined,
       variants: ['default', 'error', 'notdefined', 'asarray', 'asobject'],
     };
   },
