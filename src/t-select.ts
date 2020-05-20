@@ -23,16 +23,20 @@ const install: InstallFunction = function installComponent(Vue: typeof _Vue, arg
   install.installed = true;
   const componentClasses: CssClasses = args.classes && typeof args.classes === 'object' ? args.classes : undefined;
 
-  const componentWithCustomClasses = (component as VueConstructor).extend({
-    props: {
-      classes: {
-        type: Object,
-        default: () => componentClasses,
+  if (componentClasses) {
+    const componentWithCustomClasses = (component as VueConstructor).extend({
+      props: {
+        classes: {
+          type: Object,
+          default: () => componentClasses,
+        },
       },
-    },
-  });
+    });
 
-  Vue.component(componentName, componentWithCustomClasses);
+    Vue.component(componentName, componentWithCustomClasses);
+  } else {
+    Vue.component(componentName, component);
+  }
 };
 
 // Create module definition for Vue.use()

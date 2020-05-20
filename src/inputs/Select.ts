@@ -15,19 +15,19 @@ const Select = MultipleInput.extend({
 
   computed: {
     wrapperClass(): CssClass {
-      return get(this.classes, `${this.variant}.wrapper`);
+      return get(this.classes, `${this.variant}.wrapper`, 'relative');
     },
 
     inputClass(): CssClass {
-      return get(this.classes, `${this.variant}.input`);
+      return get(this.classes, `${this.variant}.input`, 'block appearance-none w-full border bg-white rounded-none');
     },
 
     arrowClass(): CssClass {
-      return get(this.classes, `${this.variant}.arrow`);
+      return get(this.classes, `${this.variant}.arrow`, 'fill-current h-4 w-4');
     },
 
     arrowWrapperClass(): CssClass {
-      return get(this.classes, `${this.variant}.arrowWrapper`);
+      return get(this.classes, `${this.variant}.arrowWrapper`, 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-1');
     },
 
     normalizedOptionsWithPlaceholder(): NormalizedOptions {

@@ -19,6 +19,22 @@
       :variant="variant"
     />
 
+    <div
+      v-for="variantValue in variants"
+      :key="variantValue"
+      class="flex items-center"
+    >
+      <t-radio
+        v-model="variant"
+        :value="variantValue"
+        name="variant"
+      />
+
+      <span class="ml-2 text-sm">
+        {{ variantValue }}
+      </span>
+    </div>
+
     <link
       href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
       rel="stylesheet"
@@ -27,6 +43,8 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable max-len */
+
 import Vue from 'vue';
 import VueTailwind from './index';
 
@@ -36,6 +54,10 @@ import VueTailwind from './index';
 
 Vue.use(VueTailwind, {
   theme: {
+    TRadio: {
+      default: '',
+      error: '',
+    },
     TInput: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',

@@ -26,16 +26,20 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, a
 
   Object.entries(components).forEach(([componentName, component]) => {
     const componentClasses: CssClasses = theme[componentName] || undefined;
-    const componentWithCustomClasses = (component as VueConstructor).extend({
-      props: {
-        classes: {
-          type: Object,
-          default: () => componentClasses,
+    if (componentClasses) {
+      const componentWithCustomClasses = (component as VueConstructor).extend({
+        props: {
+          classes: {
+            type: Object,
+            default: () => componentClasses,
+          },
         },
-      },
-    });
+      });
 
-    Vue.component(componentName, componentWithCustomClasses);
+      Vue.component(componentName, componentWithCustomClasses);
+    } else {
+      Vue.component(componentName, component);
+    }
   });
 };
 

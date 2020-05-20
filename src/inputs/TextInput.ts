@@ -43,7 +43,7 @@ const TextInput = HtmlInput.extend({
 
   computed: {
     inputClass(): CssClass {
-      return get(this.classes, this.variant, undefined);
+      return get(this.classes, this.variant, 'border bg-white');
     },
   },
 

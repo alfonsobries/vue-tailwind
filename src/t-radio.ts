@@ -1,9 +1,9 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
 import CssClasses from '@/types/CssClasses';
 // Import vue component
-import component from '@/components/TTextarea.vue';
+import component from './components/TRadio.vue';
 
-const componentName = 'TTextarea';
+const componentName = 'TRadio';
 
 
 // Define typescript interfaces for autoinstaller
