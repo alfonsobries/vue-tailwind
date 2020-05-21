@@ -23,9 +23,10 @@
       v-for="variantValue in variants"
       :key="variantValue"
       class="flex items-center"
-      for="variant"
+      :for="`variant-${variantValue}`"
     >
       <t-radio
+        :id="`variant-${variantValue}`"
         v-model="variant"
         :value="variantValue"
         name="variant"
