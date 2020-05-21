@@ -26,6 +26,10 @@ const TCheckbox = HtmlInput.extend({
       type: [String, Object, Number, Boolean, Array],
       default: undefined,
     },
+    classes: {
+      type: [String, Array, Object],
+      default: 'form-checkbox',
+    },
   },
 
   data() {

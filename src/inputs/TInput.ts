@@ -16,6 +16,10 @@ const TInput = TextInput.extend({
       type: [String, Number],
       default: undefined,
     },
+    classes: {
+      type: [String, Array, Object],
+      default: 'form-input',
+    },
   },
   render(createElement) {
     const renderFun: (createElement: CreateElement) => VNode = this.render;

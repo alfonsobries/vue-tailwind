@@ -19,6 +19,10 @@ const TRadio = HtmlInput.extend({
       type: [String, Object, Number, Boolean],
       default: undefined,
     },
+    classes: {
+      type: [String, Array, Object],
+      default: 'form-radio',
+    },
   },
 
   data() {

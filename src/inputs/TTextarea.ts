@@ -16,6 +16,10 @@ const TTextarea = TextInput.extend({
       type: String,
       default: 'soft',
     },
+    classes: {
+      type: [String, Array, Object],
+      default: 'form-textarea',
+    },
   },
   render(createElement) {
     const renderFun: (createElement: CreateElement) => VNode = this.render;

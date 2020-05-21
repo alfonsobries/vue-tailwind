@@ -1,6 +1,5 @@
 import CssClass from '@/types/CssClass';
 import { CreateElement, VNode, VNodeChildren } from 'vue';
-import CssClasses from '@/types/CssClasses';
 import MultipleInput from './MultipleInput';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
@@ -20,7 +19,7 @@ const TSelect = MultipleInput.extend({
     },
     classes: {
       type: [String, Array, Object],
-      default: (): CssClasses => 'form-select',
+      default: 'form-select',
     },
   },
 
