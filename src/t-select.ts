@@ -6,7 +6,6 @@ import CustomProps from './types/CustomProps';
 
 const componentName = 'TSelect';
 
-
 // Define typescript interfaces for autoinstaller
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface InstallFunction extends PluginFunction<any> {
