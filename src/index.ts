@@ -4,7 +4,7 @@ import CustomProps from '@/types/CustomProps';
 import { extractPropsFromLibrarySettings } from '@/utils/extractPropsFromSettings';
 
 // Import vue components
-import * as components from './components/index';
+import * as components from './inputs/index';
 
 // Define typescript interfaces for autoinstaller
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,4 +59,4 @@ export default plugin;
 
 // To allow individual component use, export components
 // each can be registered via Vue.component()
-export * from './components/index';
+export * from './inputs/index';

@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import TCheckbox from '@/components/TCheckbox.vue';
+import TCheckbox from '@/inputs/TCheckbox';
 import mapValues from 'lodash/mapValues';
 
-describe('TCheckbox.vue', () => {
+describe('TCheckbox', () => {
   it('it renders the input', () => {
     const wrapper = shallowMount(TCheckbox);
     expect(wrapper.get('input[type=checkbox]')).toBeTruthy();
@@ -34,6 +34,31 @@ describe('TCheckbox.vue', () => {
     await wrapper.vm.$nextTick();
 
     expect(input.value).toBe(newValue);
+  });
+
+  it('check/uncheck for array v-model', async () => {
+    const wrapper = shallowMount(TCheckbox, {
+      propsData: {
+        value: 'A',
+        model: [],
+      },
+    });
+
+    const { input } = wrapper.vm.$refs;
+
+    expect(input.checked).toBe(false);
+
+    wrapper.setProps({ model: ['A'] });
+
+    await wrapper.vm.$nextTick();
+
+    expect(input.checked).toBe(true);
+
+    wrapper.setProps({ model: ['B'] });
+
+    await wrapper.vm.$nextTick();
+
+    expect(input.checked).toBe(false);
   });
 
   it('disables the input', async () => {
@@ -103,11 +128,11 @@ describe('TCheckbox.vue', () => {
     });
   });
 
-  it('emits an change & input event with the expected boolean values', () => {
+  it('emits a change & input event with the expected boolean values', async () => {
     const wrapper = shallowMount(TCheckbox);
 
-    wrapper.setChecked(true);
-    wrapper.setChecked(false);
+    wrapper.vm.setChecked(true);
+    wrapper.vm.setChecked(false);
 
     expect(wrapper.emitted('input')).toBeTruthy();
     expect(wrapper.emitted('change')).toBeTruthy();
@@ -123,11 +148,11 @@ describe('TCheckbox.vue', () => {
     expect(wrapper.emitted('change')[1]).toEqual([false]);
   });
 
-  it('emits an change & input event with the according checked & unchecked value', () => {
+  it('emits a change & input event with the according checked & unchecked value', () => {
     const wrapper = shallowMount(TCheckbox);
 
     const value = 'checked';
-    const uncheckedValue = 'not_checled';
+    const uncheckedValue = 'not_checked';
 
     wrapper.setProps({
       value,

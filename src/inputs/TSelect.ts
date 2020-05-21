@@ -189,8 +189,6 @@ const TSelect = MultipleInput.extend({
       return createElement('option', {
         domProps: {
           value: option.value,
-        },
-        attrs: {
           selected: isSelected,
         },
       }, option.text as VNodeChildren);

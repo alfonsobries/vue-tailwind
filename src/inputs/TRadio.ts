@@ -4,6 +4,7 @@ import HtmlInput from './HtmlInput';
 
 const TRadio = HtmlInput.extend({
   name: 'TRadio',
+
   props: {
     value: {
       type: [String, Object, Number, Boolean],
@@ -30,6 +31,7 @@ const TRadio = HtmlInput.extend({
     prop: 'model',
     event: 'input',
   },
+
   render(createElement) {
     const renderFun: (createElement: CreateElement) => VNode = this.render;
     return renderFun(createElement);
