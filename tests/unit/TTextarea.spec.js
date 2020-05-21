@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import TTextarea from '@/components/TTextarea.vue';
+import TTextarea from '@/inputs/TTextarea';
 import { mapValues } from 'lodash';
 
-describe('TTextarea.vue', () => {
+describe('TTextarea', () => {
   it('it renders the input', () => {
     const wrapper = shallowMount(TTextarea);
     expect(wrapper.get('textarea')).toBeTruthy();

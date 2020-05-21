@@ -6,7 +6,7 @@ import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 import InputOption from '../types/InputOption';
 
-const Select = MultipleInput.extend({
+const TSelect = MultipleInput.extend({
   name: 'TSelect',
 
   props: {
@@ -251,4 +251,4 @@ const Select = MultipleInput.extend({
   },
 });
 
-export default Select;
+export default TSelect;

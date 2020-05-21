@@ -1,6 +1,6 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
 import { extractPropsFromComponentSettings } from '@/utils/extractPropsFromSettings';
-import component from './inputs/Select';
+import component from './inputs/TSelect';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';
 

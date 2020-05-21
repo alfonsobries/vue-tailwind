@@ -53,7 +53,7 @@ const TextInput = HtmlInput.extend({
   },
 
   methods: {
-    onBlur(e: FocusEvent) {
+    blurHandler(e: FocusEvent) {
       this.$emit('blur', e);
 
       if (this.localValue !== this.valueWhenFocus) {
@@ -61,17 +61,17 @@ const TextInput = HtmlInput.extend({
       }
     },
 
-    onFocus(e: FocusEvent) {
+    focusHandler(e: FocusEvent) {
       this.$emit('focus', e);
 
       this.valueWhenFocus = this.localValue;
     },
 
-    onKeyUp(e: KeyboardEvent) {
+    keyupHandler(e: KeyboardEvent) {
       this.$emit('keyup', e);
     },
 
-    onKeyDown(e: KeyboardEvent) {
+    keydownHandler(e: KeyboardEvent) {
       this.$emit('keydown', e);
     },
 

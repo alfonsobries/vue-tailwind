@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import TInput from '@/components/TInput.vue';
+import TInput from '@/inputs/TInput';
 import mapValues from 'lodash/mapValues';
 
 
-describe('TInput.vue', () => {
+describe('TInput', () => {
   it('it renders the input', () => {
     const wrapper = shallowMount(TInput);
     expect(wrapper.get('input')).toBeTruthy();
