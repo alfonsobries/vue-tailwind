@@ -19,10 +19,11 @@
       :variant="variant"
     />
 
-    <div
+    <label
       v-for="variantValue in variants"
       :key="variantValue"
       class="flex items-center"
+      for="variant"
     >
       <t-radio
         v-model="variant"
@@ -33,12 +34,59 @@
       <span class="ml-2 text-sm">
         {{ variantValue }}
       </span>
-    </div>
+    </label>
 
-    <link
-      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
-      rel="stylesheet"
+    <label
+      class="flex items-center"
+      for="checked"
     >
+      <t-checkbox
+        v-model="checked"
+        name="checked"
+        value="Checked"
+        unchecked-value="Unchecked"
+        :indeterminate.sync="indeterminate"
+      />
+      <span class="ml-2 text-sm">
+        {{ checked }}
+      </span>
+    </label>
+
+    <label
+      class="flex items-center"
+      for="checked"
+    >
+      <t-checkbox
+        v-model="indeterminate"
+        name="indeterminate"
+      />
+      <span class="ml-2 text-sm">
+        indeterminate: {{ indeterminate }}
+      </span>
+    </label>
+
+    <t-select
+      v-model="multipleVariants"
+      :options="variants"
+      multiple
+    />
+
+    <label
+      v-for="variantValue in variants"
+      :key="`check-${variantValue}`"
+      class="flex items-center"
+      for="variant"
+    >
+      <t-checkbox
+        v-model="multipleVariants"
+        :value="variantValue"
+        name="variant"
+      />
+
+      <span class="ml-2 text-sm">
+        {{ variantValue }}
+      </span>
+    </label>
   </div>
 </template>
 
@@ -69,26 +117,27 @@ import VueTailwind from './index';
 
 Vue.use(VueTailwind, {
   TSelect: {
-    classes: {
-      wrapper: 'relative',
-      input: 'block appearance-none w-full border bg-white rounded p-3 border-2',
-      arrow: 'fill-current h-4 w-4',
-      arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-1',
-    },
-    theme: {
-      default: {
-        wrapper: 'relative',
-        input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-white p-3',
-        arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700',
-        arrow: 'fill-current h-4 w-4',
-      },
-      error: {
-        wrapper: 'relative',
-        input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-red-500 text-white   p-3',
-        arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700',
-        arrow: 'fill-current h-4 w-4',
-      },
-    },
+    classes: 'form-select',
+    // classes: {
+    //   wrapper: 'relative',
+    //   input: 'block appearance-none w-full border bg-white rounded p-3 border-2',
+    //   arrow: 'fill-current h-4 w-4',
+    //   arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-1',
+    // },
+    // theme: {
+    //   default: {
+    //     wrapper: 'relative',
+    //     input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-white p-3',
+    //     arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2',
+    //     arrow: 'fill-current h-4 w-4',
+    //   },
+    //   error: {
+    //     wrapper: 'relative text-white',
+    //     input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-red-500 p-3',
+    //     arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-2',
+    //     arrow: 'fill-current h-4 w-4',
+    //   },
+    // },
   },
   TInput: {
     classes: 'border block rounded bg-white p-3',
@@ -104,7 +153,21 @@ Vue.use(VueTailwind, {
     },
   },
   TTextarea: {
-    classes: 'border block rounded bg-white p-3',
+    classes: 'form-textarea',
+    theme: {
+      default: 'border block rounded bg-white p-3',
+      error: 'border block rounded bg-red-500 text-white p-3',
+    },
+  },
+  TRadio: {
+    classes: 'form-radio text-indigo-600',
+    theme: {
+      default: 'border block rounded bg-white p-3',
+      error: 'border block rounded bg-red-500 text-white p-3',
+    },
+  },
+  TCheckbox: {
+    classes: 'form-checkbox text-green-500',
     theme: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
@@ -121,7 +184,10 @@ export default {
   },
   data() {
     return {
+      indeterminate: false,
+      checked: 'Checked',
       model: '',
+      multipleVariants: ['error', 'asarray'],
       variant: undefined,
       variants: ['default', 'error', 'notdefined', 'asarray', 'asobject'],
     };
