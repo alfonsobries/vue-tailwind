@@ -18,4 +18,7 @@ echo 'Building TRadio...'
 echo 'Building TCheckbox...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TCheckbox --filename components/TCheckbox --no-clean ./src/t-checkbox.ts
 
+echo 'Building TButton...'
+./node_modules/.bin/vue-cli-service build --target lib --name TButton --filename components/TButton --no-clean ./src/t-button.ts
+
 echo 'Done building assets.'

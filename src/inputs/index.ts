@@ -3,6 +3,7 @@ import TRadio from './TRadio';
 import TTextarea from './TTextarea';
 import TInput from './TInput';
 import TSelect from './TSelect';
+import TButton from './TButton';
 
 export {
   TInput,
@@ -10,4 +11,5 @@ export {
   TSelect,
   TRadio,
   TCheckbox,
+  TButton,
 };
