@@ -1,7 +1,9 @@
 import isEqual from 'lodash/isEqual';
+import { CreateElement, VNode } from 'vue';
 import HtmlInput from './HtmlInput';
 
-const Radio = HtmlInput.extend({
+const TRadio = HtmlInput.extend({
+  name: 'TRadio',
   props: {
     value: {
       type: [String, Object, Number, Boolean],
@@ -28,6 +30,10 @@ const Radio = HtmlInput.extend({
     prop: 'model',
     event: 'input',
   },
+  render(createElement) {
+    const renderFun: (createElement: CreateElement) => VNode = this.render;
+    return renderFun(createElement);
+  },
 
   watch: {
     model(model) {
@@ -48,11 +54,39 @@ const Radio = HtmlInput.extend({
   },
 
   methods: {
-    onBlur(e: FocusEvent) {
+    render(createElement: CreateElement): VNode {
+      return createElement('input', {
+        class: this.inputClass,
+        ref: 'input',
+        attrs: {
+          value: this.value,
+          id: this.id,
+          type: 'radio',
+          checked: this.checked,
+          name: this.name,
+          disabled: this.disabled,
+          readonly: this.readonly,
+          autofocus: this.autofocus,
+          required: this.required,
+        },
+        on: {
+          blur: this.blurHandler,
+          focus: this.focusHandler,
+          input: this.inputHandler,
+        },
+      });
+    },
+
+    inputHandler(e: Event) {
+      const target = (e.target as HTMLInputElement);
+      this.localValue = target.value;
+    },
+
+    blurHandler(e: FocusEvent) {
       this.$emit('blur', e);
     },
 
-    onFocus(e: FocusEvent) {
+    focusHandler(e: FocusEvent) {
       this.$emit('focus', e);
     },
 
@@ -70,4 +104,4 @@ const Radio = HtmlInput.extend({
   },
 });
 
-export default Radio;
+export default TRadio;

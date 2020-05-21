@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import TRadio from '@/components/TRadio.vue';
 import mapValues from 'lodash/mapValues';
+import TRadio from '@/inputs/TRadio';
 
-describe('TRadio.vue', () => {
+describe('TRadio', () => {
   it('it renders the input', () => {
     const wrapper = shallowMount(TRadio);
     expect(wrapper.get('input[type=radio]')).toBeTruthy();

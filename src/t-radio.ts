@@ -1,6 +1,6 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
 import { extractPropsFromComponentSettings } from '@/utils/extractPropsFromSettings';
-import component from './components/TRadio.vue';
+import component from './inputs/TRadio';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';
 

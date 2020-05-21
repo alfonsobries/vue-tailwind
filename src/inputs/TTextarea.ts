@@ -58,7 +58,6 @@ const TTextarea = TextInput.extend({
 
     inputHandler(e: Event) {
       const target = (e.target as HTMLTextAreaElement);
-      console.log(target.value);
       this.localValue = target.value;
     },
   },
