@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import TSelect from '@/components/TSelect.vue';
+import TSelect from '@/inputs/Select';
 // import { wrap } from 'module';
 import mapValues from 'lodash/mapValues';
 
-describe('TSelect.vue', () => {
+describe('Select', () => {
   it('it renders the select', () => {
     const wrapper = shallowMount(TSelect);
     expect(wrapper.get('select')).toBeTruthy();
@@ -70,7 +70,7 @@ describe('TSelect.vue', () => {
     const wrapper = shallowMount(TSelect, {
       propsData: { options, value },
     });
-    expect(wrapper.vm.$el.getElementsByTagName('select')[0].value).toBe(value);
+    expect(wrapper.vm.$refs.select.value).toBe(value);
   });
 
   it('select the multioption values', () => {
@@ -94,7 +94,7 @@ describe('TSelect.vue', () => {
     });
     wrapper.setProps({ value: newValue });
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$el.getElementsByTagName('select')[0].value).toBe(newValue);
+    expect(wrapper.vm.$refs.select.value).toBe(newValue);
   });
 
   it('accept the options as array of strings', () => {
@@ -276,11 +276,11 @@ describe('TSelect.vue', () => {
     const wrapper = shallowMount(TSelect, {
       propsData: { disabled: false },
     });
-    expect(wrapper.vm.$el.getElementsByTagName('select')[0].disabled).toBe(false);
+    expect(wrapper.vm.$refs.select.disabled).toBe(false);
 
     wrapper.setProps({ disabled: true });
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$el.getElementsByTagName('select')[0].disabled).toBe(true);
+    expect(wrapper.vm.$refs.select.disabled).toBe(true);
   });
 
   it('has common attributes', async () => {
@@ -309,7 +309,7 @@ describe('TSelect.vue', () => {
       },
     };
 
-    const select = wrapper.vm.$el.getElementsByTagName('select')[0];
+    const { select } = wrapper.vm.$refs;
 
     // Check for the default values
     Object.keys(values).forEach((key) => {
@@ -352,18 +352,20 @@ describe('TSelect.vue', () => {
     expect(wrapper.emitted('input')[0]).toEqual([inputValue]);
   });
 
-  it('emits an change event with the select value', async () => {
+  it('emits a change event with the select value', async () => {
     const options = ['A', 'B', 'C'];
 
     const wrapper = shallowMount(TSelect, {
       propsData: { options },
     });
 
-    const inputValue = 'B';
+    const inputValue = 'XXX';
 
     wrapper.setProps({
       value: inputValue,
     });
+
+    await wrapper.vm.$nextTick();
 
     await wrapper.vm.$nextTick();
 
@@ -383,7 +385,7 @@ describe('TSelect.vue', () => {
       propsData: { options, value },
     });
 
-    const select = wrapper.vm.$el.getElementsByTagName('select')[0];
+    const { select } = wrapper.vm.$refs;
 
     // The change event should be emitted when the select is blurred
     select.dispatchEvent(new Event('blur'));
@@ -401,7 +403,7 @@ describe('TSelect.vue', () => {
       propsData: { options, value },
     });
 
-    const select = wrapper.vm.$el.getElementsByTagName('select')[0];
+    const { select } = wrapper.vm.$refs;
 
     // The change event should be emitted when the select is focusred
     select.dispatchEvent(new Event('focus'));
