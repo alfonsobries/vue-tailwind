@@ -23,11 +23,11 @@
       :classes="classes"
     />
 
-
-    <t-textarea
-      v-model="model"
-      :variant="variant"
+    <t-input
+      v-model="classes"
+      :classes="classes"
     />
+
 
     <label
       v-for="variantValue in variants"
@@ -46,6 +46,20 @@
         {{ variantValue }}
       </span>
     </label>
+
+
+    <t-textarea
+      :variant="{
+        'default': activeVariant,
+        'error': !activeVariant,
+      }"
+      value="variants from object"
+    />
+
+    <t-checkbox
+      v-model="activeVariant"
+      name="activeVariant"
+    />
 
     <label
       class="flex items-center"
@@ -217,7 +231,7 @@ Vue.use(VueTailwind, {
   TTextarea: {
     classes: 'form-textarea',
     theme: {
-      default: 'border block rounded bg-white p-3',
+      default: 'border block rounded bg-blue-100 p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
     },
   },
@@ -253,6 +267,7 @@ export default {
       multipleVariants: ['error', 'asarray'],
       variant: 'error',
       variants: ['default', 'error', 'notdefined', 'asarray', 'asobject'],
+      activeVariant: false,
     };
   },
 };

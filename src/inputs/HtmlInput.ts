@@ -56,8 +56,8 @@ const HtmlInput = Vue.extend({
       }
 
       if (typeof this.variant === 'object') {
-        const firstTruthyKey = Object.keys(this.variant).find((key) => !!this.variant[key]);
-        return firstTruthyKey ? this.variant[firstTruthyKey] : undefined;
+        const truthyVariant = Object.keys(this.variant).find((variant) => !!this.variant[variant]);
+        return truthyVariant || undefined;
       }
 
       return this.variant;
@@ -74,9 +74,11 @@ const HtmlInput = Vue.extend({
         return get(this.classes, elementName, undefined);
       }
 
+
       if (this.activeVariant) {
         return get(this.theme, this.activeVariant, undefined);
       }
+
 
       return this.classes;
     },
