@@ -51,7 +51,7 @@ const HtmlInput = Vue.extend({
       return this.getElementCssClass();
     },
     activeVariant(): string | undefined {
-      if (this.variant) {
+      if (!this.variant) {
         return undefined;
       }
 
