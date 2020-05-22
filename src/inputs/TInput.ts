@@ -30,8 +30,10 @@ const TInput = TextInput.extend({
       return createElement('input', {
         class: this.inputClass,
         ref: 'input',
-        attrs: {
+        domProps: {
           value: this.value,
+        },
+        attrs: {
           id: this.id,
           name: this.name,
           disabled: this.disabled,
