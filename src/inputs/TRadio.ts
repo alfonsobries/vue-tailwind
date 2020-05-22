@@ -27,7 +27,7 @@ const TRadio = HtmlInput.extend({
 
   data() {
     return {
-      localValue: this.checked ? this.value : this.model,
+      localValue: this.checked ? this.value : null,
     };
   },
 

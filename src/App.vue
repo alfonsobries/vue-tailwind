@@ -14,6 +14,16 @@
       :variant="variant"
     />
 
+    <t-input
+      v-model="classes"
+    />
+
+    <t-input
+      v-model="classes"
+      :classes="classes"
+    />
+
+
     <t-textarea
       v-model="model"
       :variant="variant"
@@ -90,6 +100,52 @@
     </label>
 
     <t-button>Hello world</t-button>
+
+
+    <t-select
+      :options="['A', 'No model selected', 'multiple']"
+      :value="['No model selected', 'multiple']"
+      multiple
+    />
+
+    <t-select
+      :options="['A', 'No model selected', 'C']"
+      value="No model selected"
+    />
+
+    <label
+      class="flex items-center"
+      for="checked"
+    >
+      <t-radio
+        checked
+      />
+
+      <span class="ml-2 text-sm">
+        no model selected
+      </span>
+    </label>
+
+    <label
+      class="flex items-center"
+      for="checked"
+    >
+      <t-checkbox
+        checked
+      />
+
+      <span class="ml-2 text-sm">
+        no model checked
+      </span>
+    </label>
+
+
+    <t-input
+      value="no model value"
+    />
+    <t-textarea
+      value="no model value"
+    />
   </div>
 </template>
 
@@ -190,11 +246,12 @@ export default {
   },
   data() {
     return {
+      classes: 'border-2 bg-yellow-100 p-2 shadow rounded',
       indeterminate: false,
       checked: 'Checked',
       model: '',
       multipleVariants: ['error', 'asarray'],
-      variant: undefined,
+      variant: 'error',
       variants: ['default', 'error', 'notdefined', 'asarray', 'asobject'],
     };
   },

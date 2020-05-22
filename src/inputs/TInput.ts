@@ -31,7 +31,7 @@ const TInput = TextInput.extend({
         class: this.inputClass,
         ref: 'input',
         domProps: {
-          value: this.value,
+          value: this.localValue,
         },
         attrs: {
           id: this.id,
@@ -62,7 +62,7 @@ const TInput = TextInput.extend({
 
     inputHandler(e: Event) {
       const target = (e.target as HTMLInputElement);
-      this.localValue = target.value;
+      this.$emit('input', target.value);
     },
   },
 
