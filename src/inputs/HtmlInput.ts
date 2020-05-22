@@ -33,7 +33,7 @@ const HtmlInput = Vue.extend({
       default: undefined,
     },
     variant: {
-      type: String,
+      type: [String, Object],
       default: undefined,
     },
     classes: {
@@ -50,20 +50,32 @@ const HtmlInput = Vue.extend({
     inputClass(): CssClass {
       return this.getElementCssClass();
     },
+    activeVariant(): string | undefined {
+      if (this.variant) {
+        return undefined;
+      }
+
+      if (typeof this.variant === 'object') {
+        const firstTruthyKey = Object.keys(this.variant).find((key) => !!this.variant[key]);
+        return firstTruthyKey ? this.variant[firstTruthyKey] : undefined;
+      }
+
+      return this.variant;
+    },
   },
 
   methods: {
     getElementCssClass(elementName?: string): CssClass {
       if (elementName) {
-        if (this.variant) {
-          return get(this.theme, `${this.variant}.${elementName}`, undefined);
+        if (this.activeVariant) {
+          return get(this.theme, `${this.activeVariant}.${elementName}`, undefined);
         }
 
         return get(this.classes, elementName, undefined);
       }
 
-      if (this.variant) {
-        return get(this.theme, this.variant, undefined);
+      if (this.activeVariant) {
+        return get(this.theme, this.activeVariant, undefined);
       }
 
       return this.classes;
