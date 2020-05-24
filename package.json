@@ -24,9 +24,7 @@
     "lint:test": "vue-cli-service lint --no-fix",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:watch": "vue-cli-service test:unit --watch",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "test:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "body-scroll-lock": "^2.6.4",
@@ -41,7 +39,6 @@
     "@vue/cli-service": "^3.11.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
-    "@vuepress/plugin-google-analytics": "^1.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^23.6.0",
@@ -50,7 +47,6 @@
     "lodash": "^4.17.15",
     "tailwindcss": "^1.1.2",
     "vue-template-compiler": "^2.6.10",
-    "vuepress": "^1.1.0",
     "webpack-dev-middleware": "^3.7.2"
   },
   "files": [
