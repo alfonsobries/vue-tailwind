@@ -51,6 +51,10 @@ const TCheckbox = HtmlInput.extend({
   computed: {
     isChecked: {
       get() {
+        if (this.model === undefined) {
+          return this.checked;
+        }
+
         if (Array.isArray(this.model)) {
           return this.model.indexOf(this.value) >= 0;
         }
@@ -84,9 +88,7 @@ const TCheckbox = HtmlInput.extend({
         class: this.inputClass,
         ref: 'input',
         attrs: {
-          checked: Array.isArray(this.model)
-            ? this.model.indexOf(this.value) >= 0
-            : this.model === this.value,
+          checked: this.isChecked,
           value: this.value,
           id: this.id,
           type: 'checkbox',

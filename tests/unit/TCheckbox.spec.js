@@ -61,6 +61,18 @@ describe('TCheckbox', () => {
     expect(input.checked).toBe(false);
   });
 
+  it('check the input if checked attribute', async () => {
+    const wrapper = shallowMount(TCheckbox, {
+      propsData: {
+        checked: true,
+      },
+    });
+
+    const { input } = wrapper.vm.$refs;
+
+    expect(input.checked).toBe(true);
+  });
+
   it('disables the input', async () => {
     const wrapper = shallowMount(TCheckbox, {
       propsData: { disabled: false },

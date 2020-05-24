@@ -68,7 +68,7 @@ const TRadio = HtmlInput.extend({
           value: this.value,
           id: this.id,
           type: 'radio',
-          checked: isEqual(this.model, this.value),
+          checked: this.model === undefined ? this.checked : isEqual(this.model, this.value),
           name: this.name,
           disabled: this.disabled,
           readonly: this.readonly,

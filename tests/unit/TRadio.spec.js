@@ -52,6 +52,18 @@ describe('TRadio', () => {
     expect(input.disabled).toBe(true);
   });
 
+  it('check the input if checked attribute', async () => {
+    const wrapper = shallowMount(TRadio, {
+      propsData: {
+        checked: true,
+      },
+    });
+
+    const { input } = wrapper.vm.$refs;
+
+    expect(input.checked).toBe(true);
+  });
+
   it('has input attributes', async () => {
     const wrapper = shallowMount(TRadio);
 
