@@ -221,14 +221,14 @@ export default {
 
 ## Contribute
 
-Is this project helpful for you? Consider sponsoring me [https://github.com/sponsors/alfonsobries]
+Is this project helpful for you? Consider sponsoring me [https://github.com/sponsors/alfonsobries](https://github.com/sponsors/alfonsobries)
 
 Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
 
 
 ### Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](https://github.com/alfonsobries/vue-tailwind/blob/master/CHANGELOG.md) for more information what has changed recently.
 
 ### Security
 
@@ -241,7 +241,7 @@ If you discover any security related issues, please email alfonso@vexilo.com ins
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/alfonsobries/vue-tailwind/blob/master/LICENSE) for more information.
 
 _Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
 
