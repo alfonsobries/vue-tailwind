@@ -221,9 +221,7 @@ export default {
 
 ## Contribute
 
-Is this project helpful for you? Consider sponsoring me.
-
-[https://github.com/sponsors/alfonsobries)
+Is this project helpful for you? Consider sponsoring me [https://github.com/sponsors/alfonsobries]
 
 Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
 
@@ -239,7 +237,7 @@ If you discover any security related issues, please email alfonso@vexilo.com ins
 ## Credits
 
 - [Alfonso Bribiesca](https://github.com/alfonsobries)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/alfonsobries/vue-tailwind/contributors)
 
 ## License
 
