@@ -3,7 +3,7 @@ import HtmlInput from './HtmlInput';
 const TextInput = HtmlInput.extend({
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       default: undefined,
     },
     autocomplete: {
@@ -38,8 +38,8 @@ const TextInput = HtmlInput.extend({
 
   data() {
     return {
-      localValue: this.value as string | null,
-      valueWhenFocus: null as string | null,
+      localValue: this.value as string | number | null,
+      valueWhenFocus: null as string | number | null,
     };
   },
 

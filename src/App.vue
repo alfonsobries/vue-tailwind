@@ -115,6 +115,29 @@
 
     <t-button>Hello world</t-button>
 
+    <t-select
+      :options="[
+        { value: 'With optgroup', text: 'With optgroup' },
+        { value: 'Option 2', text: 'Option 2' },
+        {
+          text: 'Numbers',
+          children: [
+            { value: 1, text: 1 },
+            { value: 2, text: 2 },
+          ]
+        },
+        {
+          text: 'Letters',
+          children: [
+            { value: 'A', text: 'A' },
+            { value: 'B', text: 'B' },
+            { value: 'C', text: 'C' },
+          ]
+        },
+      ]"
+      value="With optgroup"
+    />
+
 
     <t-select
       :options="['A', 'No model selected', 'multiple']"

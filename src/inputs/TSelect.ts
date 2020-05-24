@@ -174,7 +174,15 @@ const TSelect = MultipleInput.extend({
       createElement: CreateElement,
       option: NormalizedOption, value: string | number | unknown[],
     ): VNode {
-      return createElement('optgroup', option.children?.map((opt) => this.createOption(createElement, opt, value)));
+      return createElement(
+        'optgroup',
+        {
+          domProps: {
+            label: this.guessOptionText(option),
+          },
+        },
+        option.children?.map((opt) => this.createOption(createElement, opt, value)),
+      );
     },
 
     createOption(
