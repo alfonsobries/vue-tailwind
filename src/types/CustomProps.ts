@@ -1,5 +1,5 @@
 type CustomProps = {
-  theme?: object;
+  variants?: object;
   classes?: object;
   wrapped?: object;
 } | undefined

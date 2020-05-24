@@ -176,7 +176,7 @@ import VueTailwind from './index';
 
 // Vue.use((TInput as any), {
 //   classes: 'border block rounded bg-white p-3',
-//   theme: {
+//   variants: {
 //     default: 'border block rounded bg-white p-3',
 //     error: 'border block rounded bg-red-500 text-white p-3',
 //     asarray: ['border', 'block', 'rounded', 'bg-blue-500', 'text-white', 'p-3'],
@@ -200,7 +200,7 @@ Vue.use(VueTailwind, {
     //   arrow: 'fill-current h-4 w-4',
     //   arrowWrapper: 'pointer-events-none absolute inset-y-0 right-0 flex items-center px-1',
     // },
-    // theme: {
+    // variants: {
     //   default: {
     //     wrapper: 'relative',
     //     input: 'block appearance-none w-full border pr-8 rounded leading-tight bg-white p-3',
@@ -217,7 +217,7 @@ Vue.use(VueTailwind, {
   },
   TInput: {
     classes: 'border block rounded bg-white p-3',
-    theme: {
+    variants: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
       asarray: ['border', 'block', 'rounded', 'bg-blue-500', 'text-white', 'p-3'],
@@ -230,21 +230,21 @@ Vue.use(VueTailwind, {
   },
   TTextarea: {
     classes: 'form-textarea',
-    theme: {
+    variants: {
       default: 'border block rounded bg-blue-100 p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
     },
   },
   TRadio: {
     classes: 'form-radio text-indigo-600',
-    theme: {
+    variants: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
     },
   },
   TCheckbox: {
     classes: 'form-checkbox text-green-500',
-    theme: {
+    variants: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
     },

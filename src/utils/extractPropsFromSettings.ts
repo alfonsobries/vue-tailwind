@@ -5,16 +5,16 @@ import ComponentSettings from '@/types/ComponentSettings';
 
 // eslint-disable-next-line max-len
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(args: ComponentSettings): CustomProps {
-  const componentTheme: CssClasses = args && args.theme ? args.theme : undefined;
+  const compnentVariants: CssClasses = args && args.variants ? args.variants : undefined;
   const componentClasses: CssClasses = args && args.classes ? args.classes : undefined;
   const wrapped: boolean | undefined = args && args.wrapped ? args.wrapped : undefined;
 
   const customProps: CustomProps = {};
 
   if (componentClasses !== undefined) {
-    customProps.theme = {
+    customProps.variants = {
       type: Object,
-      default: () => componentTheme,
+      default: () => compnentVariants,
     };
   }
 

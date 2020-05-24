@@ -40,7 +40,7 @@ const HtmlInput = Vue.extend({
       type: [String, Array, Object],
       default: undefined,
     },
-    theme: {
+    variants: {
       type: Object,
       default: undefined,
     },
@@ -68,7 +68,7 @@ const HtmlInput = Vue.extend({
     getElementCssClass(elementName?: string): CssClass {
       if (elementName) {
         if (this.activeVariant) {
-          return get(this.theme, `${this.activeVariant}.${elementName}`, undefined);
+          return get(this.variants, `${this.activeVariant}.${elementName}`, undefined);
         }
 
         return get(this.classes, elementName, undefined);
@@ -76,7 +76,7 @@ const HtmlInput = Vue.extend({
 
 
       if (this.activeVariant) {
-        return get(this.theme, this.activeVariant, undefined);
+        return get(this.variants, this.activeVariant, undefined);
       }
 
 

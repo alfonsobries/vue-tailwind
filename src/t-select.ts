@@ -23,11 +23,11 @@ const install: InstallFunction = function installComponent(Vue: typeof _Vue, arg
 
   const customProps: CustomProps = extractPropsFromComponentSettings(args);
   if (customProps) {
-    const componentWithCustomTheme = (component as VueConstructor).extend({
+    const componentWithCustomVariants = (component as VueConstructor).extend({
       props: customProps,
     });
 
-    Vue.component(componentName, componentWithCustomTheme);
+    Vue.component(componentName, componentWithCustomVariants);
   } else {
     Vue.component(componentName, component);
   }

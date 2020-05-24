@@ -1,8 +1,8 @@
-import ComponentTheme from './ComponentTheme';
+import ComponentVariants from './ComponentVariants';
 import CssClasses from './CssClasses';
 
 type ComponentSettings = {
-  theme?: ComponentTheme;
+  variants?: ComponentVariants;
   classes?: CssClasses;
   wrapped?: boolean;
 } | undefined

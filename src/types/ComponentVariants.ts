@@ -1,7 +1,7 @@
 import CssClasses from './CssClasses';
 
-type ComponentTheme = {
+type ComponentVariants = {
   [k: string]: CssClasses;
 }
 
-export default ComponentTheme;
+export default ComponentVariants;
