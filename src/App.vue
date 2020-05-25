@@ -1,7 +1,9 @@
 <template>
-  <div
+  <t-card
     id="app"
-    class="flex flex-col max-w-lg mx-auto p-5"
+    :variant="variant === 'error' ? variant : undefined"
+    header="VueTailwind"
+    footer="Made with love by @alfonsobries"
   >
     <t-input-group
       label="Select variant"
@@ -209,7 +211,7 @@
     >
       Something goes wrong!
     </t-alert>
-  </div>
+  </t-card>
 </template>
 
 <script lang="ts">
@@ -238,6 +240,22 @@ import VueTailwind from './index';
 // });
 
 Vue.use(VueTailwind, {
+  TCard: {
+    classes: {
+      wrapper: 'rounded border max-w-lg mx-auto',
+      body: 'p-4',
+      header: 'p-4 border-b',
+      footer: 'p-4 border-t',
+    },
+    variants: {
+      error: {
+        wrapper: 'rounded border max-w-lg mx-auto border-red-500 bg-red-100',
+        body: 'p-4',
+        header: 'p-4 border-b border-red-500',
+        footer: 'p-4 border-t border-red-500',
+      },
+    },
+  },
   TAlert: {
     classes: {
       wrapper: 'rounded bg-blue-100 p-4 flex',

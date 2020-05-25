@@ -25,6 +25,9 @@ echo 'Building TInputGroup...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TInputGroup --filename components/TInputGroup --no-clean ./src/t-input-group.ts
 
 echo 'Building TAlert...'
-./node_modules/.bin/vue-cli-service build --target lib --name TAlert --filename components/TAlert --no-clean ./src/t-input-group.ts
+./node_modules/.bin/vue-cli-service build --target lib --name TAlert --filename components/TAlert --no-clean ./src/t-alert.ts
+
+echo 'Building TCard...'
+./node_modules/.bin/vue-cli-service build --target lib --name TCard --filename components/TCard --no-clean ./src/t-card.ts
 
 echo 'Done building assets.'
