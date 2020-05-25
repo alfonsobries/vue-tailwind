@@ -21,4 +21,7 @@ echo 'Building TCheckbox...'
 echo 'Building TButton...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TButton --filename components/TButton --no-clean ./src/t-button.ts
 
+echo 'Building TInputGroup...'
+./node_modules/.bin/vue-cli-service build --target lib --name TInputGroup --filename components/TInputGroup --no-clean ./src/t-input-group.ts
+
 echo 'Done building assets.'

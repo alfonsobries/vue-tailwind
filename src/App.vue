@@ -3,16 +3,34 @@
     id="app"
     class="flex flex-col max-w-lg mx-auto p-5"
   >
-    <t-select
-      v-model="variant"
-      :options="variants"
-      :variant="variant"
-    />
+    <t-input-group
+      label="Select variant"
+      description="Select a variant to apply to some of the components"
+      feedback="Some feedback"
+      :variant="variant === 'error' ? variant : undefined"
+    >
+      <t-select
+        v-model="variant"
+        :options="variants"
+        :variant="variant"
+      />
+    </t-input-group>
 
-    <t-input
-      v-model="model"
-      :variant="variant"
-    />
+    <t-input-group>
+      <template v-slot:label>
+        label from slot
+      </template>
+      <template v-slot:description>
+        Description from slot
+      </template>
+      <template v-slot:feedback>
+        Feedback from slot
+      </template>
+      <t-input
+        v-model="model"
+        :variant="variant"
+      />
+    </t-input-group>
 
     <t-input
       v-model="classes"
@@ -212,6 +230,24 @@ import VueTailwind from './index';
 // });
 
 Vue.use(VueTailwind, {
+  TInputGroup: {
+    classes: {
+      label: 'block uppercase tracking-wide text-xs font-bold mb-1',
+      feedback: 'text-sm',
+      description: 'text-sm',
+      wrapper: 'mb-3',
+      body: 'p-1',
+    },
+    variants: {
+      error: {
+        label: 'block uppercase tracking-wide text-xs font-bold mb-1 text-red-500',
+        feedback: 'text-sm text-red-500',
+        description: 'text-sm',
+        wrapper: 'mb-3',
+      },
+
+    },
+  },
   TButton: {
     classes: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
   },
