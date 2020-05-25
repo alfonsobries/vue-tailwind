@@ -40,15 +40,19 @@ const Component = Vue.extend({
     getElementCssClass(elementName?: string): CssClass {
       if (elementName) {
         if (this.activeVariant) {
-          return get(this.variants, `${this.activeVariant}.${elementName}`, undefined);
+          const elementVariant = get(this.variants, `${this.activeVariant}.${elementName}`);
+          if (elementVariant === undefined) {
+            return get(this.classes, elementName);
+          }
+          return elementVariant;
         }
 
-        return get(this.classes, elementName, undefined);
+        return get(this.classes, elementName);
       }
 
 
       if (this.activeVariant) {
-        return get(this.variants, this.activeVariant, undefined);
+        return get(this.variants, this.activeVariant);
       }
 
 
