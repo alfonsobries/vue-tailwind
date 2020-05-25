@@ -2,36 +2,8 @@ import Vue from 'vue';
 import CssClass from '@/types/CssClass';
 import get from 'lodash/get';
 
-const HtmlInput = Vue.extend({
+const Component = Vue.extend({
   props: {
-    id: {
-      type: String,
-      default: undefined,
-    },
-    name: {
-      type: String,
-      default: undefined,
-    },
-    disabled: {
-      type: Boolean,
-      default: undefined,
-    },
-    readonly: {
-      type: Boolean,
-      default: undefined,
-    },
-    autofocus: {
-      type: Boolean,
-      default: undefined,
-    },
-    required: {
-      type: Boolean,
-      default: undefined,
-    },
-    tabindex: {
-      type: [String, Number],
-      default: undefined,
-    },
     variant: {
       type: [String, Object],
       default: undefined,
@@ -47,7 +19,7 @@ const HtmlInput = Vue.extend({
   },
 
   computed: {
-    inputClass(): CssClass {
+    componentClass(): CssClass {
       return this.getElementCssClass();
     },
     activeVariant(): string | undefined {
@@ -85,4 +57,4 @@ const HtmlInput = Vue.extend({
   },
 });
 
-export default HtmlInput;
+export default Component;

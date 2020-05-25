@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "1.0.0-7",
+  "version": "1.0.0-6",
   "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
     "lint": "vue-cli-service lint",
-    "release": "yarn run test:unit && yarn run build && release-it"
+    "release": "release-it"
   },
   "dependencies": {
     "lodash": "^4.17.15",

@@ -1,6 +1,6 @@
 import CssClass from '@/types/CssClass';
 import { CreateElement, VNode, VNodeChildren } from 'vue';
-import MultipleInput from './MultipleInput';
+import MultipleInput from '@/base/MultipleInput';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 import InputOption from '../types/InputOption';
@@ -28,7 +28,7 @@ const TSelect = MultipleInput.extend({
       return this.getElementCssClass('wrapper');
     },
 
-    inputClass(): CssClass {
+    componentClass(): CssClass {
       if (this.wrapped) {
         return this.getElementCssClass('input');
       }
@@ -149,7 +149,7 @@ const TSelect = MultipleInput.extend({
             required: this.required,
             multiple: this.multiple,
           },
-          class: this.inputClass,
+          class: this.componentClass,
           on: {
             blur: this.blurHandler,
             focus: this.focusHandler,

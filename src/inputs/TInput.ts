@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import TextInput from './TextInput';
+import TextInput from '@/base/TextInput';
 
 const TInput = TextInput.extend({
   name: 'TInput',
@@ -28,7 +28,7 @@ const TInput = TextInput.extend({
   methods: {
     render(createElement: CreateElement): VNode {
       return createElement('input', {
-        class: this.inputClass,
+        class: this.componentClass,
         ref: 'input',
         domProps: {
           value: this.localValue,

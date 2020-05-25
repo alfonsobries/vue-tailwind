@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import TextInput from './TextInput';
+import TextInput from '@/base/TextInput';
 
 const TTextarea = TextInput.extend({
   name: 'TTextarea',
@@ -28,7 +28,7 @@ const TTextarea = TextInput.extend({
   methods: {
     render(createElement: CreateElement): VNode {
       return createElement('textarea', {
-        class: this.inputClass,
+        class: this.componentClass,
         ref: 'input',
         domProps: {
           value: this.localValue,

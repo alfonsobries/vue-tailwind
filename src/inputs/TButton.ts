@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import HtmlInput from './HtmlInput';
+import HtmlInput from '@/base/HtmlInput';
 
 const TButton = HtmlInput.extend({
   name: 'TButton',
@@ -29,10 +29,6 @@ const TButton = HtmlInput.extend({
     },
     min: {
       type: [String, Number],
-      default: undefined,
-    },
-    classes: {
-      type: [String, Array, Object],
       default: undefined,
     },
     method: {
@@ -206,7 +202,7 @@ const TButton = HtmlInput.extend({
         this.componentToRender,
         {
           attrs: this.getAttributes(),
-          class: this.inputClass,
+          class: this.componentClass,
           on: {
             click: this.clickHandler,
             focus: this.focusHandler,

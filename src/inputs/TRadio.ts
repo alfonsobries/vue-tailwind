@@ -1,6 +1,6 @@
 import isEqual from 'lodash/isEqual';
 import { CreateElement, VNode } from 'vue';
-import HtmlInput from './HtmlInput';
+import HtmlInput from '@/base/HtmlInput';
 
 const TRadio = HtmlInput.extend({
   name: 'TRadio',
@@ -62,7 +62,7 @@ const TRadio = HtmlInput.extend({
   methods: {
     render(createElement: CreateElement): VNode {
       return createElement('input', {
-        class: this.inputClass,
+        class: this.componentClass,
         ref: 'input',
         attrs: {
           value: this.value,
