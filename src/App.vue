@@ -201,6 +201,14 @@
     <t-textarea
       value="no model value"
     />
+
+    <t-alert
+      show
+      dismissible
+      :variant="variant"
+    >
+      Something goes wrong!
+    </t-alert>
   </div>
 </template>
 
@@ -230,6 +238,26 @@ import VueTailwind from './index';
 // });
 
 Vue.use(VueTailwind, {
+  TAlert: {
+    classes: {
+      wrapper: 'rounded bg-blue-100 p-4 flex',
+      body: 'flex-grow',
+      close: 'whitespace-no-wrap font-medium text-blue-700 hover:text-blue-600',
+      closeIcon: 'h-5 w-5 fill-current',
+    },
+    variants: {
+      default: {
+        wrapper: 'rounded bg-blue-100 p-4 flex',
+        body: 'flex-grow',
+        close: 'whitespace-no-wrap font-medium text-blue-700 hover:text-blue-600',
+        closeIcon: 'h-5 w-5 fill-current',
+      },
+      error: {
+        wrapper: 'rounded bg-red-100 p-4 flex',
+        close: 'whitespace-no-wrap font-medium text-red-700 hover:text-red-600',
+      },
+    },
+  },
   TInputGroup: {
     classes: {
       label: 'block uppercase tracking-wide text-xs font-bold mb-1',

@@ -5,6 +5,7 @@ import TInput from './inputs/TInput';
 import TSelect from './inputs/TSelect';
 import TButton from './inputs/TButton';
 import TInputGroup from './components/TInputGroup';
+import TAlert from './components/TAlert';
 
 export {
   TInput,
@@ -14,4 +15,5 @@ export {
   TCheckbox,
   TButton,
   TInputGroup,
+  TAlert,
 };
