@@ -3,6 +3,8 @@ import intersection from 'lodash/intersection';
 import { CreateElement, VNode } from 'vue';
 
 const TInputGroup = Component.extend({
+  name: 'TInputGroup',
+
   props: {
     inputName: {
       type: String,
