@@ -30,6 +30,10 @@ const TInputGroup = Component.extend({
         return value.length === intersection(value, expectedValues).length;
       },
     },
+    classes: {
+      type: Object,
+      default: undefined,
+    },
   },
 
   render(createElement) {
