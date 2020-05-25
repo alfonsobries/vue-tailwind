@@ -13,10 +13,6 @@ const TAlert = Component.extend({
       type: String,
       default: 'div',
     },
-    closeTagName: {
-      type: String,
-      default: 'button',
-    },
     dismissible: {
       type: Boolean,
       default: true,
@@ -28,10 +24,6 @@ const TAlert = Component.extend({
     timeout: {
       type: Number,
       default: undefined,
-    },
-    closeButtonTitle: {
-      type: String,
-      default: 'Close',
     },
     classes: {
       type: Object,
@@ -105,10 +97,13 @@ const TAlert = Component.extend({
               this.$slots.default,
             ),
             createElement(
-              this.closeTagName,
+              'button',
               {
                 ref: 'close',
                 class: this.getElementCssClass('close'),
+                attrs: {
+                  type: 'button',
+                },
                 on: {
                   click: this.hide,
                 },
