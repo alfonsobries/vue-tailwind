@@ -41,7 +41,9 @@ const Component = Vue.extend({
       if (elementName) {
         if (this.activeVariant) {
           const elementVariant = get(this.variants, `${this.activeVariant}.${elementName}`);
-          if (elementVariant === undefined) {
+          // If the variant exists but not for the element fallback to the default
+          if (elementVariant === undefined
+              && get(this.variants, this.activeVariant) !== undefined) {
             return get(this.classes, elementName);
           }
           return elementVariant;
