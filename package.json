@@ -25,10 +25,12 @@
     "release": "release-it"
   },
   "dependencies": {
+    "body-scroll-lock": "^3.0.2",
     "lodash": "^4.17.15",
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@types/body-scroll-lock": "^2.6.1",
     "@types/jest": "^25.2.2",
     "@types/lodash": "^4.14.151",
     "@types/vue": "^2.0.0",
