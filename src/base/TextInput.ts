@@ -7,7 +7,7 @@ const TextInput = HtmlInput.extend({
       default: undefined,
     },
     autocomplete: {
-      type: Boolean,
+      type: String,
       default: undefined,
     },
     maxlength: {
