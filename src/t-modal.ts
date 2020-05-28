@@ -6,7 +6,6 @@ import CustomProps from './types/CustomProps';
 
 const componentName = 'TModal';
 
-
 // Define typescript interfaces for autoinstaller
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface InstallFunction extends PluginFunction<any> {
@@ -32,6 +31,18 @@ const install: InstallFunction = function installComponent(Vue: typeof _Vue, arg
   } else {
     Vue.component(componentName, component);
   }
+
+  // eslint-disable-next-line no-param-reassign
+  Vue.prototype.$modal = new Vue({
+    methods: {
+      show(name: string, params = undefined) {
+        this.$emit(`show-${name}`, params);
+      },
+      hide(name: string) {
+        this.$emit(`hide-${name}`);
+      },
+    },
+  });
 };
 
 // Create module definition for Vue.use()

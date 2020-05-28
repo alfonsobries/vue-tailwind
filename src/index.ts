@@ -30,6 +30,20 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, a
     } else {
       Vue.component(componentName, component);
     }
+
+    if (componentName === 'TModal') {
+      // eslint-disable-next-line no-param-reassign
+      Vue.prototype.$modal = new Vue({
+        methods: {
+          show(name: string, params = undefined) {
+            this.$emit(`show-${name}`, params);
+          },
+          hide(name: string) {
+            this.$emit(`hide-${name}`);
+          },
+        },
+      });
+    }
   });
 };
 

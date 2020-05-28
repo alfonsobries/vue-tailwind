@@ -158,4 +158,44 @@ describe('TModal', () => {
 
     expect(wrapper.vm.$refs.close).toBeTruthy();
   });
+
+  it('the modal can be opened by name', async () => {
+    const wrapper = shallowMount(TModal, {
+      propsData: { name: 'modal-name' },
+    });
+
+    // called from the bus but can be called from every
+    wrapper.vm.$modal.show('modal-name');
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.get('div')).toBeTruthy();
+  });
+
+  it('the modal can be closed by name', async () => {
+    const wrapper = shallowMount(TModal, {
+      propsData: { name: 'modal-name', initShow: true },
+    });
+
+    // called from the modal but can be called from everywhere
+    wrapper.vm.$modal.hide('modal-name');
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$el.innerHTML).toBeUndefined();
+  });
+
+  it('the modal handles parameters in the before-open method', async () => {
+    const wrapper = shallowMount(TModal, {
+      propsData: { name: 'modal-name' },
+    });
+
+    const params = {
+      user: { id: 1, name: 'Alfonso' },
+      likeJest: 'sometimes',
+    };
+
+    // called from the bus but can be called from every
+    wrapper.vm.$modal.show('modal-name', params);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.emitted('before-open')[0]).toEqual([{ params }]);
+  });
 });

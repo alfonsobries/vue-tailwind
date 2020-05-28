@@ -1,11 +1,16 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import Component from '@/base/Component';
-import { CreateElement, VNode } from 'vue';
+import Vue, { CreateElement, VNode } from 'vue';
+
 
 const TModal = Component.extend({
   name: 'TModal',
 
   props: {
+    name: {
+      type: String,
+      default: undefined,
+    },
     value: {
       type: Boolean,
       default: false,
@@ -58,7 +63,7 @@ const TModal = Component.extend({
   data() {
     return {
       localShow: this.value,
-      params: [],
+      params: undefined,
     };
   },
 
@@ -89,6 +94,32 @@ const TModal = Component.extend({
         this.closed();
       }
     },
+  },
+
+  created() {
+    if (!Vue.prototype.$modal) {
+      // eslint-disable-next-line no-param-reassign
+      Vue.prototype.$modal = new Vue({
+        methods: {
+          show(name: string, params = undefined) {
+            this.$emit(`show-${name}`, params);
+          },
+          hide(name: string) {
+            this.$emit(`hide-${name}`);
+          },
+        },
+      });
+    }
+
+    if (this.name) {
+      this.$modal.$on(`show-${this.name}`, (params = undefined) => {
+        this.show(params);
+      });
+
+      this.$modal.$on(`hide-${this.name}`, () => {
+        this.hide();
+      });
+    }
   },
 
   mounted() {
@@ -276,7 +307,8 @@ const TModal = Component.extend({
     hide() {
       this.localShow = false;
     },
-    show() {
+    show(params = undefined) {
+      this.params = params;
       this.localShow = true;
     },
     outsideClick() {

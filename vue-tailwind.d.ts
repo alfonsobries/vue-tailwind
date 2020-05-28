@@ -1,5 +1,10 @@
-import Vue, { PluginFunction, VueConstructor } from 'vue';
+import _Vue, { PluginFunction, VueConstructor } from 'vue';
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $modal: _Vue;
+  }
+}
 
 interface InstallFunction extends PluginFunction<any> {
   installed?: boolean;
@@ -8,4 +13,4 @@ interface InstallFunction extends PluginFunction<any> {
 declare const VueTailwind: { install: InstallFunction };
 export default VueTailwind;
 
-export const VueTailwindSample: VueConstructor<Vue>;
+export const VueTailwindSample: VueConstructor<_Vue>;
