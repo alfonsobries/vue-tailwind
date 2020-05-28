@@ -211,10 +211,41 @@
     >
       Something goes wrong!
     </t-alert>
+
+    <t-modal
+      v-model="showModal"
+      name="named-modal"
+      :variant="variant"
+    >
+      <template v-slot:footer>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+      </template>
+      <template v-slot:header>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+      </template>
+      <p
+        v-for="(i, index) in [1,2,3,4,5,6,7,8,9,0,0,2,35,6,8,8,978,96789,8,9,4,36,4]"
+        :key="index"
+      >
+        Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet
+        consectetur adipisicing elit.
+      </p>
+    </t-modal>
+    <t-button @click.prevent="showModal = true">
+      Open modal
+    </t-button>
+    <t-button @click.prevent="$modal.show('named-modal', { id: 1})">
+      Open modal by name
+    </t-button>
   </t-card>
 </template>
 
 <script lang="ts">
+
 /* eslint-disable max-len */
 
 import Vue from 'vue';
@@ -240,6 +271,30 @@ import VueTailwind from './index';
 // });
 
 Vue.use(VueTailwind, {
+  TModal: {
+    classes: {
+      overlay: 'z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-black bg-opacity-50',
+      wrapper: 'z-50 relative mx-auto my-0 max-w-lg',
+      modal: 'bg-white shadow rounded border overflow-hidden relative',
+      body: 'p-4',
+      header: 'p-4 border-b',
+      footer: 'p-4 border-t',
+      close: 'absolute right-0-top-0 whitespace-no-wrap font-medium text-blue-700 hover:text-blue-600',
+      closeIcon: 'h-5 w-5 fill-current',
+    },
+    variants: {
+      error: {
+        overlay: 'z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-black bg-opacity-50',
+        wrapper: 'z-50 relative mx-auto my-0 max-w-lg p-5',
+        modal: 'bg-red-100 shadow rounded border overflow-hidden relative',
+        body: 'p-4',
+        header: 'p-4 border-b border-red-200',
+        footer: 'p-4 border-t border-red-200 bg-red-200',
+        close: 'whitespace-no-wrap font-medium text-red-700 hover:text-red-600 absolute right-0 top-0 m-2',
+        closeIcon: 'h-5 w-5 fill-current',
+      },
+    },
+  },
   TCard: {
     classes: {
       wrapper: 'rounded border max-w-lg mx-auto',
@@ -365,6 +420,7 @@ export default {
   },
   data() {
     return {
+      showModal: false,
       classes: 'border-2 bg-yellow-100 p-2 shadow rounded',
       indeterminate: false,
       checked: 'Checked',
