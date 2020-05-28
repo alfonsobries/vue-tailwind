@@ -30,4 +30,7 @@ echo 'Building TAlert...'
 echo 'Building TCard...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TCard --filename components/TCard --no-clean ./src/t-card.ts
 
+echo 'Building TModal...'
+./node_modules/.bin/vue-cli-service build --target lib --name TModal --filename components/TModal --no-clean ./src/t-modal.ts
+
 echo 'Done building assets.'

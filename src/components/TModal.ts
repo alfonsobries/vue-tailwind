@@ -1,73 +1,3 @@
-// <template>
-//   <transition :name="transition">
-//     <div
-//       v-if="localShow"
-//       ref="modal"
-//       :class="baseClass"
-//       tabindex="0"
-//       @keydown.esc="escClick"
-//     >
-//       <div
-//         ref="container"
-//         :style="containerStyle"
-//         :class="containerClass"
-//       >
-//         <div
-//           :style="{ minHeight: normalizedHeight }"
-//           :class="wrapperClass"
-//         >
-//           <button
-//             v-if="!hideCloseButton"
-//             ref="close"
-//             :class="closeIconClass"
-//             @click="hide"
-//           >
-//             <slot name="close">
-//               <svg
-//                 role="button"
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 viewBox="0 0 20 20"
-//               >
-//                 <title>close</title>
-//                 <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
-//             </slot>
-//           </button>
-
-//           <div
-//             v-if="hasHeaderSlot"
-//             ref="header"
-//             :class="headerClass"
-//           >
-//             <slot name="header" />
-//           </div>
-//           <div
-//             v-else-if="header"
-//             ref="header"
-//             :class="headerClass"
-//             v-text="header"
-//           />
-//           <div
-//             ref="body"
-//             :class="bodyClass"
-//           >
-//             <slot />
-//           </div>
-//           <div
-//             v-if="hasFooterSlot"
-//             ref="footer"
-//             :class="footerClass"
-//           >
-//             <slot name="footer" />
-//           </div>
-//         </div>
-//       </div>
-//       <div
-//         :class="overlayClass"
-//         @click="outsideClick"
-//       />
-//     </div>
-//   </transition>
-// </template>
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import Component from '@/base/Component';
 import { CreateElement, VNode } from 'vue';
@@ -96,29 +26,38 @@ const TModal = Component.extend({
       type: Boolean,
       default: true,
     },
-    width: {
-      type: [String, Number],
-      default: 600,
-    },
-    height: {
-      type: [String, Number],
-      default: 300,
-    },
     pivotY: {
       type: Number,
-      default: 0.1,
+      default: 0.2,
+    },
+    noBody: {
+      type: Boolean,
+      default: false,
     },
     hideCloseButton: {
       type: Boolean,
       default: false,
+    },
+    classes: {
+      type: Object,
+      default() {
+        return {
+          overlay: 'z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-black bg-opacity-50',
+          wrapper: 'z-50 relative mx-auto my-0 max-w-lg',
+          modal: 'bg-white shadow border overflow-hidden relative',
+          body: '',
+          header: '',
+          footer: '',
+          close: 'absolute right-0 top-0',
+          closeIcon: 'h-5 w-5 fill-current',
+        };
+      },
     },
   },
 
   data() {
     return {
       localShow: this.value,
-      marginTop: null,
-      windowResizeListener: null,
       params: [],
     };
   },
@@ -129,26 +68,6 @@ const TModal = Component.extend({
     },
     hasFooterSlot() {
       return !!this.$slots.footer;
-    },
-    containerStyle() {
-      return {
-        width: this.normalizedWidth,
-        marginTop: this.marginTop,
-      };
-    },
-    normalizedWidth() {
-      if (!Number.isNaN(this.width)) {
-        return `${this.width}px`;
-      }
-
-      return this.width;
-    },
-    normalizedHeight() {
-      if (!Number.isNaN(this.height)) {
-        return `${this.height}px`;
-      }
-
-      return this.height;
     },
   },
 
@@ -176,22 +95,14 @@ const TModal = Component.extend({
     if (this.localShow) {
       this.prepareDomForModal();
     }
-    if (window) {
-      window.onresize = () => {
-        if (this.localShow) {
-          this.calculateMarginTop();
-        }
-      };
-    }
   },
 
   beforeDestroy() {
-    enableBodyScroll(this.$refs.modal);
+    enableBodyScroll(this.$refs.modal as HTMLDivElement);
   },
 
   render(createElement) {
     const renderFun: (createElement: CreateElement) => VNode = this.render;
-
     return renderFun(createElement);
   },
 
@@ -202,15 +113,90 @@ const TModal = Component.extend({
       }
 
       return createElement(
-        this.tagName,
+        'div',
         {
+          ref: 'overlay',
+          attrs: {
+            tabindex: 0,
+          },
+          class: this.getElementCssClass('overlay'),
+          on: {
+            keyup: this.keyupHandler,
+            click: this.clickHandler,
+          },
+        },
+        [
+          this.renderWrapper(createElement),
+        ],
+      );
+    },
+    renderWrapper(createElement: CreateElement) {
+      return createElement(
+        'div',
+        {
+          ref: 'wrapper',
           class: this.getElementCssClass('wrapper'),
+        },
+        [
+          this.renderModal(createElement),
+        ],
+      );
+    },
+    renderModal(createElement: CreateElement) {
+      return createElement(
+        'div',
+        {
+          ref: 'modal',
+          class: this.getElementCssClass('modal'),
         },
         this.renderChilds(createElement),
       );
     },
     renderChilds(createElement: CreateElement) {
+      if (this.noBody) {
+        return this.$slots.default;
+      }
+
       const childs = [];
+
+      if (!this.hideCloseButton) {
+        childs.push(createElement(
+          'button',
+          {
+            ref: 'close',
+            class: this.getElementCssClass('close'),
+            attrs: {
+              type: 'button',
+            },
+            on: {
+              click: this.hide,
+            },
+          },
+          this.$slots.button
+          || [
+            createElement(
+              'svg',
+              {
+                attrs: {
+                  fill: 'currentColor',
+                  xmlns: 'http://www.w3.org/2000/svg',
+                  viewBox: '0 0 20 20',
+                },
+                class: this.getElementCssClass('closeIcon'),
+              },
+              [
+                createElement('path', {
+                  attrs: {
+                    'clip-rule': 'evenodd',
+                    'fill-rule': 'evenodd',
+                    d: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
+                  },
+                }),
+              ],
+            ),
+          ],
+        ));
+      }
 
       if (!!this.$slots.header || this.header !== undefined) {
         childs.push(createElement(
@@ -245,19 +231,16 @@ const TModal = Component.extend({
 
       return childs;
     },
-
-    calculateMarginTop() {
-      const { container } = this.$refs;
-      if (!window || !container) {
-        return;
+    clickHandler(e: MouseEvent) {
+      if (e.target === this.$refs.overlay) {
+        this.outsideClick();
       }
-      const paddingTop = parseInt(window.getComputedStyle(container).getPropertyValue('padding-top'), 10);
-      const paddingBottom = parseInt(window.getComputedStyle(container).getPropertyValue('padding-bottom'), 10);
-      const modalHeight = container.clientHeight;
-      const viewportHeight = document.documentElement.clientHeight;
-      const adjustement = paddingBottom - paddingTop;
-      const marginTop = (viewportHeight - modalHeight + adjustement) * this.pivotY;
-      this.marginTop = marginTop > 0 ? `${marginTop}px` : null;
+    },
+    keyupHandler(e: KeyboardEvent) {
+      // Esc key
+      if (e.keyCode === 27 && this.escToClose) {
+        this.hide();
+      }
     },
     beforeOpen() {
       this.$emit('before-open', { params: this.params });
@@ -267,19 +250,27 @@ const TModal = Component.extend({
       this.prepareDomForModal();
     },
     beforeClose() {
-      enableBodyScroll(this.$refs.modal);
+      const mdl = this.$refs.modal as HTMLDivElement | undefined;
+      if (mdl) {
+        enableBodyScroll(mdl);
+      }
       this.$emit('before-close');
     },
     closed() {
       this.$emit('closed');
     },
     prepareDomForModal() {
-      disableBodyScroll(this.$refs.modal, {
-        reserveScrollBarGap: true,
-      });
-      this.calculateMarginTop();
-      if (this.$refs.modal) {
-        this.$refs.modal.focus();
+      const mdl = this.$refs.modal as HTMLDivElement | undefined;
+      const ovr = this.$refs.overlay as HTMLDivElement | undefined;
+
+      if (mdl) {
+        disableBodyScroll(mdl, {
+          reserveScrollBarGap: true,
+        });
+      }
+
+      if (ovr) {
+        ovr.focus();
       }
     },
     hide() {
@@ -290,11 +281,6 @@ const TModal = Component.extend({
     },
     outsideClick() {
       if (this.clickToClose) {
-        this.hide();
-      }
-    },
-    escClick() {
-      if (this.escToClose) {
         this.hide();
       }
     },

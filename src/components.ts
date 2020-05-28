@@ -7,6 +7,7 @@ import TButton from './inputs/TButton';
 import TInputGroup from './components/TInputGroup';
 import TCard from './components/TCard';
 import TAlert from './components/TAlert';
+import TModal from './components/TModal';
 
 export {
   TInput,
@@ -18,4 +19,5 @@ export {
   TInputGroup,
   TCard,
   TAlert,
+  TModal,
 };
