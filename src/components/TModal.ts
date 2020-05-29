@@ -43,6 +43,14 @@ const TModal = Component.extend({
       type: Boolean,
       default: false,
     },
+    disableBodyScroll: {
+      type: Boolean,
+      default: true,
+    },
+    focusOnOpen: {
+      type: Boolean,
+      default: true,
+    },
     classes: {
       type: Object,
       default() {
@@ -129,7 +137,9 @@ const TModal = Component.extend({
   },
 
   beforeDestroy() {
-    enableBodyScroll(this.$refs.modal as HTMLDivElement);
+    if (this.disableBodyScroll) {
+      enableBodyScroll(this.$refs.modal as HTMLDivElement);
+    }
   },
 
   render(createElement) {
@@ -281,9 +291,11 @@ const TModal = Component.extend({
       this.prepareDomForModal();
     },
     beforeClose() {
-      const mdl = this.$refs.modal as HTMLDivElement | undefined;
-      if (mdl) {
-        enableBodyScroll(mdl);
+      if (this.disableBodyScroll) {
+        const mdl = this.$refs.modal as HTMLDivElement | undefined;
+        if (mdl) {
+          enableBodyScroll(mdl);
+        }
       }
       this.$emit('before-close');
     },
@@ -291,17 +303,20 @@ const TModal = Component.extend({
       this.$emit('closed');
     },
     prepareDomForModal() {
-      const mdl = this.$refs.modal as HTMLDivElement | undefined;
-      const ovr = this.$refs.overlay as HTMLDivElement | undefined;
-
-      if (mdl) {
-        disableBodyScroll(mdl, {
-          reserveScrollBarGap: true,
-        });
+      if (this.disableBodyScroll) {
+        const mdl = this.$refs.modal as HTMLDivElement | undefined;
+        if (mdl) {
+          disableBodyScroll(mdl, {
+            reserveScrollBarGap: true,
+          });
+        }
       }
 
-      if (ovr) {
-        ovr.focus();
+      if (this.focusOnOpen) {
+        const ovr = this.$refs.overlay as HTMLDivElement | undefined;
+        if (ovr) {
+          ovr.focus();
+        }
       }
     },
     hide() {
