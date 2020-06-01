@@ -31,10 +31,6 @@ const TModal = Component.extend({
       type: Boolean,
       default: true,
     },
-    pivotY: {
-      type: Number,
-      default: 0.2,
-    },
     noBody: {
       type: Boolean,
       default: false,
@@ -56,8 +52,8 @@ const TModal = Component.extend({
       default() {
         return {
           overlay: 'z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-black bg-opacity-50',
-          wrapper: 'z-50 relative mx-auto my-0 max-w-lg',
-          modal: 'bg-white shadow border overflow-hidden relative',
+          wrapper: 'z-50 relative mx-auto max-w-lg',
+          modal: 'bg-white shadow overflow-hidden relative',
           body: '',
           header: '',
           footer: '',
