@@ -25,6 +25,10 @@ const TRichSelect = TSelect.extend({
       type: String,
       default: 'Search...',
     },
+    noResultsLabel: {
+      type: String,
+      default: 'No results found',
+    },
     maxHeight: {
       type: [String, Number],
       default: 300,
@@ -389,21 +393,32 @@ const TRichSelect = TSelect.extend({
           },
         },
         [
-          !this.hideSearchBox ? this.createSearchBoxWrapper(createElement) : undefined,
-          createElement(
-            'ul',
-            {
-              ref: 'list',
-              attrs: {
-                tabindex: -1,
+          this.hideSearchBox
+            ? undefined
+            : this.createSearchBoxWrapper(createElement),
+          !this.filteredOptions.length
+            ? createElement(
+              'div',
+              {
+                ref: 'noResults',
+                class: 'rounded-md p-2 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
               },
-              class: 'rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
-              style: {
-                maxHeight: this.normalizedHeight,
+              this.noResultsLabel,
+            )
+            : createElement(
+              'ul',
+              {
+                ref: 'list',
+                attrs: {
+                  tabindex: -1,
+                },
+                class: 'rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
+                style: {
+                  maxHeight: this.normalizedHeight,
+                },
               },
-            },
-            this.createOptions(createElement),
-          ),
+              this.createOptions(createElement),
+            ),
         ],
       );
     },
