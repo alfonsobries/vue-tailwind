@@ -441,7 +441,7 @@ const TRichSelect = TSelect.extend({
         'li',
         {
           class: {
-            'cursor-default select-none relative py-2 pl-4 pr-9': true,
+            'cursor-default select-none relative p-2': true,
             'text-white bg-orange-500': this.highlighted === index,
             'text-gray-900': this.highlighted !== index,
           },
@@ -466,7 +466,7 @@ const TRichSelect = TSelect.extend({
           createElement(
             'div',
             {
-              class: ['flex items-center space-x-3'],
+              class: ['flex justify-between'],
             },
             [
               createElement(
@@ -474,12 +474,32 @@ const TRichSelect = TSelect.extend({
                 {
                   class: {
                     'font-normal block truncate': true,
-                    'font-semibold': this.highlighted === index,
-                    'font-normal': this.highlighted !== index,
+                    'font-semibold': isSelected,
+                    'font-normal': !isSelected,
                   },
                 },
                 option.text as VNodeChildren,
               ),
+              isSelected
+                ? createElement(
+                  'svg',
+                  {
+                    attrs: {
+                      fill: 'currentColor',
+                      xmlns: 'http://www.w3.org/2000/svg',
+                      viewBox: '0 0 20 20',
+                    },
+                    class: 'fill-current h-4 w-4',
+                  },
+                  [
+                    createElement('polygon', {
+                      attrs: {
+                        points: '0 11 2 9 7 14 18 3 20 5 7 18',
+                      },
+                    }),
+                  ],
+                )
+                : undefined,
             ],
           ),
         ],
