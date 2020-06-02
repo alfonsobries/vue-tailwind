@@ -466,7 +466,7 @@ const TRichSelect = TSelect.extend({
           createElement(
             'div',
             {
-              class: ['flex justify-between'],
+              class: ['flex justify-between items-center'],
             },
             [
               createElement(
