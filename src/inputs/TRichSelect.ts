@@ -13,9 +13,21 @@ const TRichSelect = TSelect.extend({
   },
 
   props: {
+    hideSearchBox: {
+      type: Boolean,
+      default: false,
+    },
     openOnFocus: {
       type: Boolean,
       default: true,
+    },
+    searchBoxPlaceholder: {
+      type: String,
+      default: 'Search...',
+    },
+    maxHeight: {
+      type: [String, Number],
+      default: 300,
     },
   },
 
@@ -41,9 +53,43 @@ const TRichSelect = TSelect.extend({
     value(value) {
       (this as any).localValue = value;
     },
+    async show(show) {
+      if (show) {
+        if (!this.hideSearchBox) {
+          await this.$nextTick();
+          this.getSearchBox().focus();
+        }
+
+        if (!this.normalizedOptions.length) {
+          this.highlighted = null;
+          return;
+        }
+
+        this.highlighted = this.selectedOptionIndex || 0;
+      }
+    },
+  },
+
+  computed: {
+    normalizedHeight(): string {
+      if (/^\d+$/.test(String(this.maxHeight))) {
+        return `${this.maxHeight}px`;
+      }
+
+      return String(this.maxHeight);
+    },
+    selectedOptionIndex() {
+      const index = this.normalizedOptions.findIndex((option) => this.optionIsSelected(option));
+      return index >= 0 ? index : undefined;
+    },
   },
 
   methods: {
+    optionIsSelected(option: NormalizedOption): boolean {
+      return Array.isArray(this.value)
+        ? this.value.includes(option.value)
+        : this.value === option.value;
+    },
     hideOptions() {
       this.show = false;
     },
@@ -82,10 +128,12 @@ const TRichSelect = TSelect.extend({
     },
     async arrowUpHandler(e: KeyboardEvent) {
       e.preventDefault();
+
       if (!this.show) {
         this.showOptions();
         return;
       }
+
       if (this.highlighted === null) {
         this.highlighted = 0;
       } else {
@@ -94,15 +142,17 @@ const TRichSelect = TSelect.extend({
           : this.highlighted - 1;
       }
       if (this.$refs.list) {
-        this.$refs.list.children[(this.highlighted as number) - 1].scrollIntoView({ block: 'nearest' });
+        (this.$refs.list as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
       }
     },
     arrowDownHandler(e: KeyboardEvent) {
       e.preventDefault();
+
       if (!this.show) {
         this.showOptions();
         return;
       }
+
       if (this.highlighted === null) {
         this.highlighted = 0;
       } else {
@@ -112,7 +162,7 @@ const TRichSelect = TSelect.extend({
       }
 
       if (this.$refs.list) {
-        this.$refs.list.children[this.highlighted + 1].scrollIntoView({ block: 'nearest' });
+        (this.$refs.list as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
       }
     },
     enterHandler(e: KeyboardEvent) {
@@ -129,14 +179,19 @@ const TRichSelect = TSelect.extend({
     getButton() {
       return (this as any).$refs.button as HTMLButtonElement;
     },
+    getSearchBox() {
+      return this.$refs.search as HTMLInputElement;
+    },
     async optionClicked(option: NormalizedOption) {
       this.selectOption(option);
     },
     async selectOption(option: NormalizedOption) {
-      (this as any).localValue = option.value;
-      this.hideOptions();
+      if (this.localValue !== option.value) {
+        (this as any).localValue = option.value;
+      }
       await this.$nextTick();
       this.getButton().focus();
+      this.hideOptions();
     },
     createSelectWrapper(createElement: CreateElement) {
       const children: VNode[] = [
@@ -200,6 +255,45 @@ const TRichSelect = TSelect.extend({
         ],
       );
     },
+    createSearchBoxWrapper(createElement: CreateElement) {
+      return createElement(
+        'div',
+        {
+          ref: 'searchWrapper',
+          class: 'inline-block w-full',
+        },
+        [
+          this.createSearchBox(createElement),
+        ],
+      );
+    },
+    createSearchBox(createElement: CreateElement) {
+      return createElement(
+        'input',
+        {
+          ref: 'search',
+          class: 'inline-block w-full border p-2',
+          attrs: {
+            placeholder: this.searchBoxPlaceholder,
+          },
+          on: {
+            keydown: (e: KeyboardEvent) => {
+              // Down
+              if (e.keyCode === 40) {
+                this.arrowDownHandler(e);
+              // Up
+              } else if (e.keyCode === 38) {
+                this.arrowUpHandler(e);
+              // Enter
+              } else if (e.keyCode === 13) {
+                this.enterHandler(e);
+              }
+            },
+            blur: this.blurHandler,
+          },
+        },
+      );
+    },
     createSelectButtonWrapper(createElement: CreateElement) {
       return createElement(
         'div',
@@ -221,7 +315,6 @@ const TRichSelect = TSelect.extend({
           class: 'w-full',
           on: {
             click: this.clickHandler,
-            blur: this.blurHandler,
             focus: this.focusHandler,
             keydown: (e: KeyboardEvent) => {
               // Down
@@ -230,14 +323,21 @@ const TRichSelect = TSelect.extend({
               // Up
               } else if (e.keyCode === 38) {
                 this.arrowUpHandler(e);
+              // Enter
               } else if (e.keyCode === 13) {
                 this.enterHandler(e);
               }
             },
+            blur: (e: FocusEvent) => {
+              if (!this.hideSearchBox) {
+                return;
+              }
+
+              this.blurHandler(e);
+            },
             mousedown: (e: MouseEvent) => {
               e.preventDefault();
             },
-            // change: this.changeHandler,
           },
         },
         this.value as string,
@@ -254,6 +354,7 @@ const TRichSelect = TSelect.extend({
           },
         },
         [
+          !this.hideSearchBox ? this.createSearchBoxWrapper(createElement) : undefined,
           createElement(
             'ul',
             {
@@ -261,7 +362,10 @@ const TRichSelect = TSelect.extend({
               attrs: {
                 tabindex: -1,
               },
-              class: 'max-h-56 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
+              class: 'rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
+              style: {
+                maxHeight: this.normalizedHeight,
+              },
             },
             this.createOptions(createElement),
           ),
@@ -281,9 +385,7 @@ const TRichSelect = TSelect.extend({
       option: NormalizedOption,
       index: number,
     ): VNode {
-      // const isSelected = Array.isArray(this.value)
-      //   ? this.value.includes(option.value)
-      //   : this.value === option.value;
+      const isSelected = this.optionIsSelected(option);
 
       return createElement(
         'li',
