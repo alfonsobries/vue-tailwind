@@ -37,10 +37,21 @@ const TRichSelect = TSelect.extend({
       show: false,
       localValue: this.value,
       highlighted: null as number | null,
+      query: '',
+      filteredOptions: [] as NormalizedOptions,
     };
   },
 
   watch: {
+    normalizedOptions: {
+      handler(options) {
+        this.filteredOptions = options;
+      },
+      immediate: true,
+    },
+    query() {
+      this.filterOptions();
+    },
     async localValue(localValue: string | null) {
       this.$emit('input', localValue);
 
@@ -60,7 +71,7 @@ const TRichSelect = TSelect.extend({
           this.getSearchBox().focus();
         }
 
-        if (!this.normalizedOptions.length) {
+        if (!this.filteredOptions.length) {
           this.highlighted = null;
           return;
         }
@@ -78,13 +89,28 @@ const TRichSelect = TSelect.extend({
 
       return String(this.maxHeight);
     },
-    selectedOptionIndex() {
-      const index = this.normalizedOptions.findIndex((option) => this.optionIsSelected(option));
+    selectedOptionIndex(): number | undefined {
+      const index = this.filteredOptions.findIndex((option) => this.optionIsSelected(option));
       return index >= 0 ? index : undefined;
     },
   },
 
   methods: {
+    filterOptions() {
+      if (!this.query) {
+        this.filteredOptions = this.normalizedOptions;
+      }
+
+      this.filteredOptions = this.normalizedOptions
+        .filter((option: NormalizedOption) => String(option.text)
+          .toUpperCase().trim().includes(this.query.toUpperCase().trim()));
+
+      if (this.filteredOptions.length) {
+        this.highlighted = 0;
+      } else {
+        this.highlighted = null;
+      }
+    },
     optionIsSelected(option: NormalizedOption): boolean {
       return Array.isArray(this.value)
         ? this.value.includes(option.value)
@@ -138,7 +164,7 @@ const TRichSelect = TSelect.extend({
         this.highlighted = 0;
       } else {
         this.highlighted = this.highlighted - 1 < 0
-          ? this.normalizedOptions.length - 1
+          ? this.filteredOptions.length - 1
           : this.highlighted - 1;
       }
       if (this.$refs.list) {
@@ -156,7 +182,7 @@ const TRichSelect = TSelect.extend({
       if (this.highlighted === null) {
         this.highlighted = 0;
       } else {
-        this.highlighted = this.highlighted + 1 >= this.normalizedOptions.length
+        this.highlighted = this.highlighted + 1 >= this.filteredOptions.length
           ? 0
           : this.highlighted + 1;
       }
@@ -172,9 +198,13 @@ const TRichSelect = TSelect.extend({
 
       if (this.highlighted !== null) {
         e.preventDefault();
-        const option = this.normalizedOptions[this.highlighted];
+        const option = this.filteredOptions[this.highlighted];
         this.selectOption(option);
       }
+    },
+    searchInputHandler(e: Event) {
+      const target = (e.target as HTMLInputElement);
+      this.query = target.value;
     },
     getButton() {
       return (this as any).$refs.button as HTMLButtonElement;
@@ -192,6 +222,7 @@ const TRichSelect = TSelect.extend({
       await this.$nextTick();
       this.getButton().focus();
       this.hideOptions();
+      this.query = '';
     },
     createSelectWrapper(createElement: CreateElement) {
       const children: VNode[] = [
@@ -273,6 +304,9 @@ const TRichSelect = TSelect.extend({
         {
           ref: 'search',
           class: 'inline-block w-full border p-2',
+          domProps: {
+            value: this.query,
+          },
           attrs: {
             placeholder: this.searchBoxPlaceholder,
           },
@@ -290,6 +324,7 @@ const TRichSelect = TSelect.extend({
               }
             },
             blur: this.blurHandler,
+            input: this.searchInputHandler,
           },
         },
       );
@@ -373,7 +408,7 @@ const TRichSelect = TSelect.extend({
       );
     },
     createOptions(createElement: CreateElement): VNode[] {
-      const options: NormalizedOptions = this.normalizedOptionsWithPlaceholder;
+      const options: NormalizedOptions = this.filteredOptions;
       return options
         .map((option: NormalizedOption, index) => this.createOption(
           createElement, option, index,
