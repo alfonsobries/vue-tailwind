@@ -3,6 +3,7 @@ import TRadio from './inputs/TRadio';
 import TTextarea from './inputs/TTextarea';
 import TInput from './inputs/TInput';
 import TSelect from './inputs/TSelect';
+import TRichSelect from './inputs/TRichSelect';
 import TButton from './inputs/TButton';
 import TInputGroup from './components/TInputGroup';
 import TCard from './components/TCard';
@@ -20,4 +21,5 @@ export {
   TCard,
   TAlert,
   TModal,
+  TRichSelect,
 };

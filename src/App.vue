@@ -18,6 +18,18 @@
       />
     </t-input-group>
 
+    <t-input-group
+      label="Select variant"
+      description="Select a variant to apply to some of the components"
+      feedback="Some feedback"
+      :variant="variant === 'error' ? variant : undefined"
+    >
+      <t-rich-select
+        v-model="variant"
+        :options="variants"
+      />
+    </t-input-group>
+
     <t-input-group>
       <template v-slot:label>
         label from slot
