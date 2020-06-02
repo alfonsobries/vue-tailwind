@@ -13,6 +13,10 @@ const TRichSelect = TSelect.extend({
   },
 
   props: {
+    value: {
+      type: [String, Number],
+      default: null,
+    },
     hideSearchBox: {
       type: Boolean,
       default: false,
@@ -66,7 +70,7 @@ const TRichSelect = TSelect.extend({
       this.show = false;
     },
     value(value) {
-      (this as any).localValue = value;
+      this.localValue = value;
     },
     async show(show) {
       if (show) {
@@ -211,7 +215,7 @@ const TRichSelect = TSelect.extend({
       this.query = target.value;
     },
     getButton() {
-      return (this as any).$refs.button as HTMLButtonElement;
+      return this.$refs.button as HTMLButtonElement;
     },
     getSearchBox() {
       return this.$refs.search as HTMLInputElement;
@@ -221,7 +225,7 @@ const TRichSelect = TSelect.extend({
     },
     async selectOption(option: NormalizedOption) {
       if (this.localValue !== option.value) {
-        (this as any).localValue = option.value;
+        this.localValue = option.value as string | number;
       }
       await this.$nextTick();
       this.getButton().focus();
