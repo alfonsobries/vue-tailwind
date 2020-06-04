@@ -5,12 +5,14 @@ import NormalizedOption from './NormalizedOption';
 
 type TRichSelect = CombinedVueInstance<Vue,
 {
+  clearable: boolean;
   hideSearchBox: boolean;
   value: string;
   show: boolean;
   filteredOptions: NormalizedOptions;
   highlighted: number | null;
   query: string;
+  placeholder: string | undefined;
   noResultsLabel: string;
   searchBoxPlaceholder: string;
 },
@@ -25,6 +27,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   optionIsSelected(option: NormalizedOption): boolean;
   selectOption(option: NormalizedOption): void;
   searchInputHandler(e: Event): void;
+  clearIconClickHandler(e: MouseEvent): void;
 }, {
   normalizedHeight: string;
 }, {

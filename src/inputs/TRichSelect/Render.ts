@@ -54,6 +54,20 @@ export default class TRichSelectRender {
    * The button that is used a select box
    */
   createSelectButton() {
+    const subElements = [];
+
+    if (this.component.value) {
+      subElements.push(this.createSelectButtonLabel());
+    } else {
+      subElements.push(this.createSelectButtonPlaceholder());
+    }
+
+    if (this.component.clearable && this.component.value) {
+      subElements.push(this.createSelectButtonClearIcon());
+    } else {
+      subElements.push(this.createSelectButtonIcon());
+    }
+
     return this.createElement(
       'button',
       {
@@ -89,10 +103,7 @@ export default class TRichSelectRender {
           },
         },
       },
-      [
-        this.createSelectButtonLabel(),
-        this.createSelectButtonIcon(),
-      ],
+      subElements,
     );
   }
 
@@ -104,6 +115,17 @@ export default class TRichSelectRender {
         class: this.component.getElementCssClass('selectButtonLabel'),
       },
       this.component.value,
+    );
+  }
+
+  createSelectButtonPlaceholder(): VNode {
+    return this.createElement(
+      'span',
+      {
+        ref: 'selectButtonPlaceholder',
+        class: this.component.getElementCssClass('selectButtonPlaceholder'),
+      },
+      this.component.placeholder || '',
     );
   }
 
@@ -127,6 +149,61 @@ export default class TRichSelectRender {
             d: 'M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z',
           },
         }),
+      ],
+    );
+  }
+
+  createSelectButtonClearIconWrapper(): VNode {
+    return this.createElement(
+      'svg',
+      {
+        ref: 'selectButtonClearIcon',
+        attrs: {
+          fill: 'currentColor',
+          xmlns: 'http://www.w3.org/2000/svg',
+          viewBox: '0 0 20 20',
+        },
+        class: this.component.getElementCssClass('selectButtonClearIcon'),
+      },
+      [
+        this.createElement('polygon', {
+          attrs: {
+            points: '10 8.58578644 2.92893219 1.51471863 1.51471863 2.92893219 8.58578644 10 1.51471863 17.0710678 2.92893219 18.4852814 10 11.4142136 17.0710678 18.4852814 18.4852814 17.0710678 11.4142136 10 18.4852814 2.92893219 17.0710678 1.51471863 10 8.58578644',
+          },
+        }),
+      ],
+    );
+  }
+
+  createSelectButtonClearIcon(): VNode {
+    return this.createElement(
+      'span',
+      {
+        ref: 'selectButtonClearIcon',
+        class: this.component.getElementCssClass('selectButtonClearIconWrapper'),
+        on: {
+          click: this.component.clearIconClickHandler,
+        },
+      },
+      [
+        this.createElement(
+          'svg',
+          {
+            attrs: {
+              fill: 'currentColor',
+              xmlns: 'http://www.w3.org/2000/svg',
+              viewBox: '0 0 20 20',
+            },
+            class: this.component.getElementCssClass('selectButtonClearIcon'),
+          },
+          [
+            this.createElement('polygon', {
+              attrs: {
+                points: '10 8.58578644 2.92893219 1.51471863 1.51471863 2.92893219 8.58578644 10 1.51471863 17.0710678 2.92893219 18.4852814 10 11.4142136 17.0710678 18.4852814 18.4852814 17.0710678 11.4142136 10 18.4852814 2.92893219 17.0710678 1.51471863 10 8.58578644',
+              },
+            }),
+          ],
+        ),
       ],
     );
   }

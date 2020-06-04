@@ -27,6 +27,8 @@
       <t-rich-select
         v-model="variant"
         :options="variants"
+        clearable
+        placeholder="select an option"
       />
     </t-input-group>
 
