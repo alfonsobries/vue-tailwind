@@ -30,6 +30,10 @@
         clearable
         placeholder="select an option"
       />
+      <t-rich-select
+        v-model="optgroupValue"
+        :options="optGroupOptions"
+      />
     </t-input-group>
 
     <t-input-group>
@@ -150,26 +154,8 @@
     <t-button>Hello world</t-button>
 
     <t-select
-      :options="[
-        { value: 'With optgroup', text: 'With optgroup' },
-        { value: 'Option 2', text: 'Option 2' },
-        {
-          text: 'Numbers',
-          children: [
-            { value: 1, text: 1 },
-            { value: 2, text: 2 },
-          ]
-        },
-        {
-          text: 'Letters',
-          children: [
-            { value: 'A', text: 'A' },
-            { value: 'B', text: 'B' },
-            { value: 'C', text: 'C' },
-          ]
-        },
-      ]"
-      value="With optgroup"
+      v-model="optgroupValue"
+      :options="optGroupOptions"
     />
 
 
@@ -443,6 +429,26 @@ export default {
       variant: 'error',
       variants: ['default', 'error', 'notdefined', 'asarray', 'asobject', 'gsadgdasgkljads dsgdsakgdslkg jdsgkdsajgdas gdasg sdag dsagdsag sadgadsgdsa gsdagdsags dagads'],
       activeVariant: false,
+      optgroupValue: 'With optgroup',
+      optGroupOptions: [
+        { value: 'With optgroup', text: 'With optgroup' },
+        { value: 'Option 2', text: 'Option 2' },
+        {
+          text: 'Numbers',
+          children: [
+            { value: 1, text: 1 },
+            { value: 2, text: 2 },
+          ],
+        },
+        {
+          text: 'Letters',
+          children: [
+            { value: 'A', text: 'A' },
+            { value: 'B', text: 'B' },
+            { value: 'C', text: 'C' },
+          ],
+        },
+      ],
     };
   },
 };

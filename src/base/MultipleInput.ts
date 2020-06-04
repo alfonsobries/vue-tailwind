@@ -1,4 +1,3 @@
-import flatten from 'lodash/flatten';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import HtmlInput from './HtmlInput';
@@ -55,13 +54,13 @@ const MultipleInput = HtmlInput.extend({
     },
 
     flattenedOptions(): NormalizedOptions {
-      return flatten(this.normalizedOptions.map((option) => {
+      return this.normalizedOptions.map((option) => {
         if (option.children) {
           return option.children;
         }
 
         return option;
-      }));
+      }).flat();
     },
   },
   methods: {

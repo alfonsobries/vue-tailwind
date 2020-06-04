@@ -3,24 +3,111 @@ import TRichSelect from '@/inputs/TRichSelect';
 // import mapValues from 'lodash/mapValues';
 
 describe('TRichSelect', () => {
-  it('it renders the select', () => {
+  it('renders the select', () => {
     const wrapper = shallowMount(TRichSelect);
     expect(wrapper.vm.$refs.wrapper).toBeTruthy();
   });
 
-  it('it renders the select button', () => {
+  it('renders the select button', () => {
     const wrapper = shallowMount(TRichSelect);
     expect(wrapper.vm.$refs.buttonWrapper).toBeTruthy();
   });
 
-  // it('it renders the select options', () => {
-  //   const options = ['Option A', 'Option B', 'Option C'];
-  //   const wrapper = shallowMount(TRichSelect, {
-  //     propsData: { options },
-  //   });
+  it('has a hidden style by default ', () => {
+    const wrapper = shallowMount(TRichSelect);
+    expect(wrapper.vm.$refs.dropdown.style.display).toBe('none');
+  });
 
-  //   expect(wrapper.vm.$el.getElementsByTagName('option').length).toBe(3);
-  // });
+  it('opens the dropdown when the button is clicked', async () => {
+    const wrapper = shallowMount(TRichSelect);
+    wrapper.vm.$refs.selectButton.click();
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$refs.dropdown.style.display).toBe('');
+  });
+
+  it('focus the search box when the button is clicked', async () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+
+    const wrapper = shallowMount(TRichSelect, { attachTo: div });
+    wrapper.vm.$refs.selectButton.click();
+    // Wait for the dropdown to open
+    await wrapper.vm.$nextTick();
+    // Wait for the focus
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$refs.searchBox).toBe(document.activeElement, 'The element was not focused');
+  });
+
+  it('closes the dropdown when the search box lost the focus', async () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+
+    const wrapper = shallowMount(TRichSelect, { attachTo: div });
+    wrapper.vm.$refs.selectButton.click();
+    // Wait for the dropdown to open
+    await wrapper.vm.$nextTick();
+    // Wait for the focus
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.show).toBe(true);
+    wrapper.vm.$refs.searchBox.blur();
+    expect(wrapper.vm.show).toBe(false);
+  });
+
+  it('opens the dropdown when the search button has focus', async () => {
+    const wrapper = shallowMount(TRichSelect);
+    wrapper.vm.$refs.selectButton.focus();
+    expect(wrapper.vm.show).toBe(true);
+  });
+
+  it('opens the dropdown when the search button has focus and keep the focus if no searchbox', async () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+
+    const wrapper = shallowMount(TRichSelect, {
+      attachTo: div,
+      propsData: {
+        hideSearchBox: true,
+      },
+    });
+    wrapper.vm.$refs.selectButton.click();
+    // Wait for the dropdown to open
+    await wrapper.vm.$nextTick();
+    // Wait for the focus (in case of an error it will try to focus the searchbox)
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$refs.selectButton).toBe(document.activeElement, 'The element was not focused');
+    expect(wrapper.vm.$refs.searchBox).toBeFalsy();
+  });
+
+  it('define a max height for the dropdown list from a number', async () => {
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: {
+        maxHeight: 100,
+        options: ['A', 'B'],
+      },
+    });
+    expect(wrapper.vm.$refs.optionsList.style.maxHeight).toBe('100px');
+  });
+
+  it('define a max height for the dropdown list from a string', async () => {
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: {
+        maxHeight: '3em',
+        options: ['A', 'B'],
+      },
+    });
+    expect(wrapper.vm.$refs.optionsList.style.maxHeight).toBe('3em');
+  });
+
+  it('it renders the select options', () => {
+    const options = ['Option A', 'Option B', 'Option C'];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options },
+    });
+
+    expect(wrapper.vm.$refs.optionsList.children.length).toBe(3);
+  });
 
   // it('render the select optgroups', () => {
   //   const options = [

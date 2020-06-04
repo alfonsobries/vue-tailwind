@@ -2,6 +2,7 @@ import { CombinedVueInstance } from 'vue/types/vue';
 import CssClass from './CssClass';
 import NormalizedOptions from './NormalizedOptions';
 import NormalizedOption from './NormalizedOption';
+import InputOption from './InputOption';
 
 type TRichSelect = CombinedVueInstance<Vue,
 {
@@ -28,6 +29,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   selectOption(option: NormalizedOption): void;
   searchInputHandler(e: Event): void;
   clearIconClickHandler(e: MouseEvent): void;
+  guessOptionText(option: InputOption): string;
 }, {
   normalizedHeight: string;
 }, {

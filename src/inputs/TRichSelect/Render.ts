@@ -272,7 +272,7 @@ export default class TRichSelectRender {
     if (!this.component.filteredOptions.length) {
       subElements.push(this.createDropdownFeedback(this.component.noResultsLabel));
     } else {
-      subElements.push(this.createOptionsList());
+      subElements.push(this.createOptionsList(this.component.filteredOptions));
     }
 
     return this.createElement(
@@ -291,7 +291,7 @@ export default class TRichSelectRender {
   /**
    * Options list wrapper
    */
-  createOptionsList() {
+  createOptionsList(options: NormalizedOptions) {
     return this.createElement(
       'ul',
       {
@@ -304,7 +304,7 @@ export default class TRichSelectRender {
           maxHeight: this.component.normalizedHeight,
         },
       },
-      this.createOptions(),
+      this.createOptions(options),
     );
   }
 
@@ -326,10 +326,53 @@ export default class TRichSelectRender {
   /**
    * List of options
    */
-  createOptions(): VNode[] {
-    const options: NormalizedOptions = this.component.filteredOptions;
+  createOptions(options: NormalizedOptions): VNode[] {
     return options
+      .map((option: NormalizedOption) => {
+        if (option.children) {
+          return option.children;
+        }
+
+        return option;
+      })
+      .flat()
       .map((option: NormalizedOption, index) => this.createOption(option, index));
+  }
+
+  /**
+   * Creates an optgroup element
+   * @param option
+   * @param index
+   */
+  createOptgroup(
+    optgroup: NormalizedOption,
+  ): VNode {
+    return this.createElement(
+      'div',
+      {
+        class: this.component.getElementCssClass('optgroup'),
+      },
+      this.component.guessOptionText(optgroup),
+    );
+  }
+
+  /**
+   * Creates an optgroup element
+   * @param option
+   * @param index
+   */
+  createOptgroupList(
+    options: NormalizedOptions,
+  ): VNode {
+    return this.createElement(
+      'div',
+      {
+        class: this.component.getElementCssClass('optgroupList'),
+      },
+      [
+        this.createOptionsList(options),
+      ],
+    );
   }
 
   /**

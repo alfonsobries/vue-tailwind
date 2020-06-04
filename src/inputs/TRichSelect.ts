@@ -1,5 +1,6 @@
 import TRichSelectType from '@/types/TRichSelect';
 import { CreateElement, VNode } from 'vue';
+import cloneDeep from 'lodash/cloneDeep';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 import TSelect from './TSelect';
@@ -8,7 +9,7 @@ import Render from './TRichSelect/Render';
 const TRichSelect = TSelect.extend({
   name: 'TRichSelect',
 
-  render(createElement) {
+  render(createElement: CreateElement) {
     const createSelectFunc: (createElement: CreateElement) => VNode = this.createSelect;
     return createSelectFunc(createElement);
   },
@@ -63,6 +64,8 @@ const TRichSelect = TSelect.extend({
           optionsList: 'rounded-md py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5',
           searchWrapper: 'inline-block w-full bg-white p-1',
           searchBox: 'inline-block w-full p-2 bg-gray-100 focus:outline-none text-sm rounded shadow-inner',
+          optgroup: 'text-gray-700 uppercase text-xs p-1 font-semibold',
+          optgroupList: 'text-sm',
           option: 'cursor-default select-none relative p-2 text-gray-900',
           highlightedOption: 'cursor-default select-none relative p-2 text-white bg-blue-500',
           selectedOption: 'cursor-default select-none relative p-2 text-gray-900 font-semibold bg-blue-100',
@@ -88,13 +91,20 @@ const TRichSelect = TSelect.extend({
 
   watch: {
     normalizedOptions: {
-      handler(options) {
+      handler(options: NormalizedOptions) {
         this.filteredOptions = options;
       },
       immediate: true,
     },
     query() {
-      this.filterOptions();
+      const options = cloneDeep(this.normalizedOptions);
+      this.filteredOptions = this.filterOptions(options);
+
+      if (this.filteredOptions.length) {
+        this.highlighted = 0;
+      } else {
+        this.highlighted = null;
+      }
     },
     async localValue(localValue: string | null) {
       this.$emit('input', localValue);
@@ -115,7 +125,7 @@ const TRichSelect = TSelect.extend({
           this.getSearchBox().focus();
         }
 
-        if (!this.filteredOptions.length) {
+        if (!this.filteredflattenedOptions.length) {
           this.highlighted = null;
           return;
         }
@@ -126,6 +136,16 @@ const TRichSelect = TSelect.extend({
   },
 
   computed: {
+    filteredflattenedOptions(): NormalizedOptions {
+      return this.filteredOptions.map((option: NormalizedOption) => {
+        if (option.children) {
+          return option.children;
+        }
+
+        return option;
+      }).flat();
+    },
+
     normalizedHeight(): string {
       if (/^\d+$/.test(String(this.maxHeight))) {
         return `${this.maxHeight}px`;
@@ -134,7 +154,8 @@ const TRichSelect = TSelect.extend({
       return String(this.maxHeight);
     },
     selectedOptionIndex(): number | undefined {
-      const index = this.filteredOptions.findIndex((option) => this.optionIsSelected(option));
+      const index = this.filteredflattenedOptions
+        .findIndex((option) => this.optionIsSelected(option));
       return index >= 0 ? index : undefined;
     },
   },
@@ -143,20 +164,29 @@ const TRichSelect = TSelect.extend({
     createSelect(createElement: CreateElement) {
       return (new Render(createElement, this as TRichSelectType)).render();
     },
-    filterOptions() {
+    filterOptions(options: NormalizedOptions) {
       if (!this.query) {
-        this.filteredOptions = this.normalizedOptions;
+        return options;
       }
 
-      this.filteredOptions = this.normalizedOptions
-        .filter((option: NormalizedOption) => String(option.text)
-          .toUpperCase().trim().includes(this.query.toUpperCase().trim()));
+      return options
+        .map((option: NormalizedOption) => {
+          if (option.children) {
+            const newOption = option;
+            // eslint-disable-next-line no-param-reassign
+            newOption.children = this.filterOptions(newOption.children as NormalizedOptions);
+          }
+          return option;
+        }).filter((option: NormalizedOption) => {
+          const foundText = String(option.text)
+            .toUpperCase()
+            .trim()
+            .includes(this.query.toUpperCase().trim());
 
-      if (this.filteredOptions.length) {
-        this.highlighted = 0;
-      } else {
-        this.highlighted = null;
-      }
+          const hasChildren = option.children && option.children.length > 0;
+
+          return hasChildren || foundText;
+        });
     },
     optionIsSelected(option: NormalizedOption): boolean {
       return Array.isArray(this.value)
@@ -211,11 +241,11 @@ const TRichSelect = TSelect.extend({
         this.highlighted = 0;
       } else {
         this.highlighted = this.highlighted - 1 < 0
-          ? this.filteredOptions.length - 1
+          ? this.filteredflattenedOptions.length - 1
           : this.highlighted - 1;
       }
-      if (this.$refs.list) {
-        (this.$refs.list as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
+      if (this.$refs.optionsList) {
+        (this.$refs.optionsList as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
       }
     },
     arrowDownHandler(e: KeyboardEvent) {
@@ -229,13 +259,13 @@ const TRichSelect = TSelect.extend({
       if (this.highlighted === null) {
         this.highlighted = 0;
       } else {
-        this.highlighted = this.highlighted + 1 >= this.filteredOptions.length
+        this.highlighted = this.highlighted + 1 >= this.filteredflattenedOptions.length
           ? 0
           : this.highlighted + 1;
       }
 
-      if (this.$refs.list) {
-        (this.$refs.list as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
+      if (this.$refs.optionsList) {
+        (this.$refs.optionsList as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
       }
     },
     enterHandler(e: KeyboardEvent) {
@@ -245,7 +275,7 @@ const TRichSelect = TSelect.extend({
 
       if (this.highlighted !== null) {
         e.preventDefault();
-        const option = this.filteredOptions[this.highlighted];
+        const option = this.filteredflattenedOptions[this.highlighted];
         this.selectOption(option);
       }
     },
