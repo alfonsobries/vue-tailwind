@@ -439,7 +439,7 @@ export default {
       model: '',
       multipleVariants: ['error', 'asarray'],
       variant: 'error',
-      variants: ['default', 'error', 'notdefined', 'asarray', 'asobject'],
+      variants: ['default', 'error', 'notdefined', 'asarray', 'asobject', 'gsadgdasgkljads dsgdsakgdslkg jdsgkdsajgdas gdasg sdag dsagdsag sadgadsgdsa gsdagdsags dagads'],
       activeVariant: false,
     };
   },

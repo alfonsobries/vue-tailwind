@@ -1,15 +1,16 @@
-import { CreateElement, VNode, VNodeChildren } from 'vue';
+import TRichSelectType from '@/types/TRichSelect';
+import { CreateElement, VNode } from 'vue';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 import TSelect from './TSelect';
+import Render from './TRichSelect/Render';
 
 const TRichSelect = TSelect.extend({
   name: 'TRichSelect',
 
   render(createElement) {
-    const createWrapperFunc: (createElement: CreateElement) => VNode = this.createWrapper;
-
-    return createWrapperFunc(createElement);
+    const createSelectFunc: (createElement: CreateElement) => VNode = this.createSelect;
+    return createSelectFunc(createElement);
   },
 
   props: {
@@ -36,6 +37,28 @@ const TRichSelect = TSelect.extend({
     maxHeight: {
       type: [String, Number],
       default: 300,
+    },
+    classes: {
+      type: Object,
+      default() {
+        return {
+          wrapper: 'relative',
+          buttonWrapper: 'inline-block w-full',
+          selectButton: 'w-full',
+          dropdown: 'absolute mt-1 w-full rounded-md bg-white shadow-lg z-10',
+          dropdownFeedback: 'rounded-md p-2 text-base leading-6 shadow-xs focus:outline-none sm:text-sm sm:leading-5',
+          optionsList: 'rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
+          searchWrapper: 'inline-block w-full',
+          searchBox: 'inline-block w-full border p-2',
+          option: 'cursor-default select-none relative p-2 text-gray-900',
+          highlightedOption: 'cursor-default select-none relative p-2 text-white bg-orange-500',
+          selectedOption: 'cursor-default select-none relative p-2 text-gray-900 font-semibold bg-orange-100',
+          selectedHighlightedOption: 'cursor-default select-none relative p-2 text-white bg-orange-500 font-semibold',
+          optionContent: 'flex justify-between items-center',
+          optionLabel: 'truncate block',
+          selectedIcon: 'fill-current h-4 w-4',
+        };
+      },
     },
   },
 
@@ -104,6 +127,9 @@ const TRichSelect = TSelect.extend({
   },
 
   methods: {
+    createSelect(createElement: CreateElement) {
+      return (new Render(createElement, this as TRichSelectType)).render();
+    },
     filterOptions() {
       if (!this.query) {
         this.filteredOptions = this.normalizedOptions;
@@ -210,18 +236,15 @@ const TRichSelect = TSelect.extend({
         this.selectOption(option);
       }
     },
-    searchInputHandler(e: Event) {
+    searchInputHandler(e: Event): void {
       const target = (e.target as HTMLInputElement);
       this.query = target.value;
     },
     getButton() {
-      return this.$refs.button as HTMLButtonElement;
+      return this.$refs.selectButton as HTMLButtonElement;
     },
     getSearchBox() {
-      return this.$refs.search as HTMLInputElement;
-    },
-    async optionClicked(option: NormalizedOption) {
-      this.selectOption(option);
+      return this.$refs.searchBox as HTMLInputElement;
     },
     async selectOption(option: NormalizedOption) {
       if (this.localValue !== option.value) {
@@ -232,284 +255,8 @@ const TRichSelect = TSelect.extend({
       this.hideOptions();
       this.query = '';
     },
-    createSelectWrapper(createElement: CreateElement) {
-      const children: VNode[] = [
-        this.createSelect(createElement),
-      ];
-
-      if (!this.multiple) {
-        children.push(this.createArrow(createElement));
-      }
-
-      return createElement(
-        'div',
-        {
-          ref: 'select-wrapper',
-          class: this.getElementCssClass('wrapper'),
-        },
-        children,
-      );
-    },
-    createArrow(createElement: CreateElement) {
-      return createElement(
-        'span',
-        {
-          ref: 'arrow',
-          class: this.getElementCssClass('arrowWrapper'),
-        },
-        [
-          createElement(
-            'svg',
-            {
-              attrs: {
-                fill: 'currentColor',
-                xmlns: 'http://www.w3.org/2000/svg',
-                viewBox: '0 0 20 20',
-              },
-              class: this.getElementCssClass('arrow'),
-            },
-            [
-              createElement('path', {
-                attrs: {
-                  'clip-rule': 'evenodd',
-                  'fill-rule': 'evenodd',
-                  d: 'M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z',
-                },
-              }),
-            ],
-          ),
-        ],
-      );
-    },
-    createWrapper(createElement: CreateElement) {
-      return createElement(
-        'div',
-        {
-          ref: 'wrapper',
-          class: 'relative',
-        },
-        [
-          this.createSelectButtonWrapper(createElement),
-          this.createOptionsWrapper(createElement),
-        ],
-      );
-    },
-    createSearchBoxWrapper(createElement: CreateElement) {
-      return createElement(
-        'div',
-        {
-          ref: 'searchWrapper',
-          class: 'inline-block w-full',
-        },
-        [
-          this.createSearchBox(createElement),
-        ],
-      );
-    },
-    createSearchBox(createElement: CreateElement) {
-      return createElement(
-        'input',
-        {
-          ref: 'search',
-          class: 'inline-block w-full border p-2',
-          domProps: {
-            value: this.query,
-          },
-          attrs: {
-            placeholder: this.searchBoxPlaceholder,
-          },
-          on: {
-            keydown: (e: KeyboardEvent) => {
-              // Down
-              if (e.keyCode === 40) {
-                this.arrowDownHandler(e);
-              // Up
-              } else if (e.keyCode === 38) {
-                this.arrowUpHandler(e);
-              // Enter
-              } else if (e.keyCode === 13) {
-                this.enterHandler(e);
-              }
-            },
-            blur: this.blurHandler,
-            input: this.searchInputHandler,
-          },
-        },
-      );
-    },
-    createSelectButtonWrapper(createElement: CreateElement) {
-      return createElement(
-        'div',
-        {
-          ref: 'buttonWrapper',
-          class: 'inline-block w-full',
-        },
-        [this.createSelectButton(createElement)],
-      );
-    },
-    createSelectButton(createElement: CreateElement) {
-      return createElement(
-        'button',
-        {
-          ref: 'button',
-          attrs: {
-            type: 'button',
-          },
-          class: 'w-full',
-          on: {
-            click: this.clickHandler,
-            focus: this.focusHandler,
-            keydown: (e: KeyboardEvent) => {
-              // Down
-              if (e.keyCode === 40) {
-                this.arrowDownHandler(e);
-              // Up
-              } else if (e.keyCode === 38) {
-                this.arrowUpHandler(e);
-              // Enter
-              } else if (e.keyCode === 13) {
-                this.enterHandler(e);
-              }
-            },
-            blur: (e: FocusEvent) => {
-              if (!this.hideSearchBox) {
-                return;
-              }
-
-              this.blurHandler(e);
-            },
-            mousedown: (e: MouseEvent) => {
-              e.preventDefault();
-            },
-          },
-        },
-        this.value as string,
-      );
-    },
-    createOptionsWrapper(createElement: CreateElement) {
-      return createElement(
-        'div',
-        {
-          ref: 'optionsWrapper',
-          class: 'absolute mt-1 w-full rounded-md bg-white shadow-lg z-10',
-          style: {
-            display: !this.show ? 'none' : undefined, // 'none',
-          },
-        },
-        [
-          this.hideSearchBox
-            ? undefined
-            : this.createSearchBoxWrapper(createElement),
-          !this.filteredOptions.length
-            ? createElement(
-              'div',
-              {
-                ref: 'noResults',
-                class: 'rounded-md p-2 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
-              },
-              this.noResultsLabel,
-            )
-            : createElement(
-              'ul',
-              {
-                ref: 'list',
-                attrs: {
-                  tabindex: -1,
-                },
-                class: 'rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5',
-                style: {
-                  maxHeight: this.normalizedHeight,
-                },
-              },
-              this.createOptions(createElement),
-            ),
-        ],
-      );
-    },
-    createOptions(createElement: CreateElement): VNode[] {
-      const options: NormalizedOptions = this.filteredOptions;
-      return options
-        .map((option: NormalizedOption, index) => this.createOption(
-          createElement, option, index,
-        ));
-    },
-
-    createOption(
-      createElement: CreateElement,
-      option: NormalizedOption,
-      index: number,
-    ): VNode {
-      const isSelected = this.optionIsSelected(option);
-
-      return createElement(
-        'li',
-        {
-          class: {
-            'cursor-default select-none relative p-2': true,
-            'text-white bg-orange-500': this.highlighted === index,
-            'text-gray-900': this.highlighted !== index,
-          },
-          on: {
-            mouseover: () => {
-              this.highlighted = index;
-            },
-            mouseleave: () => {
-              this.highlighted = null;
-            },
-            mousedown: (e: MouseEvent) => {
-              e.preventDefault();
-            },
-            click: (e: MouseEvent) => {
-              e.preventDefault();
-
-              this.optionClicked(option);
-            },
-          },
-        },
-        [
-          createElement(
-            'div',
-            {
-              class: ['flex justify-between items-center'],
-            },
-            [
-              createElement(
-                'span',
-                {
-                  class: {
-                    'font-normal block truncate': true,
-                    'font-semibold': isSelected,
-                    'font-normal': !isSelected,
-                  },
-                },
-                option.text as VNodeChildren,
-              ),
-              isSelected
-                ? createElement(
-                  'svg',
-                  {
-                    attrs: {
-                      fill: 'currentColor',
-                      xmlns: 'http://www.w3.org/2000/svg',
-                      viewBox: '0 0 20 20',
-                    },
-                    class: 'fill-current h-4 w-4',
-                  },
-                  [
-                    createElement('polygon', {
-                      attrs: {
-                        points: '0 11 2 9 7 14 18 3 20 5 7 18',
-                      },
-                    }),
-                  ],
-                )
-                : undefined,
-            ],
-          ),
-        ],
-      );
-    },
   },
 });
+
 
 export default TRichSelect;

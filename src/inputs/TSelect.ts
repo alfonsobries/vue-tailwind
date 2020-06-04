@@ -77,7 +77,7 @@ const TSelect = MultipleInput.extend({
       return createElement(
         'div',
         {
-          ref: 'select-wrapper',
+          ref: 'selectWrapper',
           class: this.getElementCssClass('wrapper'),
         },
         children,
