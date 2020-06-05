@@ -167,13 +167,89 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.selectButtonClearIcon).toBeFalsy();
   });
 
-  it('not shows a span for clear the value  by default', () => {
+  it('not shows a span for clear the value by default', () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options, value: 'Option B' },
     });
 
     expect(wrapper.vm.$refs.selectButtonClearIcon).toBeFalsy();
+  });
+
+  it('highlights the selected option', async () => {
+    const options = ['Option A', 'Option B', 'Option C'];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options, value: 'Option B' },
+    });
+
+    wrapper.vm.$refs.selectButton.click();
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.highlighted).toBe(1);
+  });
+
+  it('highlights the first option when no value', async () => {
+    const options = ['Option A', 'Option B', 'Option C'];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options },
+    });
+
+    wrapper.vm.$refs.selectButton.click();
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.highlighted).toBe(0);
+  });
+
+  it('select the next item when down key', async () => {
+    const options = ['Option A', 'Option B', 'Option C'];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options },
+    });
+
+    wrapper.vm.$refs.selectButton.click();
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.highlighted).toBe(0);
+
+    const event = new KeyboardEvent('keydown', { keyCode: 40 });
+    wrapper.vm.$refs.searchBox.dispatchEvent(event);
+
+
+    expect(wrapper.vm.highlighted).toBe(1);
+
+    wrapper.vm.$refs.searchBox.dispatchEvent(event);
+    wrapper.vm.$refs.searchBox.dispatchEvent(event);
+    // Circular scroll
+    expect(wrapper.vm.highlighted).toBe(0);
+  });
+
+  it('select the prev item when up key', async () => {
+    const options = ['Option A', 'Option B', 'Option C'];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options },
+    });
+
+    wrapper.vm.$refs.selectButton.click();
+
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.highlighted).toBe(0);
+
+    const event = new KeyboardEvent('keydown', { keyCode: 38 });
+    wrapper.vm.$refs.searchBox.dispatchEvent(event);
+
+    // Because is circular
+    expect(wrapper.vm.highlighted).toBe(2);
+
+    wrapper.vm.$refs.searchBox.dispatchEvent(event);
+    expect(wrapper.vm.highlighted).toBe(1);
   });
 
   it('render the select optgroups', () => {
@@ -438,81 +514,85 @@ describe('TRichSelect', () => {
     expect(wrapper.emitted('input')[0]).toEqual([inputValue]);
   });
 
-  // it('emits a change event with the select value', async () => {
-  //   const options = ['A', 'B', 'C'];
+  it('emits a change event with the select value', async () => {
+    const options = ['A', 'B', 'C'];
 
-  //   const wrapper = shallowMount(TRichSelect, {
-  //     propsData: { options },
-  //   });
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options },
+    });
 
-  //   const inputValue = 'XXX';
+    const inputValue = 'XXX';
 
-  //   wrapper.setProps({
-  //     value: inputValue,
-  //   });
+    wrapper.setProps({
+      value: inputValue,
+    });
 
-  //   await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
 
-  //   await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
 
-  //   expect(wrapper.emitted('change')).toBeTruthy();
+    expect(wrapper.emitted('change')).toBeTruthy();
 
-  //   // assert event count
-  //   expect(wrapper.emitted('change').length).toBe(1);
+    // assert event count
+    expect(wrapper.emitted('change').length).toBe(1);
 
-  //   // assert event payload
-  //   expect(wrapper.emitted('change')[0]).toEqual([inputValue]);
-  // });
+    // assert event payload
+    expect(wrapper.emitted('change')[0]).toEqual([inputValue]);
+  });
 
-  // it('emits a blur event when the select is blurred', () => {
-  //   const options = ['A', 'B', 'C'];
-  //   const value = 'B';
-  //   const wrapper = shallowMount(TRichSelect, {
-  //     propsData: { options, value },
-  //   });
+  it('emits a blur event when the select is blurred', () => {
+    const options = ['A', 'B', 'C'];
+    const value = 'B';
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options, value, hideSearchBox: true },
+    });
 
-  //   const { select } = wrapper.vm.$refs;
+    const { selectButton } = wrapper.vm.$refs;
 
-  //   // The change event should be emitted when the select is blurred
-  //   select.dispatchEvent(new Event('blur'));
+    // The change event should be emitted when the selectButton is blurred
+    selectButton.dispatchEvent(new Event('blur'));
 
-  //   expect(wrapper.emitted('blur')).toBeTruthy();
+    expect(wrapper.emitted('blur')).toBeTruthy();
 
-  //   // assert event count
-  //   expect(wrapper.emitted('blur').length).toBe(1);
-  // });
+    // assert event count
+    expect(wrapper.emitted('blur').length).toBe(1);
+  });
 
-  // it('emits a focus event when the select is focused', () => {
-  //   const options = ['A', 'B', 'C'];
-  //   const value = 'B';
-  //   const wrapper = shallowMount(TRichSelect, {
-  //     propsData: { options, value },
-  //   });
+  it('emits a focus event when the select is focused', () => {
+    const options = ['A', 'B', 'C'];
+    const value = 'B';
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options, value },
+    });
 
-  //   const { select } = wrapper.vm.$refs;
+    const { selectButton } = wrapper.vm.$refs;
 
-  //   // The change event should be emitted when the select is focusred
-  //   select.dispatchEvent(new Event('focus'));
+    // The change event should be emitted when the selectButton is focusred
+    selectButton.dispatchEvent(new Event('focus'));
 
-  //   expect(wrapper.emitted('focus')).toBeTruthy();
+    expect(wrapper.emitted('focus')).toBeTruthy();
 
-  //   // assert event count
-  //   expect(wrapper.emitted('focus').length).toBe(1);
-  // });
+    // assert event count
+    expect(wrapper.emitted('focus').length).toBe(1);
+  });
 
-  // it('has a focus and a blur method', () => {
-  //   const wrapper = shallowMount(TRichSelect);
+  it('has a focus and a blur method', async () => {
+    const wrapper = shallowMount(TRichSelect);
 
-  //   wrapper.vm.focus();
+    wrapper.vm.focus();
 
-  //   expect(wrapper.emitted('focus')).toBeTruthy();
+    expect(wrapper.emitted('focus')).toBeTruthy();
 
-  //   expect(wrapper.emitted('focus').length).toBe(1);
+    expect(wrapper.emitted('focus').length).toBe(1);
 
-  //   wrapper.vm.blur();
+    // we need to wait for two nextick because how it works with the searchbox
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
 
-  //   expect(wrapper.emitted('blur')).toBeTruthy();
+    wrapper.vm.blur();
 
-  //   expect(wrapper.emitted('blur').length).toBe(1);
-  // });
+    expect(wrapper.emitted('blur')).toBeTruthy();
+
+    expect(wrapper.emitted('blur').length).toBe(1);
+  });
 });

@@ -66,9 +66,9 @@ const TRichSelect = InputWithOptions.extend({
           searchBox: 'inline-block w-full p-2 bg-gray-100 focus:outline-none text-sm rounded shadow-inner',
           optgroup: 'text-gray-500 uppercase text-xs py-1 px-2 font-semibold',
           option: 'cursor-default select-none relative p-2 text-gray-900',
-          highlightedOption: 'cursor-default select-none relative p-2 text-white bg-blue-500',
-          selectedOption: 'cursor-default select-none relative p-2 text-gray-900 font-semibold bg-blue-100',
-          selectedHighlightedOption: 'cursor-default select-none relative p-2 text-white bg-blue-500 font-semibold',
+          highlightedOption: 'cursor-default select-none relative p-2 text-gray-900 bg-gray-300',
+          selectedOption: 'cursor-default select-none relative p-2 text-gray-900 font-semibold bg-gray-100',
+          selectedHighlightedOption: 'cursor-default select-none relative p-2 text-gray-900 bg-gray-300 font-semibold',
           optionContent: 'flex justify-between items-center',
           optionLabel: 'truncate block',
           selectedIcon: 'fill-current h-4 w-4',
@@ -188,9 +188,9 @@ const TRichSelect = InputWithOptions.extend({
         });
     },
     optionIsSelected(option: NormalizedOption): boolean {
-      return Array.isArray(this.value)
-        ? this.value.includes(option.value)
-        : this.value === option.value;
+      return Array.isArray(this.localValue)
+        ? this.localValue.includes(option.value)
+        : this.localValue === option.value;
     },
     hideOptions() {
       this.show = false;
@@ -243,9 +243,8 @@ const TRichSelect = InputWithOptions.extend({
           ? this.filteredflattenedOptions.length - 1
           : this.highlighted - 1;
       }
-      if (this.$refs.optionsList) {
-        (this.$refs.optionsList as HTMLUListElement).querySelectorAll('li[data-type=option]')[this.highlighted].scrollIntoView({ block: 'nearest' });
-      }
+
+      this.scrollToOptionIndex(this.highlighted);
     },
     arrowDownHandler(e: KeyboardEvent) {
       e.preventDefault();
@@ -263,8 +262,15 @@ const TRichSelect = InputWithOptions.extend({
           : this.highlighted + 1;
       }
 
+      this.scrollToOptionIndex(this.highlighted);
+    },
+    scrollToOptionIndex(index: number) {
       if (this.$refs.optionsList) {
-        (this.$refs.optionsList as HTMLUListElement).querySelectorAll('li[data-type=option]')[this.highlighted].scrollIntoView({ block: 'nearest' });
+        const list = this.$refs.optionsList as HTMLUListElement;
+        const li = list.querySelectorAll('li[data-type=option]')[index] as HTMLLIElement;
+        if (li.scrollIntoView) {
+          li.scrollIntoView({ block: 'nearest' });
+        }
       }
     },
     enterHandler(e: KeyboardEvent) {
@@ -301,6 +307,18 @@ const TRichSelect = InputWithOptions.extend({
       e.preventDefault();
       e.stopPropagation();
       (this.localValue as string | number | boolean | symbol | null) = null;
+    },
+
+    blur() {
+      const el = this.hideSearchBox
+        ? this.$refs.selectButton as HTMLButtonElement
+        : this.$refs.searchBox as HTMLInputElement;
+      el.blur();
+    },
+
+    focus(options?: FocusOptions | undefined) {
+      const el = this.$refs.selectButton as HTMLButtonElement;
+      el.focus(options);
     },
   },
 });
