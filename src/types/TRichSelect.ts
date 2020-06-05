@@ -6,9 +6,14 @@ import InputOption from './InputOption';
 
 type TRichSelect = CombinedVueInstance<Vue,
 {
+  id?: string | null;
+  name?: string | null;
+  autofocus?: boolean;
+  disabled?: boolean;
   clearable: boolean;
   hideSearchBox: boolean;
   value: string;
+  localValue: string | number | undefined;
   show: boolean;
   filteredOptions: NormalizedOptions;
   highlighted: number | null;

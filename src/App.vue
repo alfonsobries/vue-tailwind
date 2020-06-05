@@ -31,7 +31,6 @@
         placeholder="select an option"
       />
       <t-rich-select
-        v-model="optgroupValue"
         :options="optGroupOptions"
         :max-height="200"
       />

@@ -81,7 +81,7 @@ const TRichSelect = TSelect.extend({
     return {
       hasFocus: false,
       show: false,
-      localValue: this.value as string | number | null,
+      localValue: this.value as string | number | boolean | symbol | null,
       highlighted: null as number | null,
       query: '',
       filteredOptions: [] as NormalizedOptions,
@@ -290,7 +290,7 @@ const TRichSelect = TSelect.extend({
     },
     async selectOption(option: NormalizedOption) {
       if (this.localValue !== option.value) {
-        this.$emit('input', option.value);
+        (this.localValue as string | number | boolean | symbol | null) = option.value;
       }
       await this.$nextTick();
       this.getButton().focus();
@@ -300,7 +300,7 @@ const TRichSelect = TSelect.extend({
     clearIconClickHandler(e: MouseEvent): void {
       e.preventDefault();
       e.stopPropagation();
-      this.$emit('input', null);
+      (this.localValue as string | number | boolean | symbol | null) = null;
     },
   },
 });

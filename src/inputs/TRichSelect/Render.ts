@@ -56,13 +56,13 @@ export default class TRichSelectRender {
   createSelectButton() {
     const subElements = [];
 
-    if (this.component.value) {
+    if (this.component.localValue) {
       subElements.push(this.createSelectButtonLabel());
     } else {
       subElements.push(this.createSelectButtonPlaceholder());
     }
 
-    if (this.component.clearable && this.component.value) {
+    if (this.component.clearable && this.component.localValue && !this.component.disabled) {
       subElements.push(this.createSelectButtonClearIcon());
     } else {
       subElements.push(this.createSelectButtonIcon());
@@ -74,6 +74,11 @@ export default class TRichSelectRender {
         ref: 'selectButton',
         attrs: {
           type: 'button',
+          value: this.component.localValue,
+          id: this.component.id,
+          autofocus: this.component.autofocus,
+          disabled: this.component.disabled,
+          name: this.component.name,
         },
         class: this.component.getElementCssClass('selectButton'),
         on: {
@@ -114,7 +119,7 @@ export default class TRichSelectRender {
         ref: 'selectButtonLabel',
         class: this.component.getElementCssClass('selectButtonLabel'),
       },
-      this.component.value,
+      this.component.localValue as VNodeChildren,
     );
   }
 
