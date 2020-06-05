@@ -37,6 +37,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   guessOptionText(option: InputOption): string;
 }, {
   normalizedHeight: string;
+  selectedOption: NormalizedOption | undefined;
 }, {
 
 }>

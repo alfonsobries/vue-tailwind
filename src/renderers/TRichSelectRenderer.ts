@@ -3,7 +3,7 @@ import TRichSelectInterface from '@/types/TRichSelect';
 import NormalizedOptions from '@/types/NormalizedOptions';
 import NormalizedOption from '@/types/NormalizedOption';
 
-export default class TRichSelectRender {
+export default class TRichSelectRenderer {
   createElement: CreateElement
 
   component: TRichSelectInterface
@@ -56,13 +56,13 @@ export default class TRichSelectRender {
   createSelectButton() {
     const subElements = [];
 
-    if (this.component.localValue) {
+    if (this.component.selectedOption) {
       subElements.push(this.createSelectButtonLabel());
     } else {
       subElements.push(this.createSelectButtonPlaceholder());
     }
 
-    if (this.component.clearable && this.component.localValue && !this.component.disabled) {
+    if (this.component.clearable && this.component.selectedOption && !this.component.disabled) {
       subElements.push(this.createSelectButtonClearIcon());
     } else {
       subElements.push(this.createSelectButtonIcon());
@@ -119,7 +119,7 @@ export default class TRichSelectRender {
         ref: 'selectButtonLabel',
         class: this.component.getElementCssClass('selectButtonLabel'),
       },
-      this.component.localValue as VNodeChildren,
+      (this.component.selectedOption ? this.component.selectedOption.text : '') as VNodeChildren,
     );
   }
 

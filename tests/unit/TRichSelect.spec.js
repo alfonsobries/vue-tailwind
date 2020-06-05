@@ -109,6 +109,19 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.optionsList.children.length).toBe(3);
   });
 
+  it('show the selected option text when has value', () => {
+    const options = [
+      { value: 'value', text: 'The label' },
+      { value: 'value1', text: 'The label 2' },
+    ];
+
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { value: 'value1', options },
+    });
+
+    expect(wrapper.vm.$refs.selectButton.textContent).toBe('The label 2');
+  });
+
   it('show a placeholder when the input has no value', () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
@@ -594,5 +607,33 @@ describe('TRichSelect', () => {
     expect(wrapper.emitted('blur')).toBeTruthy();
 
     expect(wrapper.emitted('blur').length).toBe(1);
+  });
+
+  it('filters the options when using the search box', async () => {
+    const options = ['find me', 'im will not be found', 'what about me', 'hidden'];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options },
+    });
+
+    wrapper.vm.focus();
+
+    const { searchBox } = wrapper.vm.$refs;
+
+    searchBox.value = 'me';
+    searchBox.dispatchEvent(new Event('input'));
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.filteredOptions.length).toBe(2);
+    expect(wrapper.vm.filteredOptions).toEqual([
+      {
+        value: 'find me',
+        text: 'find me',
+      },
+      {
+        value: 'what about me',
+        text: 'what about me',
+      },
+    ]);
   });
 });

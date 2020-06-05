@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import InputWithOptions from '@/base/InputWithOptions';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
-import Render from './TRichSelect/Render';
+import TRichSelectRenderer from '../renderers/TRichSelectRenderer';
 
 const TRichSelect = InputWithOptions.extend({
   name: 'TRichSelect',
@@ -59,11 +59,11 @@ const TRichSelect = InputWithOptions.extend({
           selectButtonIcon: 'fill-current flex-shrink-0 ml-1 h-4 w-4',
           selectButtonClearIconWrapper: 'hover:bg-gray-200 rounded flex h-5 w-5 flex-shrink-0 items-center justify-center ml-1 ',
           selectButtonClearIcon: 'fill-current h-3 w-3 text-gray-500',
-          dropdown: 'absolute mt-1 w-full rounded-md bg-white shadow z-10',
+          dropdown: 'absolute w-full rounded-md bg-white shadow-lg z-10',
           dropdownFeedback: 'p-2 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5',
           optionsList: 'py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5',
-          searchWrapper: 'inline-block w-full bg-white p-1',
-          searchBox: 'inline-block w-full p-2 bg-gray-100 focus:outline-none text-sm rounded shadow-inner',
+          searchWrapper: 'inline-block w-full bg-white p-2',
+          searchBox: 'inline-block w-full p-2 bg-gray-200 focus:outline-none text-sm rounded',
           optgroup: 'text-gray-500 uppercase text-xs py-1 px-2 font-semibold',
           option: 'cursor-default select-none relative p-2 text-gray-900',
           highlightedOption: 'cursor-default select-none relative p-2 text-gray-900 bg-gray-300',
@@ -152,6 +152,10 @@ const TRichSelect = InputWithOptions.extend({
 
       return String(this.maxHeight);
     },
+    selectedOption(): NormalizedOption | undefined {
+      return this.filteredflattenedOptions
+        .find((option) => this.optionIsSelected(option));
+    },
     selectedOptionIndex(): number | undefined {
       const index = this.filteredflattenedOptions
         .findIndex((option) => this.optionIsSelected(option));
@@ -161,7 +165,8 @@ const TRichSelect = InputWithOptions.extend({
 
   methods: {
     createSelect(createElement: CreateElement) {
-      return (new Render(createElement, this as TRichSelectType)).render();
+      return (new TRichSelectRenderer(createElement, this as TRichSelectType))
+        .render();
     },
     filterOptions(options: NormalizedOptions) {
       if (!this.query) {

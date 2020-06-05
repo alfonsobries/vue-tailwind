@@ -431,8 +431,8 @@ export default {
       activeVariant: false,
       optgroupValue: 'With optgroup',
       optGroupOptions: [
-        { value: 'With optgroup', text: 'With optgroup' },
-        { value: 'Option 2', text: 'Option 2' },
+        { value: 'optgroup', text: 'With optgroup' },
+        { value: 'option-2', text: 'Option 2' },
         {
           text: 'Numbers',
           children: [
