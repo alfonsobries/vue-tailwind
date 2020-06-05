@@ -327,16 +327,26 @@ export default class TRichSelectRender {
    * List of options
    */
   createOptions(options: NormalizedOptions): VNode[] {
+    let index = -1;
     return options
       .map((option: NormalizedOption) => {
         if (option.children) {
-          return option.children;
+          return [
+            option,
+            ...option.children,
+          ];
         }
 
         return option;
       })
       .flat()
-      .map((option: NormalizedOption, index) => this.createOption(option, index));
+      .map((option: NormalizedOption) => {
+        if (option.children) {
+          return this.createOptgroup(option);
+        }
+        index += 1;
+        return this.createOption(option, index);
+      });
   }
 
   /**
@@ -348,30 +358,14 @@ export default class TRichSelectRender {
     optgroup: NormalizedOption,
   ): VNode {
     return this.createElement(
-      'div',
+      'li',
       {
+        attrs: {
+          'data-type': 'optgroup',
+        },
         class: this.component.getElementCssClass('optgroup'),
       },
       this.component.guessOptionText(optgroup),
-    );
-  }
-
-  /**
-   * Creates an optgroup element
-   * @param option
-   * @param index
-   */
-  createOptgroupList(
-    options: NormalizedOptions,
-  ): VNode {
-    return this.createElement(
-      'div',
-      {
-        class: this.component.getElementCssClass('optgroupList'),
-      },
-      [
-        this.createOptionsList(options),
-      ],
     );
   }
 
@@ -404,6 +398,9 @@ export default class TRichSelectRender {
       {
         ref: 'option',
         class: className,
+        attrs: {
+          'data-type': 'option',
+        },
         on: {
           mouseover: () => {
             this.component.highlighted = index;

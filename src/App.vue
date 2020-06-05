@@ -33,6 +33,7 @@
       <t-rich-select
         v-model="optgroupValue"
         :options="optGroupOptions"
+        :max-height="200"
       />
     </t-input-group>
 

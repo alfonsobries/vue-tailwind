@@ -60,12 +60,11 @@ const TRichSelect = TSelect.extend({
           selectButtonClearIconWrapper: 'hover:bg-gray-200 rounded flex h-5 w-5 flex-shrink-0 items-center justify-center ml-1 ',
           selectButtonClearIcon: 'fill-current h-3 w-3 text-gray-500',
           dropdown: 'absolute mt-1 w-full rounded-md bg-white shadow z-10',
-          dropdownFeedback: 'rounded-md p-2 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5',
-          optionsList: 'rounded-md py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5',
+          dropdownFeedback: 'p-2 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5',
+          optionsList: 'py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5',
           searchWrapper: 'inline-block w-full bg-white p-1',
           searchBox: 'inline-block w-full p-2 bg-gray-100 focus:outline-none text-sm rounded shadow-inner',
-          optgroup: 'text-gray-700 uppercase text-xs p-1 font-semibold',
-          optgroupList: 'text-sm',
+          optgroup: 'text-gray-500 uppercase text-xs py-1 px-2 font-semibold',
           option: 'cursor-default select-none relative p-2 text-gray-900',
           highlightedOption: 'cursor-default select-none relative p-2 text-white bg-blue-500',
           selectedOption: 'cursor-default select-none relative p-2 text-gray-900 font-semibold bg-blue-100',
@@ -245,7 +244,7 @@ const TRichSelect = TSelect.extend({
           : this.highlighted - 1;
       }
       if (this.$refs.optionsList) {
-        (this.$refs.optionsList as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
+        (this.$refs.optionsList as HTMLUListElement).querySelectorAll('li[data-type=option]')[this.highlighted].scrollIntoView({ block: 'nearest' });
       }
     },
     arrowDownHandler(e: KeyboardEvent) {
@@ -265,7 +264,7 @@ const TRichSelect = TSelect.extend({
       }
 
       if (this.$refs.optionsList) {
-        (this.$refs.optionsList as HTMLUListElement).children[this.highlighted].scrollIntoView({ block: 'nearest' });
+        (this.$refs.optionsList as HTMLUListElement).querySelectorAll('li[data-type=option]')[this.highlighted].scrollIntoView({ block: 'nearest' });
       }
     },
     enterHandler(e: KeyboardEvent) {
