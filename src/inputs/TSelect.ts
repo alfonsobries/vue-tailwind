@@ -2,7 +2,6 @@ import { CreateElement, VNode, VNodeChildren } from 'vue';
 import MultipleInput from '@/base/MultipleInput';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
-import InputOption from '../types/InputOption';
 
 const TSelect = MultipleInput.extend({
   name: 'TSelect',
@@ -20,6 +19,12 @@ const TSelect = MultipleInput.extend({
       type: [String, Array, Object],
       default: 'form-select',
     },
+  },
+
+  data() {
+    return {
+      localValue: this.value,
+    };
   },
 
   computed: {
@@ -179,27 +184,6 @@ const TSelect = MultipleInput.extend({
       }, option.text as VNodeChildren);
     },
 
-    normalizeOption(option: InputOption): NormalizedOption {
-      if (
-        typeof option === 'string'
-        || typeof option === 'number'
-        || typeof option === 'boolean'
-      ) {
-        return {
-          value: option,
-          text: option,
-        };
-      }
-
-      return {
-        value: this.guessOptionValue(option),
-        text: this.guessOptionText(option),
-        children: option.children
-          ? option.children.map((childOption) => this.normalizeOption(childOption))
-          : undefined,
-      };
-    },
-
     changeHandler(e: Event) {
       const target = (e.target as HTMLSelectElement);
 
@@ -213,7 +197,7 @@ const TSelect = MultipleInput.extend({
         value = target.value;
       }
 
-      this.localValue = value;
+      this.localValue = value as string | number | (unknown[] & string) | (unknown[] & number);
     },
 
     blurHandler(e: FocusEvent) {

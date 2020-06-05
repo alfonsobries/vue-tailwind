@@ -1,12 +1,12 @@
 import TRichSelectType from '@/types/TRichSelect';
 import { CreateElement, VNode } from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
+import InputWithOptions from '@/base/InputWithOptions';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
-import TSelect from './TSelect';
 import Render from './TRichSelect/Render';
 
-const TRichSelect = TSelect.extend({
+const TRichSelect = InputWithOptions.extend({
   name: 'TRichSelect',
 
   render(createElement: CreateElement) {
