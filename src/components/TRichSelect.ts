@@ -53,9 +53,9 @@ const TRichSelect = InputWithOptions.extend({
         return {
           wrapper: 'relative',
           buttonWrapper: 'inline-block w-full',
-          selectButton: 'w-full border bg-white flex text-left justify-between items-center rounded p-2',
-          selectButtonLabel: 'block truncate',
-          selectButtonPlaceholder: 'block truncate text-gray-500 text-sm',
+          selectButton: 'w-full border bg-white flex text-left justify-between items-center rounded p-2 text-gray-500',
+          selectButtonLabel: 'block truncate text-gray-900',
+          selectButtonPlaceholder: 'block truncate text-gray-500',
           selectButtonIcon: 'fill-current flex-shrink-0 ml-1 h-4 w-4',
           selectButtonClearIconWrapper: 'hover:bg-gray-200 rounded flex h-5 w-5 flex-shrink-0 items-center justify-center ml-1 ',
           selectButtonClearIcon: 'fill-current h-3 w-3 text-gray-500',
@@ -85,7 +85,12 @@ const TRichSelect = InputWithOptions.extend({
       highlighted: null as number | null,
       query: '',
       filteredOptions: [] as NormalizedOptions,
+      selectedOption: undefined as undefined | NormalizedOption,
     };
+  },
+
+  created() {
+    this.selectedOption = this.findOptionByValue(this.value);
   },
 
   watch: {
@@ -106,11 +111,15 @@ const TRichSelect = InputWithOptions.extend({
       }
     },
     async localValue(localValue: string | null) {
-      this.$emit('input', localValue);
+      this.selectedOption = this.findOptionByValue(localValue);
+
+      const value = this.selectedOption ? this.selectedOption.value : undefined;
+
+      this.$emit('input', value);
 
       await this.$nextTick();
 
-      this.$emit('change', localValue);
+      this.$emit('change', value);
 
       this.show = false;
     },
@@ -152,18 +161,28 @@ const TRichSelect = InputWithOptions.extend({
 
       return String(this.maxHeight);
     },
-    selectedOption(): NormalizedOption | undefined {
-      return this.filteredflattenedOptions
-        .find((option) => this.optionIsSelected(option));
-    },
     selectedOptionIndex(): number | undefined {
-      const index = this.filteredflattenedOptions
-        .findIndex((option) => this.optionIsSelected(option));
+      if (!this.selectedOption) {
+        return undefined;
+      }
+      const index = this.flattenedOptions
+        .findIndex((option) => this.optionHasValue(option, this.localValue));
       return index >= 0 ? index : undefined;
     },
   },
 
   methods: {
+    // eslint-disable-next-line max-len
+    findOptionByValue(value: string | number | boolean | symbol | null): undefined | NormalizedOption {
+      return this.flattenedOptions
+        .find((option) => this.optionHasValue(option, value));
+    },
+    // eslint-disable-next-line max-len
+    optionHasValue(option: NormalizedOption, value: string | number | boolean | symbol | null): boolean {
+      return Array.isArray(value)
+        ? value.includes(option.value)
+        : value === option.value;
+    },
     createSelect(createElement: CreateElement) {
       return (new TRichSelectRenderer(createElement, this as TRichSelectType))
         .render();
@@ -192,11 +211,7 @@ const TRichSelect = InputWithOptions.extend({
           return hasChildren || foundText;
         });
     },
-    optionIsSelected(option: NormalizedOption): boolean {
-      return Array.isArray(this.localValue)
-        ? this.localValue.includes(option.value)
-        : this.localValue === option.value;
-    },
+
     hideOptions() {
       this.show = false;
     },

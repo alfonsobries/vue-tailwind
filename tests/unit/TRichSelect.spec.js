@@ -131,13 +131,15 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.selectButton.textContent).toBe('Select something!');
   });
 
-  it('shows nothing wes doesnt have placeholder and no value', () => {
+  it('shows an empty space when doesnt have placeholder and has no value', () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options },
     });
 
-    expect(wrapper.vm.$refs.selectButton.textContent).toBe('');
+    const placeholder = document.createElement('span');
+    placeholder.innerHTML = '&nbsp;';
+    expect(wrapper.vm.$refs.selectButton.textContent).toEqual(placeholder.textContent);
   });
 
   it('shows the option value when an option is selected', () => {
@@ -505,7 +507,7 @@ describe('TRichSelect', () => {
   });
 
   it('emits an input event with the select value', async () => {
-    const options = ['A', 'B', 'C'];
+    const options = ['K', 'B', 'C'];
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options },
     });
@@ -534,7 +536,7 @@ describe('TRichSelect', () => {
       propsData: { options },
     });
 
-    const inputValue = 'XXX';
+    const inputValue = 'B';
 
     wrapper.setProps({
       value: inputValue,

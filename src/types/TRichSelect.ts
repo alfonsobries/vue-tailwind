@@ -13,7 +13,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   clearable: boolean;
   hideSearchBox: boolean;
   value: string;
-  localValue: string | number | undefined;
+  localValue: string | number | boolean | symbol | null;
   show: boolean;
   filteredOptions: NormalizedOptions;
   highlighted: number | null;
@@ -21,6 +21,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   placeholder: string | undefined;
   noResultsLabel: string;
   searchBoxPlaceholder: string;
+  selectedOption: NormalizedOption | undefined;
 },
 {
   getElementCssClass: (elementName?: string) => CssClass;
@@ -30,14 +31,14 @@ type TRichSelect = CombinedVueInstance<Vue,
   arrowDownHandler: (e: KeyboardEvent) => void;
   arrowUpHandler: (e: KeyboardEvent) => void;
   enterHandler: (e: KeyboardEvent) => void;
-  optionIsSelected(option: NormalizedOption): boolean;
+  // eslint-disable-next-line max-len
+  optionHasValue(option: NormalizedOption, value: string | number | boolean | symbol | null): boolean;
   selectOption(option: NormalizedOption): void;
   searchInputHandler(e: Event): void;
   clearIconClickHandler(e: MouseEvent): void;
   guessOptionText(option: InputOption): string;
 }, {
   normalizedHeight: string;
-  selectedOption: NormalizedOption | undefined;
 }, {
 
 }>

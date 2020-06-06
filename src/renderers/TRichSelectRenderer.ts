@@ -124,13 +124,18 @@ export default class TRichSelectRenderer {
   }
 
   createSelectButtonPlaceholder(): VNode {
+    const domProps: {innerHTML?: string} = {};
+    if (!this.component.placeholder) {
+      domProps.innerHTML = '&nbsp;';
+    }
     return this.createElement(
       'span',
       {
         ref: 'selectButtonPlaceholder',
         class: this.component.getElementCssClass('selectButtonPlaceholder'),
+        domProps,
       },
-      this.component.placeholder || '',
+      this.component.placeholder || undefined,
     );
   }
 
@@ -383,7 +388,9 @@ export default class TRichSelectRenderer {
     option: NormalizedOption,
     index: number,
   ): VNode {
-    const isSelected = this.component.optionIsSelected(option);
+    const isSelected = this.component.optionHasValue(
+      option, this.component.localValue,
+    );
     const isHighlighted = this.component.highlighted === index;
 
     let className;
