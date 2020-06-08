@@ -84,6 +84,7 @@ const InputWithOptions = HtmlInput.extend({
         return {
           value: option,
           text: option,
+          raw: option,
         };
       }
 
@@ -99,6 +100,7 @@ const InputWithOptions = HtmlInput.extend({
       return {
         value: this.guessOptionValue(option),
         text: this.guessOptionText(option),
+        raw: option,
       };
     },
   },

@@ -61,7 +61,15 @@ export default class TRichSelectRenderer {
     const subElements = [];
 
     if (this.component.selectedOption) {
-      subElements.push(this.createSelectButtonLabel());
+      if (this.component.$scopedSlots.label) {
+        subElements.push(this.component.$scopedSlots.label({
+          query: this.component.query,
+          option: this.component.selectedOption,
+          className: this.component.getElementCssClass('selectButtonLabel'),
+        }));
+      } else {
+        subElements.push(this.createSelectButtonLabel());
+      }
     } else {
       subElements.push(this.createSelectButtonPlaceholder());
     }
@@ -69,7 +77,6 @@ export default class TRichSelectRenderer {
     if (!(this.component.clearable && this.component.selectedOption) && !this.component.disabled) {
       subElements.push(this.createSelectButtonIcon());
     }
-
 
     return this.createElement(
       'button',
@@ -261,9 +268,25 @@ export default class TRichSelectRenderer {
     }
 
     if (this.component.searching) {
-      subElements.push(this.createDropdownFeedback(this.component.searchingText));
+      if (this.component.$scopedSlots.searchingText) {
+        subElements.push(this.component.$scopedSlots.searchingText({
+          text: this.component.searchingText,
+          query: this.component.query,
+          className: this.component.getElementCssClass('dropdownFeedback'),
+        }));
+      } else {
+        subElements.push(this.createDropdownFeedback(this.component.searchingText));
+      }
     } else if (!this.component.filteredOptions.length) {
-      subElements.push(this.createDropdownFeedback(this.component.noResultsText));
+      if (this.component.$scopedSlots.noResults) {
+        subElements.push(this.component.$scopedSlots.noResults({
+          text: this.component.noResultsText,
+          query: this.component.query,
+          className: this.component.getElementCssClass('dropdownFeedback'),
+        }));
+      } else {
+        subElements.push(this.createDropdownFeedback(this.component.noResultsText));
+      }
     }
 
     if (this.component.filteredOptions.length) {
@@ -390,6 +413,21 @@ export default class TRichSelectRenderer {
       className = this.component.getElementCssClass('option');
     }
 
+    const subElements = [];
+
+    if (this.component.$scopedSlots.option) {
+      subElements.push(this.component.$scopedSlots.option({
+        index,
+        isHighlighted,
+        isSelected,
+        option,
+        query: this.component.query,
+        className: this.component.getElementCssClass('optionContent'),
+      }));
+    } else {
+      subElements.push(this.createOptionContent(option, isSelected));
+    }
+
     return this.createElement(
       'li',
       {
@@ -415,9 +453,7 @@ export default class TRichSelectRenderer {
           },
         },
       },
-      [
-        this.createOptionContent(option, isSelected),
-      ],
+      subElements,
     );
   }
 
