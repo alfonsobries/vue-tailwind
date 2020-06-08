@@ -2,6 +2,7 @@ import TRichSelectType from '@/types/TRichSelect';
 import { CreateElement, VNode } from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
 import InputWithOptions from '@/base/InputWithOptions';
+import InputOptions from '@/types/InputOptions';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 import TRichSelectRenderer from '../renderers/TRichSelectRenderer';
@@ -15,6 +16,18 @@ const TRichSelect = InputWithOptions.extend({
   },
 
   props: {
+    ajax: {
+      type: Boolean,
+      default: false,
+    },
+    delay: {
+      type: Number,
+      default: 250,
+    },
+    fetchOptions: {
+      type: Function,
+      default: undefined,
+    },
     value: {
       type: [String, Number],
       default: null,
@@ -39,9 +52,13 @@ const TRichSelect = InputWithOptions.extend({
       type: String,
       default: 'Search...',
     },
-    noResultsLabel: {
+    noResultsText: {
       type: String,
       default: 'No results found',
+    },
+    searchingText: {
+      type: String,
+      default: 'Searching...',
     },
     maxHeight: {
       type: [String, Number],
@@ -86,13 +103,14 @@ const TRichSelect = InputWithOptions.extend({
       query: '',
       filteredOptions: [] as NormalizedOptions,
       selectedOption: undefined as undefined | NormalizedOption,
+      searching: false,
+      delayTimeout: undefined as undefined | ReturnType<typeof setTimeout>,
     };
   },
 
   created() {
     this.selectedOption = this.findOptionByValue(this.value);
   },
-
   watch: {
     normalizedOptions: {
       handler(options: NormalizedOptions) {
@@ -100,37 +118,32 @@ const TRichSelect = InputWithOptions.extend({
       },
       immediate: true,
     },
-    query() {
+    query(query: string) {
       const options = cloneDeep(this.normalizedOptions);
-      this.filteredOptions = this.filterOptions(options);
-
-      if (this.filteredOptions.length) {
-        this.highlighted = 0;
-      } else {
-        this.highlighted = null;
-      }
+      this.filterOptions(options, query);
     },
     async localValue(localValue: string | null) {
-      this.selectedOption = this.findOptionByValue(localValue);
-
-      const value = this.selectedOption ? this.selectedOption.value : undefined;
-
-      this.$emit('input', value);
+      this.$emit('input', localValue);
 
       await this.$nextTick();
 
-      this.$emit('change', value);
+      this.$emit('change', localValue);
 
       this.show = false;
     },
     value(value) {
+      if (!this.selectedOption || this.selectedOption.value !== value) {
+        this.selectedOption = this.findOptionByValue(value);
+      }
       this.localValue = value;
     },
     async show(show) {
       if (show) {
         if (!this.hideSearchBox) {
           await this.$nextTick();
-          this.getSearchBox().focus();
+          const searchBox = this.getSearchBox();
+          searchBox.focus();
+          searchBox.select();
         }
 
         if (!this.filteredflattenedOptions.length) {
@@ -165,7 +178,7 @@ const TRichSelect = InputWithOptions.extend({
       if (!this.selectedOption) {
         return undefined;
       }
-      const index = this.flattenedOptions
+      const index = this.filteredflattenedOptions
         .findIndex((option) => this.optionHasValue(option, this.localValue));
       return index >= 0 ? index : undefined;
     },
@@ -174,7 +187,7 @@ const TRichSelect = InputWithOptions.extend({
   methods: {
     // eslint-disable-next-line max-len
     findOptionByValue(value: string | number | boolean | symbol | null): undefined | NormalizedOption {
-      return this.flattenedOptions
+      return this.filteredflattenedOptions
         .find((option) => this.optionHasValue(option, value));
     },
     // eslint-disable-next-line max-len
@@ -187,20 +200,70 @@ const TRichSelect = InputWithOptions.extend({
       return (new TRichSelectRenderer(createElement, this as TRichSelectType))
         .render();
     },
-    filterOptions(options: NormalizedOptions) {
+
+    async filterOptions(options: NormalizedOptions, query: string) {
+      if (!this.fetchOptions) {
+        this.filteredOptions = this.queryFilter(options);
+
+        if (this.filteredOptions.length) {
+          this.highlighted = 0;
+        } else {
+          this.highlighted = null;
+        }
+
+        return;
+      }
+
+      this.searching = true;
+
+      if (this.delayTimeout) {
+        clearTimeout(this.delayTimeout);
+      }
+
+      this.delayTimeout = setTimeout(async () => {
+        try {
+          const filteredRawOptions = await this.getFilterPromise(query);
+          this.filteredOptions = this.normalizeOptions(filteredRawOptions);
+        } catch (error) {
+          this.$emit('fetch-error', error);
+          this.filteredOptions = [];
+        }
+
+        if (this.filteredOptions.length) {
+          this.highlighted = 0;
+        } else {
+          this.highlighted = null;
+        }
+
+        this.searching = false;
+        this.delayTimeout = undefined;
+      }, this.delay);
+    },
+
+    getFilterPromise(query: string): Promise<InputOptions> {
+      return Promise
+        .resolve(this.fetchOptions(query) as Promise<InputOptions>);
+    },
+
+    queryFilter(options: NormalizedOptions): NormalizedOptions {
       if (!this.query) {
         return options;
       }
 
       return options
-        .map((option: NormalizedOption) => {
+        .map((option: NormalizedOption): NormalizedOption => {
           if (option.children) {
-            const newOption = option;
-            // eslint-disable-next-line no-param-reassign
-            newOption.children = this.filterOptions(newOption.children as NormalizedOptions);
+            const newOption: NormalizedOption = {
+              ...option,
+              ...{
+                children: this.queryFilter(option.children as NormalizedOptions),
+              },
+            };
+            return newOption as NormalizedOption;
           }
-          return option;
-        }).filter((option: NormalizedOption) => {
+
+          return option as NormalizedOption;
+        }).filter((option: NormalizedOption): boolean => {
           const foundText = String(option.text)
             .toUpperCase()
             .trim()
@@ -318,10 +381,10 @@ const TRichSelect = InputWithOptions.extend({
       if (this.localValue !== option.value) {
         (this.localValue as string | number | boolean | symbol | null) = option.value;
       }
+      this.selectedOption = option;
       await this.$nextTick();
       this.getButton().focus();
       this.hideOptions();
-      this.query = '';
     },
     clearIconClickHandler(e: MouseEvent): void {
       e.preventDefault();

@@ -6,22 +6,15 @@ import InputOption from './InputOption';
 
 type TRichSelect = CombinedVueInstance<Vue,
 {
-  id?: string | null;
-  name?: string | null;
-  autofocus?: boolean;
-  disabled?: boolean;
-  clearable: boolean;
-  hideSearchBox: boolean;
-  value: string;
+  hasFocus: boolean;
   localValue: string | number | boolean | symbol | null;
   show: boolean;
   filteredOptions: NormalizedOptions;
   highlighted: number | null;
   query: string;
-  placeholder: string | undefined;
-  noResultsLabel: string;
-  searchBoxPlaceholder: string;
   selectedOption: NormalizedOption | undefined;
+  searching: boolean;
+  delayTimeout: undefined | ReturnType<typeof setTimeout>;
 },
 {
   getElementCssClass: (elementName?: string) => CssClass;
@@ -40,7 +33,19 @@ type TRichSelect = CombinedVueInstance<Vue,
 }, {
   normalizedHeight: string;
 }, {
-
+  id?: string | null;
+  name?: string | null;
+  autofocus?: boolean;
+  disabled?: boolean;
+  hideSearchBox: boolean;
+  clearable: boolean;
+  value: string;
+  noResultsText: string;
+  searchingText: string;
+  searchBoxPlaceholder: string;
+  delay: number;
+  placeholder: string | undefined;
+  fetchOptions: Function | undefined;
 }>
 
 export default TRichSelect;

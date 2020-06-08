@@ -279,9 +279,13 @@ export default class TRichSelectRenderer {
       subElements.push(this.createSearchBoxWrapper());
     }
 
-    if (!this.component.filteredOptions.length) {
-      subElements.push(this.createDropdownFeedback(this.component.noResultsLabel));
-    } else {
+    if (this.component.searching) {
+      subElements.push(this.createDropdownFeedback(this.component.searchingText));
+    } else if (!this.component.filteredOptions.length) {
+      subElements.push(this.createDropdownFeedback(this.component.noResultsText));
+    }
+
+    if (this.component.filteredOptions.length) {
       subElements.push(this.createOptionsList(this.component.filteredOptions));
     }
 

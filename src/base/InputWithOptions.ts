@@ -32,21 +32,7 @@ const InputWithOptions = HtmlInput.extend({
   },
   computed: {
     normalizedOptions(): NormalizedOptions {
-      const opts: InputOptions = this.options;
-
-
-      if (!opts) {
-        return [];
-      }
-
-      if (Array.isArray(opts)) {
-        return opts.map((option) => this.normalizeOption(option));
-      }
-
-      return map<object, NormalizedOption>(opts, (option, key) => ({
-        value: key,
-        text: option,
-      }));
+      return this.normalizeOptions(this.options);
     },
 
     flattenedOptions(): NormalizedOptions {
@@ -72,6 +58,21 @@ const InputWithOptions = HtmlInput.extend({
         return get(option, this.textAttribute);
       }
       return get(option, 'text', get(option, 'label'));
+    },
+
+    normalizeOptions(options: InputOptions) {
+      if (!options) {
+        return [];
+      }
+
+      if (Array.isArray(options)) {
+        return options.map((option) => this.normalizeOption(option));
+      }
+
+      return map<object, NormalizedOption>(options, (option, key) => ({
+        value: key,
+        text: option,
+      }));
     },
 
     normalizeOption(option: InputOption): NormalizedOption {
