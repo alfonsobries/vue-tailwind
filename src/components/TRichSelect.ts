@@ -119,8 +119,7 @@ const TRichSelect = InputWithOptions.extend({
       immediate: true,
     },
     query(query: string) {
-      const options = cloneDeep(this.normalizedOptions);
-      this.filterOptions(options, query);
+      this.filterOptions(query);
     },
     async localValue(localValue: string | null) {
       this.$emit('input', localValue);
@@ -201,8 +200,10 @@ const TRichSelect = InputWithOptions.extend({
         .render();
     },
 
-    async filterOptions(options: NormalizedOptions, query: string) {
-      if (!this.fetchOptions) {
+    async filterOptions(query: string) {
+      if (!this.fetchOptions || !query) {
+        const options = cloneDeep(this.normalizedOptions);
+
         this.filteredOptions = this.queryFilter(options);
 
         if (this.filteredOptions.length) {
@@ -390,6 +391,7 @@ const TRichSelect = InputWithOptions.extend({
       e.preventDefault();
       e.stopPropagation();
       (this.localValue as string | number | boolean | symbol | null) = null;
+      this.query = '';
     },
 
     blur() {
