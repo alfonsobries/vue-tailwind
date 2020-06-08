@@ -36,6 +36,126 @@
       />
     </t-input-group>
 
+    <t-input-group
+      label="Select with ajax resutls"
+    >
+      <t-rich-select
+        v-model="variant"
+        name="ajax"
+        :options="variants"
+        clearable
+        placeholder="select an option"
+        :fetch-options="getOptions"
+        value-attribute="full_name"
+        text-attribute="full_name"
+      />
+
+      <t-rich-select
+        v-model="repository"
+        :options="repositories"
+        clearable
+        placeholder="select an option"
+        :fetch-options="getOptions"
+        value-attribute="full_name"
+        text-attribute="full_name"
+      >
+        <div
+          slot="searchingText"
+          slot-scope="{ className, text, query }"
+          :class="className"
+        >
+          Buscando "{{ query }}"
+        </div>
+
+        <template
+          slot="dropdownDown"
+          slot-scope="{ query }"
+        >
+          <div
+            v-if="query"
+            class="text-center"
+          >
+            <div>loremsafgsadgasdgdas gdasgsad gadsg</div>
+            <t-button
+              type="button"
+              class="block w-full text-sm"
+              @click="addOption(query)"
+            >
+              Add {{ query }}
+            </t-button>
+          </div>
+        </template>
+
+        <!-- <div
+          slot="noResults"
+          slot-scope="{ className, text, query }"
+          :class="className"
+        >
+          No resultados para "{{ query }}"
+        </div> -->
+
+        <template
+          slot="label"
+          slot-scope="{ className, option: { raw: repo } }"
+        >
+          <div
+            v-if="typeof repo === 'string'"
+            :class="className"
+          >
+            {{ repo }}
+          </div>
+          <div
+            v-else
+            class="flex items-center"
+          >
+            <span class="flex-shrink-0">
+              <img
+                class="w-10 h-10 rounded-full"
+                :src="repo.owner.avatar_url"
+              >
+            </span>
+            <div class="ml-2 flex flex-col text-gray-800">
+              <strong>{{ repo.full_name }}</strong>
+              <span class="text-sm text-gray-700 leading-tight">{{ repo.description }}</span>
+            </div>
+          </div>
+        </template>
+
+        <template
+          slot="option"
+          slot-scope="{ className, option: { raw: repo } }"
+        >
+          <div
+            v-if="typeof repo === 'string'"
+            :class="className"
+          >
+            {{ repo }}
+          </div>
+
+          <div
+            v-else
+            class="flex p-2 border-b"
+          >
+            <span class="flex-shrink-0">
+              <img
+                class="w-10 h-10 rounded-full"
+                :src="repo.owner.avatar_url"
+              >
+            </span>
+            <div class="ml-2 flex flex-col text-gray-800">
+              <strong>{{ repo.full_name }}</strong>
+              <span class="text-sm text-gray-700 leading-tight">{{ repo.description }}</span>
+              <div class="flex justify-between -mx-1 text-xs text-gray-700 mt-1">
+                <span class="px-1">{{ repo.forks_count }} Forks</span>
+                <span class="px-1">{{ repo.stargazers_count }} Stars</span>
+                <span class="px-1">{{ repo.watchers_count }} Watchers</span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </t-rich-select>
+    </t-input-group>
+
     <t-input-group>
       <template v-slot:label>
         label from slot
@@ -420,6 +540,8 @@ export default {
   },
   data() {
     return {
+      repositories: [] as string[],
+      repository: null as null | string,
       showModal: false,
       classes: 'border-2 bg-yellow-100 p-2 shadow rounded',
       indeterminate: false,
@@ -450,6 +572,26 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    async addOption(repository: string) {
+      this.repositories.push(repository);
+      this.repository = repository;
+    },
+    getOptions(q = 'tailwind') {
+      return fetch(`https://api.github.com/search/repositories?q=${q}&type=public`)
+        .then((response) => response.json())
+        // .then((data) => data.items.map((repo: any) => {
+        //   return {
+        //     value: repo.full_name,
+        //     text: repo.full_name,
+        //   };
+        // }));
+        .then((data) => data.items)
+        .catch((error) => {
+          console.log(error.json());
+        });
+    },
   },
 };
 </script>
