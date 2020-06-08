@@ -69,12 +69,12 @@ const TRichSelect = InputWithOptions.extend({
       default() {
         return {
           wrapper: 'relative',
-          buttonWrapper: 'inline-block w-full',
+          buttonWrapper: 'inline-block w-full relative',
           selectButton: 'w-full border bg-white flex text-left justify-between items-center rounded p-2 text-gray-500',
           selectButtonLabel: 'block truncate text-gray-900',
           selectButtonPlaceholder: 'block truncate text-gray-500',
           selectButtonIcon: 'fill-current flex-shrink-0 ml-1 h-4 w-4',
-          selectButtonClearIconWrapper: 'hover:bg-gray-200 rounded flex h-5 w-5 flex-shrink-0 items-center justify-center ml-1 ',
+          selectButtonClearButton: 'hover:bg-gray-200 rounded flex flex-shrink-0 items-center justify-center ml-1 absolute right-0 top-0 mt-2 mr-2 h-6 w-6',
           selectButtonClearIcon: 'fill-current h-3 w-3 text-gray-500',
           dropdown: 'absolute w-full rounded-md bg-white shadow-lg z-10',
           dropdownFeedback: 'p-2 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5',
