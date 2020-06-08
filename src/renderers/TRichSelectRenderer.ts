@@ -250,7 +250,9 @@ export default class TRichSelectRenderer {
               this.component.enterHandler(e);
             }
           },
-          blur: this.component.blurHandler,
+          blur: (e: FocusEvent) => {
+            this.component.blurHandler(e);
+          },
           input: this.component.searchInputHandler,
         },
       },
@@ -265,6 +267,14 @@ export default class TRichSelectRenderer {
 
     if (!this.component.hideSearchBox) {
       subElements.push(this.createSearchBoxWrapper());
+    }
+
+    if (this.component.$scopedSlots.dropdownUp) {
+      subElements.push(this.component.$scopedSlots.dropdownUp({
+        query: this.component.query,
+        selectedOption: this.component.selectedOption,
+        options: this.component.filteredOptions,
+      }));
     }
 
     if (this.component.searching) {
@@ -293,6 +303,14 @@ export default class TRichSelectRenderer {
       subElements.push(this.createOptionsList(this.component.filteredOptions));
     }
 
+    if (this.component.$scopedSlots.dropdownDown) {
+      subElements.push(this.component.$scopedSlots.dropdownDown({
+        query: this.component.query,
+        selectedOption: this.component.selectedOption,
+        options: this.component.filteredOptions,
+      }));
+    }
+
     return this.createElement(
       'div',
       {
@@ -314,9 +332,6 @@ export default class TRichSelectRenderer {
       'ul',
       {
         ref: 'optionsList',
-        attrs: {
-          tabindex: -1,
-        },
         class: this.component.getElementCssClass('optionsList'),
         style: {
           maxHeight: this.component.normalizedHeight,

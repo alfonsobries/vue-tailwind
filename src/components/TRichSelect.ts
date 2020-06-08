@@ -113,8 +113,8 @@ const TRichSelect = InputWithOptions.extend({
   },
   watch: {
     normalizedOptions: {
-      handler(options: NormalizedOptions) {
-        this.filteredOptions = options;
+      handler() {
+        this.query = '';
       },
       immediate: true,
     },
@@ -128,7 +128,7 @@ const TRichSelect = InputWithOptions.extend({
 
       this.$emit('change', localValue);
 
-      this.show = false;
+      this.hideOptions();
     },
     value(value) {
       if (!this.selectedOption || this.selectedOption.value !== value) {
@@ -139,10 +139,7 @@ const TRichSelect = InputWithOptions.extend({
     async show(show) {
       if (show) {
         if (!this.hideSearchBox) {
-          await this.$nextTick();
-          const searchBox = this.getSearchBox();
-          searchBox.focus();
-          searchBox.select();
+          this.focusSearchBox();
         }
 
         if (!this.filteredflattenedOptions.length) {
@@ -289,10 +286,31 @@ const TRichSelect = InputWithOptions.extend({
         this.showOptions();
       }
     },
+    async focusSearchBox() {
+      await this.$nextTick();
+      const searchBox = this.getSearchBox();
+      searchBox.focus();
+      searchBox.select();
+    },
     blurHandler(e: FocusEvent) {
       this.hasFocus = false;
-      this.hideOptions();
       this.$emit('blur', e);
+
+      let shouldHideOptions = true;
+      const clickedElement = e.relatedTarget as HTMLElement;
+      if (clickedElement) {
+        const wrapper = this.$refs.wrapper as HTMLDivElement;
+        const isChild = wrapper.contains(clickedElement);
+        if (isChild) {
+          shouldHideOptions = false;
+        }
+      }
+
+      if (shouldHideOptions) {
+        this.hideOptions();
+      } else {
+        this.focusSearchBox();
+      }
     },
     focusHandler(e: FocusEvent) {
       this.hasFocus = true;
