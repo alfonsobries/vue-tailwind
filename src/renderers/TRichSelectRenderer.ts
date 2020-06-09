@@ -259,6 +259,17 @@ export default class TRichSelectRenderer {
     );
   }
 
+  getMinimumInputLengthText(): string {
+    if (typeof this.component.minimumInputLengthText === 'function') {
+      return this.component.minimumInputLengthText(
+        this.component.minimumInputLength as number,
+        this.component.query,
+      );
+    }
+
+    return this.component.minimumInputLengthText;
+  }
+
   /**
    * The div used as dropdown with the options and the search box
    */
@@ -287,6 +298,10 @@ export default class TRichSelectRenderer {
       } else {
         subElements.push(this.createDropdownFeedback(this.component.searchingText));
       }
+    } else if (this.component.minimumInputLength !== undefined
+        && this.component.query.length < this.component.minimumInputLength) {
+      const minInputLengthText = this.getMinimumInputLengthText();
+      subElements.push(this.createDropdownFeedback(minInputLengthText));
     } else if (!this.component.filteredOptions.length) {
       if (this.component.$scopedSlots.noResults) {
         subElements.push(this.component.$scopedSlots.noResults({

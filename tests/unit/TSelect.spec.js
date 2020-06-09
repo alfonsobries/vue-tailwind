@@ -104,6 +104,7 @@ describe('TSelect', () => {
     const expectedOptions = strings.map((str) => ({
       value: str,
       text: str,
+      raw: str,
     }));
 
     const wrapper = shallowMount(TSelect, {
@@ -119,6 +120,7 @@ describe('TSelect', () => {
     const expectedOptions = numbers.map((str) => ({
       value: str,
       text: str,
+      raw: str,
     }));
 
     const wrapper = shallowMount(TSelect, {
@@ -136,7 +138,12 @@ describe('TSelect', () => {
       { value: 'C', text: 'C' },
     ];
 
-    const expectedOptions = objectsWithValue.slice(0);
+    const expectedOptions = objectsWithValue.map((option) => ({
+      ...option,
+      ...{
+        raw: option,
+      },
+    }));
 
     const wrapper = shallowMount(TSelect, {
       propsData: { options: objectsWithValue },
@@ -152,7 +159,7 @@ describe('TSelect', () => {
       { id: 3, text: 'C' },
     ];
 
-    const expectedOptions = objectsWithIds.map((option) => ({ value: option.id, text: option.text }));
+    const expectedOptions = objectsWithIds.map((option) => ({ value: option.id, text: option.text, raw: option }));
 
     const wrapper = shallowMount(TSelect, {
       propsData: { options: objectsWithIds },
@@ -168,7 +175,7 @@ describe('TSelect', () => {
       { value: 'C', label: 'C' },
     ];
 
-    const expectedOptions = objectsWithLabel.map((option) => ({ value: option.value, text: option.label }));
+    const expectedOptions = objectsWithLabel.map((option) => ({ value: option.value, text: option.label, raw: option }));
 
     const wrapper = shallowMount(TSelect, {
       propsData: { options: objectsWithLabel },
@@ -203,7 +210,7 @@ describe('TSelect', () => {
       { key: 'C', description: 'C' },
     ];
 
-    const expectedOptions = objectsWithCustomAttribs.map((option) => ({ value: option.key, text: option.description }));
+    const expectedOptions = objectsWithCustomAttribs.map((option) => ({ value: option.key, text: option.description, raw: option }));
 
     const wrapper = shallowMount(TSelect, {
       propsData: {
@@ -216,6 +223,7 @@ describe('TSelect', () => {
     expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
   });
 
+
   it('creates and null option when a placeholder is added', () => {
     const options = [
       { value: 'A', text: 'A' },
@@ -225,7 +233,12 @@ describe('TSelect', () => {
 
     const placeholder = 'Select one';
 
-    const expectedOptions = options.slice(0);
+    const expectedOptions = options.map((option) => ({
+      ...option,
+      ...{
+        raw: option,
+      },
+    }));
 
     expectedOptions.unshift({
       value: null,
@@ -254,7 +267,14 @@ describe('TSelect', () => {
       propsData: { options },
     });
 
-    expect(wrapper.vm.normalizedOptions).toEqual(options);
+    const expectedOptions = options.map((option) => ({
+      ...option,
+      ...{
+        raw: option,
+      },
+    }));
+
+    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
   });
 
   it('updates the model in multiselect', async () => {

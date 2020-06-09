@@ -28,6 +28,15 @@ const TRichSelect = InputWithOptions.extend({
       type: Function,
       default: undefined,
     },
+    minimumInputLength: {
+      type: Number,
+      default: undefined,
+    },
+    minimumInputLengthText: {
+      type: [Function, String],
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      default: (minimumInputLength: number, _query?: string) => `Please enter ${minimumInputLength} or more characters`,
+    },
     value: {
       type: [String, Number],
       default: null,
@@ -115,6 +124,7 @@ const TRichSelect = InputWithOptions.extend({
     normalizedOptions: {
       handler() {
         this.query = '';
+        this.filterOptions('');
       },
       immediate: true,
     },
@@ -153,6 +163,10 @@ const TRichSelect = InputWithOptions.extend({
   },
 
   computed: {
+    hasMinimumInputLength(): boolean {
+      return this.minimumInputLength === undefined
+        || this.query.length >= this.minimumInputLength;
+    },
     filteredflattenedOptions(): NormalizedOptions {
       return this.filteredOptions.map((option: NormalizedOption) => {
         if (option.children) {
@@ -198,9 +212,13 @@ const TRichSelect = InputWithOptions.extend({
     },
 
     async filterOptions(query: string) {
+      if (!this.hasMinimumInputLength) {
+        this.filteredOptions = [];
+        return;
+      }
+
       if (!this.fetchOptions || !query) {
         const options = cloneDeep(this.normalizedOptions);
-
         this.filteredOptions = this.queryFilter(options);
 
         if (this.filteredOptions.length) {

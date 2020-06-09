@@ -327,6 +327,7 @@ describe('TRichSelect', () => {
     const expectedOptions = strings.map((str) => ({
       value: str,
       text: str,
+      raw: str,
     }));
 
     const wrapper = shallowMount(TRichSelect, {
@@ -339,9 +340,10 @@ describe('TRichSelect', () => {
   it('accept the options as array of numbers', () => {
     const numbers = [1, 2, 3];
 
-    const expectedOptions = numbers.map((str) => ({
-      value: str,
-      text: str,
+    const expectedOptions = numbers.map((num) => ({
+      value: num,
+      text: num,
+      raw: num,
     }));
 
     const wrapper = shallowMount(TRichSelect, {
@@ -359,7 +361,12 @@ describe('TRichSelect', () => {
       { value: 'C', text: 'C' },
     ];
 
-    const expectedOptions = objectsWithValue.slice(0);
+    const expectedOptions = objectsWithValue.map((option) => ({
+      ...option,
+      ...{
+        raw: option,
+      },
+    }));
 
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options: objectsWithValue },
@@ -375,7 +382,7 @@ describe('TRichSelect', () => {
       { id: 3, text: 'C' },
     ];
 
-    const expectedOptions = objectsWithIds.map((option) => ({ value: option.id, text: option.text }));
+    const expectedOptions = objectsWithIds.map((option) => ({ value: option.id, text: option.text, raw: option }));
 
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options: objectsWithIds },
@@ -391,7 +398,7 @@ describe('TRichSelect', () => {
       { value: 'C', label: 'C' },
     ];
 
-    const expectedOptions = objectsWithLabel.map((option) => ({ value: option.value, text: option.label }));
+    const expectedOptions = objectsWithLabel.map((option) => ({ value: option.value, text: option.label, raw: option }));
 
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options: objectsWithLabel },
@@ -426,7 +433,7 @@ describe('TRichSelect', () => {
       { key: 'C', description: 'C' },
     ];
 
-    const expectedOptions = objectsWithCustomAttribs.map((option) => ({ value: option.key, text: option.description }));
+    const expectedOptions = objectsWithCustomAttribs.map((option) => ({ value: option.key, text: option.description, raw: option }));
 
     const wrapper = shallowMount(TRichSelect, {
       propsData: {
@@ -450,7 +457,14 @@ describe('TRichSelect', () => {
       propsData: { options },
     });
 
-    expect(wrapper.vm.normalizedOptions).toEqual(options);
+    const expectedOptions = options.map((option) => ({
+      ...option,
+      ...{
+        raw: option,
+      },
+    }));
+
+    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
   });
 
   it('disables the select', async () => {
@@ -626,16 +640,15 @@ describe('TRichSelect', () => {
 
     await wrapper.vm.$nextTick();
 
+    const expectedOptions = options
+      .filter((option) => ['find me', 'what about me'].includes(option))
+      .map((option) => ({
+        value: option,
+        text: option,
+        raw: option,
+      }));
+
     expect(wrapper.vm.filteredOptions.length).toBe(2);
-    expect(wrapper.vm.filteredOptions).toEqual([
-      {
-        value: 'find me',
-        text: 'find me',
-      },
-      {
-        value: 'what about me',
-        text: 'what about me',
-      },
-    ]);
+    expect(wrapper.vm.filteredOptions).toEqual(expectedOptions);
   });
 });
