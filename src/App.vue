@@ -503,7 +503,7 @@ Vue.use(VueTailwind, {
   },
 });
 
-export default {
+export default Vue.extend({
   components: {
     // TInput,
     // TSelect,
@@ -546,7 +546,7 @@ export default {
     };
   },
   methods: {
-    async addOption(repository: string) {
+    addOption(repository: string): void {
       this.repositories.push(repository);
       this.repository = repository;
     },
@@ -559,5 +559,5 @@ export default {
         });
     },
   },
-};
+});
 </script>
