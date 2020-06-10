@@ -154,7 +154,7 @@ describe('TRichSelect', () => {
   it('shows the option value when an option changes', async () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
-      propsData: { options, value: 'Option B' },
+      propsData: { options, value: 'Option B', name: 'test' },
     });
 
     wrapper.setProps({ value: 'Option A' });
@@ -164,31 +164,42 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.selectButton.textContent).toBe('Option A');
   });
 
-  it('shows a span for clear the value when its clearable and has value', () => {
+  it('shows a button for clear the value when its clearable and has value', () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options, value: 'Option B', clearable: true },
     });
 
-    expect(wrapper.vm.$refs.selectButtonClearIcon).toBeTruthy();
+    expect(wrapper.vm.$refs.selectButtonClearButton).toBeTruthy();
   });
 
-  it('not shows a span for clear the value when its clearable but not has value', () => {
+  it('not shows a button for clear the value when its clearable but not has value', () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options, clearable: true },
     });
 
-    expect(wrapper.vm.$refs.selectButtonClearIcon).toBeFalsy();
+    expect(wrapper.vm.$refs.selectButtonClearButton).toBeFalsy();
   });
 
-  it('not shows a span for clear the value by default', () => {
+  it('not shows a button for clear the value by default', () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options, value: 'Option B' },
     });
 
-    expect(wrapper.vm.$refs.selectButtonClearIcon).toBeFalsy();
+    expect(wrapper.vm.$refs.selectButtonClearButton).toBeFalsy();
+  });
+
+  it('the clear button clears the value', () => {
+    const options = ['Option A', 'Option B', 'Option C'];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options, value: 'Option B', clearable: true },
+    });
+
+    expect(wrapper.vm.localValue).toBe('Option B');
+    wrapper.vm.$refs.selectButtonClearButton.click();
+    expect(wrapper.vm.localValue).toBe(null);
   });
 
   it('highlights the selected option', async () => {

@@ -132,6 +132,10 @@ const TRichSelect = InputWithOptions.extend({
       this.filterOptions(query);
     },
     async localValue(localValue: string | null) {
+      if (!this.selectedOption || this.selectedOption.value !== localValue) {
+        this.selectedOption = this.findOptionByValue(localValue);
+      }
+
       this.$emit('input', localValue);
 
       await this.$nextTick();
@@ -141,9 +145,6 @@ const TRichSelect = InputWithOptions.extend({
       this.hideOptions();
     },
     value(value) {
-      if (!this.selectedOption || this.selectedOption.value !== value) {
-        this.selectedOption = this.findOptionByValue(value);
-      }
       this.localValue = value;
     },
     async show(show) {
@@ -217,7 +218,7 @@ const TRichSelect = InputWithOptions.extend({
         return;
       }
 
-      if (!this.fetchOptions || !query) {
+      if (!this.fetchOptions) {
         const options = cloneDeep(this.normalizedOptions);
         this.filteredOptions = this.queryFilter(options);
 
@@ -423,7 +424,7 @@ const TRichSelect = InputWithOptions.extend({
       this.getButton().focus();
       this.hideOptions();
     },
-    clearIconClickHandler(e: MouseEvent): void {
+    clearButtonClickHandler(e: MouseEvent): void {
       e.preventDefault();
       e.stopPropagation();
       (this.localValue as string | number | boolean | symbol | null) = null;

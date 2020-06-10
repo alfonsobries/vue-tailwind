@@ -28,7 +28,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   optionHasValue(option: NormalizedOption, value: string | number | boolean | symbol | null): boolean;
   selectOption(option: NormalizedOption): void;
   searchInputHandler(e: Event): void;
-  clearIconClickHandler(e: MouseEvent): void;
+  clearButtonClickHandler(e: MouseEvent): void;
   guessOptionText(option: InputOption): string;
 }, {
   normalizedHeight: string;

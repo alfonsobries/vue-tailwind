@@ -177,10 +177,10 @@ export default class TRichSelectRenderer {
     return this.createElement(
       'button',
       {
-        ref: 'selectButtonClearIcon',
+        ref: 'selectButtonClearButton',
         class: this.component.getElementCssClass('selectButtonClearButton'),
         on: {
-          click: this.component.clearIconClickHandler,
+          click: this.component.clearButtonClickHandler,
         },
       },
       [
