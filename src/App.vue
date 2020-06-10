@@ -40,33 +40,14 @@
       label="Select with ajax resutls"
     >
       <t-rich-select
-        v-model="variant"
-        name="ajax"
-        :options="variants"
-        clearable
-        placeholder="select an option"
-        :fetch-options="getOptions"
-        value-attribute="full_name"
-        text-attribute="full_name"
-      />
-
-      <t-rich-select
-        v-model="repository"
         :options="repositories"
         clearable
         placeholder="select an option"
         :fetch-options="getOptions"
         value-attribute="full_name"
         text-attribute="full_name"
+        :minimum-input-length="3"
       >
-        <div
-          slot="searchingText"
-          slot-scope="{ className, text, query }"
-          :class="className"
-        >
-          Buscando "{{ query }}"
-        </div>
-
         <template
           slot="dropdownDown"
           slot-scope="{ query }"
@@ -75,7 +56,6 @@
             v-if="query"
             class="text-center"
           >
-            <div>loremsafgsadgasdgdas gdasgsad gadsg</div>
             <t-button
               type="button"
               class="block w-full text-sm"
@@ -85,14 +65,6 @@
             </t-button>
           </div>
         </template>
-
-        <!-- <div
-          slot="noResults"
-          slot-scope="{ className, text, query }"
-          :class="className"
-        >
-          No resultados para "{{ query }}"
-        </div> -->
 
         <template
           slot="label"
@@ -581,12 +553,6 @@ export default {
     getOptions(q = 'tailwind') {
       return fetch(`https://api.github.com/search/repositories?q=${q}&type=public`)
         .then((response) => response.json())
-        // .then((data) => data.items.map((repo: any) => {
-        //   return {
-        //     value: repo.full_name,
-        //     text: repo.full_name,
-        //   };
-        // }));
         .then((data) => data.items)
         .catch((error) => {
           console.log(error.json());
