@@ -99,6 +99,19 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.searchBox).toBeFalsy();
   });
 
+  it('show the search until minimum results for search', async () => {
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: {
+        options: [1, 2],
+        minimumResultsForSearch: 3,
+      },
+    });
+
+    expect(wrapper.vm.shouldShowSearchbox).toBe(false);
+    wrapper.setProps({ options: [1, 2, 3] });
+    expect(wrapper.vm.shouldShowSearchbox).toBe(true);
+  });
+
   it('define a max height for the dropdown list from a number', async () => {
     const wrapper = shallowMount(TRichSelect, {
       propsData: {

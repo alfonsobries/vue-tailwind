@@ -34,12 +34,14 @@ type TRichSelect = CombinedVueInstance<Vue,
 }, {
   normalizedHeight: string;
   hasMinimumInputLength: boolean;
+  shouldShowSearchbox: boolean;
 }, {
   id?: string | null;
   name?: string | null;
   autofocus?: boolean;
   disabled?: boolean;
-  hideSearchBox: boolean;
+  hideSearchBox?: boolean;
+  minimumResultsForSearch?: number;
   clearable: boolean;
   value: string;
   noResultsText: string;

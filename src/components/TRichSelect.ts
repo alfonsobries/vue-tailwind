@@ -32,6 +32,10 @@ const TRichSelect = InputWithOptions.extend({
       type: Number,
       default: undefined,
     },
+    minimumResultsForSearch: {
+      type: Number,
+      default: undefined,
+    },
     minimumInputLengthText: {
       type: [Function, String],
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -164,6 +168,24 @@ const TRichSelect = InputWithOptions.extend({
   },
 
   computed: {
+    usesAJax(): boolean {
+      return !!this.fetchOptions;
+    },
+    shouldShowSearchbox(): boolean {
+      const showSearchbox = !this.hideSearchBox;
+      const hasQuery = !!this.query;
+      const hasMinResultsSetting = typeof this.minimumResultsForSearch === 'undefined';
+
+      const hasminimumResultsForSearch: boolean = hasMinResultsSetting
+      || hasQuery
+      || (
+        this.usesAJax
+          ? this.filteredflattenedOptions.length >= this.minimumResultsForSearch
+          : this.normalizedOptions.length >= this.minimumResultsForSearch
+      );
+
+      return showSearchbox && hasminimumResultsForSearch;
+    },
     hasMinimumInputLength(): boolean {
       return this.minimumInputLength === undefined
         || this.query.length >= this.minimumInputLength;

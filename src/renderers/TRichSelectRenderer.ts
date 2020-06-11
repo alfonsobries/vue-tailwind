@@ -110,7 +110,7 @@ export default class TRichSelectRenderer {
             }
           },
           blur: (e: FocusEvent) => {
-            if (!this.component.hideSearchBox) {
+            if (this.component.shouldShowSearchbox) {
               return;
             }
 
@@ -282,7 +282,7 @@ export default class TRichSelectRenderer {
   createDropdown() {
     const subElements = [];
 
-    if (!this.component.hideSearchBox) {
+    if (this.component.shouldShowSearchbox) {
       subElements.push(this.createSearchBoxWrapper());
     }
 
