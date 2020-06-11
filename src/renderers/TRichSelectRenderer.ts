@@ -109,13 +109,7 @@ export default class TRichSelectRenderer {
               this.component.escapeHandler(e);
             }
           },
-          blur: (e: FocusEvent) => {
-            if (this.component.shouldShowSearchbox) {
-              return;
-            }
-
-            this.component.blurHandler(e);
-          },
+          blur: this.component.blurHandler,
           mousedown: (e: MouseEvent) => {
             e.preventDefault();
           },
@@ -259,9 +253,7 @@ export default class TRichSelectRenderer {
               this.component.escapeHandler(e);
             }
           },
-          blur: (e: FocusEvent) => {
-            this.component.blurHandler(e);
-          },
+          blur: this.component.blurHandler,
           input: this.component.searchInputHandler,
         },
       },
