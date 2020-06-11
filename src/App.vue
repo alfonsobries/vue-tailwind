@@ -31,6 +31,13 @@
         placeholder="select an option"
       />
       <t-rich-select
+        v-model="variant"
+        :options="variants"
+        clearable
+        placeholder="select an option"
+        hide-search-box
+      />
+      <t-rich-select
         :options="optGroupOptions"
         :max-height="200"
       />
@@ -126,6 +133,19 @@
           </div>
         </template>
       </t-rich-select>
+    </t-input-group>
+
+    <t-input-group
+      label="Select a post"
+    >
+      <t-rich-select
+        clearable
+        placeholder="Select a cause"
+        :fetch-options="getCauses"
+        text-attribute="name"
+        :open-on-focus="false"
+        :minimum-results-for-search="8"
+      />
     </t-input-group>
 
     <t-input-group>
@@ -550,10 +570,15 @@ export default Vue.extend({
       this.repositories.push(repository);
       this.repository = repository;
     },
+    getCauses(q = '', nextPage?: number) {
+      return fetch(`https://api.dona.me/causes?per_page=10&search=${q}&page=${nextPage || ''}`)
+        .then((response) => response.json())
+        .then((data) => ({ results: data.data, hasMorePages: !!data.next_page_url }));
+    },
     getOptions(q = 'tailwind') {
       return fetch(`https://api.github.com/search/repositories?q=${q}&type=public`)
         .then((response) => response.json())
-        .then((data) => data.items)
+        .then((data) => ({ results: data.items }))
         .catch((error) => {
           console.log(error.json());
         });
