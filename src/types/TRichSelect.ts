@@ -15,6 +15,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   selectedOption: NormalizedOption | undefined;
   searching: boolean;
   delayTimeout: undefined | ReturnType<typeof setTimeout>;
+  nextPage: undefined | number;
 },
 {
   getElementCssClass: (elementName?: string) => CssClass;
@@ -25,6 +26,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   arrowUpHandler: (e: KeyboardEvent) => void;
   enterHandler: (e: KeyboardEvent) => void;
   escapeHandler: (e: KeyboardEvent) => void;
+  listScrollHandler: (e: Event) => void;
   // eslint-disable-next-line max-len
   optionHasValue(option: NormalizedOption, value: string | number | boolean | symbol | null): boolean;
   selectOption(option: NormalizedOption): void;
@@ -46,6 +48,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   value: string;
   noResultsText: string;
   searchingText: string;
+  loadingMoreResultsText: string;
   searchBoxPlaceholder: string;
   delay: number;
   placeholder: string | undefined;

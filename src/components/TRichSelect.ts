@@ -7,6 +7,10 @@ import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 import TRichSelectRenderer from '../renderers/TRichSelectRenderer';
 
+type AjaxResults = Promise<{
+  results: InputOptions;
+  hasMorePages?: boolean;
+}>
 const TRichSelect = InputWithOptions.extend({
   name: 'TRichSelect',
 
@@ -73,6 +77,10 @@ const TRichSelect = InputWithOptions.extend({
       type: String,
       default: 'Searching...',
     },
+    loadingMoreResultsText: {
+      type: String,
+      default: 'Loading more results...',
+    },
     maxHeight: {
       type: [String, Number],
       default: 300,
@@ -90,8 +98,9 @@ const TRichSelect = InputWithOptions.extend({
           selectButtonClearButton: 'hover:bg-gray-200 rounded flex flex-shrink-0 items-center justify-center ml-1 absolute right-0 top-0 mt-2 mr-2 h-6 w-6',
           selectButtonClearIcon: 'fill-current h-3 w-3 text-gray-500',
           dropdown: 'absolute w-full rounded-md bg-white shadow-lg z-10',
-          dropdownFeedback: 'p-2 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5',
-          optionsList: 'py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5',
+          dropdownFeedback: 'p-2 text-sm text-gray-700',
+          loadingMoreResults: 'p-2 text-sm text-gray-700',
+          optionsList: 'py-1 overflow-auto',
           searchWrapper: 'inline-block w-full bg-white p-2',
           searchBox: 'inline-block w-full p-2 bg-gray-200 focus:outline-none text-sm rounded',
           optgroup: 'text-gray-500 uppercase text-xs py-1 px-2 font-semibold',
@@ -118,6 +127,7 @@ const TRichSelect = InputWithOptions.extend({
       selectedOption: undefined as undefined | NormalizedOption,
       searching: false,
       delayTimeout: undefined as undefined | ReturnType<typeof setTimeout>,
+      nextPage: undefined as undefined | number,
     };
   },
 
@@ -133,6 +143,7 @@ const TRichSelect = InputWithOptions.extend({
       immediate: true,
     },
     query(query: string) {
+      this.nextPage = undefined;
       this.filterOptions(query);
     },
     async localValue(localValue: string | null) {
@@ -153,7 +164,7 @@ const TRichSelect = InputWithOptions.extend({
     },
     async show(show) {
       if (show) {
-        if (!this.hideSearchBox) {
+        if (this.shouldShowSearchbox) {
           this.focusSearchBox();
         }
 
@@ -163,6 +174,11 @@ const TRichSelect = InputWithOptions.extend({
         }
 
         this.highlighted = this.selectedOptionIndex || 0;
+      }
+    },
+    shouldShowSearchbox(shouldShowSearchbox) {
+      if (shouldShowSearchbox && this.show) {
+        this.focusSearchBox();
       }
     },
   },
@@ -261,8 +277,19 @@ const TRichSelect = InputWithOptions.extend({
 
       this.delayTimeout = setTimeout(async () => {
         try {
-          const filteredRawOptions = await this.getFilterPromise(query);
-          this.filteredOptions = this.normalizeOptions(filteredRawOptions);
+          const { results, hasMorePages } = await this.getFilterPromise(query);
+
+          if (this.nextPage) {
+            this.filteredOptions = this.filteredOptions.concat(this.normalizeOptions(results));
+          } else {
+            this.filteredOptions = this.normalizeOptions(results);
+          }
+
+          if (hasMorePages) {
+            this.nextPage = this.nextPage === undefined ? 2 : this.nextPage + 1;
+          } else {
+            this.nextPage = undefined;
+          }
         } catch (error) {
           this.$emit('fetch-error', error);
           this.filteredOptions = [];
@@ -279,9 +306,17 @@ const TRichSelect = InputWithOptions.extend({
       }, this.delay);
     },
 
-    getFilterPromise(query: string): Promise<InputOptions> {
+    getFilterPromise(query: string): AjaxResults {
       return Promise
-        .resolve(this.fetchOptions(query) as Promise<InputOptions>);
+        .resolve(this.fetchOptions(query, this.nextPage) as AjaxResults);
+    },
+
+    listEndReached() {
+      if (!this.nextPage || this.searching) {
+        return;
+      }
+
+      this.filterOptions(this.query);
     },
 
     queryFilter(options: NormalizedOptions): NormalizedOptions {
@@ -313,7 +348,6 @@ const TRichSelect = InputWithOptions.extend({
           return hasChildren || foundText;
         });
     },
-
     hideOptions() {
       this.show = false;
     },
@@ -407,6 +441,12 @@ const TRichSelect = InputWithOptions.extend({
 
       this.scrollToOptionIndex(this.highlighted);
     },
+    listScrollHandler(e: Event) {
+      const el = e.target as HTMLUListElement;
+      if (el.scrollTop === (el.scrollHeight - el.offsetHeight)) {
+        this.listEndReached();
+      }
+    },
     scrollToOptionIndex(index: number) {
       if (this.$refs.optionsList) {
         const list = this.$refs.optionsList as HTMLUListElement;
@@ -456,14 +496,12 @@ const TRichSelect = InputWithOptions.extend({
       (this.localValue as string | number | boolean | symbol | null) = null;
       this.query = '';
     },
-
     blur() {
       const el = this.hideSearchBox
         ? this.$refs.selectButton as HTMLButtonElement
         : this.$refs.searchBox as HTMLInputElement;
       el.blur();
     },
-
     focus(options?: FocusOptions | undefined) {
       const el = this.$refs.selectButton as HTMLButtonElement;
       el.focus(options);

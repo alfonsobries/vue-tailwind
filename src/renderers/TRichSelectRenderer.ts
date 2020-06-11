@@ -294,7 +294,7 @@ export default class TRichSelectRenderer {
       }));
     }
 
-    if (this.component.searching) {
+    if (this.component.searching && !this.component.nextPage) {
       if (this.component.$scopedSlots.searchingText) {
         subElements.push(this.component.$scopedSlots.searchingText({
           text: this.component.searchingText,
@@ -322,6 +322,19 @@ export default class TRichSelectRenderer {
 
     if (this.component.filteredOptions.length) {
       subElements.push(this.createOptionsList(this.component.filteredOptions));
+    }
+
+    if (this.component.searching && this.component.nextPage) {
+      if (this.component.$scopedSlots.loadingMoreResultsText) {
+        subElements.push(this.component.$scopedSlots.loadingMoreResultsText({
+          text: this.component.loadingMoreResultsText,
+          nextPage: this.component.nextPage,
+          query: this.component.query,
+          className: this.component.getElementCssClass('loadingMoreResults'),
+        }));
+      } else {
+        subElements.push(this.createLoadingMoreResults(this.component.loadingMoreResultsText));
+      }
     }
 
     if (this.component.$scopedSlots.dropdownDown) {
@@ -357,6 +370,10 @@ export default class TRichSelectRenderer {
         style: {
           maxHeight: this.component.normalizedHeight,
         },
+        on: {
+          scroll: this.component.listScrollHandler,
+        },
+
       },
       this.createOptions(options),
     );
@@ -372,6 +389,21 @@ export default class TRichSelectRenderer {
       {
         ref: 'dropdownFeedback',
         class: this.component.getElementCssClass('dropdownFeedback'),
+      },
+      text,
+    );
+  }
+
+  /**
+   * Dropdown feedback
+   * @param text
+   */
+  createLoadingMoreResults(text: string) {
+    return this.createElement(
+      'div',
+      {
+        ref: 'loadingMoreResults',
+        class: this.component.getElementCssClass('loadingMoreResults'),
       },
       text,
     );
