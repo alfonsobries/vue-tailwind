@@ -24,6 +24,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   arrowDownHandler: (e: KeyboardEvent) => void;
   arrowUpHandler: (e: KeyboardEvent) => void;
   enterHandler: (e: KeyboardEvent) => void;
+  escapeHandler: (e: KeyboardEvent) => void;
   // eslint-disable-next-line max-len
   optionHasValue(option: NormalizedOption, value: string | number | boolean | symbol | null): boolean;
   selectOption(option: NormalizedOption): void;

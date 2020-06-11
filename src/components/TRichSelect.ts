@@ -394,7 +394,11 @@ const TRichSelect = InputWithOptions.extend({
         }
       }
     },
-    enterHandler(e: KeyboardEvent) {
+    escapeHandler(e: KeyboardEvent): void {
+      e.preventDefault();
+      this.hideOptions();
+    },
+    enterHandler(e: KeyboardEvent): void {
       if (!this.show) {
         return;
       }

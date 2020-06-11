@@ -38,6 +38,25 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.searchBox).toBe(document.activeElement, 'The element was not focused');
   });
 
+  it('closes the dropdown when the user press esc key', async () => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+
+    const wrapper = shallowMount(TRichSelect, { attachTo: div });
+    wrapper.vm.$refs.selectButton.click();
+    // Wait for the dropdown to open
+    await wrapper.vm.$nextTick();
+    // Wait for the focus
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.show).toBe(true);
+
+    const event = new KeyboardEvent('keydown', { keyCode: 27 });
+    wrapper.vm.$refs.searchBox.dispatchEvent(event);
+
+    expect(wrapper.vm.show).toBe(false);
+  });
+
   it('closes the dropdown when the search box lost the focus', async () => {
     const div = document.createElement('div');
     document.body.appendChild(div);

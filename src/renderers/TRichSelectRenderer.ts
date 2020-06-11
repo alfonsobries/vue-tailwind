@@ -104,6 +104,9 @@ export default class TRichSelectRenderer {
             // Enter
             } else if (e.keyCode === 13) {
               this.component.enterHandler(e);
+            // Esc
+            } else if (e.keyCode === 27) {
+              this.component.escapeHandler(e);
             }
           },
           blur: (e: FocusEvent) => {
@@ -248,6 +251,9 @@ export default class TRichSelectRenderer {
             // Enter
             } else if (e.keyCode === 13) {
               this.component.enterHandler(e);
+            // Esc
+            } else if (e.keyCode === 27) {
+              this.component.escapeHandler(e);
             }
           },
           blur: (e: FocusEvent) => {
