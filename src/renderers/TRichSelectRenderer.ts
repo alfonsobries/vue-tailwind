@@ -182,6 +182,9 @@ export default class TRichSelectRenderer {
       {
         ref: 'selectButtonClearButton',
         class: this.component.getElementCssClass('selectButtonClearButton'),
+        attrs: {
+          tabindex: -1,
+        },
         on: {
           click: this.component.clearButtonClickHandler,
         },

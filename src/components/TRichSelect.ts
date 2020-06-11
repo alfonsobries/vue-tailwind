@@ -373,6 +373,7 @@ const TRichSelect = InputWithOptions.extend({
 
       let shouldHideOptions = true;
       const clickedElement = e.relatedTarget as HTMLElement;
+
       if (clickedElement) {
         const wrapper = this.$refs.wrapper as HTMLDivElement;
         const isChild = wrapper.contains(clickedElement);
@@ -383,7 +384,7 @@ const TRichSelect = InputWithOptions.extend({
 
       if (shouldHideOptions) {
         this.hideOptions();
-      } else {
+      } else if (clickedElement !== this.$refs.selectButton) {
         this.focusSearchBox();
       }
     },
