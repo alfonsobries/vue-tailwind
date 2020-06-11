@@ -280,9 +280,25 @@ const TRichSelect = InputWithOptions.extend({
           const { results, hasMorePages } = await this.getFilterPromise(query);
 
           if (this.nextPage) {
+            const currentOptionsListLength = this.filteredOptions.length;
             this.filteredOptions = this.filteredOptions.concat(this.normalizeOptions(results));
+            // Ux: When the last item is highlighted highlight the next one, make
+            // special sense when using keyboard
+            if (this.highlighted === currentOptionsListLength - 1) {
+              this.highlighted = currentOptionsListLength;
+              await this.$nextTick();
+              this.scrollToHighlightedOption('smooth');
+            }
           } else {
             this.filteredOptions = this.normalizeOptions(results);
+
+            if (this.filteredOptions.length) {
+              this.highlighted = 0;
+            } else {
+              this.highlighted = null;
+            }
+
+            this.scrollToHighlightedOption();
           }
 
           if (hasMorePages) {
@@ -295,11 +311,6 @@ const TRichSelect = InputWithOptions.extend({
           this.filteredOptions = [];
         }
 
-        if (this.filteredOptions.length) {
-          this.highlighted = 0;
-        } else {
-          this.highlighted = null;
-        }
 
         this.searching = false;
         this.delayTimeout = undefined;
@@ -422,7 +433,7 @@ const TRichSelect = InputWithOptions.extend({
           : this.highlighted - 1;
       }
 
-      this.scrollToOptionIndex(this.highlighted);
+      this.scrollToHighlightedOption();
     },
     arrowDownHandler(e: KeyboardEvent) {
       e.preventDefault();
@@ -432,15 +443,18 @@ const TRichSelect = InputWithOptions.extend({
         return;
       }
 
-      if (this.highlighted === null) {
+      const endReached = this.highlighted !== null
+        && this.highlighted + 1 >= this.filteredflattenedOptions.length;
+
+      if (endReached && this.usesAJax && this.nextPage) {
+        this.listEndReached();
+      } else if (this.highlighted === null) {
         this.highlighted = 0;
       } else {
-        this.highlighted = this.highlighted + 1 >= this.filteredflattenedOptions.length
-          ? 0
-          : this.highlighted + 1;
+        this.highlighted = endReached ? 0 : this.highlighted + 1;
       }
 
-      this.scrollToOptionIndex(this.highlighted);
+      this.scrollToHighlightedOption();
     },
     listScrollHandler(e: Event) {
       const el = e.target as HTMLUListElement;
@@ -448,12 +462,12 @@ const TRichSelect = InputWithOptions.extend({
         this.listEndReached();
       }
     },
-    scrollToOptionIndex(index: number) {
-      if (this.$refs.optionsList) {
+    scrollToHighlightedOption(behavior: 'auto' | 'smooth' = 'auto') {
+      if (this.$refs.optionsList && typeof this.highlighted === 'number') {
         const list = this.$refs.optionsList as HTMLUListElement;
-        const li = list.querySelectorAll('li[data-type=option]')[index] as HTMLLIElement;
+        const li = list.querySelectorAll('li[data-type=option]')[this.highlighted] as HTMLLIElement;
         if (li.scrollIntoView) {
-          li.scrollIntoView({ block: 'nearest' });
+          li.scrollIntoView({ block: 'nearest', behavior });
         }
       }
     },
