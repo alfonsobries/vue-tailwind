@@ -45,6 +45,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   hideSearchBox?: boolean;
   openOnFocus: boolean;
   closeOnSelect: boolean;
+  selectOnClose: boolean;
   minimumResultsForSearch?: number;
   clearable: boolean;
   value: string;

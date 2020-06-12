@@ -61,6 +61,10 @@ const TRichSelect = InputWithOptions.extend({
       type: Boolean,
       default: true,
     },
+    selectOnClose: {
+      type: Boolean,
+      default: false,
+    },
     clearable: {
       type: Boolean,
       default: false,
@@ -237,6 +241,14 @@ const TRichSelect = InputWithOptions.extend({
         .findIndex((option) => this.optionHasValue(option, this.localValue));
       return index >= 0 ? index : undefined;
     },
+
+    highlightedOption(): NormalizedOption | undefined {
+      if (this.highlighted) {
+        return this.filteredflattenedOptions[this.highlighted];
+      }
+
+      return undefined;
+    },
   },
 
   methods: {
@@ -367,6 +379,10 @@ const TRichSelect = InputWithOptions.extend({
     },
     hideOptions() {
       this.show = false;
+
+      if (this.selectOnClose && this.highlightedOption) {
+        this.selectOption(this.highlightedOption, false);
+      }
     },
     showOptions() {
       this.show = true;
@@ -396,7 +412,7 @@ const TRichSelect = InputWithOptions.extend({
         }
       }
 
-      if (clickedElement !== this.$refs.selectButton && !shouldHideOptions) {
+      if (clickedElement !== this.$refs.selectButton && !shouldHideOptions && this.getSearchBox()) {
         this.focusSearchBox();
         return;
       }
@@ -491,8 +507,7 @@ const TRichSelect = InputWithOptions.extend({
 
       if (this.highlighted !== null) {
         e.preventDefault();
-        const option = this.filteredflattenedOptions[this.highlighted];
-        this.selectOption(option);
+        this.selectOption(this.highlightedOption as NormalizedOption);
       }
     },
     searchInputHandler(e: Event): void {
@@ -505,7 +520,7 @@ const TRichSelect = InputWithOptions.extend({
     getSearchBox() {
       return this.$refs.searchBox as HTMLInputElement;
     },
-    async selectOption(option: NormalizedOption) {
+    async selectOption(option: NormalizedOption, focus = true) {
       if (this.localValue !== option.value) {
         (this.localValue as string | number | boolean | symbol | null) = option.value;
       }
@@ -513,10 +528,12 @@ const TRichSelect = InputWithOptions.extend({
 
       await this.$nextTick();
 
-      if (!this.closeOnSelect && this.shouldShowSearchbox) {
-        this.getSearchBox().focus();
-      } else {
-        this.getButton().focus();
+      if (focus) {
+        if (!this.closeOnSelect && this.shouldShowSearchbox) {
+          this.getSearchBox().focus();
+        } else {
+          this.getButton().focus();
+        }
       }
     },
     clearButtonClickHandler(e: MouseEvent): void {
