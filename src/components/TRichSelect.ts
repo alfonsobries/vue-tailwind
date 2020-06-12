@@ -57,6 +57,10 @@ const TRichSelect = InputWithOptions.extend({
       type: Boolean,
       default: true,
     },
+    closeOnSelect: {
+      type: Boolean,
+      default: true,
+    },
     clearable: {
       type: Boolean,
       default: false,
@@ -157,7 +161,9 @@ const TRichSelect = InputWithOptions.extend({
 
       this.$emit('change', localValue);
 
-      this.hideOptions();
+      if (this.closeOnSelect) {
+        this.hideOptions();
+      }
     },
     value(value) {
       this.localValue = value;
@@ -379,9 +385,6 @@ const TRichSelect = InputWithOptions.extend({
       searchBox.select();
     },
     blurHandler(e: FocusEvent) {
-      this.hasFocus = false;
-      this.$emit('blur', e);
-
       let shouldHideOptions = true;
       const clickedElement = e.relatedTarget as HTMLElement;
 
@@ -393,11 +396,17 @@ const TRichSelect = InputWithOptions.extend({
         }
       }
 
+      if (clickedElement !== this.$refs.selectButton && !shouldHideOptions) {
+        this.focusSearchBox();
+        return;
+      }
+
       if (shouldHideOptions) {
         this.hideOptions();
-      } else if (clickedElement !== this.$refs.selectButton) {
-        this.focusSearchBox();
       }
+
+      this.$emit('blur', e);
+      this.hasFocus = false;
     },
     focusHandler(e: FocusEvent) {
       this.hasFocus = true;
@@ -501,9 +510,14 @@ const TRichSelect = InputWithOptions.extend({
         (this.localValue as string | number | boolean | symbol | null) = option.value;
       }
       this.selectedOption = option;
+
       await this.$nextTick();
-      this.getButton().focus();
-      this.hideOptions();
+
+      if (!this.closeOnSelect && this.shouldShowSearchbox) {
+        this.getSearchBox().focus();
+      } else {
+        this.getButton().focus();
+      }
     },
     clearButtonClickHandler(e: MouseEvent): void {
       e.preventDefault();
