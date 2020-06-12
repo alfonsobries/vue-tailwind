@@ -243,7 +243,7 @@ const TRichSelect = InputWithOptions.extend({
     },
 
     highlightedOption(): NormalizedOption | undefined {
-      if (this.highlighted) {
+      if (typeof this.highlighted === 'number') {
         return this.filteredflattenedOptions[this.highlighted];
       }
 
