@@ -20,10 +20,6 @@ const TRichSelect = InputWithOptions.extend({
   },
 
   props: {
-    ajax: {
-      type: Boolean,
-      default: false,
-    },
     delay: {
       type: Number,
       default: 250,
@@ -32,11 +28,11 @@ const TRichSelect = InputWithOptions.extend({
       type: Function,
       default: undefined,
     },
-    minimumInputLength: {
+    minimumResultsForSearch: {
       type: Number,
       default: undefined,
     },
-    minimumResultsForSearch: {
+    minimumInputLength: {
       type: Number,
       default: undefined,
     },
@@ -431,7 +427,7 @@ const TRichSelect = InputWithOptions.extend({
       }
       this.$emit('focus', e);
     },
-    clickHandler(e: FocusEvent) {
+    clickHandler(e: MouseEvent) {
       if (!this.show && !this.hasFocus) {
         this.getButton().focus();
         if (!this.openOnFocus) {
