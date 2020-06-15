@@ -5,6 +5,51 @@
     header="VueTailwind"
     footer="Made with love by @alfonsobries"
   >
+    <ul>
+      <t-dropdown>
+        <template
+          slot="trigger"
+          slot-scope="{ mousedownHandler, focusHandler, blurHandler, keydownHandler }"
+        >
+          <t-button
+            @mousedown="mousedownHandler"
+            @focus="focusHandler"
+            @blur="blurHandler"
+            @keydown="keydownHandler"
+          >
+            Dropdown
+          </t-button>
+        </template>
+
+        <template
+          slot-scope="{ blurHandler }"
+          class="flex flex-col"
+        >
+          <li>
+            <a
+              class="block p-3 w-full hover:bg-gray-200"
+              href=""
+              @blur="blurHandler"
+            >Option A</a>
+          </li>
+          <li>
+            <a
+              class="block p-3 w-full hover:bg-gray-200"
+              href=""
+              @blur="blurHandler"
+            >Option B</a>
+          </li>
+          <li>
+            <a
+              class="block p-3 w-full hover:bg-gray-200"
+              href=""
+              @blur="blurHandler"
+            >Option C</a>
+          </li>
+        </template>
+      </t-dropdown>
+    </ul>
+
     <t-input-group
       label="Select variant"
       description="Select a variant to apply to some of the components"
