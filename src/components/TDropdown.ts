@@ -48,7 +48,7 @@ const TDropdown = Component.extend({
           button: 'p-3',
           wrapper: 'inline-flex flex-col',
           dropdownWrapper: 'relative',
-          dropdown: 'origin-top-right absolute right-0 z-10 w-56 rounded-md shadow-lg bg-white mt-2',
+          dropdown: 'origin-top-right absolute right-0 z-10 w-56 rounded-md shadow-lg bg-white',
         };
       },
     },
