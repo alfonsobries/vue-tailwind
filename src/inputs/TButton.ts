@@ -132,6 +132,12 @@ const TButton = HtmlInput.extend({
     clickHandler(e: MouseEvent) {
       this.$emit('click', e);
     },
+    keydownHandler(e: MouseEvent) {
+      this.$emit('keydown', e);
+    },
+    mousedownHandler(e: MouseEvent) {
+      this.$emit('mousedown', e);
+    },
     blur() {
       (this.$el as HTMLButtonElement).blur();
     },
@@ -207,6 +213,8 @@ const TButton = HtmlInput.extend({
             click: this.clickHandler,
             focus: this.focusHandler,
             blur: this.blurHandler,
+            keydown: this.keydownHandler,
+            mousedown: this.mousedownHandler,
           },
         },
         this.$slots.default,

@@ -9,6 +9,7 @@ import TInputGroup from './components/TInputGroup';
 import TCard from './components/TCard';
 import TAlert from './components/TAlert';
 import TModal from './components/TModal';
+import TDropdown from './components/TDropdown';
 
 export {
   TInput,
@@ -21,5 +22,6 @@ export {
   TCard,
   TAlert,
   TModal,
+  TDropdown,
   TRichSelect,
 };
