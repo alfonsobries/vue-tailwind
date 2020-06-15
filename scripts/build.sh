@@ -36,6 +36,9 @@ echo 'Building TModal...'
 echo 'Building TDropdown...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TDropdown --filename components/TDropdown --no-clean ./src/t-dropdown.ts
 
+echo 'Building TPagination...'
+./node_modules/.bin/vue-cli-service build --target lib --name TPagination --filename components/TPagination --no-clean ./src/t-pagination.ts
+
 echo 'Building TRichSelect...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TRichSelect --filename components/TRichSelect --no-clean ./src/t-rich-select.ts
 
