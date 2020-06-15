@@ -10,6 +10,7 @@ import TCard from './components/TCard';
 import TAlert from './components/TAlert';
 import TModal from './components/TModal';
 import TDropdown from './components/TDropdown';
+import TPagination from './components/TPagination';
 
 export {
   TInput,
@@ -24,4 +25,5 @@ export {
   TModal,
   TDropdown,
   TRichSelect,
+  TPagination,
 };

@@ -398,6 +398,11 @@
     <t-button @click.prevent="$modal.show('named-modal', { id: 1})">
       Open modal by name
     </t-button>
+
+    <t-pagination
+      :total-items="9999"
+      :value="1"
+    />
   </t-card>
 </template>
 
