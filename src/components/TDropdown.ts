@@ -73,7 +73,7 @@ const TDropdown = Component.extend({
     },
     async localShow(localShow) {
       this.$emit('update:show', localShow);
-      if (this.localShow) {
+      if (localShow) {
         this.$emit('shown');
       } else {
         this.$emit('hidden');
@@ -106,6 +106,7 @@ const TDropdown = Component.extend({
         }) : createElement(
           'button',
           {
+            ref: 'button',
             attrs: {
               type: 'button',
             },
@@ -215,6 +216,11 @@ const TDropdown = Component.extend({
         return;
       }
 
+      if (!this.hideOnLeaveTimeout) {
+        this.doHide();
+        return;
+      }
+
       this.hideOnLeaveTimeoutHolder = setTimeout(() => {
         this.doHide();
         this.hideOnLeaveTimeoutHolder = null;
@@ -224,14 +230,13 @@ const TDropdown = Component.extend({
       if (!this.toggleOnHover) {
         return;
       }
-      if (this.hideOnLeaveTimeoutHolder) {
+
+      if (this.hideOnLeaveTimeout && this.hideOnLeaveTimeoutHolder) {
         clearTimeout(this.hideOnLeaveTimeoutHolder);
         this.hideOnLeaveTimeoutHolder = null;
       }
 
-      if (this.toggleOnHover) {
-        this.doShow();
-      }
+      this.doShow();
     },
     doHide() {
       this.localShow = false;
@@ -254,6 +259,14 @@ const TDropdown = Component.extend({
       } else {
         this.doShow();
       }
+    },
+    blur() {
+      const el = this.$refs.button as HTMLButtonElement;
+      el.blur();
+    },
+    focus(options?: FocusOptions | undefined) {
+      const el = this.$refs.button as HTMLButtonElement;
+      el.focus(options);
     },
   },
 });
