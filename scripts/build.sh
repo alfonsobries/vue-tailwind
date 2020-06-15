@@ -33,6 +33,9 @@ echo 'Building TCard...'
 echo 'Building TModal...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TModal --filename components/TModal --no-clean ./src/t-modal.ts
 
+echo 'Building TDropdown...'
+./node_modules/.bin/vue-cli-service build --target lib --name TDropdown --filename components/TDropdown --no-clean ./src/t-dropdown.ts
+
 echo 'Building TRichSelect...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TRichSelect --filename components/TRichSelect --no-clean ./src/t-rich-select.ts
 
