@@ -23,7 +23,7 @@ const TDropdown = Component.extend({
     },
     toggleOnFocus: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     toggleOnClick: {
       type: Boolean,
@@ -198,7 +198,7 @@ const TDropdown = Component.extend({
         this.$emit('blur', e);
       }
 
-      if (this.toggleOnFocus) {
+      if (this.toggleOnFocus || this.toggleOnClick) {
         this.hideIfFocusOutside(e);
       }
     },
