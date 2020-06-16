@@ -9,9 +9,10 @@
       <t-dropdown>
         <template
           slot="trigger"
-          slot-scope="{ mousedownHandler, focusHandler, blurHandler, keydownHandler }"
+          slot-scope="{ mousedownHandler, focusHandler, blurHandler, keydownHandler, disabled }"
         >
           <t-button
+            :disabled="disabled"
             @mousedown="mousedownHandler"
             @focus="focusHandler"
             @blur="blurHandler"

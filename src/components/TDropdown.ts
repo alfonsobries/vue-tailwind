@@ -9,6 +9,10 @@ const TDropdown = Component.extend({
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: undefined,
+    },
     tagName: {
       type: String,
       default: 'div',
@@ -103,12 +107,14 @@ const TDropdown = Component.extend({
           focusHandler: this.focusHandler,
           blurHandler: this.blurHandler,
           keydownHandler: this.keydownHandler,
+          disabled: this.disabled,
         }) : createElement(
           'button',
           {
             ref: 'button',
             attrs: {
               type: 'button',
+              disabled: this.disabled,
             },
             class: this.getElementCssClass('button'),
             on: {
