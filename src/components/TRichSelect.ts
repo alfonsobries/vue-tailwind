@@ -520,6 +520,7 @@ const TRichSelect = InputWithOptions.extend({
       if (this.localValue !== option.value) {
         (this.localValue as string | number | boolean | symbol | null) = option.value;
       }
+
       this.selectedOption = option;
 
       await this.$nextTick();
@@ -529,6 +530,10 @@ const TRichSelect = InputWithOptions.extend({
           this.getSearchBox().focus();
         } else {
           this.getButton().focus();
+
+          if (this.closeOnSelect && this.show) {
+            this.hideOptions();
+          }
         }
       }
     },
