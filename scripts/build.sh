@@ -42,4 +42,7 @@ echo 'Building TPagination...'
 echo 'Building TRichSelect...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TRichSelect --filename components/TRichSelect --no-clean ./src/t-rich-select.ts
 
+echo 'Building TTag...'
+./node_modules/.bin/vue-cli-service build --target lib --name TTag --filename components/TTag --no-clean ./src/t-tag.ts
+
 echo 'Done building assets.'
