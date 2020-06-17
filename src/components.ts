@@ -11,6 +11,7 @@ import TAlert from './components/TAlert';
 import TModal from './components/TModal';
 import TDropdown from './components/TDropdown';
 import TPagination from './components/TPagination';
+import TTag from './components/TTag';
 
 export {
   TInput,
@@ -26,4 +27,5 @@ export {
   TDropdown,
   TRichSelect,
   TPagination,
+  TTag,
 };
