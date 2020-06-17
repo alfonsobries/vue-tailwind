@@ -35,7 +35,11 @@ describe('TDropdown', () => {
   });
 
   it('shows the dropdown when focus', () => {
-    const wrapper = shallowMount(TDropdown);
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnFocus: true,
+      },
+    });
 
     const { button } = wrapper.vm.$refs;
 
@@ -78,6 +82,7 @@ describe('TDropdown', () => {
       propsData: {
         show: true,
         toggleOnFocus: false,
+        toggleOnClick: false,
       },
     });
 
