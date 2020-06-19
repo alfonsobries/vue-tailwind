@@ -115,6 +115,12 @@ const TRichSelect = InputWithOptions.extend({
           optionContent: 'flex justify-between p-2 items-center',
           optionLabel: 'truncate block',
           selectedIcon: 'fill-current h-4 w-4',
+          enterClass: '',
+          enterActiveClass: 'transform opacity-0 transition ease-out duration-100',
+          enterToClass: 'transform opacity-100',
+          leaveClass: 'transition ease-in transform opacity-100',
+          leaveActiveClass: '',
+          leaveToClass: 'transform opacity-0 duration-75',
         };
       },
     },

@@ -341,15 +341,27 @@ export default class TRichSelectRenderer {
     }
 
     return this.createElement(
-      'div',
+      'transition',
       {
-        ref: 'dropdown',
-        class: this.component.getElementCssClass('dropdown'),
-        style: {
-          display: !this.component.show ? 'none' : undefined,
+        props: {
+          enterClass: this.component.getElementCssClass('enterClass'),
+          enterActiveClass: this.component.getElementCssClass('enterActiveClass'),
+          enterToClass: this.component.getElementCssClass('enterToClass'),
+          leaveClass: this.component.getElementCssClass('leaveClass'),
+          leaveActiveClass: this.component.getElementCssClass('leaveActiveClass'),
+          leaveToClass: this.component.getElementCssClass('leaveToClass'),
         },
       },
-      subElements,
+      this.component.show ? [
+        this.createElement(
+          'div',
+          {
+            ref: 'dropdown',
+            class: this.component.getElementCssClass('dropdown'),
+          },
+          subElements,
+        ),
+      ] : undefined,
     );
   }
 
