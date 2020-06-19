@@ -51,8 +51,14 @@ const TDropdown = Component.extend({
         return {
           button: 'p-3',
           wrapper: 'inline-flex flex-col',
-          dropdownWrapper: 'relative',
-          dropdown: 'origin-top-right absolute right-0 z-10 w-56 rounded-md shadow-lg bg-white',
+          dropdownWrapper: 'relative z-10',
+          dropdown: 'origin-top-right absolute right-0 w-56 rounded-md shadow-lg bg-white',
+          enterClass: '',
+          enterActiveClass: 'transform opacity-0 transition ease-out duration-100',
+          enterToClass: 'transform opacity-100',
+          leaveClass: 'transition ease-in transform opacity-100 scale-100',
+          leaveActiveClass: '',
+          leaveToClass: 'transform opacity-0 scale-95 duration-75',
         };
       },
     },
@@ -129,26 +135,38 @@ const TDropdown = Component.extend({
 
       const subElements = [
         triggerSlot,
-        createElement(this.dropdownWrapperTagName, {
-          ref: 'dropdownWrapper',
-          class: this.getElementCssClass('dropdownWrapper'),
-          attrs: {
-            tabindex: -1,
+        createElement(
+          'transition',
+          {
+            props: {
+              enterClass: this.getElementCssClass('enterClass'),
+              enterActiveClass: this.getElementCssClass('enterActiveClass'),
+              enterToClass: this.getElementCssClass('enterToClass'),
+              leaveClass: this.getElementCssClass('leaveClass'),
+              leaveActiveClass: this.getElementCssClass('leaveActiveClass'),
+              leaveToClass: this.getElementCssClass('leaveToClass'),
+            },
           },
-          style: {
-            display: !this.localShow ? 'none' : undefined,
-          },
-          on: {
-            focus: this.focusHandler,
-            blur: this.blurHandler,
-          },
-        }, [
-          createElement(this.dropdownTagName, {
-            ref: 'dropdown',
-            class: this.getElementCssClass('dropdown'),
-          },
-          defaultSlot),
-        ]),
+          this.localShow ? [
+            createElement(this.dropdownWrapperTagName, {
+              ref: 'dropdownWrapper',
+              class: this.getElementCssClass('dropdownWrapper'),
+              attrs: {
+                tabindex: -1,
+              },
+              on: {
+                focus: this.focusHandler,
+                blur: this.blurHandler,
+              },
+            }, [
+              createElement(this.dropdownTagName, {
+                ref: 'dropdown',
+                class: this.getElementCssClass('dropdown'),
+              },
+              defaultSlot),
+            ]),
+          ] : undefined,
+        ),
       ];
 
       return createElement(this.tagName, {
