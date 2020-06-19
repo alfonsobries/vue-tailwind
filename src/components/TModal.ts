@@ -59,6 +59,18 @@ const TModal = Component.extend({
           footer: '',
           close: 'absolute right-0 top-0',
           closeIcon: 'h-5 w-5 fill-current',
+          overlayEnterClass: '',
+          overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
+          overlayEnterToClass: 'opacity-100',
+          overlayLeaveClass: 'transition ease-in opacity-100',
+          overlayLeaveActiveClass: '',
+          overlayLeaveToClass: 'opacity-0 duration-75',
+          enterClass: '',
+          enterActiveClass: '',
+          enterToClass: '',
+          leaveClass: '',
+          leaveActiveClass: '',
+          leaveToClass: '',
         };
       },
     },
@@ -66,7 +78,8 @@ const TModal = Component.extend({
 
   data() {
     return {
-      localShow: this.value,
+      overlayShow: this.value,
+      modalShow: this.value,
       params: undefined,
     };
   },
@@ -82,20 +95,33 @@ const TModal = Component.extend({
 
   watch: {
     value(value) {
-      this.localShow = value;
+      if (value) {
+        this.show();
+      } else {
+        this.hide();
+      }
     },
-    async localShow(shown) {
+    async overlayShow(shown) {
       this.$emit('input', shown);
       this.$emit('change', shown);
 
       if (shown) {
         this.beforeOpen();
         await this.$nextTick();
-        this.opened();
+        this.modalShow = true;
       } else {
-        this.beforeClose();
         await this.$nextTick();
         this.closed();
+      }
+    },
+    async modalShow(shown) {
+      if (!shown) {
+        this.beforeClose();
+        await this.$nextTick();
+        this.overlayShow = false;
+      } else {
+        await this.$nextTick();
+        this.opened();
       }
     },
   },
@@ -127,7 +153,7 @@ const TModal = Component.extend({
   },
 
   mounted() {
-    if (this.localShow) {
+    if (this.overlayShow) {
       this.prepareDomForModal();
     }
   },
@@ -145,26 +171,37 @@ const TModal = Component.extend({
 
   methods: {
     render(createElement: CreateElement) {
-      if (!this.localShow) {
-        return createElement();
-      }
-
       return createElement(
-        'div',
+        'transition',
         {
-          ref: 'overlay',
-          attrs: {
-            tabindex: 0,
-          },
-          class: this.getElementCssClass('overlay'),
-          on: {
-            keyup: this.keyupHandler,
-            click: this.clickHandler,
+          props: {
+            enterClass: this.getElementCssClass('overlayEnterClass'),
+            enterActiveClass: this.getElementCssClass('overlayEnterActiveClass'),
+            enterToClass: this.getElementCssClass('overlayEnterToClass'),
+            leaveClass: this.getElementCssClass('overlayLeaveClass'),
+            leaveActiveClass: this.getElementCssClass('overlayLeaveActiveClass'),
+            leaveToClass: this.getElementCssClass('overlayLeaveToClass'),
           },
         },
-        [
-          this.renderWrapper(createElement),
-        ],
+        this.overlayShow ? [
+          createElement(
+            'div',
+            {
+              ref: 'overlay',
+              attrs: {
+                tabindex: 0,
+              },
+              class: this.getElementCssClass('overlay'),
+              on: {
+                keyup: this.keyupHandler,
+                click: this.clickHandler,
+              },
+            },
+            [
+              this.renderWrapper(createElement),
+            ],
+          ),
+        ] : undefined,
       );
     },
     renderWrapper(createElement: CreateElement) {
@@ -181,12 +218,27 @@ const TModal = Component.extend({
     },
     renderModal(createElement: CreateElement) {
       return createElement(
-        'div',
+        'transition',
         {
-          ref: 'modal',
-          class: this.getElementCssClass('modal'),
+          props: {
+            enterClass: this.getElementCssClass('enterClass'),
+            enterActiveClass: this.getElementCssClass('enterActiveClass'),
+            enterToClass: this.getElementCssClass('enterToClass'),
+            leaveClass: this.getElementCssClass('leaveClass'),
+            leaveActiveClass: this.getElementCssClass('leaveActiveClass'),
+            leaveToClass: this.getElementCssClass('leaveToClass'),
+          },
         },
-        this.renderChilds(createElement),
+        this.modalShow ? [
+          createElement(
+            'div',
+            {
+              ref: 'modal',
+              class: this.getElementCssClass('modal'),
+            },
+            this.renderChilds(createElement),
+          ),
+        ] : undefined,
       );
     },
     renderChilds(createElement: CreateElement) {
@@ -316,11 +368,11 @@ const TModal = Component.extend({
       }
     },
     hide() {
-      this.localShow = false;
+      this.modalShow = false;
     },
     show(params = undefined) {
       this.params = params;
-      this.localShow = true;
+      this.overlayShow = true;
     },
     outsideClick() {
       if (this.clickToClose) {

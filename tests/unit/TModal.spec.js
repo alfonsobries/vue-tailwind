@@ -6,7 +6,7 @@ describe('TModal', () => {
   it('it not renders the modal by default', () => {
     const wrapper = shallowMount(TModal);
 
-    expect(wrapper.vm.$el.innerHTML).toBeUndefined();
+    expect(wrapper.vm.$el.innerHTML).toBe('');
   });
 
   it('if the value is true it renders the modal', () => {
@@ -28,7 +28,8 @@ describe('TModal', () => {
 
     wrapper.find('button').trigger('click');
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$el.innerHTML).toBeUndefined();
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$el.innerHTML).toBe('');
   });
 
   it('closes the modal of user clicks the overlay', async () => {
@@ -40,7 +41,8 @@ describe('TModal', () => {
 
     wrapper.vm.$refs.overlay.click();
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$el.innerHTML).toBeUndefined();
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$el.innerHTML).toBe('');
   });
 
   it('not closes the modal of user clicks the overlay according to setting', async () => {
@@ -73,6 +75,7 @@ describe('TModal', () => {
     expect(wrapper.emitted('closed')).toBeFalsy();
 
     await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
     expect(wrapper.emitted('closed')).toBeTruthy();
     expect(wrapper.emitted('closed').length).toBe(1);
   });
@@ -87,6 +90,7 @@ describe('TModal', () => {
     expect(wrapper.emitted('before-open').length).toBe(1);
 
     expect(wrapper.emitted('opened')).toBeFalsy();
+    await wrapper.vm.$nextTick();
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted('opened')).toBeTruthy();
     expect(wrapper.emitted('opened').length).toBe(1);
@@ -180,7 +184,7 @@ describe('TModal', () => {
     // called from the modal but can be called from everywhere
     wrapper.vm.$modal.hide('modal-name');
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.$el.innerHTML).toBeUndefined();
+    expect(wrapper.vm.$el.innerHTML).toBe('');
   });
 
   it('the modal handles parameters in the before-open method', async () => {

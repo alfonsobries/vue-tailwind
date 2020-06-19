@@ -444,6 +444,18 @@ Vue.use(VueTailwind, {
       footer: 'p-4 border-t',
       close: 'absolute right-0-top-0 whitespace-no-wrap font-medium text-blue-700 hover:text-blue-600',
       closeIcon: 'h-5 w-5 fill-current',
+      overlayEnterClass: '',
+      overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
+      overlayEnterToClass: 'opacity-100',
+      overlayLeaveClass: 'transition ease-in opacity-100',
+      overlayLeaveActiveClass: '',
+      overlayLeaveToClass: 'opacity-0 duration-75',
+      enterClass: '',
+      enterActiveClass: '',
+      enterToClass: '',
+      leaveClass: '',
+      leaveActiveClass: '',
+      leaveToClass: '',
     },
     variants: {
       error: {

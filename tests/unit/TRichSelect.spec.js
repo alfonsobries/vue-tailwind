@@ -13,9 +13,9 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.buttonWrapper).toBeTruthy();
   });
 
-  it('has a hidden style by default ', () => {
+  it('hides the dropdown by default ', () => {
     const wrapper = shallowMount(TRichSelect);
-    expect(wrapper.vm.$refs.dropdown.style.display).toBe('none');
+    expect(wrapper.vm.$refs.dropdown).toBeFalsy();
   });
 
   it('opens the dropdown when the button is clicked', async () => {
@@ -119,6 +119,10 @@ describe('TRichSelect', () => {
         options: ['A', 'B'],
       },
     });
+
+    wrapper.vm.$refs.selectButton.click();
+    await wrapper.vm.$nextTick();
+
     expect(wrapper.vm.$refs.optionsList.style.maxHeight).toBe('100px');
   });
 
@@ -129,14 +133,21 @@ describe('TRichSelect', () => {
         options: ['A', 'B'],
       },
     });
+
+    wrapper.vm.$refs.selectButton.click();
+    await wrapper.vm.$nextTick();
+
     expect(wrapper.vm.$refs.optionsList.style.maxHeight).toBe('3em');
   });
 
-  it('renders the select options', () => {
+  it('renders the select options', async () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options },
     });
+
+    wrapper.vm.$refs.selectButton.click();
+    await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$refs.optionsList.children.length).toBe(3);
   });
@@ -310,7 +321,7 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.highlighted).toBe(1);
   });
 
-  it('render the select optgroups', () => {
+  it('render the select optgroups', async () => {
     const options = [
       { value: 'alone', text: 'no parent :(' },
       {
@@ -333,6 +344,9 @@ describe('TRichSelect', () => {
     const wrapper = shallowMount(TRichSelect, {
       propsData: { options },
     });
+
+    wrapper.vm.$refs.selectButton.click();
+    await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$refs.optionsList.querySelectorAll('li[data-type=option]').length).toBe(6);
 
@@ -675,6 +689,7 @@ describe('TRichSelect', () => {
     });
 
     wrapper.vm.focus();
+    await wrapper.vm.$nextTick();
 
     const { searchBox } = wrapper.vm.$refs;
 
