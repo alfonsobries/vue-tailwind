@@ -8,6 +8,10 @@ const Component = Vue.extend({
       type: [String, Object],
       default: undefined,
     },
+    fixedClasses: {
+      type: [String, Array, Object],
+      default: undefined,
+    },
     classes: {
       type: [String, Array, Object],
       default: undefined,
@@ -37,28 +41,45 @@ const Component = Vue.extend({
   },
 
   methods: {
+
     getElementCssClass(elementName?: string): CssClass {
+      let classes;
+
       if (elementName) {
         if (this.activeVariant) {
           const elementVariant = get(this.variants, `${this.activeVariant}.${elementName}`);
           // If the variant exists but not for the element fallback to the default
           if (elementVariant === undefined
               && get(this.variants, this.activeVariant) !== undefined) {
-            return get(this.classes, elementName);
+            classes = get(this.classes, elementName);
+          } else {
+            classes = elementVariant;
           }
-          return elementVariant;
+        } else {
+          classes = get(this.classes, elementName);
         }
 
-        return get(this.classes, elementName);
+        const fixedClasses = get(this.fixedClasses, elementName);
+
+        if (fixedClasses) {
+          return [fixedClasses, classes];
+        }
+
+        return classes;
       }
 
 
       if (this.activeVariant) {
-        return get(this.variants, this.activeVariant);
+        classes = get(this.variants, this.activeVariant);
+      } else {
+        classes = this.classes;
       }
 
+      if (this.fixedClasses) {
+        return [this.fixedClasses, classes];
+      }
 
-      return this.classes;
+      return classes;
     },
   },
 });
