@@ -7,9 +7,17 @@ import ComponentSettings from '@/types/ComponentSettings';
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(args: ComponentSettings): CustomProps {
   const compnentVariants: CssClasses = args && args.variants ? args.variants : undefined;
   const componentClasses: CssClasses = args && args.classes ? args.classes : undefined;
+  const componentFixedClasses: CssClasses = args && args.fixedClasses ? args.fixedClasses : undefined;
   const wrapped: boolean | undefined = args && args.wrapped ? args.wrapped : undefined;
 
   const customProps: CustomProps = {};
+
+  if (componentFixedClasses !== undefined) {
+    customProps.fixedClasses = {
+      type: [String, Array, Object],
+      default: () => componentFixedClasses,
+    };
+  }
 
   if (componentClasses !== undefined) {
     customProps.variants = {
