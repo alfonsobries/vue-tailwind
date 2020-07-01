@@ -4,20 +4,20 @@ import get from 'lodash/get';
 
 const Component = Vue.extend({
   props: {
-    variant: {
-      type: [String, Object],
+    classes: {
+      type: [String, Array, Object],
       default: undefined,
     },
     fixedClasses: {
       type: [String, Array, Object],
       default: undefined,
     },
-    classes: {
-      type: [String, Array, Object],
-      default: undefined,
-    },
     variants: {
       type: Object,
+      default: undefined,
+    },
+    variant: {
+      type: [String, Object],
       default: undefined,
     },
   },
@@ -41,7 +41,6 @@ const Component = Vue.extend({
   },
 
   methods: {
-
     getElementCssClass(elementName?: string): CssClass {
       let classes;
 

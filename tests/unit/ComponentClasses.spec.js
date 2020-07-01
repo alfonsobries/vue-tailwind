@@ -33,6 +33,51 @@ describe('ComponentClasses', () => {
     expect(wrapper.vm.$el.className).toBe('bg-blue-100');
   });
 
+  it('will return the classes for an element in a collection of classes', () => {
+    const wrapper = shallowMount(TAlert, {
+      propsData: {
+        show: true,
+        classes: {
+          wrapper: 'wharever',
+          body: 'text-blue-500',
+          close: 'border',
+          closeIcon: 'wharever',
+        },
+      },
+    });
+
+    const { className } = wrapper.vm.$refs.body;
+
+    expect(className).toBe('text-blue-500');
+  });
+
+  it('will return the active variant classes for collection of classes', () => {
+    const wrapper = shallowMount(TAlert, {
+      propsData: {
+        show: true,
+        classes: {
+          wrapper: 'wharever',
+          body: 'text-blue-500',
+          close: 'border',
+          closeIcon: 'wharever',
+        },
+        variants: {
+          error: {
+            wrapper: 'wharever',
+            body: 'text-red-500',
+            close: 'border-red-500',
+            closeIcon: 'wharever',
+          },
+        },
+        variant: 'error',
+      },
+    });
+
+    const { className } = wrapper.vm.$refs.body;
+
+    expect(className).toBe('text-red-500');
+  });
+
   it('switch active variant and default classes', async () => {
     const wrapper = shallowMount(TInput, {
       propsData: {
@@ -226,7 +271,7 @@ describe('ComponentClasses', () => {
     expect(className2).toBe('border');
   });
 
-  it('will include both fixed and active variant classes always for collection of classes ', () => {
+  it('will include both fixed and active variant classes always for collection of classes', () => {
     const wrapper = shallowMount(TAlert, {
       propsData: {
         show: true,
