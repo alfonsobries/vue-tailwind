@@ -34,13 +34,12 @@ const TSelect = MultipleInput.extend({
       }
 
       const { normalizedOptions } = this;
-
-      normalizedOptions.unshift({
+      const placeholder: NormalizedOptions = [{
         value: null,
         text: this.placeholder,
-      });
+      }];
 
-      return normalizedOptions;
+      return placeholder.concat(normalizedOptions);
     },
   },
 
