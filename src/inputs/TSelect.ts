@@ -79,6 +79,7 @@ const TSelect = MultipleInput.extend({
           const arrowWrapper = this.$scopedSlots.arrowWrapper({
             className: this.getElementCssClass('arrowWrapper'),
             variant: this.variant,
+            value: this.localValue,
           }) as VNode[];
           children.push(arrowWrapper);
         } else {
@@ -103,6 +104,7 @@ const TSelect = MultipleInput.extend({
           this.$scopedSlots.arrow({
             className: this.getElementCssClass('arrow'),
             variant: this.variant,
+            value: this.localValue,
           }),
         );
       } else {
