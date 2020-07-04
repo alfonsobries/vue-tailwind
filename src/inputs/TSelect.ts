@@ -70,12 +70,20 @@ const TSelect = MultipleInput.extend({
 
   methods: {
     createSelectWrapper(createElement: CreateElement) {
-      const children: VNode[] = [
+      const children: (VNode | VNode[])[] = [
         this.createSelect(createElement),
       ];
 
       if (!this.multiple) {
-        children.push(this.createArrow(createElement));
+        if (this.$scopedSlots.arrowWrapper) {
+          const arrowWrapper = this.$scopedSlots.arrowWrapper({
+            className: this.getElementCssClass('arrowWrapper'),
+            variant: this.variant,
+          }) as VNode[];
+          children.push(arrowWrapper);
+        } else {
+          children.push(this.createArrow(createElement));
+        }
       }
 
       return createElement(
@@ -88,13 +96,17 @@ const TSelect = MultipleInput.extend({
       );
     },
     createArrow(createElement: CreateElement) {
-      return createElement(
-        'span',
-        {
-          ref: 'arrow',
-          class: this.getElementCssClass('arrowWrapper'),
-        },
-        [
+      const subElements = [];
+
+      if (this.$scopedSlots.arrow) {
+        subElements.push(
+          this.$scopedSlots.arrow({
+            className: this.getElementCssClass('arrow'),
+            variant: this.variant,
+          }),
+        );
+      } else {
+        subElements.push(
           createElement(
             'svg',
             {
@@ -115,7 +127,16 @@ const TSelect = MultipleInput.extend({
               }),
             ],
           ),
-        ],
+        );
+      }
+
+      return createElement(
+        'span',
+        {
+          ref: 'arrow',
+          class: this.getElementCssClass('arrowWrapper'),
+        },
+        subElements,
       );
     },
     createSelect(createElement: CreateElement) {

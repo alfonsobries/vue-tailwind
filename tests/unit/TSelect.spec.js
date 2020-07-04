@@ -449,4 +449,53 @@ describe('TSelect', () => {
 
     expect(wrapper.emitted('blur').length).toBe(1);
   });
+
+  it('renders the select tag by default ', () => {
+    const wrapper = shallowMount(TSelect);
+    expect(wrapper.vm.$el.tagName).toBe('SELECT');
+  });
+
+  it('renders the a div, icon and the select tag when wrapped', () => {
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        wrapped: true,
+      },
+    });
+    const htmlWrapper = wrapper.vm.$el;
+    const select = htmlWrapper.children[0];
+    const arrowWrapper = htmlWrapper.children[1];
+
+    expect(htmlWrapper.tagName).toBe('DIV');
+    expect(select.tagName).toBe('SELECT');
+    expect(arrowWrapper.tagName).toBe('SPAN');
+    expect(arrowWrapper.children[0].tagName).toBe('svg');
+  });
+
+  it('renders wharever i send to the arrowWrapper slot', () => {
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        wrapped: true,
+      },
+      scopedSlots: {
+        arrowWrapper: '<strong>wharever</strong>',
+      },
+    });
+
+    const arrowWrapper = wrapper.vm.$el.children[1];
+    expect(arrowWrapper.outerHTML).toBe('<strong>wharever</strong>');
+  });
+
+  it('renders wharever i send to the arrow slot', () => {
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        wrapped: true,
+      },
+      scopedSlots: {
+        arrow: '<i class="icon icon-chevron"></i>',
+      },
+    });
+
+    const arrow = wrapper.vm.$el.children[1].children[0];
+    expect(arrow.outerHTML).toBe('<i class="icon icon-chevron"></i>');
+  });
 });
