@@ -186,14 +186,14 @@ export default {
       };
     },
     normalizedWidth() {
-      if (Number.isNaN(this.width)) {
+      if (! isNaN(this.width)) {
         return `${this.width}px`;
       }
 
       return this.width;
     },
     normalizedHeight() {
-      if (Number.isNaN(this.height)) {
+      if (! isNaN(this.height)) {
         return `${this.height}px`;
       }
 
