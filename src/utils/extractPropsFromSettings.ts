@@ -1,9 +1,9 @@
+/* eslint-disable max-len */
 import CssClasses from '@/types/CssClasses';
 import LibrarySettings from '@/types/LibrarySettings';
 import CustomProps from '@/types/CustomProps';
 import ComponentSettings from '@/types/ComponentSettings';
 
-// eslint-disable-next-line max-len
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(args: ComponentSettings): CustomProps {
   const compnentVariants: CssClasses = args && args.variants ? args.variants : undefined;
   const componentClasses: CssClasses = args && args.classes ? args.classes : undefined;
@@ -47,7 +47,6 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
   return undefined;
 };
 
-// eslint-disable-next-line max-len
 const extractPropsFromLibrarySettings = function extractPropsFromSettings(args: LibrarySettings, componentName: string): CustomProps {
   if (args && args[componentName]) {
     return extractPropsFromComponentSettings(args[componentName]);
