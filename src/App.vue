@@ -244,6 +244,38 @@
     </label>
 
 
+    <div class="flex mx-2">
+      <t-radio
+        v-model="wrappedRadioValue"
+        label="option 1"
+        wrapped
+        value="1"
+        name="wrapped"
+        :classes="{
+          wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
+          wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner',
+          label: 'text-white text-sm',
+          labelChecked: 'text-white text-sm underline',
+          input: 'absolute '
+        }"
+      />
+
+      <t-radio
+        v-model="wrappedRadioValue"
+        label="option 2"
+        wrapped
+        value="2"
+        name="wrapped"
+        :classes="{
+          wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
+          wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner',
+          label: 'text-white text-sm',
+          labelChecked: 'text-white text-sm underline',
+          input: 'absolute '
+        }"
+      />
+    </div>
+
     <t-textarea
       :variant="{
         'default': activeVariant,
@@ -595,6 +627,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      wrappedRadioValue: '2',
       repositories: [] as string[],
       repository: null as null | string,
       showModal: false,
