@@ -8,6 +8,10 @@ const TButton = HtmlInput.extend({
       type: [String, Number],
       default: null,
     },
+    text: {
+      type: String,
+      default: undefined,
+    },
     tagName: {
       type: String,
       default: 'button',
@@ -217,7 +221,7 @@ const TButton = HtmlInput.extend({
             mousedown: this.mousedownHandler,
           },
         },
-        this.$slots.default,
+        this.text === undefined ? this.$slots.default : this.text,
       );
     },
   },

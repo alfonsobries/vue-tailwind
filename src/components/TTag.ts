@@ -7,7 +7,7 @@ const TTag = Component.extend({
   props: {
     text: {
       type: String,
-      default: '',
+      default: undefined,
     },
     tagName: {
       type: String,
@@ -27,7 +27,7 @@ const TTag = Component.extend({
         {
           class: this.getElementCssClass(),
         },
-        this.$slots.default || this.text,
+        this.text === undefined ? this.$slots.default : this.text,
       );
     },
   },

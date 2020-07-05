@@ -109,7 +109,7 @@ const TRadio = HtmlInput.extend({
           ref: 'label',
           class: this.elementChecked ? checkedLabelClass : labelClass,
         },
-        this.label,
+        this.label === undefined ? this.$slots.default : this.label,
       ));
 
       const wrapperClass: CssClass = this.getElementCssClass('wrapper');
@@ -149,7 +149,6 @@ const TRadio = HtmlInput.extend({
         },
       });
     },
-
 
     async inputHandler(e: Event) {
       const target = (e.target as HTMLInputElement);
