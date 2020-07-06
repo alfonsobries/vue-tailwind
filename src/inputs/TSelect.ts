@@ -29,7 +29,7 @@ const TSelect = MultipleInput.extend({
 
   computed: {
     normalizedOptionsWithPlaceholder(): NormalizedOptions {
-      if (typeof this.placeholder === 'undefined') {
+      if (this.placeholder === undefined) {
         return this.normalizedOptions;
       }
 

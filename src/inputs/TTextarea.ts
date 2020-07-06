@@ -57,7 +57,7 @@ const TTextarea = TextInput.extend({
           keydown: this.keydownHandler,
           input: this.inputHandler,
         },
-      });
+      }, this.value ? String(this.value) : '');
     },
 
     inputHandler(e: Event) {
