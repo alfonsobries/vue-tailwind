@@ -2,6 +2,39 @@ import Vue from 'vue';
 import CssClass from '@/types/CssClass';
 import get from 'lodash/get';
 
+const mergeClasses = (classesA: CssClass, classesB: CssClass): CssClass => {
+  let a = classesA;
+  let b = classesB;
+
+  // Convert array of string classes to a single string
+  if (Array.isArray(classesA) && classesA.every((className) => typeof className === 'string' || !!className)) {
+    a = classesA.filter((className) => !!className).join(' ');
+  }
+
+  // Convert array of string classes to a single string
+  if (Array.isArray(classesB) && classesB.every((className) => typeof className === 'string' || !!className)) {
+    b = classesB.filter((className) => !!className).join(' ');
+  }
+
+  if (typeof a === 'string' && typeof b === 'string') {
+    return `${a} ${b}`;
+  }
+
+  if (typeof a === 'string' && Array.isArray(b)) {
+    return [a].concat(b);
+  }
+
+  if (typeof b === 'string' && Array.isArray(a)) {
+    return a.concat([b]);
+  }
+
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return a.concat(b);
+  }
+
+  return [a, b];
+};
+
 const Component = Vue.extend({
   props: {
     classes: {
@@ -64,7 +97,7 @@ const Component = Vue.extend({
         const fixedClasses = get(this.fixedClasses, elementName);
 
         if (fixedClasses) {
-          return [fixedClasses, classes];
+          return mergeClasses(fixedClasses, classes);
         }
 
         return classes;
@@ -77,7 +110,7 @@ const Component = Vue.extend({
       }
 
       if (this.fixedClasses) {
-        return [this.fixedClasses, classes];
+        return mergeClasses(this.fixedClasses, classes);
       }
 
       return classes;

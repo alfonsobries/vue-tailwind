@@ -302,4 +302,48 @@ describe('ComponentClasses', () => {
     expect(className.split(' ').sort()).toEqual(['text-red-500', 'transition']);
     expect(className2).toBe('border-red-500');
   });
+
+  it('will merge fixed class string to classes string as a string ', () => {
+    const wrapper = shallowMount(TInput, {
+      propsData: {
+        fixedClasses: 'transition',
+        classes: 'bg-red-200',
+      },
+    });
+
+    expect(wrapper.vm.getElementCssClass()).toBe('transition bg-red-200');
+  });
+
+  it('will convert an array of strings into a single string', () => {
+    const wrapper = shallowMount(TInput, {
+      propsData: {
+        fixedClasses: 'transition',
+        classes: ['bg-red-200'],
+      },
+    });
+
+    expect(wrapper.vm.getElementCssClass()).toBe('transition bg-red-200');
+  });
+
+  it('will convert an array of strings into a single string B', () => {
+    const wrapper = shallowMount(TInput, {
+      propsData: {
+        fixedClasses: ['transition'],
+        classes: 'bg-red-200',
+      },
+    });
+
+    expect(wrapper.vm.getElementCssClass()).toBe('transition bg-red-200');
+  });
+
+  it('will convert an array of strings into a single string C', () => {
+    const wrapper = shallowMount(TInput, {
+      propsData: {
+        fixedClasses: ['transition'],
+        classes: ['bg-red-200'],
+      },
+    });
+
+    expect(wrapper.vm.getElementCssClass()).toBe('transition bg-red-200');
+  });
 });
