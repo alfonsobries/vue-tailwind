@@ -38,6 +38,10 @@ const TRadio = HtmlInput.extend({
       type: String,
       default: 'label',
     },
+    inputWrapperTag: {
+      type: String,
+      default: 'span',
+    },
     labelTag: {
       type: String,
       default: 'span',
@@ -94,8 +98,24 @@ const TRadio = HtmlInput.extend({
   methods: {
     renderWrapped(createElement: CreateElement) {
       const childElements: VNode[] = [];
+      const input = this.render(createElement);
 
-      childElements.push(this.render(createElement));
+      const inputWrapperClass: CssClass = this.getElementCssClass('inputWrapper');
+      const checkedInputWrapperClass: CssClass = this.getElementCssClass(
+        'inputWrapperChecked',
+        this.getElementCssClass('inputWrapper'),
+      );
+
+      childElements.push(createElement(
+        this.inputWrapperTag,
+        {
+          ref: 'inputWrapper',
+          class: this.elementChecked ? checkedInputWrapperClass : inputWrapperClass,
+        },
+        [
+          input,
+        ],
+      ));
 
       const labelClass: CssClass = this.getElementCssClass('label');
       const checkedLabelClass: CssClass = this.getElementCssClass(
@@ -123,6 +143,25 @@ const TRadio = HtmlInput.extend({
         {
           ref: 'wrapper',
           class: this.elementChecked ? checkedWrapperClass : wrapperClass,
+          attrs: {
+            to: this.id,
+            tabindex: this.tabindex,
+            autofocus: this.autofocus,
+          },
+          on: {
+            keydown: (e: KeyboardEvent) => {
+              // Down & right
+              if ([39, 40].includes(e.keyCode)) {
+                this.selectNextRadio(e);
+              // Up & left
+              } else if ([37, 38].includes(e.keyCode)) {
+                this.selectPrevRadio(e);
+              // Space
+              } else if (e.keyCode === 32) {
+                this.wrapperSpaceHandler(e);
+              }
+            },
+          },
         },
         childElements,
       );
@@ -139,8 +178,9 @@ const TRadio = HtmlInput.extend({
           name: this.name,
           disabled: this.disabled,
           readonly: this.readonly,
-          autofocus: this.autofocus,
           required: this.required,
+          autofocus: !this.wrapped ? this.autofocus : undefined,
+          tabindex: this.wrapped && this.tabindex !== undefined ? -1 : this.tabindex,
         },
         on: {
           blur: this.blurHandler,
@@ -175,6 +215,50 @@ const TRadio = HtmlInput.extend({
       });
     },
 
+    selectPrevRadio(e: KeyboardEvent) {
+      e.preventDefault();
+      const currentEl = this.$refs.input;
+      const els: HTMLInputElement[] = Array
+        .from(document.querySelectorAll(`input[name=${this.name}]`));
+      const currentElementIndex = els
+        .findIndex((radioInput) => radioInput === this.$refs.input);
+      const prevElement: HTMLInputElement = els[currentElementIndex - 1] || els[els.length - 1];
+
+      if (prevElement !== currentEl && prevElement) {
+        const wrapper = prevElement.parentNode ? prevElement.parentNode.parentNode : undefined;
+        if (wrapper && (wrapper as HTMLElement).tabIndex >= 0) {
+          (wrapper as HTMLElement).focus();
+        } else {
+          prevElement.focus();
+        }
+      }
+    },
+
+    selectNextRadio(e: KeyboardEvent) {
+      e.preventDefault();
+
+      const currentEl = this.$refs.input;
+      const els: HTMLInputElement[] = Array
+        .from(document.querySelectorAll(`input[name=${this.name}]`));
+      const currentElementIndex = els
+        .findIndex((radioInput) => radioInput === this.$refs.input);
+      const nextElement: HTMLInputElement = els[currentElementIndex + 1] || els[0];
+
+      if (nextElement !== currentEl && nextElement) {
+        const wrapper = nextElement.parentNode ? nextElement.parentNode.parentNode : undefined;
+        if (wrapper && (wrapper as HTMLElement).tabIndex >= 0) {
+          (wrapper as HTMLElement).focus();
+        } else {
+          nextElement.focus();
+        }
+      }
+    },
+
+    wrapperSpaceHandler(e: KeyboardEvent) {
+      e.preventDefault();
+      this.click();
+    },
+
     blurHandler(e: FocusEvent) {
       this.$emit('blur', e);
     },
@@ -183,17 +267,16 @@ const TRadio = HtmlInput.extend({
       this.$emit('focus', e);
     },
 
-
     blur() {
-      (this.$el as HTMLInputElement).blur();
+      (this.$refs.input as HTMLInputElement).blur();
     },
 
     click() {
-      (this.$el as HTMLInputElement).click();
+      (this.$refs.input as HTMLInputElement).click();
     },
 
     focus(options?: FocusOptions | undefined) {
-      (this.$el as HTMLInputElement).focus(options);
+      (this.$refs.input as HTMLInputElement).focus(options);
     },
   },
 });
