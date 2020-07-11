@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 <template>
   <t-card
     id="app"
@@ -252,15 +253,7 @@
         value="1"
         tabindex="0"
         name="wrapped"
-        :classes="{
-          wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
-          wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner',
-          inputWrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
-          inputWrapperChecked: 'p-2 bg-red-600 rounded cursor-pointer shadow-inner',
-          label: 'text-white text-sm',
-          labelChecked: 'text-white text-sm underline',
-          input: ' hidden '
-        }"
+        variant="wrapped"
       />
 
       <t-radio
@@ -270,13 +263,7 @@
         value="2"
         tabindex="0"
         name="wrapped"
-        :classes="{
-          wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
-          wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner',
-          label: 'text-white text-sm',
-          labelChecked: 'text-white text-sm underline',
-          input: 'hidden'
-        }"
+        variant="wrapped"
       />
     </div>
 
@@ -611,6 +598,15 @@ Vue.use(VueTailwind, {
     variants: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
+      wrapped: {
+        wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow flex',
+        wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner flex',
+        inputWrapper: 'border-2 border-blue-300 rounded-full bg-blue-200 w-4 h-4 block  mr-2',
+        inputWrapperChecked: 'border-2 border-blue-700 rounded-full bg-blue-600 w-4 h-4 block mr-2',
+        label: 'text-white text-sm',
+        labelChecked: 'text-white text-sm underline',
+        input: ' hidden ',
+      },
     },
   },
   TCheckbox: {
