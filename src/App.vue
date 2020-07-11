@@ -250,13 +250,16 @@
         label="option 1"
         wrapped
         value="1"
+        tabindex="0"
         name="wrapped"
         :classes="{
           wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
           wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner',
+          inputWrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
+          inputWrapperChecked: 'p-2 bg-red-600 rounded cursor-pointer shadow-inner',
           label: 'text-white text-sm',
           labelChecked: 'text-white text-sm underline',
-          input: 'absolute '
+          input: ' hidden '
         }"
       />
 
@@ -265,13 +268,14 @@
         label="option 2"
         wrapped
         value="2"
+        tabindex="0"
         name="wrapped"
         :classes="{
           wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow',
           wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner',
           label: 'text-white text-sm',
           labelChecked: 'text-white text-sm underline',
-          input: 'absolute '
+          input: 'hidden'
         }"
       />
     </div>
