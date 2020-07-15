@@ -247,7 +247,7 @@
 
     <div class="flex mx-2">
       <t-radio
-        v-model="wrappedRadioValue"
+        v-model="wrappedCheckboxValue"
         label="option 1"
         wrapped
         value="1"
@@ -257,7 +257,7 @@
       />
 
       <t-radio
-        v-model="wrappedRadioValue"
+        v-model="wrappedCheckboxValue"
         label="option 2"
         wrapped
         value="2"
@@ -331,6 +331,18 @@
         {{ variantValue }}
       </span>
     </label>
+
+    <t-checkbox
+      v-for="variantValue in variants"
+      :key="`check-${variantValue}`"
+      v-model="multipleVariants"
+      :value="variantValue"
+      name="variant"
+      :label="variantValue"
+      wrapped
+      tabindex="0"
+      variant="wrapped"
+    />
 
     <t-button>Hello world</t-button>
 
@@ -614,6 +626,15 @@ Vue.use(VueTailwind, {
     variants: {
       default: 'border block rounded bg-white p-3',
       error: 'border block rounded bg-red-500 text-white p-3',
+      wrapped: {
+        wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow flex',
+        wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner flex',
+        inputWrapper: 'hidden',
+        inputWrapperChecked: 'hidden',
+        label: 'text-white text-sm',
+        labelChecked: 'text-white text-sm underline',
+        input: ' hidden ',
+      },
     },
   },
 });
@@ -628,6 +649,7 @@ export default Vue.extend({
   data() {
     return {
       wrappedRadioValue: '2',
+      wrappedCheckboxValue: ['2'],
       repositories: [] as string[],
       repository: null as null | string,
       showModal: false,
