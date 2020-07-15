@@ -1,5 +1,6 @@
 import { CreateElement, VNode } from 'vue';
 import HtmlInput from '@/base/HtmlInput';
+import CssClass from '@/types/CssClass';
 
 const TCheckbox = HtmlInput.extend({
   name: 'TCheckbox',
@@ -30,6 +31,26 @@ const TCheckbox = HtmlInput.extend({
       type: [String, Array, Object],
       default: 'form-checkbox',
     },
+    wrapped: {
+      type: Boolean,
+      default: false,
+    },
+    wrapperTag: {
+      type: String,
+      default: 'label',
+    },
+    inputWrapperTag: {
+      type: String,
+      default: 'span',
+    },
+    labelTag: {
+      type: String,
+      default: 'span',
+    },
+    label: {
+      type: String,
+      default: undefined,
+    },
   },
 
   data() {
@@ -45,6 +66,14 @@ const TCheckbox = HtmlInput.extend({
 
   render(createElement) {
     const renderFun: (createElement: CreateElement) => VNode = this.render;
+
+    // eslint-disable-next-line max-len
+    const createWrappedFunc: (createElement: CreateElement) => VNode = this.renderWrapped;
+
+    if (this.wrapped) {
+      return createWrappedFunc(createElement);
+    }
+
     return renderFun(createElement);
   },
 
@@ -69,7 +98,7 @@ const TCheckbox = HtmlInput.extend({
 
   watch: {
     isChecked(isChecked) {
-      const input = this.$el as HTMLInputElement;
+      const input = this.$refs.input as HTMLInputElement;
       if (input.checked !== isChecked) {
         input.checked = isChecked;
       }
@@ -83,6 +112,71 @@ const TCheckbox = HtmlInput.extend({
   },
 
   methods: {
+    renderWrapped(createElement: CreateElement) {
+      const childElements: VNode[] = [];
+      const input = this.render(createElement);
+
+      const inputWrapperClass: CssClass = this.getElementCssClass('inputWrapper');
+      const checkedInputWrapperClass: CssClass = this.getElementCssClass(
+        'inputWrapperChecked',
+        this.getElementCssClass('inputWrapper'),
+      );
+
+      childElements.push(createElement(
+        this.inputWrapperTag,
+        {
+          ref: 'inputWrapper',
+          class: this.isChecked ? checkedInputWrapperClass : inputWrapperClass,
+        },
+        [
+          input,
+        ],
+      ));
+
+      const labelClass: CssClass = this.getElementCssClass('label');
+      const checkedLabelClass: CssClass = this.getElementCssClass(
+        'labelChecked',
+        this.getElementCssClass('label'),
+      );
+
+      childElements.push(createElement(
+        this.labelTag,
+        {
+          ref: 'label',
+          class: this.isChecked ? checkedLabelClass : labelClass,
+        },
+        this.label === undefined ? this.$slots.default : this.label,
+      ));
+
+      const wrapperClass: CssClass = this.getElementCssClass('wrapper');
+      const checkedWrapperClass: CssClass = this.getElementCssClass(
+        'wrapperChecked',
+        this.getElementCssClass('wrapper'),
+      );
+
+      return createElement(
+        this.wrapperTag,
+        {
+          ref: 'wrapper',
+          class: this.isChecked ? checkedWrapperClass : wrapperClass,
+          attrs: {
+            to: this.id,
+            tabindex: this.tabindex,
+            autofocus: this.autofocus,
+          },
+          on: {
+            keydown: (e: KeyboardEvent) => {
+              // Space
+              if (e.keyCode === 32) {
+                this.wrapperSpaceHandler(e);
+              }
+            },
+          },
+        },
+        childElements,
+      );
+    },
+
     render(createElement: CreateElement): VNode {
       return createElement('input', {
         class: this.componentClass,
@@ -106,8 +200,14 @@ const TCheckbox = HtmlInput.extend({
       });
     },
 
+
+    wrapperSpaceHandler(e: KeyboardEvent) {
+      e.preventDefault();
+      this.click();
+    },
+
     setIndeterminate(indeterminate: boolean) {
-      const input = this.$el as HTMLInputElement;
+      const input = this.$refs.input as HTMLInputElement;
 
       input.indeterminate = indeterminate;
 
@@ -116,7 +216,7 @@ const TCheckbox = HtmlInput.extend({
     },
 
     setChecked(checked: boolean) {
-      const input = this.$el as HTMLInputElement;
+      const input = this.$refs.input as HTMLInputElement;
 
       // this.localValue = checked;
       input.checked = !checked;
@@ -158,15 +258,15 @@ const TCheckbox = HtmlInput.extend({
     },
 
     blur() {
-      (this.$el as HTMLInputElement).blur();
+      (this.$refs.input as HTMLInputElement).blur();
     },
 
     click() {
-      (this.$el as HTMLInputElement).click();
+      (this.$refs.input as HTMLInputElement).click();
     },
 
     focus(options?: FocusOptions | undefined) {
-      (this.$el as HTMLInputElement).focus(options);
+      (this.$refs.input as HTMLInputElement).focus(options);
     },
   },
 });
