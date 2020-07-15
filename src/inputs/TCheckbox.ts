@@ -179,7 +179,7 @@ const TCheckbox = HtmlInput.extend({
 
     render(createElement: CreateElement): VNode {
       return createElement('input', {
-        class: this.componentClass,
+        class: this.wrapped ? this.getElementCssClass('input') : this.componentClass,
         ref: 'input',
         attrs: {
           checked: this.isChecked,
@@ -189,8 +189,8 @@ const TCheckbox = HtmlInput.extend({
           name: this.name,
           disabled: this.disabled,
           readonly: this.readonly,
-          autofocus: this.autofocus,
-          required: this.required,
+          autofocus: !this.wrapped ? this.autofocus : undefined,
+          tabindex: this.wrapped && this.tabindex !== undefined ? -1 : this.tabindex,
         },
         on: {
           blur: this.blurHandler,
