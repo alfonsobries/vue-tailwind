@@ -27,14 +27,6 @@ const TButton = HtmlInput.extend({
       type: String,
       default: null,
     },
-    max: {
-      type: [String, Number],
-      default: undefined,
-    },
-    min: {
-      type: [String, Number],
-      default: undefined,
-    },
     method: {
       type: String,
       default: undefined,
@@ -98,7 +90,7 @@ const TButton = HtmlInput.extend({
     },
     /**
      * If we have the `href` defined and the InertiaLink component is available
-     * we can use it to create an interia link
+     * we can use it to create an inertia link
      *
      * @return {Boolean}
      */
