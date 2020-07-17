@@ -76,7 +76,7 @@ const Component = Vue.extend({
   methods: {
     getElementCssClass(
       elementName?: string,
-      defaultClasses: CssClass | undefined = undefined,
+      defaultClasses: CssClass = '',
     ): CssClass {
       let classes;
 

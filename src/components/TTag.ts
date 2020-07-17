@@ -25,7 +25,7 @@ const TTag = Component.extend({
       return createElement(
         this.tagName,
         {
-          class: this.getElementCssClass(),
+          class: this.componentClass,
         },
         this.text === undefined ? this.$slots.default : this.text,
       );
