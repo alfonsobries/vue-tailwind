@@ -13,6 +13,7 @@ import TDropdown from './components/TDropdown';
 import TPagination from './components/TPagination';
 import TTag from './components/TTag';
 import TRadioGroup from './components/TRadioGroup';
+import TCheckboxGroup from './components/TCheckboxGroup';
 
 export {
   TInput,
@@ -30,4 +31,5 @@ export {
   TPagination,
   TTag,
   TRadioGroup,
+  TCheckboxGroup,
 };

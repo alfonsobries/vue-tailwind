@@ -48,7 +48,7 @@ const TCheckbox = HtmlInput.extend({
       default: 'span',
     },
     label: {
-      type: String,
+      type: [String, Number],
       default: undefined,
     },
   },
@@ -139,13 +139,24 @@ const TCheckbox = HtmlInput.extend({
         this.getElementCssClass('label'),
       );
 
+      let label;
+      if (this.$scopedSlots.default !== undefined) {
+        label = this.$scopedSlots.default({
+          isChecked: this.isChecked,
+          value: this.localValue,
+          label: this.label,
+        });
+      } else {
+        label = typeof this.label === 'number' ? String(this.label) : this.label;
+      }
+
       childElements.push(createElement(
         this.labelTag,
         {
           ref: 'label',
           class: this.isChecked ? checkedLabelClass : labelClass,
         },
-        this.label === undefined ? this.$slots.default : this.label,
+        label
       ));
 
       const wrapperClass: CssClass = this.getElementCssClass('wrapper');
