@@ -189,6 +189,7 @@ const TCheckbox = HtmlInput.extend({
           name: this.name,
           disabled: this.disabled,
           readonly: this.readonly,
+          required: this.required,
           autofocus: !this.wrapped ? this.autofocus : undefined,
           tabindex: this.wrapped && this.tabindex !== undefined ? -1 : this.tabindex,
         },
