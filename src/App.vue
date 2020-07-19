@@ -255,7 +255,7 @@
 
     <div class="flex mx-2">
       <t-radio
-        v-model="wrappedCheckboxValue"
+        v-model="wrappedRadioValue"
         label="option 1"
         wrapped
         value="1"
@@ -265,7 +265,7 @@
       />
 
       <t-radio
-        v-model="wrappedCheckboxValue"
+        v-model="wrappedRadioValue"
         label="option 2"
         wrapped
         value="2"
@@ -348,6 +348,14 @@
       name="variant"
       :label="variantValue"
       wrapped
+      tabindex="0"
+      variant="wrapped"
+    />
+
+    <t-checkbox-group
+      v-model="multipleVariants"
+      :options="variants"
+      name="variant-2"
       tabindex="0"
       variant="wrapped"
     />
