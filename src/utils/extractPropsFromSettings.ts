@@ -5,7 +5,7 @@ import CustomProps from '@/types/CustomProps';
 import ComponentSettings from '@/types/ComponentSettings';
 
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(args: ComponentSettings): CustomProps {
-  const compnentVariants: CssClasses = args && args.variants ? args.variants : undefined;
+  const componentVariants: CssClasses = args && args.variants ? args.variants : undefined;
   const componentClasses: CssClasses = args && args.classes ? args.classes : undefined;
   const componentFixedClasses: CssClasses = args && args.fixedClasses ? args.fixedClasses : undefined;
   const wrapped: boolean | undefined = args && args.wrapped ? args.wrapped : undefined;
@@ -19,10 +19,10 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
     };
   }
 
-  if (componentClasses !== undefined) {
+  if (componentVariants !== undefined) {
     customProps.variants = {
       type: Object,
-      default: () => compnentVariants,
+      default: () => componentVariants,
     };
   }
 
