@@ -47,15 +47,15 @@ const TRadio = HtmlInput.extend({
       default: 'span',
     },
     label: {
-      type: String,
+      type: [String, Number],
       default: undefined,
     },
   },
 
   data() {
+    // const defaultValue = (this.model === undefined ? null : this.model);
     return {
       localValue: this.checked ? this.value : null,
-      elementChecked: checkIfTagShouldBeChecked(this.model, this.checked, this.value),
     };
   },
 
@@ -93,6 +93,18 @@ const TRadio = HtmlInput.extend({
       this.$emit('input', localValue);
       this.$emit('change', localValue);
     },
+    isChecked(isChecked: boolean) {
+      const input = this.$refs.input as HTMLInputElement | undefined;
+      if (input && input.checked !== isChecked) {
+        input.checked = isChecked;
+      }
+    },
+  },
+
+  computed: {
+    isChecked(): boolean {
+      return checkIfTagShouldBeChecked(this.model, this.checked, this.value);
+    },
   },
 
   methods: {
@@ -110,7 +122,7 @@ const TRadio = HtmlInput.extend({
         this.inputWrapperTag,
         {
           ref: 'inputWrapper',
-          class: this.elementChecked ? checkedInputWrapperClass : inputWrapperClass,
+          class: this.isChecked ? checkedInputWrapperClass : inputWrapperClass,
         },
         [
           input,
@@ -127,9 +139,15 @@ const TRadio = HtmlInput.extend({
         this.labelTag,
         {
           ref: 'label',
-          class: this.elementChecked ? checkedLabelClass : labelClass,
+          class: this.isChecked ? checkedLabelClass : labelClass,
         },
-        this.label === undefined ? this.$slots.default : this.label,
+        this.$scopedSlots.default !== undefined
+          ? this.$scopedSlots.default({
+            isChecked: this.isChecked,
+            value: this.localValue,
+            label: this.label,
+          })
+          : typeof this.label === 'number' ? String(this.label) : this.label ,
       ));
 
       const wrapperClass: CssClass = this.getElementCssClass('wrapper');
@@ -142,7 +160,7 @@ const TRadio = HtmlInput.extend({
         this.wrapperTag,
         {
           ref: 'wrapper',
-          class: this.elementChecked ? checkedWrapperClass : wrapperClass,
+          class: this.isChecked ? checkedWrapperClass : wrapperClass,
           attrs: {
             to: this.id,
             tabindex: this.tabindex,
@@ -192,7 +210,6 @@ const TRadio = HtmlInput.extend({
 
     async inputHandler(e: Event) {
       const target = (e.target as HTMLInputElement);
-      this.elementChecked = target.checked;
 
       // Only update the local value when the element is checked
       if (target.checked) {
@@ -256,7 +273,7 @@ const TRadio = HtmlInput.extend({
 
     wrapperSpaceHandler(e: KeyboardEvent) {
       e.preventDefault();
-      this.click();
+      this.localValue = this.value;
     },
 
     blurHandler(e: FocusEvent) {
@@ -272,6 +289,7 @@ const TRadio = HtmlInput.extend({
     },
 
     click() {
+      console.log(this.$refs.input);
       (this.$refs.input as HTMLInputElement).click();
     },
 

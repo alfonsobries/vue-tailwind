@@ -12,6 +12,7 @@ import TModal from './components/TModal';
 import TDropdown from './components/TDropdown';
 import TPagination from './components/TPagination';
 import TTag from './components/TTag';
+import TRadioGroup from './components/TRadioGroup';
 
 export {
   TInput,
@@ -28,4 +29,5 @@ export {
   TRichSelect,
   TPagination,
   TTag,
+  TRadioGroup,
 };

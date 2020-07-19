@@ -225,6 +225,14 @@
       :classes="classes"
     />
 
+    <t-radio-group
+      id="radio-group"
+      v-model="variant"
+      name="radio-group"
+      variant="wrapped"
+      tabindex="0"
+      :options="variants"
+    />
 
     <label
       v-for="variantValue in variants"
@@ -334,7 +342,7 @@
 
     <t-checkbox
       v-for="variantValue in variants"
-      :key="`check-${variantValue}`"
+      :key="`check2-${variantValue}`"
       v-model="multipleVariants"
       :value="variantValue"
       name="variant"
@@ -621,6 +629,20 @@ Vue.use(VueTailwind, {
       },
     },
   },
+  TRadioGroup: {
+    classes: 'form-radio text-indigo-600',
+    variants: {
+      wrapped: {
+        wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow flex',
+        wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner flex',
+        inputWrapper: 'border-2 border-blue-300 rounded-full bg-blue-200 w-4 h-4 block  mr-2',
+        inputWrapperChecked: 'border-2 border-blue-700 rounded-full bg-blue-600 w-4 h-4 block mr-2',
+        label: 'text-white text-sm',
+        labelChecked: 'text-white text-sm underline',
+        input: ' hidden ',
+      },
+    },
+  },
   TCheckbox: {
     classes: 'form-checkbox text-green-500',
     variants: {
@@ -659,7 +681,7 @@ export default Vue.extend({
       model: '',
       multipleVariants: ['error', 'asarray'],
       variant: 'error',
-      variants: ['default', 'error', 'notdefined', 'asarray', 'asobject', 'gsadgdasgkljads dsgdsakgdslkg jdsgkdsajgdas gdasg sdag dsagdsag sadgadsgdsa gsdagdsags dagads'],
+      variants: ['default', 'error', 'notdefined', 'asarray', 'asobject'],
       activeVariant: false,
       optgroupValue: 'With optgroup',
       optGroupOptions: [

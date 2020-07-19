@@ -45,4 +45,7 @@ echo 'Building TRichSelect...'
 echo 'Building TTag...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TTag --filename components/TTag --no-clean ./src/t-tag.ts
 
+echo 'Building TRadioGroup...'
+./node_modules/.bin/vue-cli-service build --target lib --name TRadioGroup --filename components/TRadioGroup --no-clean ./src/t-radio-group.ts
+
 echo 'Done building assets.'
