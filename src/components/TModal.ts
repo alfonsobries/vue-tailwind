@@ -47,13 +47,40 @@ const TModal = Component.extend({
       type: Boolean,
       default: true,
     },
+    fixedClasses: {
+      type: Object,
+      default() {
+        return {
+          overlay: 'overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed',
+          wrapper: 'relative mx-auto ',
+          modal: 'overflow-hidden relative',
+          body: '',
+          header: '',
+          footer: '',
+          close: '',
+          closeIcon: '',
+          overlayEnterClass: '',
+          overlayEnterActiveClass: '',
+          overlayEnterToClass: '',
+          overlayLeaveClass: '',
+          overlayLeaveActiveClass: '',
+          overlayLeaveToClass: '',
+          enterClass: '',
+          enterActiveClass: '',
+          enterToClass: '',
+          leaveClass: '',
+          leaveActiveClass: '',
+          leaveToClass: '',
+        };
+      },
+    },
     classes: {
       type: Object,
       default() {
         return {
-          overlay: 'z-40 overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed bg-black bg-opacity-50',
-          wrapper: 'z-50 relative mx-auto max-w-lg',
-          modal: 'bg-white shadow overflow-hidden relative',
+          overlay: 'z-40 bg-black bg-opacity-50',
+          wrapper: 'z-50 max-w-lg',
+          modal: 'bg-white shadow',
           body: '',
           header: '',
           footer: '',
