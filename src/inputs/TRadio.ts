@@ -294,7 +294,6 @@ const TRadio = HtmlInput.extend({
     },
 
     click() {
-      console.log(this.$refs.input);
       (this.$refs.input as HTMLInputElement).click();
     },
 
