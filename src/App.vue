@@ -650,6 +650,19 @@ Vue.use(VueTailwind, {
       },
     },
   },
+  TCheckboxGroup: {
+    variants: {
+      wrapped: {
+        wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow flex',
+        wrapperChecked: 'p-2 bg-blue-600 rounded cursor-pointer shadow-inner flex',
+        inputWrapper: 'hidden',
+        inputWrapperChecked: 'hidden',
+        label: 'text-white text-sm',
+        labelChecked: 'text-white text-sm underline',
+        input: ' hidden ',
+      },
+    },
+  },
   TCheckbox: {
     classes: 'form-checkbox text-green-500',
     variants: {
