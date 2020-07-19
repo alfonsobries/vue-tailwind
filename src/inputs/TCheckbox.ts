@@ -156,7 +156,7 @@ const TCheckbox = HtmlInput.extend({
           ref: 'label',
           class: this.isChecked ? checkedLabelClass : labelClass,
         },
-        label
+        label,
       ));
 
       const wrapperClass: CssClass = this.getElementCssClass('wrapper');
