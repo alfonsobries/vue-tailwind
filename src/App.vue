@@ -630,7 +630,6 @@ Vue.use(VueTailwind, {
     },
   },
   TRadioGroup: {
-    classes: 'form-radio text-indigo-600',
     variants: {
       wrapped: {
         wrapper: 'p-2 bg-blue-500 rounded cursor-pointer shadow flex',
