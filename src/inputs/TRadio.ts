@@ -141,9 +141,9 @@ const TRadio = HtmlInput.extend({
           isChecked: this.isChecked,
           value: this.localValue,
           label: this.label,
-        })
+        });
       } else {
-        label = typeof this.label === 'number' ? String(this.label) : this.label
+        label = typeof this.label === 'number' ? String(this.label) : this.label;
       }
 
       childElements.push(createElement(
@@ -152,7 +152,7 @@ const TRadio = HtmlInput.extend({
           ref: 'label',
           class: this.isChecked ? checkedLabelClass : labelClass,
         },
-        label
+        label,
       ));
 
       const wrapperClass: CssClass = this.getElementCssClass('wrapper');
