@@ -48,4 +48,10 @@ echo 'Building TTag...'
 echo 'Building TRadioGroup...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TRadioGroup --filename components/TRadioGroup --no-clean ./src/t-radio-group.ts
 
+echo 'Building TCheckboxGroup...'
+./node_modules/.bin/vue-cli-service build --target lib --name TCheckboxGroup --filename components/TCheckboxGroup --no-clean ./src/t-checkbox-group.ts
+
+echo 'Building TTable...'
+./node_modules/.bin/vue-cli-service build --target lib --name TTable --filename components/TTable --no-clean ./src/t-table.ts
+
 echo 'Done building assets.'
