@@ -158,8 +158,8 @@ const TTable = Component.extend({
       if (this.$scopedSlots.thead) {
         const thead = this.$scopedSlots.thead({
           theadClass: this.getElementCssClass('thead'),
-          trClass: this.getElementCssClass('theadTr'),
-          thClass: this.getElementCssClass('theadTh'),
+          trClass: this.getElementCssClass('theadTr', this.getElementCssClass('tr')),
+          thClass: this.getElementCssClass('theadTh', this.getElementCssClass('th')),
           data: this.normalizedHeaders,
         });
 
