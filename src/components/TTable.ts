@@ -1,31 +1,38 @@
 import pick from 'lodash/pick';
 import Component from '@/base/Component';
-import { CreateElement } from 'vue';
+import { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 
-type Header = {
+type ColumnSettings = {
   id?: string;
   className?: CssClass;
   text?: string;
   value?: string;
 }
 
-type Row = { [k: string]: string } | string[]
+type RowObject = { [k: string]: string }
+type Row = RowObject | string[]
 
 const TTable = Component.extend({
   name: 'TTable',
   props: {
     data: {
       type: Array,
-      default: () => [],
+      default() {
+        return [];
+      },
     },
     headers: {
       type: Array,
-      default: () => [],
+      default() {
+        return [];
+      },
     },
     footerData: {
       type: Array,
-      default: () => [],
+      default() {
+        return [];
+      },
     },
     hideHeader: {
       type: Boolean,
@@ -48,17 +55,18 @@ const TTable = Component.extend({
   data() {
     return {
       ready: !this.responsive,
-      windowWidth: null,
+      windowWidth: null as null | number,
     };
   },
 
   computed: {
     renderResponsive() {
-      return this.responsive && this.windowWidth && this.windowWidth < this.responsiveBreakpoint;
+      const { windowWidth } = this as { windowWidth: null | number };
+      return this.responsive && windowWidth && windowWidth < this.responsiveBreakpoint;
     },
 
-    normalizedHeaders(): Header[] {
-      return (this.headers as Header[]).map((header) => {
+    normalizedHeaders(): ColumnSettings[] {
+      return (this.headers as ColumnSettings[]).map((header) => {
         if (typeof header === 'string') {
           return {
             text: header,
@@ -69,8 +77,8 @@ const TTable = Component.extend({
       });
     },
 
-    normalizedFooterData() {
-      return this.footerData.map((footer) => {
+    normalizedFooterData(): ColumnSettings[] {
+      return (this.footerData as ColumnSettings[]).map((footer) => {
         if (typeof footer === 'string') {
           return {
             text: footer,
@@ -82,7 +90,7 @@ const TTable = Component.extend({
     },
 
     headersValues(): string[] {
-      return (this.headers as Header[])
+      return (this.headers as ColumnSettings[])
         .filter((h) => h.value)
         .map((h) => h.value) as string[];
     },
@@ -91,9 +99,7 @@ const TTable = Component.extend({
       return !this.hideHeader;
     },
 
-    resizeListener() {
-      this.windowWidth = window.innerWidth;
-    },
+
   },
 
   mounted() {
@@ -118,6 +124,9 @@ const TTable = Component.extend({
   },
 
   methods: {
+    resizeListener(): void {
+      this.windowWidth = window.innerWidth;
+    },
     renderTable(createElement: CreateElement) {
       if (!this.ready) {
         return createElement();
@@ -130,7 +139,11 @@ const TTable = Component.extend({
         childElements.push(this.renderThead(createElement));
       }
 
-      childElements.push(this.renderTBody(createElement));
+      childElements.push(this.renderTbody(createElement));
+
+      if (this.showFooter || this.$scopedSlots.tfoot) {
+        childElements.push(this.renderTfoot(createElement));
+      }
 
       return createElement(
         'table',
@@ -143,18 +156,23 @@ const TTable = Component.extend({
     },
     renderThead(createElement: CreateElement) {
       if (this.$scopedSlots.thead) {
-        return this.$scopedSlots.thead({
+        const thead = this.$scopedSlots.thead({
           theadClass: this.getElementCssClass('thead'),
-          theadTrClass: this.getElementCssClass('theadTr'),
-          theadThClass: this.getElementCssClass('theadTh'),
+          trClass: this.getElementCssClass('theadTr'),
+          thClass: this.getElementCssClass('theadTh'),
+          data: this.normalizedHeaders,
         });
+
+        if (thead) {
+          return thead;
+        }
       }
 
       if (!this.showHeader) {
         return createElement();
       }
 
-      const ths = this.normalizedHeaders.map((header: Header) => createElement(
+      const ths = this.normalizedHeaders.map((header: ColumnSettings) => createElement(
         'th',
         {
           attrs: {
@@ -182,9 +200,53 @@ const TTable = Component.extend({
       );
     },
 
+    renderTfoot(createElement: CreateElement) {
+      if (this.$scopedSlots.tfoot) {
+        const tfoot = this.$scopedSlots.tfoot({
+          tfootClass: this.getElementCssClass('tfoot'),
+          trClass: this.getElementCssClass('tfootTr'),
+          tdClass: this.getElementCssClass('tfootTd'),
+          data: this.normalizedFooterData,
+          headers: this.normalizedHeaders,
+          renderResponsive: this.renderResponsive,
+        });
+
+        if (tfoot) {
+          return tfoot;
+        }
+      }
+
+      const tds = this.normalizedFooterData.map((footer: ColumnSettings) => createElement(
+        'td',
+        {
+          attrs: {
+            id: footer.id,
+          },
+          class: [this.getElementCssClass('tfootTd'), footer.className],
+        },
+        footer.text,
+      ));
+
+      return createElement(
+        'tfoot',
+        {
+          class: this.getElementCssClass('tfoot'),
+        },
+        [
+          createElement(
+            'tr',
+            {
+              class: this.getElementCssClass('tfootTr'),
+            },
+            tds,
+          ),
+        ],
+      );
+    },
+
     renderTbody(createElement: CreateElement) {
       if (this.$scopedSlots.tbody) {
-        return this.$scopedSlots.tbody({
+        const tbody = this.$scopedSlots.tbody({
           tbodyClass: this.getElementCssClass('tbody'),
           trClass: this.getElementCssClass('tr'),
           tdClass: this.getElementCssClass('td'),
@@ -192,6 +254,10 @@ const TTable = Component.extend({
           headers: this.normalizedHeaders,
           renderResponsive: this.renderResponsive,
         });
+
+        if (tbody) {
+          return tbody;
+        }
       }
 
       return createElement(
@@ -206,12 +272,16 @@ const TTable = Component.extend({
     renderRows(createElement: CreateElement) {
       return (this.data as Row[]).map((row: Row, rowIndex) => {
         if (this.$scopedSlots.row) {
-          return this.$scopedSlots.row({
+          const tableRow = this.$scopedSlots.row({
             rowIndex,
             row,
             trClass: this.getElementCssClass('tr'),
             tdClass: this.getElementCssClass('td'),
           });
+
+          if (tableRow) {
+            return tableRow;
+          }
         }
 
         return createElement(
@@ -228,8 +298,8 @@ const TTable = Component.extend({
       const columns = this.getRowColumns(row);
 
       if (typeof columns === 'object') {
-        Object.keys(columns).map((columnIndex: string) => {
-          const text = columns[columnIndex];
+        return Object.keys(columns as RowObject).map((columnIndex) => {
+          const text = (columns as RowObject)[columnIndex];
           return this.renderCol(createElement, text, rowIndex, columnIndex);
         });
       }
@@ -246,13 +316,17 @@ const TTable = Component.extend({
       text: string, rowIndex:
       number, columnIndex: string | number,
     ) {
-      if (this.$scopedSlots.row) {
-        return this.$scopedSlots.row({
+      if (this.$scopedSlots.column) {
+        const tableColumn = this.$scopedSlots.column({
           rowIndex,
           columnIndex,
           text,
           tdClass: this.getElementCssClass('td'),
         });
+
+        if (tableColumn) {
+          return tableColumn;
+        }
       }
 
       return createElement(
@@ -269,7 +343,11 @@ const TTable = Component.extend({
         return row;
       }
 
-      return pick(row, this.headersValues);
+      if (typeof row === 'object') {
+        return pick<RowObject>(row as RowObject, this.headersValues) as RowObject;
+      }
+
+      return {};
     },
   },
 });

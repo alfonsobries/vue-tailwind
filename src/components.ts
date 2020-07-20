@@ -14,6 +14,7 @@ import TPagination from './components/TPagination';
 import TTag from './components/TTag';
 import TRadioGroup from './components/TRadioGroup';
 import TCheckboxGroup from './components/TCheckboxGroup';
+import TTable from './components/TTable';
 
 export {
   TInput,
@@ -32,4 +33,5 @@ export {
   TTag,
   TRadioGroup,
   TCheckboxGroup,
+  TTable,
 };
