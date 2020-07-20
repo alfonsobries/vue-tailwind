@@ -1,6 +1,5 @@
-import { shallowMount, mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import TTable from '@/components/TTable';
-import map from 'lodash/map';
 
 describe('TTable', () => {
   it('renders the table', () => {
