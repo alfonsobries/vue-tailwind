@@ -457,17 +457,7 @@
     />
 
     <t-table
-      table-class="w-full rounded-lg overflow-hidden table border-blue-700 border"
-      :thead-class="{
-        thead: '',
-        tr: 'border-blue-700',
-        th: 'uppercase font-bold p-2 bg-blue-500 text-blue-900 text-sm text-shadow',
-      }"
-      :tbody-class="{
-        tbody: '',
-        tr: 'border-t-0',
-        td: 'p-2 text-sm text-center bg-blue-400 text-blue-900',
-      }"
+      variant="demo"
       :headers="['Name', 'Email', 'Age', 'Sales']"
       :data="[
         ['Alfonso Bribiesca', 'alfonso@vexilo.com', '31', '$9,999.00'],
@@ -494,7 +484,6 @@
       ]"
       :responsive="true"
       :responsive-breakpoint="1024"
-      :tbody-class="{ tbody: 'border-t lg:border-0', tr: 'border-0 lg:border-t', td: 'p-3' }"
     >
       <template
         slot="tbody"
@@ -787,6 +776,18 @@ Vue.use(VueTailwind, {
       tbody: '',
       tr: 'border-t-0',
       td: 'p-2 text-sm text-center bg-blue-400 text-blue-900',
+    },
+    variants: {
+      demo: {
+        thead: '',
+        theadTr: '',
+        theadTh: '',
+        tr: '',
+        table: 'min-w-full divide-y divide-gray-200',
+        tbody: 'bg-white divide-y divide-gray-200',
+        td: 'px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500',
+        th: 'px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider',
+      },
     },
   },
   TButton: {

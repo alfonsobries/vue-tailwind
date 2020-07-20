@@ -155,11 +155,15 @@ const TTable = Component.extend({
       );
     },
     renderThead(createElement: CreateElement) {
+      const trClass = this.getElementCssClass('theadTr') || this.getElementCssClass('tr');
+      const thClass = this.getElementCssClass('theadTh') || this.getElementCssClass('th');
+      const theadClass = this.getElementCssClass('thead');
+
       if (this.$scopedSlots.thead) {
         const thead = this.$scopedSlots.thead({
-          theadClass: this.getElementCssClass('thead'),
-          trClass: this.getElementCssClass('theadTr', this.getElementCssClass('tr')),
-          thClass: this.getElementCssClass('theadTh', this.getElementCssClass('th')),
+          theadClass,
+          trClass,
+          thClass,
           data: this.normalizedHeaders,
         });
 
@@ -178,7 +182,7 @@ const TTable = Component.extend({
           attrs: {
             id: header.id,
           },
-          class: [this.getElementCssClass('theadTh'), header.className],
+          class: header.className ? [thClass, header.className] : thClass,
         },
         header.text,
       ));
@@ -186,13 +190,13 @@ const TTable = Component.extend({
       return createElement(
         'thead',
         {
-          class: this.getElementCssClass('thead'),
+          class: theadClass,
         },
         [
           createElement(
             'tr',
             {
-              class: this.getElementCssClass('theadTr'),
+              class: trClass,
             },
             ths,
           ),
@@ -201,11 +205,15 @@ const TTable = Component.extend({
     },
 
     renderTfoot(createElement: CreateElement) {
+      const trClass = this.getElementCssClass('tfootTr') || this.getElementCssClass('tr');
+      const tdClass = this.getElementCssClass('tfootTd') || this.getElementCssClass('td');
+      const tfootClass = this.getElementCssClass('tfoot');
+
       if (this.$scopedSlots.tfoot) {
         const tfoot = this.$scopedSlots.tfoot({
-          tfootClass: this.getElementCssClass('tfoot'),
-          trClass: this.getElementCssClass('tfootTr'),
-          tdClass: this.getElementCssClass('tfootTd'),
+          tfootClass,
+          trClass,
+          tdClass,
           data: this.normalizedFooterData,
           headers: this.normalizedHeaders,
           renderResponsive: this.renderResponsive,
@@ -222,7 +230,7 @@ const TTable = Component.extend({
           attrs: {
             id: footer.id,
           },
-          class: [this.getElementCssClass('tfootTd'), footer.className],
+          class: footer.className ? [tdClass, footer.className] : tdClass,
         },
         footer.text,
       ));
@@ -230,13 +238,13 @@ const TTable = Component.extend({
       return createElement(
         'tfoot',
         {
-          class: this.getElementCssClass('tfoot'),
+          class: tfootClass,
         },
         [
           createElement(
             'tr',
             {
-              class: this.getElementCssClass('tfootTr'),
+              class: trClass,
             },
             tds,
           ),
