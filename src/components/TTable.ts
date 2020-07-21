@@ -155,8 +155,8 @@ const TTable = Component.extend({
       );
     },
     renderThead(createElement: CreateElement) {
-      const trClass = this.getElementCssClass('theadTr') || this.getElementCssClass('tr');
-      const thClass = this.getElementCssClass('theadTh') || this.getElementCssClass('th');
+      const trClass = this.getElementCssClass('theadTr');
+      const thClass = this.getElementCssClass('theadTh');
       const theadClass = this.getElementCssClass('thead');
 
       if (this.$scopedSlots.thead) {
@@ -205,8 +205,8 @@ const TTable = Component.extend({
     },
 
     renderTfoot(createElement: CreateElement) {
-      const trClass = this.getElementCssClass('tfootTr') || this.getElementCssClass('tr');
-      const tdClass = this.getElementCssClass('tfootTd') || this.getElementCssClass('td');
+      const trClass = this.getElementCssClass('tfootTr');
+      const tdClass = this.getElementCssClass('tfootTd');
       const tfootClass = this.getElementCssClass('tfoot');
 
       if (this.$scopedSlots.tfoot) {
