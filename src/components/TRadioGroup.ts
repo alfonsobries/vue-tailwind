@@ -1,6 +1,7 @@
 import { CreateElement, VNode } from 'vue';
 import InputWithOptions from '@/base/InputWithOptions';
 import TRadio from '@/inputs/TRadio';
+import kebabCase from 'lodash/kebabCase';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 
@@ -23,6 +24,18 @@ const TRadioGroup = InputWithOptions.extend({
     labelTag: {
       type: String,
       default: 'span',
+    },
+    fixedClasses: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    classes: {
+      type: Object,
+      default() {
+        return {};
+      },
     },
   },
 
@@ -121,7 +134,7 @@ const TRadioGroup = InputWithOptions.extend({
       }
 
       if (['string', 'number'].includes(typeof option.value)) {
-        parts.push(String(option.value));
+        parts.push(kebabCase(String(option.value)));
       } else {
         parts.push(index);
       }

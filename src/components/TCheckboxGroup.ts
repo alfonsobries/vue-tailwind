@@ -1,6 +1,7 @@
 import { CreateElement, VNode } from 'vue';
 import InputWithOptions from '@/base/InputWithOptions';
 import TCheckbox from '@/inputs/TCheckbox';
+import kebabCase from 'lodash/kebabCase';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 
@@ -26,7 +27,21 @@ const TCheckboxGroup = InputWithOptions.extend({
     },
     value: {
       type: Array,
-      default: null,
+      default() {
+        return [];
+      },
+    },
+    fixedClasses: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    classes: {
+      type: Object,
+      default() {
+        return {};
+      },
     },
   },
 
@@ -120,7 +135,7 @@ const TCheckboxGroup = InputWithOptions.extend({
       }
 
       if (['string', 'number'].includes(typeof option.value)) {
-        parts.push(String(option.value));
+        parts.push(kebabCase(String(option.value)));
       } else {
         parts.push(index);
       }
