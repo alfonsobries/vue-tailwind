@@ -143,7 +143,7 @@ const TCheckbox = HtmlInput.extend({
       if (this.$scopedSlots.default !== undefined) {
         label = this.$scopedSlots.default({
           isChecked: this.isChecked,
-          value: this.localValue,
+          value: this.isChecked ? this.value : this.uncheckedValue,
           label: this.label,
         });
       } else {
@@ -171,7 +171,7 @@ const TCheckbox = HtmlInput.extend({
           ref: 'wrapper',
           class: this.isChecked ? checkedWrapperClass : wrapperClass,
           attrs: {
-            to: this.id,
+            for: this.id,
             tabindex: this.tabindex,
             autofocus: this.autofocus,
           },

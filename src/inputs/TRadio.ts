@@ -167,7 +167,7 @@ const TRadio = HtmlInput.extend({
           ref: 'wrapper',
           class: this.isChecked ? checkedWrapperClass : wrapperClass,
           attrs: {
-            to: this.id,
+            for: this.id,
             tabindex: this.tabindex,
             autofocus: this.autofocus,
           },
