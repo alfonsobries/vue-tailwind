@@ -1,107 +1,72 @@
 # Vue-Tailwind 
 
-[![Build Status](https://travis-ci.org/alfonsobries/vue-tailwind.svg?branch=master)](https://travis-ci.org/alfonsobries/vue-tailwind) [![Netlify Status](https://api.netlify.com/api/v1/badges/40acc43a-7f44-4030-b18a-62c08e0b03d2/deploy-status)](https://app.netlify.com/sites/vue-tailwind/deploys)
-
 For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
 
 **VueTailwind** is a set of Vue components created to be customized to adapt to the unique design of your application.
 
-All classes are configurable and that give you total control of how the components will look like and its perfect for work with utility-first frameworks like [TailwindCss](https://tailwindcss.com). 
 
-No more Bootstrap like sites, you just need to configure your theme classes once and all set.
+### Built to be customized
 
-## Whats new in version 1.x
+When you work on a real-world application, you usually need different variants for every component your app uses; you may need (besides of default style of your text input) a specific style for a search input inside a navbar and another one for the contact form, and we are not talking yet about the different states that your input could have.
 
-- Rebuilt from scratch in Typescript
-- Small bundle size and less dependencies
-- A better way to import just selected components
-- A new theme builder (Wait for the link)
-- An easy and more flexible way to define variants
+All **VueTailwind** components were designed to be customized with custom CSS classes and unlimited variants defined when you import the library or when you use the component.
 
-The new settings look like this:
+This means that when you use this library, you are not attached to any style defined by us like it happens when you use a typical library of components like Bootstrap. Instead, you can determine your theme based on your application's needs.
+
+This library makes special sense when you work with utility-first frameworks like [TailwindCss](https://tailwindcss.com), which is the default framework used in this library.
+
+## Installation
+
+### 1. Install the dependencies 
+
+```console
+npm install vue-tailwind --save
+``` 
+
+Or: 
+
+```console
+yarn add vue-tailwind
+``` 
+
+### 2. Configure your project to use `vue-tailwind` 
+
 
 ```js
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
 const theme = {
-  TInput: {
-    classes: 'form-input border-2 text-gray-700',
-    variants: {
-      error: 'form-input border-2 border-red-300 bg-red-100',
-      // ... Infinite variantes
-    }
-  },
-  // ... The rest of the components
+  //...
 }
 
 Vue.use(VueTailwind, theme)
 ```
 
-The variants can also be defined in the component props:
+#### Apply your own theme:
 
-```html
-<t-input
-  :classes="form-input border-2 text-gray-700"
-  :variants="{
-    error: 'form-input border-2 border-red-300 bg-red-100',
-    success: 'form-input border-2 border-green-300 bg-green-100'
-  }"
-  :variant="{
-    'success': isValid,
-    'error': isNotValid,
-  }"
-/>
-```
+Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border`, the buttons should have `rounded borders` and you need a secondary button that should be `purple`.
 
-
-## Install and use
-### 1. Install the dependencies 
-
-```console
-npm install vue-tailwind@next --save
-``` 
-
-Or: 
-```console
-yarn add vue-tailwind@next
-``` 
-
-::: tip 
-Dont forget to [install TailwindCSS](https://tailwindcss.com/docs/installation)
-:::
-
-
-### 2. Configure your project to use `vue-tailwind` 
-
-#### 2.1 Do nothing if you dont want to define a default theme (not recommended):
+Considering those needs define objects with the desired classes for every component, a good approach is to create a file where you define the template:
 
 ```js
-import Vue from 'vue'
-import VueTailwind from 'vue-tailwind'
-
-Vue.use(VueTailwind)
-```
-
-### 2.2 Or better yet, create your own theme:
-
-Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border`, the buttons should have `more rounded borders` and you need a secondary button that should be `purple`.
-
-```js
-// `./myOwnTheme.js`
 const TInput = {
-  classes: 'border-2 block w-full rounded text-gray-8000',
+  classes: 'border-2 block w-full rounded text-gray-800',
   // Optional variants
   variants: {
     // ...
-  }
+  },
+  // Optional fixedClasses
+  // fixedClasses: '',
 }
 
 const TButton = {
   classes: 'rounded-lg border block inline-flex items-center justify-center',
   variants: {
     secondary: 'rounded-lg border block inline-flex items-center justify-center bg-purple-500 border-purple-500 hover:bg-purple-600 hover:border-purple-600',
-  }
+  },
+  // Optional fixedClasses
+  // fixedClasses: 'transform ease-in-out duration-100',
 }
 
 const MyOwnTheme = {
@@ -112,7 +77,7 @@ const MyOwnTheme = {
 export default MyOwnTheme
 ```
 
-Finally, add your custom theme when you install VueTailwind:
+Then you can import your theme and add it as a parameter when you install VueTailwind:
 
 ```js {3,6}
 import Vue from 'vue'
@@ -122,7 +87,7 @@ import MyOwnTheme from './myOwnTheme.js'
 Vue.use(VueTailwind, MyOwnTheme)
 ```
 
-Another option is to set the settings directly, check at this example:
+Or just define the settings directly:
 
 ```js {4,5,6,11}
 import Vue from 'vue'
@@ -140,91 +105,97 @@ Vue.use(VueTailwind, {
 // Or why not? define the settings inline:
 Vue.use(VueTailwind, {
   TInput: {
-    baseClass: 'border-2 border-blue-500 block w-full rounded',
+    classes: 'border-2 border-blue-500 block w-full rounded',
   }
 })
 ```
 
-### 3. (Optional) configure `purgecss`
+## Quick start
 
-Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
+Here is a small example of how the classes and variants are defined when you import this library:
 
 ```js
-// postcss.config.js (from https://tailwindcss.com/docs/controlling-file-size#setting-up-purgecss)
-const purgecss = require('@fullhuman/postcss-purgecss')({
-  content: [
-    './myOwnTheme.js',
-  ],
+import Vue from 'vue'
+import VueTailwind from 'vue-tailwind'
 
-  // Include any special characters you're using in this regular expression
-  defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
-})
-
-module.exports = {
-  plugins: [
-    require('tailwindcss'),
-    require('autoprefixer'),
-    ...process.env.NODE_ENV === 'production'
-      ? [purgecss]
-      : []
-  ]
+const theme = {
+  TInput: {
+    classes: 'form-input border-2 text-gray-700',
+    variants: {
+      error: 'form-input border-2 border-red-300 bg-red-100',
+      // ... Infinite variants
+    }
+  },
+  TAlert: {
+    classes: {
+      wrapper: 'rounded bg-blue-100 p-4 flex text-sm border-l-4 border-blue-500',
+      body: 'flex-grow text-blue-700',
+      close: 'text-blue-700 hover:text-blue-500 hover:bg-blue-200 ml-4 rounded',
+      closeIcon: 'h-5 w-5 fill-current'
+    },
+    variants: {
+      danger: {
+        wrapper: 'rounded bg-red-100 p-4 flex text-sm border-l-4 border-red-500',
+        body: 'flex-grow text-red-700',
+        close: 'text-red-700 hover:text-red-500 hover:bg-red-200 ml-4 rounded'
+      },
+      // ... Infinite variants
+    }
+  },
+  // ... The rest of the components
 }
+
+Vue.use(VueTailwind, theme)
 ```
 
-## Install only the components you need
+The default classes and variants can also be defined in the component props:
 
-If you want to install only selected components you can do it by importing the component directly and registering it like this:
-
-```js
-import TInput from 'vue-tailwind/dist/components/TInput.umd.js'
-import TButton from 'vue-tailwind/dist/components/TButton.umd.js'
-
-Vue.use(TInput, {
-  classes: 'border-green-600 bg-green-300 text-white',
-  variants: {
-    // ...
-  }
-})
-
-Vue.use(TButton, {
-  classes: 'bg-blue-500 hover:bg-blue-600 p-3 text-white',
-  variants: {
-    // ...
-  }
-})
+```html
+<t-input
+  :classes="form-input border-2 text-gray-700"
+  :variants="{
+    error: 'form-input border-2 border-red-300 bg-red-100',
+    success: 'form-input border-2 border-green-300 bg-green-100'
+  }"
+/>
 ```
 
-You can also import the component directly to use it in your template but in that case you can't override the default theme. However, you can set the classes by using the props, look at this example:
+To apply an specific variant you just need to use the `variant` prop:
 
-```js
-<template>
-<div>
-  <t-input
-    :classes="'border p-4'"
-    :variants="{
-      success: "p-3 border-green-600 bg-green-300 text-green-700"
-    }"
-    :variant="'success'"
-  >
-</div>
-</template>
-
-<script>
-import TInput from 'vue-tailwind/dist/components/TInput.umd.js'
-export default {
-  components: {
-    TInput
-  }
-}
-</script>
+```html
+<t-input variant="error" />
 ```
+
+The variant prop also accepts an object that takes the first attribute with a _truthy_ value
+
+```html
+<t-input
+  :variant="{
+    error: inputIsNotValid,
+    success: inputIsValid,
+  }"
+/>
+```
+
+## Whats new in version 1.x
+
+- Rebuilt from scratch in Typescript
+- Small bundle size and less dependencies
+- A better way to import only selected components
+- Unlimited variants and a easy way to configure them
+
+
+## Whats next?
+
+- Im working in a datepicker that is the most requested component, after that im planning to create a swal like dialog component.
+- Already started to work in a react version of this package called react-tailwind.
+- Im making some final changes to the Community themes features that should be released soon.
 
 ## Contribute
 
-Is this project helpful for you? Consider sponsoring me [https://github.com/sponsors/alfonsobries](https://github.com/sponsors/alfonsobries)
+Is this project helpful for you? Consider sponsoring me [https://github.com/sponsors/alfonsobries](https://github.com/sponsors/alfonsobries).
 
-Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
-
+Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) see [contribute page](https://vue-tailwind.com/contribute) for details.
 
 ### Changelog
 
@@ -245,3 +216,5 @@ The MIT License (MIT). Please see [License File](https://github.com/alfonsobries
 
 _Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
 
+
+[Version 0.x docs](https://v0.vue-tailwind.com/).
