@@ -1,141 +1,329 @@
-import { shallowMount, mount } from '@vue/test-utils'
-import TDropdown from '@/components/TDropdown.vue'
+import { shallowMount } from '@vue/test-utils';
+import TDropdown from '@/components/TDropdown';
+import { wrap } from 'lodash';
 
-describe('TDropdown.vue', () => {
-  it('renders the dropdown', () => {
-    const wrapper = shallowMount(TDropdown)
-    expect(wrapper.vm.$refs.dropdown).toBeDefined()
-    expect(wrapper.vm.$refs.button).toBeDefined()
-  })
+describe('TDropdown', () => {
+  it('renders the dropdown button', () => {
+    const wrapper = shallowMount(TDropdown);
+    expect(wrapper.get('button')).toBeTruthy();
+  });
 
-  it('disables the dropdown', () => {
-    const wrapper = mount(TDropdown, {
-      propsData: { disabled: false }
-    })
-
-    const { button } = wrapper.vm.$refs
-    expect(button.$el.disabled).toBe(false)
-
-    wrapper.setProps({ disabled: true })
-    expect(button.$el.disabled).toBe(true)
-  })
-
-  it('default wrapper tag to div', () => {
-    const wrapper = mount(TDropdown)
-
-    expect(wrapper.vm.$el.tagName).toBe('DIV')
-  })
-
-  it('accepts different wrapper tag', () => {
-    const wrapper = mount(TDropdown, {
-      propsData: { tagName: 'li' }
-    })
-
-    expect(wrapper.vm.$el.tagName).toBe('LI')
-  })
-
-  it('default button to button tag', () => {
-    const wrapper = mount(TDropdown)
-
-    const { button } = wrapper.vm.$refs
-
-    expect(button.$el.tagName).toBe('BUTTON')
-  })
-
-  it('accepts button anchor tag', () => {
-    const wrapper = mount(TDropdown, {
-      propsData: { buttonTagName: 'a' }
-    })
-
-    const { button } = wrapper.vm.$refs
-
-    expect(button.$el.tagName).toBe('A')
-  })
-
-  it('accepts child button props', () => {
-    const buttonProps = {
-      id: 'my-id',
-      name: 'button-name',
-      successClass: 'bg-green-100',
-    }
-
-    const wrapper = mount(TDropdown, {
-      propsData: { buttonProps }
-    })
-
-    const { button } = wrapper.vm.$refs
-
-    expect(button.$el.id).toBe('my-id')
-    expect(button.$el.name).toBe('button-name')
-    expect(button.successClass).toBe('bg-green-100')
-  })
-
-
-  it('emits a blur event when the button is blurred', () => {
-    const wrapper = mount(TDropdown)
-
-    const button = wrapper.vm.$refs.button.$el
-
-    // The change event should be emitted when the button is blurred
-    button.dispatchEvent(new Event('blur'))
-
-    expect(wrapper.emitted('blur')).toBeTruthy()
-
-    // assert event count
-    expect(wrapper.emitted('blur').length).toBe(1)
-  })
-
-  it('emits a focus event when the button is focused', () => {
-    const wrapper = mount(TDropdown)
-
-    const button = wrapper.vm.$refs.button.$el
-
-    // The change event should be emitted when the button is focusred
-    button.dispatchEvent(new Event('focus'))
-
-    expect(wrapper.emitted('focus')).toBeTruthy()
-
-    // assert event count
-    expect(wrapper.emitted('focus').length).toBe(1)
-  })
-
-  it('emits a hide event when the dropdown is closed', () => {
-    // document.createRange is going to be created below because of the following error
-    // [Vue warn]: Error in nextTick: "TypeError: document.createRange is not a function"
-    global.document.createRange = () => ({
-      setStart: () => {},
-      setEnd: () => {},
-      commonAncestorContainer: {
-        nodeName: 'BODY',
-        ownerDocument: document,
+  it('renders the dropdown wrapper using the tagName', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        tagName: 'ul',
       },
     });
-    // component is mounted with a slot
-    const htmlElement = '<ul><li><a id="is-link" href="#">Link</a></li></ul>'
-    const wrapper = mount(TDropdown, {
-      slots: {
-        default: htmlElement
-      }
-    })
-    // finds the button which is the dropdown opener
-    const button = wrapper.find('button')
-    // triggers the click to open the dropdown
-    button.trigger('click')
-    // the dropdown component is opened and the event is emitted
-    expect(wrapper.emitted('click')).toBeTruthy()
-    // it was clicked only one time
-    expect(wrapper.emitted('click').length).toBe(1)
-    // finds the link which is the slot inside the dropdown component
-    const link = wrapper.find('#is-link')
-    // triggers the click to select an option
-    link.trigger('click')
-    // the click event is emitted
-    expect(wrapper.emitted('click')).toBeTruthy()
-    // the dropdown is closed and the hide event is emitted
-    expect(wrapper.emitted('hide')).toBeTruthy()
-    // it was clicked only one time in the link
-    expect(wrapper.emitted('click').length).toBe(1)
-    // it was closed only one time
-    expect(wrapper.emitted('hide').length).toBe(1)
-  })
-})
+
+    expect(wrapper.vm.$el.tagName).toBe('UL');
+  });
+
+  it('shows the dropdown according to show prop', async () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        show: true,
+      },
+    });
+
+    expect(wrapper.vm.localShow).toBe(true);
+
+    wrapper.setProps({ show: false });
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('shows the dropdown when focus', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnFocus: true,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+    // The change event should be emitted when the button is focused
+    button.dispatchEvent(new Event('focus'));
+
+    expect(wrapper.vm.localShow).toBe(true);
+  });
+
+  it('hides the dropdown when blur', () => {
+    const wrapper = shallowMount(TDropdown);
+
+    const { button } = wrapper.vm.$refs;
+
+    // The change event should be emitted when the button is focused
+    button.dispatchEvent(new Event('focus'));
+    button.dispatchEvent(new Event('blur'));
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('doesnt show the dropdown when focus according to setting', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnFocus: false,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+    // The change event should be emitted when the button is focused
+    button.dispatchEvent(new Event('focus'));
+
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('doesnt hide the dropdown when blur according to setting', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        show: true,
+        toggleOnFocus: false,
+        toggleOnClick: false,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+    // The change event should be emitted when the button is focused
+    button.dispatchEvent(new Event('focus'));
+    button.dispatchEvent(new Event('blur'));
+
+    expect(wrapper.vm.localShow).toBe(true);
+  });
+
+  it('shows the dropdown when click enter to button', () => {
+    const wrapper = shallowMount(TDropdown);
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const enter = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 13,
+    });
+
+    button.dispatchEvent(enter);
+
+    expect(wrapper.vm.localShow).toBe(true);
+  });
+
+  it('hides the dropdown when click enter to button', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        show: true,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const enter = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 13,
+    });
+
+    button.dispatchEvent(enter);
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('shows the dropdown when click space to button', () => {
+    const wrapper = shallowMount(TDropdown);
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const space = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 32,
+    });
+
+    button.dispatchEvent(space);
+
+    expect(wrapper.vm.localShow).toBe(true);
+  });
+
+  it('hides the dropdown when click space to button', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        show: true,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const space = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 32,
+    });
+
+    button.dispatchEvent(space);
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('doesnt show the dropdown when click enter to button according to settings', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnClick: false,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const enter = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 13,
+    });
+
+    button.dispatchEvent(enter);
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('doesnt hide the dropdown when click enter to button according to settings', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnClick: false,
+        show: true,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const enter = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 13,
+    });
+
+    button.dispatchEvent(enter);
+
+    expect(wrapper.vm.localShow).toBe(true);
+  });
+
+  it('doesnt show the dropdown when click space to button according to settings', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnClick: false,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const space = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 32,
+    });
+
+    button.dispatchEvent(space);
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('doesnt hide the dropdown when click space to button according to settings', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnClick: false,
+        show: true,
+      },
+    });
+
+    const { button } = wrapper.vm.$refs;
+
+
+    const space = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 32,
+    });
+
+    button.dispatchEvent(space);
+
+    expect(wrapper.vm.localShow).toBe(true);
+  });
+
+  it('toggles the dropdown when mouse over/leave if setting set', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnHover: true,
+        hideOnLeaveTimeout: 0,
+      },
+    });
+
+    const wrapperEl = wrapper.vm.$refs.wrapper;
+
+    // The change event should be emitted when the button is focused
+    wrapperEl.dispatchEvent(new Event('mouseover'));
+
+    expect(wrapper.vm.localShow).toBe(true);
+
+    wrapperEl.dispatchEvent(new Event('mouseleave'));
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('doesnt toggle the dropdown when mouse over/leave if no setting set', () => {
+    const wrapper = shallowMount(TDropdown, {
+      propsData: {
+        toggleOnHover: false,
+        hideOnLeaveTimeout: 0,
+      },
+    });
+
+    const wrapperEl = wrapper.vm.$refs.wrapper;
+
+    // The change event should be emitted when the button is focused
+    wrapperEl.dispatchEvent(new Event('mouseover'));
+
+    expect(wrapper.vm.localShow).toBe(false);
+
+    wrapperEl.dispatchEvent(new Event('mouseleave'));
+
+    expect(wrapper.vm.localShow).toBe(false);
+  });
+
+  it('emits a focus event when the input is focused', () => {
+    const wrapper = shallowMount(TDropdown);
+
+    const { button } = wrapper.vm.$refs;
+
+    // The change event should be emitted when the button is focused
+    button.dispatchEvent(new Event('focus'));
+
+    expect(wrapper.emitted('focus')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('focus').length).toBe(1);
+  });
+
+  it('emits a blur event when the button is blurred', () => {
+    const wrapper = shallowMount(TDropdown);
+
+    const { button } = wrapper.vm.$refs;
+
+    button.dispatchEvent(new Event('focus'));
+
+    // The change event should be emitted when the button is blurred
+    button.dispatchEvent(new Event('blur'));
+
+    expect(wrapper.emitted('blur')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('blur').length).toBe(1);
+  });
+
+  it('has a focus and a blur method', () => {
+    const wrapper = shallowMount(TDropdown);
+
+    wrapper.vm.focus();
+
+    expect(wrapper.emitted('focus')).toBeTruthy();
+
+    expect(wrapper.emitted('focus').length).toBe(1);
+
+    wrapper.vm.blur();
+
+    expect(wrapper.emitted('blur')).toBeTruthy();
+
+    expect(wrapper.emitted('blur').length).toBe(1);
+  });
+});

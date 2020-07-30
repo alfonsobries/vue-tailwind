@@ -1,47 +1,22 @@
 # Vue-Tailwind 
 
-[![Build Status](https://travis-ci.org/alfonsobries/vue-tailwind.svg?branch=master)](https://travis-ci.org/alfonsobries/vue-tailwind) [![Netlify Status](https://api.netlify.com/api/v1/badges/40acc43a-7f44-4030-b18a-62c08e0b03d2/deploy-status)](https://app.netlify.com/sites/vue-tailwind/deploys)
-
 For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
 
 **VueTailwind** is a set of Vue components created to be customized to adapt to the unique design of your application.
 
-It uses [TailwindCss](https://tailwindcss.com) classes by default, and all classes are configurable, that give you total control of how the components will look like.
 
-No more Bootstrap like sites, you just need to configure your theme classes once and all set.
+### Built to be customized
 
-### Roadmap to version 1
+When you work on a real-world application, you usually need different variants for every component your app uses; you may need (besides of default style of your text input) a specific style for a search input inside a navbar and another one for the contact form, and we are not talking yet about the different states that your input could have.
 
-Even though some components are missing, I decided that I want to create a new version of this package based on my experience in the projects I used it.
+All **VueTailwind** components were designed to be customized with custom CSS classes and unlimited variants defined when you import the library or when you use the component.
 
-For this new version, I will not focus (yet) in more complex components, but in creating a more robust and flexible version of the components we have:
+This means that when you use this library, you are not attached to any style defined by us like it happens when you use a typical library of components like Bootstrap. Instead, you can determine your theme based on your application's needs.
 
-These will go to be the main features:
+This library makes special sense when you work with utility-first frameworks like [TailwindCss](https://tailwindcss.com), which is the default framework used in this library.
 
-- Rebuilt in typescript
-- Avoid (as possible) to use third party library and focus on optimizing the size in the bundle
-- A better way to import just single components
-- A better way to define the classes based on dynamic states and a single prop to define the "blueprint" thinking in something like this (WIP):
+## Installation
 
-```
-<t-input :classes-blueprint="{
-  'success':  '...',
-  'success-smal':  '... text-sm'
-  'custom-state':  '... border-2'
-}" state="custom-state" />
-```
-
-- Also considering create separate packages for the more complex components that for this version could be based in third party libraries (date picker, rich select, etc.)
-
-## Help me to grow this library
-
-Is this project helpful for you? Consider sponsoring me. I have the goal of me able to spend full-time in this project; I'm sure I can make the best library of customizable components with a little more time:
-
-[https://github.com/sponsors/alfonsobries)
-
-Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) [CONTRIBUTING](https://github.com/alfonsobries/vue-tailwind/blob/master/CONTRIBUTING.md) for details.
-
-## Install and use
 ### 1. Install the dependencies 
 
 ```console
@@ -49,50 +24,49 @@ npm install vue-tailwind --save
 ``` 
 
 Or: 
+
 ```console
 yarn add vue-tailwind
 ``` 
 
-::: tip 
-If you using the default theme you need to [install TailwindCSS](https://tailwindcss.com/docs/installation) first
-:::
-
-
 ### 2. Configure your project to use `vue-tailwind` 
 
-#### 2.1 Do nothing if you want to use our default theme:
 
 ```js
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
-Vue.use(VueTailwind)
+const theme = {
+  //...
+}
+
+Vue.use(VueTailwind, theme)
 ```
 
-### 2.2 Or better yet, create your own theme:
+#### Apply your own theme:
 
-Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border` instead of the default border, the button should have `more rounded borders`, and the primary button should be `purple`.
+Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border`, the buttons should have `rounded borders` and you need a secondary button that should be `purple`.
 
-::: tip 
-
-Notice that you don't need to set all the classes settings, just the ones you want to override from `src/themes/default.js`
-
-:::
+Considering those needs define objects with the desired classes for every component, a good approach is to create a file where you define the template:
 
 ```js
-// `./myOwnTheme.js`
 const TInput = {
-  // Notice that this will override the full `baseClass` setting so probably you want to keep some
-  // of the clases and just replace the ones you want to override.
-  // baseClass: 'border block w-full rounded',
-  baseClass: 'border-2 border-blue-500 block w-full rounded',
+  classes: 'border-2 block w-full rounded text-gray-800',
+  // Optional variants
+  variants: {
+    // ...
+  },
+  // Optional fixedClasses
+  // fixedClasses: '',
 }
 
 const TButton = {
-  // baseClass: 'border block rounded inline-flex items-center justify-center',
-  baseClass: 'rounded-lg border block inline-flex items-center justify-center',
-  // primaryClass: 'text-white bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600',
-  primaryClass: 'text-white bg-purple-500 border-purple-500 hover:bg-purple-600 hover:border-purple-600',
+  classes: 'rounded-lg border block inline-flex items-center justify-center',
+  variants: {
+    secondary: 'rounded-lg border block inline-flex items-center justify-center bg-purple-500 border-purple-500 hover:bg-purple-600 hover:border-purple-600',
+  },
+  // Optional fixedClasses
+  // fixedClasses: 'transform ease-in-out duration-100',
 }
 
 const MyOwnTheme = {
@@ -103,164 +77,129 @@ const MyOwnTheme = {
 export default MyOwnTheme
 ```
 
-Finally, add your custom theme when you install VueTailwind:
+Then you can import your theme and add it as a parameter when you install VueTailwind:
 
 ```js {3,6}
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 import MyOwnTheme from './myOwnTheme.js'
 
-Vue.use(VueTailwind, {
-  theme: MyOwnTheme
-})
+Vue.use(VueTailwind, MyOwnTheme)
 ```
 
-Another option is to set the settings directly, check at this example:
+Or just define the settings directly:
 
 ```js {4,5,6,11}
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
 const TInput = {
-  baseClass: 'border-2 border-blue-500 block w-full rounded',
+  classes: 'border-2 border-blue-500 block w-full rounded',
 }
 // Or create a separate file like `src/themes/default/TInput.js` and import it
 // import TInput from './myOwnTInput'
 Vue.use(VueTailwind, {
-  theme: {
-    TInput
-  }
+  TInput
 })
-// Or why not define the settings inline:
+
+// Or why not? define the settings inline:
 Vue.use(VueTailwind, {
-  theme: {
-    TInput: {
-      baseClass: 'border-2 border-blue-500 block w-full rounded',
-    }
+  TInput: {
+    classes: 'border-2 border-blue-500 block w-full rounded',
   }
 })
 ```
 
-### 3. (Optional) configure `purgecss`
+## Quick start
 
-Using `purgecss` postcss plugin? Add your theme file to the postcss config (or if you using the default theme add the theme path):
+Here is a small example of how the classes and variants are defined when you import this library:
 
 ```js
-// postcss.config.js (from https://tailwindcss.com/docs/controlling-file-size#setting-up-purgecss)
-const purgecss = require('@fullhuman/postcss-purgecss')({
-  content: [
-    // ...Default config
-    // Your custom theme file:
-    './myOwnTheme.js',
-    // Or the default 
-    // './node_modules/vue-tailwind/src/themes/default.js'
-  ],
+import Vue from 'vue'
+import VueTailwind from 'vue-tailwind'
 
-  // Include any special characters you're using in this regular expression
-  defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
-})
-
-module.exports = {
-  plugins: [
-    require('tailwindcss'),
-    require('autoprefixer'),
-    ...process.env.NODE_ENV === 'production'
-      ? [purgecss]
-      : []
-  ]
+const theme = {
+  TInput: {
+    classes: 'form-input border-2 text-gray-700',
+    variants: {
+      error: 'form-input border-2 border-red-300 bg-red-100',
+      // ... Infinite variants
+    }
+  },
+  TAlert: {
+    classes: {
+      wrapper: 'rounded bg-blue-100 p-4 flex text-sm border-l-4 border-blue-500',
+      body: 'flex-grow text-blue-700',
+      close: 'text-blue-700 hover:text-blue-500 hover:bg-blue-200 ml-4 rounded',
+      closeIcon: 'h-5 w-5 fill-current'
+    },
+    variants: {
+      danger: {
+        wrapper: 'rounded bg-red-100 p-4 flex text-sm border-l-4 border-red-500',
+        body: 'flex-grow text-red-700',
+        close: 'text-red-700 hover:text-red-500 hover:bg-red-200 ml-4 rounded'
+      },
+      // ... Infinite variants
+    }
+  },
+  // ... The rest of the components
 }
+
+Vue.use(VueTailwind, theme)
 ```
 
-## Install only the components you need
+The default classes and variants can also be defined in the component props:
 
-If you want to reduce the bundle size by importing only the components you need you can do it by importing the component directly and registering it like this:
-
-```
-import TInput from 'vue-tailwind/src/elements/TInput.vue'
-import TAlert from 'vue-tailwind/src/components/TAlert.vue'
-
-  Vue.use(TInput, {
-  successStatusClass: 'border-green-600 bg-green-300 text-white',
-})
-
-Vue.use(TAlert, {
-  baseClass: 'border-2 p-3 relative flex',
-})
+```html
+<t-input
+  :classes="form-input border-2 text-gray-700"
+  :variants="{
+    error: 'form-input border-2 border-red-300 bg-red-100',
+    success: 'form-input border-2 border-green-300 bg-green-100'
+  }"
+/>
 ```
 
-_* Notice that you can pass the classes you want to override as you do when importing the full library._
+To apply an specific variant you just need to use the `variant` prop:
 
-_** Also notice that the form inputs are in the `src/elements/` path and the components in `src/components/` path._
-
-You can also import the component from another custom component but in that case, you currently can't override the default theme. However, you can set the classes by using the props, look at this example:
-
-```
-<template>
-<div>
-  <t-input :success-status-class="border-green-600 bg-green-300 text-white" >
-</div>
-</template>
-
-<script>
-import TInput from 'vue-tailwind/src/elements/TInput.vue'
-export default {
-  components: {
-    TInput
-  }
-}
-</script>
+```html
+<t-input variant="error" />
 ```
 
-## What's next?
+The variant prop also accepts an object that takes the first attribute with a _truthy_ value
 
-The idea is to create a big set of common components using the same philosophy: Configurable elements that could be adapted to your project style:
+```html
+<t-input
+  :variant="{
+    error: inputIsNotValid,
+    success: inputIsValid,
+  }"
+/>
+```
 
-For now, these are the priorities, which may be subject to change.
+## Whats new in version 1.x
 
-**Basic inputs**
-- [x] [Text input](https://vue-tailwind.com/elements/input.html)
-- [x] [Textarea](https://vue-tailwind.com/elements/textarea.html)
-- [x] [Select](https://vue-tailwind.com/elements/select.html)
-- [x] [Radio](https://vue-tailwind.com/elements/radio.html)
-- [x] [Radio Group](https://vue-tailwind.com/elements/radio-group.html)
-- [x] [Button](https://vue-tailwind.com/elements/button.html)
-- [x] [Checkbox](https://vue-tailwind.com/elements/checkbox.html)
-- [x] [Checkbox Group](https://vue-tailwind.com/elements/checkbox-group.html)
-- [ ] File input
+- Rebuilt from scratch in Typescript
+- Small bundle size and less dependencies
+- A better way to import only selected components
+- Unlimited variants and a easy way to configure them
 
-**Rich inputs**
-- [ ] __IN PROGRESS__ Rich Select (tagging, autocomplete, remote data sets, etc.)  
-- [ ] Date/Time Picker
-- [ ] Rich file input (drop, multiupload, progress bar, etc)
 
-**Components**
-- [x] [Alert](https://vue-tailwind.com/components/alert.html)
-- [x] [Card](https://vue-tailwind.com/components/card.html)
-- [x] [Dropdown](https://vue-tailwind.com/components/dropdown.html)
-- [x] [InputGroup](https://vue-tailwind.com/components/input-group.html)
-- [x] __NEW__ [Table](https://vue-tailwind.com/components/table.html)
-- [x] __NEW__ [Pagination](https://vue-tailwind.com/components/pagination.html)
-- [x] __NEW__ [Modal](https://vue-tailwind.com/components/modal.html)
-- [ ] __IN PROGRESS__ Pagination Nav
-- [ ] __IN PROGRESS__ Dialogs
-- [ ] Tooltip
-- [ ] Progress bar
+## Whats next?
 
-**More features**
-- [ ] Table filter, pagination & sorting
-- *Send your feature requests*
+- Im working in a datepicker that is the most requested component, after that im planning to create a swal like dialog component.
+- Already started to work in a react version of this package called react-tailwind.
+- Im making some final changes to the Community themes features that should be released soon.
 
-**More**
+## Contribute
 
-- Once we have a reasonable amount of components, I'm also planning to:
-  - Create some more default themes
-  - Improve the documentation with better playgrounds
-  - Create a theme editor (And maybe a "submit your theme" page)
-  - Add more features to the components
+Is this project helpful for you? Consider sponsoring me [https://github.com/sponsors/alfonsobries](https://github.com/sponsors/alfonsobries).
+
+Of course, any other kind help is welcome, even if you notice some grammar mistakes (English is not my primary language) see [contribute page](https://vue-tailwind.com/contribute) for details.
 
 ### Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](https://github.com/alfonsobries/vue-tailwind/blob/master/CHANGELOG.md) for more information what has changed recently.
 
 ### Security
 
@@ -269,11 +208,13 @@ If you discover any security related issues, please email alfonso@vexilo.com ins
 ## Credits
 
 - [Alfonso Bribiesca](https://github.com/alfonsobries)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/alfonsobries/vue-tailwind/contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/alfonsobries/vue-tailwind/blob/master/LICENSE) for more information.
 
 _Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
 
+
+[Version 0.x docs](https://v0.vue-tailwind.com/).

@@ -18,6 +18,5 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-*.sw*
-
-/docs/.vuepress/dist
+*.sw?
+.editorconfig

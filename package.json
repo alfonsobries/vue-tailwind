@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "0.4.6",
+  "version": "1.0.0",
   "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
@@ -15,49 +15,48 @@
   ],
   "author": "Alfonso Bribiesca <alfonso@vexilo.com> (https://www.vexilo.com/)",
   "license": "MIT",
-  "main": "./dist/vue-tailwind.common.js",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-bundle": "vue-cli-service build --target lib --name vue-tailwind ./src/index.js",
-    "lint:test": "vue-cli-service lint --no-fix",
-    "lint": "vue-cli-service lint",
+    "build": "scripts/build.sh",
     "test:unit": "vue-cli-service test:unit",
-    "test:watch": "vue-cli-service test:unit --watch"
+    "test:watch": "vue-cli-service test:unit --watch",
+    "lint": "vue-cli-service lint",
+    "release": "release-it"
   },
   "dependencies": {
-    "body-scroll-lock": "^2.6.4",
-    "vue": "^2.6.10",
-    "vue-popperjs": "^2.1.0",
-    "vue2-datepicker": "^3.3.1"
+    "body-scroll-lock": "^3.0.2",
+    "lodash": "^4.17.15",
+    "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-plugin-unit-jest": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "@vue/test-utils": "1.0.0-beta.29",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "^10.0.3",
-    "babel-jest": "^23.6.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.3",
-    "lodash": "^4.17.15",
-    "tailwindcss": "^1.1.2",
-    "vue-template-compiler": "^2.6.10",
-    "webpack-dev-middleware": "^3.7.2"
+    "@types/body-scroll-lock": "^2.6.1",
+    "@types/jest": "^25.2.2",
+    "@types/lodash": "^4.14.151",
+    "@types/vue": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "@vue/cli-plugin-babel": "~4.3.1",
+    "@vue/cli-plugin-eslint": "~4.3.1",
+    "@vue/cli-plugin-typescript": "~4.3.1",
+    "@vue/cli-plugin-unit-jest": "~4.3.1",
+    "@vue/cli-service": "~4.3.1",
+    "@vue/eslint-config-airbnb": "^5.0.2",
+    "@vue/eslint-config-typescript": "^5.0.2",
+    "@vue/test-utils": "1.0.3",
+    "eslint": "^7.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "release-it": "^13.6.1",
+    "typescript": "~3.9.2",
+    "vue-template-compiler": "^2.6.11"
   },
+  "homepage": "https://vue-tailwind.com",
   "files": [
     "dist/*",
     "src/*",
-    "public/*",
     "*.json",
     "*.js"
   ],
-  "resolutions": {
-    "webpack-dev-middleware": "3.6.0"
-  },
-  "homepage": "https://vue-tailwind.com"
+  "main": "./dist/vue-tailwind.umd.js"
 }
