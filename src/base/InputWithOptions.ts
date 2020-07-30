@@ -69,10 +69,10 @@ const InputWithOptions = HtmlInput.extend({
         return options.map((option) => this.normalizeOption(option));
       }
 
-      return map<object, NormalizedOption>(options, (option, key) => ({
+      return map(options, (option, key) => ({
         value: key,
         text: option,
-      }));
+      })) as NormalizedOptions;
     },
 
     normalizeOption(option: InputOption): NormalizedOption {

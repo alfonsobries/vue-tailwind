@@ -4,9 +4,9 @@ import HtmlInput from '@/base/HtmlInput';
 import CssClass from '@/types/CssClass';
 
 const checkIfTagShouldBeChecked = (
-  model: string | object | number | boolean | undefined,
+  model: string | Record<string, unknown> | number | boolean | undefined,
   checked: boolean | string,
-  value: | object | number | boolean | undefined,
+  value: | Record<string, unknown> | number | boolean | undefined,
 ) => (model === undefined ? !!checked : isEqual(model, value));
 
 const TRadio = HtmlInput.extend({

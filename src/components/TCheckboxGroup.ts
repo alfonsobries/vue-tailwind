@@ -47,12 +47,12 @@ const TCheckboxGroup = InputWithOptions.extend({
 
   data() {
     return {
-      localValue: this.value as (string | number | object)[],
+      localValue: this.value as (string | number | Record<string, unknown>)[],
     };
   },
 
   watch: {
-    localValue(localValue: (string | number | object)[]) {
+    localValue(localValue: (string | number | Record<string, unknown>)[]) {
       this.$emit('input', localValue);
       this.$emit('change', localValue);
     },
@@ -143,8 +143,8 @@ const TCheckboxGroup = InputWithOptions.extend({
       return parts.join('-');
     },
 
-    inputHandler(value: (string|number|object)[]) {
-      (this.localValue as (string | number | object)[]) = value;
+    inputHandler(value: (string | number| Record<string, unknown>)[]) {
+      (this.localValue as (string | number | Record<string, unknown>)[]) = value;
     },
 
     blurHandler(e: FocusEvent) {

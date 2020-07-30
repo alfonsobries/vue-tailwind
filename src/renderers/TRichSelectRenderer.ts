@@ -20,7 +20,7 @@ export default class TRichSelectRenderer {
   /**
    * Div that wraps the whole component
    */
-  createWrapper() {
+  createWrapper(): VNode {
     return this.createElement(
       'div',
       {
@@ -37,7 +37,7 @@ export default class TRichSelectRenderer {
   /**
    * Div that wraps the button that is used as a select box
    */
-  createSelectButtonWrapper() {
+  createSelectButtonWrapper(): VNode {
     const subElements = [this.createSelectButton()];
 
     if (this.component.clearable && this.component.selectedOption && !this.component.disabled) {
@@ -57,7 +57,7 @@ export default class TRichSelectRenderer {
   /**
    * The button that is used a select box
    */
-  createSelectButton() {
+  createSelectButton(): VNode {
     const subElements = [];
 
     if (this.component.selectedOption) {
@@ -209,7 +209,7 @@ export default class TRichSelectRenderer {
   /**
    * Div that wraps the search box
    */
-  createSearchBoxWrapper() {
+  createSearchBoxWrapper(): VNode {
     return this.createElement(
       'div',
       {
@@ -225,7 +225,7 @@ export default class TRichSelectRenderer {
   /**
    * Filter search box
    */
-  createSearchBox() {
+  createSearchBox() : VNode {
     return this.createElement(
       'input',
       {
@@ -274,7 +274,7 @@ export default class TRichSelectRenderer {
   /**
    * The div used as dropdown with the options and the search box
    */
-  createDropdown() {
+  createDropdown(): VNode {
     const subElements = [];
 
     if (this.component.shouldShowSearchbox) {
@@ -368,7 +368,7 @@ export default class TRichSelectRenderer {
   /**
    * Options list wrapper
    */
-  createOptionsList(options: NormalizedOptions) {
+  createOptionsList(options: NormalizedOptions): VNode {
     return this.createElement(
       'ul',
       {
@@ -390,7 +390,7 @@ export default class TRichSelectRenderer {
    * Dropdown feedback
    * @param text
    */
-  createDropdownFeedback(text: string) {
+  createDropdownFeedback(text: string): VNode {
     return this.createElement(
       'div',
       {
@@ -405,7 +405,7 @@ export default class TRichSelectRenderer {
    * Dropdown feedback
    * @param text
    */
-  createLoadingMoreResults(text: string) {
+  createLoadingMoreResults(text: string): VNode {
     return this.createElement(
       'div',
       {

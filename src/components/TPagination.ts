@@ -4,6 +4,7 @@ import Component from '@/base/Component';
 import { CreateElement, VNode, VNodeChildren } from 'vue';
 import CssClass from '@/types/CssClass';
 
+type ClickHandler = () => void
 const TPagination = Component.extend({
   name: 'TPagination',
 
@@ -221,7 +222,7 @@ const TPagination = Component.extend({
     },
 
     // eslint-disable-next-line max-len
-    createControl(createElement: CreateElement, text: string, disabled = false, active = false, clickHandler?: Function) {
+    createControl(createElement: CreateElement, text: string, disabled = false, active = false, clickHandler?: ClickHandler) {
       let className: CssClass = '';
 
       if (!clickHandler) {
@@ -244,7 +245,7 @@ const TPagination = Component.extend({
     },
 
     // eslint-disable-next-line max-len
-    createControlButton(createElement: CreateElement, text: string, disabled = false, active = false, clickHandler?: Function) {
+    createControlButton(createElement: CreateElement, text: string, disabled = false, active = false, clickHandler?: ClickHandler) {
       if (!clickHandler) {
         return createElement(
           'span',
