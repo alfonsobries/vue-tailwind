@@ -127,4 +127,33 @@ describe('TModal.vue', () => {
 
     expect(wrapper.vm.$refs.close).toBeTruthy()
   })
+  
+  it('accepts numeric widths', () => {
+    const wrapper = shallowMount(TModal, {
+      propsData:{
+        width: '100'
+      },
+    })
+
+    expect(wrapper.vm.normalizedWidth).toBe('100px')
+  })
+
+  it('accepts percents widths', () => {
+    const wrapper = shallowMount(TModal, {
+      propsData:{
+        width: '100%'
+      },
+    })
+
+    expect(wrapper.vm.normalizedWidth).toBe('100%')
+  })
+  it('accepts percents heights', () => {
+    const wrapper = shallowMount(TModal, {
+      propsData:{
+        height: '100%'
+      },
+    })
+
+    expect(wrapper.vm.normalizedHeight).toBe('100%')
+  })  
 })

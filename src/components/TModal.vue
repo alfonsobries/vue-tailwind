@@ -73,6 +73,7 @@
 import selfInstall from '../utils/selfInstall.js'
 import TModalTheme from '../themes/default/TModal'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import isNumeric from '../utils/isNumeric.js'
 
 const {
   baseClass,
@@ -186,14 +187,14 @@ export default {
       };
     },
     normalizedWidth() {
-      if (! Number.isNaN(this.width)) {
+      if (isNumeric(this.width)) {
         return `${this.width}px`;
       }
 
       return this.width;
     },
     normalizedHeight() {
-      if (! Number.isNaN(this.height)) {
+      if (isNumeric(this.height)) {
         return `${this.height}px`;
       }
 
