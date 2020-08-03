@@ -67,6 +67,10 @@ const TButton = HtmlInput.extend({
       type: String,
       default: 'router-link-exact-active',
     },
+    event: {
+      type: [String, Array],
+      default: 'click',
+    },
   },
   computed: {
     isInertiaLinkComponentAvailable(): boolean {
@@ -165,7 +169,7 @@ const TButton = HtmlInput.extend({
         tag: this.tagName,
         activeClass: this.activeClass,
         exact: this.exact,
-        event: ['click', 'focus', 'blur'],
+        event: this.event,
         exactActiveClass: this.exactActiveClass,
         id: this.id,
         value: this.value,
