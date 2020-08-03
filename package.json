@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/body-scroll-lock": "^2.6.1",
-    "@types/jest": "^26.0.7",
+    "@types/jest": "^26.0.8",
     "@types/lodash": "^4.14.158",
     "@types/vue": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
@@ -44,7 +44,7 @@
     "@vue/eslint-config-airbnb": "^5.1.0",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "1.0.3",
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-vue": "^6.2.2",
     "release-it": "^13.6.6",
