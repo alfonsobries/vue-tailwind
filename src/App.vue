@@ -6,6 +6,7 @@
     header="VueTailwind"
     footer="Made with love by @alfonsobries"
   >
+    <t-datepicker v-model="date" />
     <ul>
       <t-dropdown>
         <template
@@ -905,6 +906,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      date: new Date(),
       wrappedRadioValue: '2',
       wrappedCheckboxValue: ['2'],
       repositories: [] as string[],
