@@ -1,5 +1,7 @@
 # Vue-Tailwind 
 
+![Node CI](https://github.com/alfonsobries/vue-tailwind/workflows/Node%20CI/badge.svg)
+
 For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
 
 **VueTailwind** is a set of Vue components created to be customized to adapt to the unique design of your application.
