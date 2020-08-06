@@ -6,7 +6,10 @@
     header="VueTailwind"
     footer="Made with love by @alfonsobries"
   >
-    <t-datepicker v-model="date" />
+    <t-datepicker
+      v-model="date"
+      :week-start="3"
+    />
     <ul>
       <t-dropdown>
         <template

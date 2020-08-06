@@ -1,8 +1,8 @@
-import Component from '@/base/Component';
-import { CreateElement, VNode } from 'vue';
+import Vue, { CreateElement, VNode } from 'vue';
+
 import TDatepickerDaysDay from './TDatepickerDaysDay';
 
-const TDatepickerDays = Component.extend({
+const TDatepickerDays = Vue.extend({
   name: 'TDatepickerDays',
 
   props: {
@@ -14,24 +14,10 @@ const TDatepickerDays = Component.extend({
       type: Number,
       required: true,
     },
-  },
-
-  render(createElement: CreateElement): VNode {
-    return createElement(
-      'div',
-      {
-        class: 'grid gap-1 grid-cols-7 ',
-      },
-      this.days.map((day: Date) => createElement(
-        TDatepickerDaysDay,
-        {
-          props: {
-            day,
-            value: this.value,
-          },
-        },
-      )),
-    );
+    locale: {
+      type: String,
+      required: true,
+    },
   },
 
   computed: {
@@ -53,34 +39,58 @@ const TDatepickerDays = Component.extend({
     firstDayOfNextMonth(): Date {
       return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
     },
-    days(): Date[] {
-      const prevMonthDays = this.getPrevMonthDays();
-      const monthDays = this.getMonthDays();
-      const nextMonthDays = this.getNextMonthDays();
-      return prevMonthDays.concat(monthDays, nextMonthDays);
-    },
-  },
-
-  methods: {
-    getMonthDays(): Date[] {
+    monthDays(): Date[] {
       return Array
         .from({ length: this.lastDayOfMonth.getDate() }, (_x, i) => i + 1)
         .map((day) => this.getDay(this.currentDate, day));
     },
-    getNextMonthDays(): Date[] {
-      const nextMonthTotalDays = 6 - this.weekStart - this.lastDayOfMonth.getDay();
-      return Array.from({ length: nextMonthTotalDays }, (_x, i) => i + 1)
-        .map((day) => this.getDay(this.firstDayOfNextMonth, day));
-    },
-    getPrevMonthDays(): Date[] {
+    prevMonthDays(): Date[] {
       const prevMonthTotalDays = this.firstDayOfMonth.getDay() - this.weekStart;
       return Array.from({ length: prevMonthTotalDays }, (_x, i) => this.lastDayOfPrevMonth.getDate() - i)
         .reverse()
         .map((day) => this.getDay(this.firstDayOfPrevMonth, day));
     },
+    nextMonthDays(): Date[] {
+      const nextMonthTotalDays = 7 - (this.monthDays.concat(this.prevMonthDays).length % 7);
+      if (nextMonthTotalDays === 7) {
+        return [];
+      }
+      return Array.from({ length: nextMonthTotalDays }, (_x, i) => i + 1)
+        .map((day) => this.getDay(this.firstDayOfNextMonth, day));
+    },
+    days(): Date[] {
+      const { prevMonthDays } = this;
+      const { monthDays } = this;
+      const { nextMonthDays } = this;
+      return prevMonthDays.concat(monthDays, nextMonthDays);
+    },
+  },
+
+  methods: {
+
+
     getDay(date: Date, day: number): Date {
       return new Date(date.getFullYear(), date.getMonth(), day);
     },
+  },
+
+  render(createElement: CreateElement): VNode {
+    return createElement(
+      'div',
+      {
+        class: 'grid gap-1 grid-cols-7 ',
+      },
+      this.days.map((day: Date) => createElement(
+        TDatepickerDaysDay,
+        {
+          props: {
+            day,
+            locale: this.locale,
+            value: this.value,
+          },
+        },
+      )),
+    );
   },
 });
 

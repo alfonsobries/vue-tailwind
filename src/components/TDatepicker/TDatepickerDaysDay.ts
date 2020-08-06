@@ -1,12 +1,16 @@
-import Component from '@/base/Component';
-import { CreateElement, VNode } from 'vue';
+import Vue, { CreateElement, VNode } from 'vue';
 
-const TDatepickerDaysDay = Component.extend({
+
+const TDatepickerDaysDay = Vue.extend({
   name: 'TDatepickerDaysDay',
 
   props: {
     day: {
       type: Date,
+      required: true,
+    },
+    locale: {
+      type: String,
       required: true,
     },
     value: {
@@ -15,21 +19,28 @@ const TDatepickerDaysDay = Component.extend({
     },
   },
 
+  computed: {
+    dateFormatter() : Intl.DateTimeFormat {
+      return new Intl.DateTimeFormat(this.locale, {
+        day: 'numeric',
+      });
+    },
+  },
+
+  methods: {
+    getDay(): string {
+      return this.dateFormatter.format(new Date(this.day));
+    },
+  },
+
   render(createElement: CreateElement): VNode {
-    const day: Date = this.day as Date;
     return createElement(
       'button',
       {
         class: '',
       },
-      day.getDate(),
+      this.getDay(),
     );
-  },
-
-  methods: {
-    getDay(): Date {
-      return this.day as Date;
-    },
   },
 });
 

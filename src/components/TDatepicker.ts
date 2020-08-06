@@ -1,9 +1,10 @@
-import Component from '@/base/Component';
 import { CreateElement, VNode } from 'vue';
+import Component from '@/base/Component';
+
 import TDropdown from '@/components/TDropdown';
 import TDatepickerInput from './TDatepicker/TDatepickerInput';
 import TDatepickerDays from './TDatepicker/TDatepickerDays';
-
+import TDatepickerHeaders from './TDatepicker/TDatepickerHeaders';
 
 const TDatepicker = Component.extend({
   name: 'TDatepicker',
@@ -15,6 +16,10 @@ const TDatepicker = Component.extend({
     weekStart: {
       type: Number,
       default: 0,
+    },
+    locale: {
+      type: String,
+      default: 'en',
     },
   },
   data() {
@@ -43,11 +48,21 @@ const TDatepicker = Component.extend({
       },
       [
         createElement(
+          TDatepickerHeaders,
+          {
+            props: {
+              weekStart: this.weekStart,
+              locale: this.locale,
+            },
+          },
+        ),
+        createElement(
           TDatepickerDays,
           {
             props: {
               value: this.localValue,
               weekStart: this.weekStart,
+              locale: this.locale,
             },
           },
         ),
