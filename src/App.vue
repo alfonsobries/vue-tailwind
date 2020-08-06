@@ -8,7 +8,7 @@
   >
     <t-datepicker
       v-model="date"
-      :week-start="3"
+      :week-start="0"
     />
     <ul>
       <t-dropdown>

@@ -1,9 +1,7 @@
-import Component from '@/base/Component';
-import { CreateElement, VNode } from 'vue';
-
+import Vue, { CreateElement, VNode } from 'vue';
 import TInput from '@/inputs/TInput';
 
-const TDatepickerInput = Component.extend({
+const TDatepickerInput = Vue.extend({
   name: 'TDatepickerInput',
 
   props: {

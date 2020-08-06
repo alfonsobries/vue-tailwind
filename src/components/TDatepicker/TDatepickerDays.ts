@@ -18,6 +18,10 @@ const TDatepickerDays = Vue.extend({
       type: String,
       required: true,
     },
+    getElementCssClass: {
+      type: Function,
+      required: true,
+    },
   },
 
   computed: {
@@ -87,6 +91,7 @@ const TDatepickerDays = Vue.extend({
             day,
             locale: this.locale,
             value: this.value,
+            getElementCssClass: this.getElementCssClass,
           },
         },
       )),
