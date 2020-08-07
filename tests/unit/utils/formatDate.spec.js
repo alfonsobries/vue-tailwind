@@ -236,112 +236,78 @@ describe('flatpickr', () => {
         expect(parsedDate.getMinutes()).toEqual(0);
       });
 
-      // it('should parse JSON datestrings', () => {
-      //   createInstance({});
+      it('should parse JSON datestrings', () => {
+        const parsedDate = parser('2016-12-27T16:16:22.585Z');
 
-      //   const date = fp.parseDate('2016-12-27T16:16:22.585Z', undefined);
-      //   expect(date).toBeDefined();
-
-      //   if (!date) return;
-
-      //   expect(date.getTime()).toBeDefined();
-      //   expect(date.getTime()).toEqual(Date.parse('2016-12-27T16:16:22.585Z'));
-      // });
+        expect(parsedDate).toBeDefined();
+        expect(parsedDate.getTime()).toBeDefined();
+        expect(parsedDate.getTime()).toEqual(Date.parse('2016-12-27T16:16:22.585Z'));
+      });
     });
 
-    // describe("time string parser", () => {
-    //   it('should parse "21:11"', () => {
-    //     createInstance({
-    //       defaultDate: "21:11",
-    //       allowInput: true,
-    //       enableTime: true,
-    //       noCalendar: true,
-    //     });
+    describe('time string parser', () => {
+      it('should parse "21:11"', () => {
+        const parsedDate = parser('21:11', 'H:i');
 
-    //     expect(fp.selectedDates[0]).toBeDefined();
-    //     expect(fp.selectedDates[0].getHours()).toEqual(21);
-    //     expect(fp.selectedDates[0].getMinutes()).toEqual(11);
-    //   });
+        expect(parsedDate).toBeDefined();
+        expect(parsedDate.getHours()).toEqual(21);
+        expect(parsedDate.getMinutes()).toEqual(11);
+      });
 
-    //   it('should parse "21:11:12"', () => {
-    //     createInstance({
-    //       allowInput: true,
-    //       enableTime: true,
-    //       enableSeconds: true,
-    //       noCalendar: true,
-    //       defaultDate: "21:11:12",
-    //     });
+      it('should parse "21:11:12"', () => {
+        const parsedDate = parser('21:11:12', 'H:i:S');
 
-    //     expect(fp.selectedDates[0]).toBeDefined();
-    //     expect(fp.selectedDates[0].getHours()).toEqual(21);
-    //     expect(fp.selectedDates[0].getMinutes()).toEqual(11);
-    //     expect(fp.selectedDates[0].getSeconds()).toEqual(12);
-    //   });
+        expect(parsedDate).toBeDefined();
+        expect(parsedDate.getHours()).toEqual(21);
+        expect(parsedDate.getMinutes()).toEqual(11);
+        expect(parsedDate.getSeconds()).toEqual(12);
+      });
 
-    //   it('should parse "11:59 PM"', () => {
-    //     createInstance({
-    //       allowInput: true,
-    //       enableTime: true,
-    //       noCalendar: true,
-    //       dateFormat: "h:i K",
-    //       defaultDate: "11:59 PM",
-    //     });
+      it('should parse "11:59 PM"', () => {
+        const parsedDate = parser('11:59 PM', 'h:i K');
 
-    //     expect(fp.selectedDates[0]).toBeDefined();
-    //     expect(fp.selectedDates[0].getHours()).toBe(23);
-    //     expect(fp.selectedDates[0].getMinutes()).toBe(59);
-    //     expect(fp.selectedDates[0].getSeconds()).toBe(0);
+        expect(parsedDate).toBeDefined();
+        expect(parsedDate.getHours()).toBe(23);
+        expect(parsedDate.getMinutes()).toBe(59);
+        expect(parsedDate.getSeconds()).toBe(0);
+      });
 
-    //     expect(fp.amPM).toBeDefined();
-    //     fp.amPM && expect(fp.amPM.innerHTML).toBe("PM");
-    //   });
+      it('should parse "3:05:03 PM"', () => {
+        const parsedDate = parser('3:05:03 PM', 'h:i:S K');
 
-    //   it('should parse "3:05:03 PM"', () => {
-    //     createInstance({
-    //       allowInput: true,
-    //       enableTime: true,
-    //       enableSeconds: true,
-    //       noCalendar: true,
-    //       dateFormat: "h:i:S K",
-    //       defaultDate: "3:05:03 PM",
-    //     });
+        expect(parsedDate).toBeDefined();
+        expect(parsedDate.getHours()).toBe(15);
+        expect(parsedDate.getMinutes()).toBe(5);
+        expect(parsedDate.getSeconds()).toBe(3);
+      });
 
-    //     expect(fp.selectedDates[0]).toBeDefined();
-    //     expect(fp.selectedDates[0].getHours()).toBe(15);
-    //     expect(fp.selectedDates[0].getMinutes()).toBe(5);
-    //     expect(fp.selectedDates[0].getSeconds()).toBe(3);
+      // it('should parse defaultHour', () => {
+      //   createInstance({
+      //     enableTime: true,
+      //     noCalendar: true,
+      //     defaultHour: 0,
+      //   });
 
-    //     expect(fp.amPM).toBeDefined();
-    //     fp.amPM && expect(fp.amPM.innerHTML).toBe("PM");
-    //   });
+      //   expect((fp.hourElement as HTMLInputElement).value).toEqual('12');
 
-    //   it("should parse defaultHour", () => {
-    //     createInstance({
-    //       enableTime: true,
-    //       noCalendar: true,
-    //       defaultHour: 0,
-    //     });
+      //   createInstance({
+      //     enableTime: true,
+      //     noCalendar: true,
+      //     defaultHour: 12,
+      //   });
 
-    //     expect((fp.hourElement as HTMLInputElement).value).toEqual("12");
+      //   expect((fp.hourElement as HTMLInputElement).value).toEqual('12');
 
-    //     createInstance({
-    //       enableTime: true,
-    //       noCalendar: true,
-    //       defaultHour: 12,
-    //     });
+      //   createInstance({
+      //     enableTime: true,
+      //     noCalendar: true,
+      //     defaultHour: 23,
+      //     time_24hr: true,
+      //   });
 
-    //     expect((fp.hourElement as HTMLInputElement).value).toEqual("12");
-
-    //     createInstance({
-    //       enableTime: true,
-    //       noCalendar: true,
-    //       defaultHour: 23,
-    //       time_24hr: true,
-    //     });
-
-    //     expect((fp.hourElement as HTMLInputElement).value).toEqual("23");
-    //   });
-    // });
+      //   expect((fp.hourElement as HTMLInputElement).value).toEqual('23');
+      // });
+    });
   });
 
   describe('date formatting', () => {

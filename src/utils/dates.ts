@@ -76,6 +76,16 @@ export const createDateParser = ({
     // const format = givenFormat || (config || defaults).dateFormat;
     // @TODO: This come from config and doesnt contians time by default
     const format = givenFormat || 'Y-m-d H:i:S';
+
+    // if (!userConfig.dateFormat && (userConfig.enableTime || timeMode)) {
+    //   const defaultDateFormat =
+    //     flatpickr.defaultConfig.dateFormat || defaultOptions.dateFormat;
+    //   formats.dateFormat =
+    //     userConfig.noCalendar || timeMode
+    //       ? "H:i" + (userConfig.enableSeconds ? ":S" : "")
+    //       : defaultDateFormat + " H:i" + (userConfig.enableSeconds ? ":S" : "");
+    // }
+
     const datestr = String(date).trim();
 
     if (datestr === 'today') {
