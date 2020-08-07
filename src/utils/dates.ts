@@ -1,0 +1,180 @@
+import { Locale } from '@/types/locale';
+import { english } from '@/l10n/default';
+// import { defaults, ParsedOptions } from '@/types/options';
+import {
+  tokenRegex,
+  RevFormatFn,
+  token,
+  revFormat,
+  formats,
+} from './formatting';
+
+
+export interface FormatterArgs {
+  // config?: ParsedOptions;
+  l10n?: Locale;
+  // isMobile?: boolean;
+}
+
+export const createDateFormatter = ({
+  // config = defaults,
+  l10n = english,
+  // isMobile = false,
+}: FormatterArgs) => (
+  dateObj: Date,
+  format: string,
+  overrideLocale?: Locale,
+): string => {
+  const locale = overrideLocale || l10n;
+
+  // if (config.formatDate !== undefined && !isMobile) {
+  //   return config.formatDate(dateObj, format, locale);
+  // }
+
+  return format
+    .split('')
+    .map((char, i, arr) => {
+      if (formats[char as token] && arr[i - 1] !== '\\') {
+        return formats[char as token](dateObj, locale);
+      } if (char !== '\\') {
+        return char;
+      }
+      return '';
+    })
+    .join('');
+};
+
+export const createDateParser = ({
+  // config = defaults
+  l10n = english,
+}) => (
+  date: Date | string | number,
+  givenFormat?: string,
+  timeless?: boolean,
+  customLocale?: Locale,
+): Date | undefined => {
+  if (date !== 0 && !date) return undefined;
+  const localeTokenRegex = { ...tokenRegex };
+  localeTokenRegex.K = `(${l10n.amPM[0]}|${
+    l10n.amPM[1]
+  }|${l10n.amPM[0].toLowerCase()}|${l10n.amPM[1].toLowerCase()})`;
+
+  const locale = customLocale || l10n;
+
+  let parsedDate: Date | undefined;
+  const dateOrig = date;
+
+  if (date instanceof Date) parsedDate = new Date(date.getTime());
+  else if (
+    typeof date !== 'string'
+    && date.toFixed !== undefined // timestamp
+  ) {
+    // create a copy
+    parsedDate = new Date(date);
+  } else if (typeof date === 'string') {
+    // date string
+    // const format = givenFormat || (config || defaults).dateFormat;
+    // @TODO: This come from config and doesnt contians time by default
+    const format = givenFormat || 'Y-m-d H:i:S';
+    const datestr = String(date).trim();
+
+    if (datestr === 'today') {
+      parsedDate = new Date();
+      // eslint-disable-next-line no-param-reassign
+      timeless = true;
+    } else if (
+      /Z$/.test(datestr)
+      || /GMT$/.test(datestr) // datestrings w/ timezone
+    ) {
+      parsedDate = new Date(date);
+
+      // @TODO
+    // } else if (config && config.parseDate) {
+    //   parsedDate = config.parseDate(date, format);
+    } else {
+      parsedDate = new Date(new Date().getFullYear(), 0, 1, 0, 0, 0, 0);
+      // parsedDate = !config || !config.noCalendar
+      //   ? new Date(new Date().getFullYear(), 0, 1, 0, 0, 0, 0)
+      //   : (new Date(new Date().setHours(0, 0, 0, 0)) as Date);
+
+      let matched;
+      const ops: { fn: RevFormatFn; val: string }[] = [];
+
+      for (let i = 0, matchIndex = 0, regexStr = ''; i < format.length; i += 1) {
+        const token2 = format[i] as token;
+        const isBackSlash = (token2 as string) === '\\';
+        const escaped = format[i - 1] === '\\' || isBackSlash;
+
+        if (localeTokenRegex[token2] && !escaped) {
+          regexStr += localeTokenRegex[token2];
+          const match = new RegExp(regexStr).exec(date);
+          if (match) {
+            matched = true;
+            ops[token2 !== 'Y' ? 'push' : 'unshift']({
+              fn: revFormat[token2],
+              val: match[matchIndex += 1],
+            });
+          }
+        } else if (!isBackSlash) {
+          regexStr += '.'; // don't really care
+        }
+
+        // eslint-disable-next-line no-loop-func
+        ops.forEach((op) => {
+          const { fn } = op;
+          const { val } = op;
+          parsedDate = fn(parsedDate as Date, String(val), locale) || parsedDate;
+        });
+      }
+
+      parsedDate = matched ? parsedDate : undefined;
+    }
+  }
+
+  /* istanbul ignore next */
+  // eslint-disable-next-line no-restricted-globals
+  if (!(parsedDate instanceof Date && !isNaN(parsedDate.getTime()))) {
+    throw new Error(`Invalid date provided: ${dateOrig}`);
+    // @TODO
+    // config.errorHandler(new Error(`Invalid date provided: ${dateOrig}`));
+    return undefined;
+  }
+
+  if (timeless === true) {
+    parsedDate.setHours(0, 0, 0, 0);
+  }
+
+  return parsedDate;
+};
+
+// /**
+//  * Compute the difference in dates, measured in ms
+//  */
+// export function compareDates(date1: Date, date2: Date, timeless = true) {
+//   if (timeless !== false) {
+//     return (
+//       new Date(date1.getTime()).setHours(0, 0, 0, 0)
+//       - new Date(date2.getTime()).setHours(0, 0, 0, 0)
+//     );
+//   }
+
+//   return date1.getTime() - date2.getTime();
+// }
+
+// /**
+//  * Compute the difference in times, measured in ms
+//  */
+// export function compareTimes(date1: Date, date2: Date) {
+//   return (
+//     3600 * (date1.getHours() - date2.getHours())
+//     + 60 * (date1.getMinutes() - date2.getMinutes())
+//     + date1.getSeconds()
+//     - date2.getSeconds()
+//   );
+// }
+
+// export const isBetween = (ts: number, ts1: number, ts2: number) => ts > Math.min(ts1, ts2) && ts < Math.max(ts1, ts2);
+
+// export const duration = {
+//   DAY: 86400000,
+// };

@@ -2,8 +2,8 @@ import { CreateElement, VNode } from 'vue';
 import Component from '@/base/Component';
 
 import TDropdown from '@/components/TDropdown';
-import parseDate, { ParseableDate, DateValue } from '@/utils/parseDate';
-import formatDate from '@/utils/formatDate';
+// import parseDate, { ParseableDate, DateValue } from '@/utils/parseDate';
+// import formatDate from '@/utils/formatting';
 import TDatepickerInput from './TDatepicker/TDatepickerInput';
 import TDatepickerDays from './TDatepicker/TDatepickerDays';
 import TDatepickerHeaders from './TDatepicker/TDatepickerHeaders';
@@ -27,14 +27,14 @@ const TDatepicker = Component.extend({
       type: String,
       default: 'Y-m-d',
     },
-    dateFormatter: {
-      type: Function,
-      default: (date: Date | null) : string => formatDate(date),
-    },
-    dateParser: {
-      type: Function,
-      default: (date: ParseableDate) : DateValue => parseDate(date),
-    },
+    // dateFormatter: {
+    //   type: Function,
+    //   default: (date: Date | null) : string => formatDate(date),
+    // },
+    // dateParser: {
+    //   type: Function,
+    //   default: (date: ParseableDate) : DateValue => parseDate(date),
+    // },
     fixedClasses: {
       type: Object,
       default: () => ({
