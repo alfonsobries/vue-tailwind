@@ -1,4 +1,4 @@
-// Based on https://github.com/flatpickr/flatpickr/blob/master/src/utils/formatting.ts
+// Credits to https://github.com/flatpickr/flatpickr/blob/master/src/utils/formatting.ts
 import { int, pad } from '.';
 import { Locale } from '../types/locale';
 // import { ParsedOptions } from '../types/options';

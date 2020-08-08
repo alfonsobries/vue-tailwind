@@ -12,6 +12,10 @@ const TDatepickerHeaders = Vue.extend({
       type: Number,
       required: true,
     },
+    dateFormatter: {
+      type: Function,
+      required: true,
+    },
   },
 
   computed: {
@@ -25,18 +29,14 @@ const TDatepickerHeaders = Vue.extend({
         return weekDay;
       }).map(this.getWeekDayName);
     },
-    dateFormatter() : Intl.DateTimeFormat {
-      return new Intl.DateTimeFormat(this.locale, {
-        weekday: 'short',
-      });
-    },
+
   },
 
   methods: {
     getWeekDayName(weekDay: number): string {
       const date = new Date();
       date.setDate((date.getDate() + (7 + weekDay - date.getDay())) % 7);
-      return this.dateFormatter.format(date).replace('.', '');
+      return this.dateFormatter(date, 'D');
     },
   },
 

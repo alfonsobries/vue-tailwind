@@ -20,14 +20,13 @@ const TDatepickerDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
+    dateFormatter: {
+      type: Function,
+      required: true,
+    },
   },
 
   computed: {
-    dateFormatter() : Intl.DateTimeFormat {
-      return new Intl.DateTimeFormat(this.locale, {
-        day: 'numeric',
-      });
-    },
     isSelected(): boolean {
       const d1 = new Date(this.value);
       const d2 = new Date(this.day);
@@ -65,7 +64,7 @@ const TDatepickerDaysDay = Vue.extend({
       return this.getElementCssClass('day');
     },
     getDay(): string {
-      return this.dateFormatter.format(new Date(this.day));
+      return this.dateFormatter(this.day, 'j');
     },
   },
 
@@ -74,6 +73,9 @@ const TDatepickerDaysDay = Vue.extend({
       'button',
       {
         class: this.getClass(),
+        on: {
+          click: (e: MouseEvent) => this.$emit('click', e),
+        },
       },
       this.getDay(),
     );

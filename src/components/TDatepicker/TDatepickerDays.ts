@@ -10,6 +10,10 @@ const TDatepickerDays = Vue.extend({
       type: Date,
       required: true,
     },
+    activeDate: {
+      type: Date,
+      required: true,
+    },
     weekStart: {
       type: Number,
       required: true,
@@ -22,11 +26,16 @@ const TDatepickerDays = Vue.extend({
       type: Function,
       required: true,
     },
+    dateFormatter: {
+      type: Function,
+      required: true,
+    },
   },
 
   computed: {
     currentDate(): Date {
-      return new Date();
+      const currentDate = this.activeDate as unknown as Date;
+      return currentDate;
     },
     firstDayOfMonth(): Date {
       return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
@@ -71,8 +80,6 @@ const TDatepickerDays = Vue.extend({
   },
 
   methods: {
-
-
     getDay(date: Date, day: number): Date {
       return new Date(date.getFullYear(), date.getMonth(), day);
     },
@@ -92,6 +99,10 @@ const TDatepickerDays = Vue.extend({
             locale: this.locale,
             value: this.value,
             getElementCssClass: this.getElementCssClass,
+            dateFormatter: this.dateFormatter,
+          },
+          on: {
+            click: () => this.$emit('input', day),
           },
         },
       )),

@@ -909,7 +909,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      date: new Date(),
+      date: '1987-02-18',
       wrappedRadioValue: '2',
       wrappedCheckboxValue: ['2'],
       repositories: [] as string[],

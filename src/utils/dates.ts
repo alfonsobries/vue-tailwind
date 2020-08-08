@@ -9,6 +9,14 @@ import {
   formats,
 } from './formatting';
 
+export type DateValue = Date | string | number
+
+export type DateParser = (
+  date: DateValue,
+  givenFormat?: string,
+  timeless?: boolean,
+  customLocale?: Locale,
+) => Date | undefined
 
 export interface FormatterArgs {
   // config?: ParsedOptions;
@@ -47,8 +55,8 @@ export const createDateFormatter = ({
 export const createDateParser = ({
   // config = defaults
   l10n = english,
-}) => (
-  date: Date | string | number,
+}): DateParser => (
+  date: DateValue,
   givenFormat?: string,
   timeless?: boolean,
   customLocale?: Locale,

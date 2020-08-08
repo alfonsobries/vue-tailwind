@@ -1,9 +1,10 @@
 import { CreateElement, VNode } from 'vue';
 import Component from '@/base/Component';
-
+import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
-// import parseDate, { ParseableDate, DateValue } from '@/utils/parseDate';
-// import formatDate from '@/utils/formatting';
+import {
+  createDateFormatter, createDateParser, DateParser, DateValue,
+} from '@/utils/dates';
 import TDatepickerInput from './TDatepicker/TDatepickerInput';
 import TDatepickerDays from './TDatepicker/TDatepickerDays';
 import TDatepickerHeaders from './TDatepicker/TDatepickerHeaders';
@@ -27,14 +28,14 @@ const TDatepicker = Component.extend({
       type: String,
       default: 'Y-m-d',
     },
-    // dateFormatter: {
-    //   type: Function,
-    //   default: (date: Date | null) : string => formatDate(date),
-    // },
-    // dateParser: {
-    //   type: Function,
-    //   default: (date: ParseableDate) : DateValue => parseDate(date),
-    // },
+    dateFormatter: {
+      type: Function,
+      default: createDateFormatter({ l10n: english }),
+    },
+    dateParser: {
+      type: Function,
+      default: createDateParser({ l10n: english }),
+    },
     fixedClasses: {
       type: Object,
       default: () => ({
@@ -47,11 +48,14 @@ const TDatepicker = Component.extend({
   },
 
   data() {
-    const value = this.value as ParseableDate;
-    const dateParser = this.dateParser as (date: ParseableDate) => DateValue;
+    const dateParser = this.dateParser as DateParser;
+    const localValue = dateParser(this.value as DateValue, this.dateFormat);
+    // Used to show the selected month/year
+    const activeDate: Date = localValue || new Date();
 
     return {
-      localValue: dateParser(value),
+      localValue,
+      activeDate,
     };
   },
 
@@ -67,6 +71,9 @@ const TDatepicker = Component.extend({
             TDatepickerInput,
             {
               props: {
+                value: this.localValue,
+                dateFormatter: this.dateFormatter,
+                dateFormat: this.dateFormat,
                 show: props.show,
                 hideIfFocusOutside: props.hideIfFocusOutside,
               },
@@ -79,6 +86,7 @@ const TDatepicker = Component.extend({
           TDatepickerHeaders,
           {
             props: {
+              dateFormatter: this.dateFormatter,
               weekStart: this.weekStart,
               locale: this.locale,
             },
@@ -89,9 +97,16 @@ const TDatepicker = Component.extend({
           {
             props: {
               value: this.localValue,
+              activeDate: this.activeDate,
               weekStart: this.weekStart,
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
+              dateFormatter: this.dateFormatter,
+            },
+            on: {
+              input: (day: Date) => {
+                this.localValue = day;
+              },
             },
           },
         ),
