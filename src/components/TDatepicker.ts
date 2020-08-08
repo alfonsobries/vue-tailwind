@@ -8,6 +8,7 @@ import {
 import TDatepickerInput from './TDatepicker/TDatepickerInput';
 import TDatepickerDays from './TDatepicker/TDatepickerDays';
 import TDatepickerHeaders from './TDatepicker/TDatepickerHeaders';
+import TDatepickerNavigator from './TDatepicker/TDatepickerNavigator';
 
 const TDatepicker = Component.extend({
   name: 'TDatepicker',
@@ -61,6 +62,15 @@ const TDatepicker = Component.extend({
     };
   },
 
+  methods: {
+    inputHandler(newDate: Date): void {
+      this.localValue = newDate;
+    },
+    activDateInputHandler(newDate: Date): void {
+      this.activeDate = newDate;
+    },
+  },
+
   render(createElement: CreateElement): VNode {
     return createElement(
       TDropdown,
@@ -84,6 +94,19 @@ const TDatepicker = Component.extend({
         },
       },
       [
+        createElement(
+          TDatepickerNavigator,
+          {
+            props: {
+              value: this.activeDate,
+              dateFormatter: this.dateFormatter,
+              getElementCssClass: this.getElementCssClass,
+            },
+            on: {
+              input: this.activDateInputHandler,
+            },
+          },
+        ),
         createElement(
           TDatepickerHeaders,
           {

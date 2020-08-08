@@ -16,6 +16,10 @@ const TDatepickerDaysDay = Vue.extend({
       type: Date,
       required: true,
     },
+    activeDate: {
+      type: Date,
+      required: true,
+    },
     getElementCssClass: {
       type: Function,
       required: true,
@@ -28,20 +32,20 @@ const TDatepickerDaysDay = Vue.extend({
 
   computed: {
     isSelected(): boolean {
-      const d1 = new Date(this.value);
-      const d2 = new Date(this.day);
+      const d1 = this.day as unknown as Date;
+      const d2 = this.value as unknown as Date;
       return d1.getFullYear() === d2.getFullYear()
         && d1.getMonth() === d2.getMonth()
         && d1.getDate() === d2.getDate();
     },
     // @TODO
     isDisabled(): boolean {
-      const d = new Date(this.day);
+      const d = this.day as unknown as Date;
       return d.getDate() === 10;
     },
     isForAnotherMonth(): boolean {
-      const d1 = new Date(this.value);
-      const d2 = new Date(this.day);
+      const d1 = this.activeDate as unknown as Date;
+      const d2 = this.day as unknown as Date;
       return d1.getFullYear() !== d2.getFullYear()
         || d1.getMonth() !== d2.getMonth();
     },

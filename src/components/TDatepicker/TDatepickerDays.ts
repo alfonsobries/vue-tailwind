@@ -32,30 +32,33 @@ const TDatepickerDays = Vue.extend({
     },
   },
 
+  data() {
+    const localActiveDate: Date = this.activeDate as unknown as Date;
+    return {
+      localActiveDate,
+    };
+  },
+
   computed: {
-    currentDate(): Date {
-      const currentDate = this.activeDate as unknown as Date;
-      return currentDate;
-    },
     firstDayOfMonth(): Date {
-      return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+      return new Date(this.localActiveDate.getFullYear(), this.localActiveDate.getMonth(), 1);
     },
     lastDayOfMonth(): Date {
-      return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+      return new Date(this.localActiveDate.getFullYear(), this.localActiveDate.getMonth() + 1, 0);
     },
     firstDayOfPrevMonth(): Date {
-      return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
+      return new Date(this.localActiveDate.getFullYear(), this.localActiveDate.getMonth() - 1, 1);
     },
     lastDayOfPrevMonth(): Date {
-      return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0);
+      return new Date(this.localActiveDate.getFullYear(), this.localActiveDate.getMonth(), 0);
     },
     firstDayOfNextMonth(): Date {
-      return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
+      return new Date(this.localActiveDate.getFullYear(), this.localActiveDate.getMonth() + 1, 1);
     },
     monthDays(): Date[] {
       return Array
         .from({ length: this.lastDayOfMonth.getDate() }, (_x, i) => i + 1)
-        .map((day) => this.getDay(this.currentDate, day));
+        .map((day) => this.getDay(this.localActiveDate, day));
     },
     prevMonthDays(): Date[] {
       const prevMonthTotalDays = this.firstDayOfMonth.getDay() - this.weekStart;
@@ -79,6 +82,12 @@ const TDatepickerDays = Vue.extend({
     },
   },
 
+  watch: {
+    activeDate(activeDate: Date) {
+      this.localActiveDate = activeDate;
+    },
+  },
+
   methods: {
     getDay(date: Date, day: number): Date {
       return new Date(date.getFullYear(), date.getMonth(), day);
@@ -98,6 +107,7 @@ const TDatepickerDays = Vue.extend({
             day,
             locale: this.locale,
             value: this.value,
+            activeDate: this.localActiveDate,
             getElementCssClass: this.getElementCssClass,
             dateFormatter: this.dateFormatter,
           },
