@@ -16,6 +16,10 @@ const TDatepickerHeaders = Vue.extend({
       type: Function,
       required: true,
     },
+    getElementCssClass: {
+      type: Function,
+      required: true,
+    },
   },
 
   computed: {
@@ -44,13 +48,12 @@ const TDatepickerHeaders = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'grid gap-1 grid-cols-7 ',
+        class: this.getElementCssClass('weekDayWrapper'),
       },
       this.weekDays.map((weekDayName: string) => createElement(
         'span',
         {
-          class: 'uppercase text-sm text-gray-700',
-
+          class: this.getElementCssClass('weekDay'),
         },
         weekDayName,
       )),
