@@ -1,14 +1,19 @@
-import Vue, { CreateElement, VNode } from 'vue';
+import { CreateElement, VNode } from 'vue';
 import TInput from '@/inputs/TInput';
 import { DateValue } from '@/utils/dates';
+import HtmlInput from '@/base/HtmlInput';
 
-const TDatepickerInput = Vue.extend({
-  name: 'TDatepickerInput',
+const TDatepickerTriggerInput = HtmlInput.extend({
+  name: 'TDatepickerTriggerInput',
 
   props: {
     value: {
       type: [Date, String, Number, Array],
       required: true,
+    },
+    placeholder: {
+      type: String,
+      default: undefined,
     },
     show: {
       type: Function,
@@ -26,6 +31,10 @@ const TDatepickerInput = Vue.extend({
       type: String,
       required: true,
     },
+    userFormat: {
+      type: String,
+      required: true,
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -33,8 +42,19 @@ const TDatepickerInput = Vue.extend({
     return createElement(
       TInput,
       {
+        attrs: {
+          readonly: true,
+          id: this.id,
+          name: this.name,
+          disabled: this.disabled,
+          autocomplete: 'off',
+          autofocus: this.autofocus,
+          type: 'text',
+          required: this.required,
+          placeholder: this.placeholder,
+        },
         props: {
-          value: this.dateFormatter(value, this.dateFormat),
+          value: this.dateFormatter(value, this.userFormat),
         },
         on: {
           focus: () => {
@@ -49,4 +69,4 @@ const TDatepickerInput = Vue.extend({
   },
 });
 
-export default TDatepickerInput;
+export default TDatepickerTriggerInput;

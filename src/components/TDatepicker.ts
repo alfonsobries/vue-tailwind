@@ -5,17 +5,22 @@ import TDropdown from '@/components/TDropdown';
 import {
   createDateFormatter, createDateParser, DateParser, DateValue,
 } from '@/utils/dates';
-import TDatepickerInput from './TDatepicker/TDatepickerInput';
+import HtmlInput from '@/base/HtmlInput';
+import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatepickerDays from './TDatepicker/TDatepickerDays';
 import TDatepickerHeaders from './TDatepicker/TDatepickerHeaders';
 import TDatepickerNavigator from './TDatepicker/TDatepickerNavigator';
 
-const TDatepicker = Component.extend({
+const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
   props: {
     value: {
       type: [Date, String, Number, Array],
       default: null,
+    },
+    placeholder: {
+      type: String,
+      default: undefined,
     },
     weekStart: {
       type: Number,
@@ -28,6 +33,10 @@ const TDatepicker = Component.extend({
     dateFormat: {
       type: String,
       default: 'Y-m-d',
+    },
+    userFormat: {
+      type: String,
+      default: 'F j, Y',
     },
     dateFormatter: {
       type: Function,
@@ -90,11 +99,18 @@ const TDatepicker = Component.extend({
         },
         scopedSlots: {
           trigger: (props) => createElement(
-            TDatepickerInput,
+            TDatepickerTrigger,
             {
               props: {
+                id: this.id,
+                name: this.name,
+                disabled: this.disabled,
+                autofocus: this.autofocus,
+                required: this.required,
+                placeholder: this.placeholder,
                 value: this.localValue,
                 dateFormatter: this.dateFormatter,
+                userFormat: this.userFormat,
                 dateFormat: this.dateFormat,
                 show: props.show,
                 hideIfFocusOutside: props.hideIfFocusOutside,
