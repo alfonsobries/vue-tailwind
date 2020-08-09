@@ -62,12 +62,22 @@ const TDatepicker = Component.extend({
     };
   },
 
+  watch: {
+    localValue(localValue: DateValue) {
+      this.$emit('input', new Date(localValue.valueOf()));
+      // eslint-disable-next-line no-restricted-globals
+      if (localValue instanceof Date && !isNaN(localValue.getTime())) {
+        this.activeDate = new Date(localValue.valueOf());
+      }
+    },
+  },
+
   methods: {
     inputHandler(newDate: Date): void {
-      this.localValue = newDate;
+      this.localValue = new Date(newDate.valueOf());
     },
     activDateInputHandler(newDate: Date): void {
-      this.$set(this, 'activeDate', newDate);
+      this.activeDate = new Date(newDate.valueOf());
     },
   },
 
