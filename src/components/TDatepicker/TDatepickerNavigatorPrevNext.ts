@@ -1,9 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import TDatepickerNavigatorYearMonthSelector from './TDatepickerNavigatorYearMonthSelector';
-import TDatepickerNavigatorPrevNext from './TDatepickerNavigatorPrevNext';
 
-const TDatepickerNavigator = Vue.extend({
-  name: 'TDatepickerNavigator',
+const TDatepickerNavigatorPrevNext = Vue.extend({
+  name: 'TDatepickerNavigatorPrevNext',
 
   props: {
     dateFormatter: {
@@ -33,6 +31,16 @@ const TDatepickerNavigator = Vue.extend({
   },
 
   methods: {
+    prevMonth(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setMonth(newDate.getMonth() - 1);
+      this.inputHandler(newDate);
+    },
+    nextMonth(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setMonth(newDate.getMonth() + 1);
+      this.inputHandler(newDate);
+    },
     inputHandler(newDate: Date): void {
       this.$emit('input', newDate);
     },
@@ -42,34 +50,32 @@ const TDatepickerNavigator = Vue.extend({
     return createElement(
       'div',
       {
-        class: this.getElementCssClass(''),
+        class: 'grid grid-cols-2',
       },
       [
         createElement(
-          TDatepickerNavigatorYearMonthSelector,
+          'button',
           {
-            props: {
-              value: this.localValue,
-              dateFormatter: this.dateFormatter,
-              getElementCssClass: this.getElementCssClass,
+            attrs: {
+              type: 'button',
             },
             on: {
-              input: this.inputHandler,
+              click: this.prevMonth,
             },
           },
+          '<',
         ),
         createElement(
-          TDatepickerNavigatorPrevNext,
+          'button',
           {
-            props: {
-              value: this.localValue,
-              dateFormatter: this.dateFormatter,
-              getElementCssClass: this.getElementCssClass,
+            attrs: {
+              type: 'button',
             },
             on: {
-              input: this.inputHandler,
+              click: this.nextMonth,
             },
           },
+          '>',
         ),
       ],
     );
@@ -77,4 +83,4 @@ const TDatepickerNavigator = Vue.extend({
 
 });
 
-export default TDatepickerNavigator;
+export default TDatepickerNavigatorPrevNext;
