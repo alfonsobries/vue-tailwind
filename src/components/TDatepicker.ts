@@ -1,5 +1,4 @@
 import { CreateElement, VNode } from 'vue';
-import Component from '@/base/Component';
 import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
@@ -7,9 +6,8 @@ import {
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
-import TDatepickerDays from './TDatepicker/TDatepickerDays';
-import TDatepickerHeaders from './TDatepicker/TDatepickerHeaders';
 import TDatepickerNavigator from './TDatepicker/TDatepickerNavigator';
+import TDatePickerMonth from './TDatepicker/TDatePickerMonth';
 
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
@@ -134,18 +132,7 @@ const TDatepicker = HtmlInput.extend({
           },
         ),
         createElement(
-          TDatepickerHeaders,
-          {
-            props: {
-              dateFormatter: this.dateFormatter,
-              weekStart: this.weekStart,
-              locale: this.locale,
-              getElementCssClass: this.getElementCssClass,
-            },
-          },
-        ),
-        createElement(
-          TDatepickerDays,
+          TDatePickerMonth,
           {
             props: {
               value: this.localValue,

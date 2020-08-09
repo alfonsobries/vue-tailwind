@@ -1,9 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatepickerDaysDay from './TDatepickerDaysDay';
+import TDatePickerMonthDaysDay from './TDatePickerMonthDaysDay';
 
-const TDatepickerDays = Vue.extend({
-  name: 'TDatepickerDays',
+const TDatePickerMonthDays = Vue.extend({
+  name: 'TDatePickerMonthDays',
 
   props: {
     value: {
@@ -100,7 +100,7 @@ const TDatepickerDays = Vue.extend({
         class: 'grid gap-1 grid-cols-7 ',
       },
       this.days.map((day: Date) => createElement(
-        TDatepickerDaysDay,
+        TDatePickerMonthDaysDay,
         {
           props: {
             day,
@@ -119,4 +119,4 @@ const TDatepickerDays = Vue.extend({
   },
 });
 
-export default TDatepickerDays;
+export default TDatePickerMonthDays;

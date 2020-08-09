@@ -30,13 +30,36 @@ const TDatepickerNavigatorYearMonthSelectorYear = Vue.extend({
     },
   },
 
+  methods: {
+    inputHandler(e: Event) {
+      const target = (e.target as HTMLInputElement);
+
+
+      let numericValue = parseInt(target.value, 10);
+
+      // eslint-disable-next-line no-restricted-globals
+      if (isNaN(numericValue)) {
+        numericValue = this.localValue.getFullYear();
+      }
+
+      if (target.value !== numericValue.toString()) {
+        target.value = numericValue.toString();
+      }
+
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setFullYear(numericValue);
+      this.$emit('input', newDate);
+    },
+  },
+
   render(createElement: CreateElement): VNode {
     return createElement(
       'input',
       {
         attrs: {
           inputmode: 'numeric',
-          type: 'text',
+          type: 'number',
+          step: 1,
           maxlength: '4',
           size: '4',
           class: 'border w-full h-full',
@@ -44,21 +67,16 @@ const TDatepickerNavigatorYearMonthSelectorYear = Vue.extend({
         },
         on: {
           blur: (e: FocusEvent) => {
-            const target = (e.target as HTMLInputElement);
-            let numericValue = parseInt(target.value, 10);
-
-            // eslint-disable-next-line no-restricted-globals
-            if (isNaN(numericValue)) {
-              numericValue = this.localValue.getFullYear();
+            this.inputHandler(e);
+          },
+          input: (e: InputEvent) => {
+            // When the data is not undefined means it was update trough
+            // the keyboard, in those case we only change in blur
+            if (typeof e.data !== 'undefined') {
+              return;
             }
 
-            if (target.value !== numericValue.toString()) {
-              target.value = numericValue.toString();
-            }
-
-            const newDate = new Date(this.localValue.valueOf());
-            newDate.setFullYear(numericValue);
-            this.$emit('input', newDate);
+            this.inputHandler(e);
           },
         },
       },
