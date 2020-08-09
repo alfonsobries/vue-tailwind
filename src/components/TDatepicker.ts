@@ -67,7 +67,7 @@ const TDatepicker = Component.extend({
       this.localValue = newDate;
     },
     activDateInputHandler(newDate: Date): void {
-      this.activeDate = newDate;
+      this.$set(this, 'activeDate', newDate);
     },
   },
 

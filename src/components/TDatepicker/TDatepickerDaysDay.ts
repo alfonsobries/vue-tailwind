@@ -1,4 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import CssClass from '@/types/CssClass';
 
 const TDatepickerDaysDay = Vue.extend({
   name: 'TDatepickerDaysDay',
@@ -30,6 +31,12 @@ const TDatepickerDaysDay = Vue.extend({
     },
   },
 
+  data() {
+    return {
+      localActiveDate: new Date(this.activeDate.valueOf()),
+    };
+  },
+
   computed: {
     isSelected(): boolean {
       const d1 = this.day as unknown as Date;
@@ -44,15 +51,21 @@ const TDatepickerDaysDay = Vue.extend({
       return d.getDate() === 10;
     },
     isForAnotherMonth(): boolean {
-      const d1 = this.activeDate as unknown as Date;
+      const d1 = this.localActiveDate as unknown as Date;
       const d2 = this.day as unknown as Date;
       return d1.getFullYear() !== d2.getFullYear()
         || d1.getMonth() !== d2.getMonth();
     },
   },
 
+  watch: {
+    activeDate(activeDate: Date) {
+      this.localActiveDate = new Date(activeDate.valueOf());
+    },
+  },
+
   methods: {
-    getClass() {
+    getClass(): CssClass {
       if (this.isDisabled) {
         return this.getElementCssClass('disabledDay');
       }

@@ -33,9 +33,8 @@ const TDatepickerDays = Vue.extend({
   },
 
   data() {
-    const localActiveDate: Date = this.activeDate as unknown as Date;
     return {
-      localActiveDate,
+      localActiveDate: new Date(this.activeDate.valueOf()),
     };
   },
 
@@ -84,7 +83,7 @@ const TDatepickerDays = Vue.extend({
 
   watch: {
     activeDate(activeDate: Date) {
-      this.localActiveDate = activeDate;
+      this.localActiveDate = new Date(activeDate.valueOf());
     },
   },
 

@@ -20,24 +20,20 @@ const TDatepickerNavigator = Vue.extend({
   },
 
   data() {
-    const localValue: Date = this.value as unknown as Date;
     return {
-      localValue,
+      localValue: new Date(this.value.valueOf()),
     };
   },
 
   watch: {
-    value(value) {
-      this.localValue = value;
-    },
-    localValue(localValue) {
-      this.$emit('input', localValue);
+    value(value: Date) {
+      this.localValue = new Date(value.valueOf());
     },
   },
 
   methods: {
     inputHandler(newDate: Date): void {
-      this.localValue = newDate;
+      this.$emit('input', newDate);
     },
   },
 
@@ -52,7 +48,7 @@ const TDatepickerNavigator = Vue.extend({
           TDatepickerNavigatorYearMonthSelector,
           {
             props: {
-              value: this.value,
+              value: this.localValue,
               dateFormatter: this.dateFormatter,
               getElementCssClass: this.getElementCssClass,
             },

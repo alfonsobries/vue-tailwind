@@ -12,10 +12,16 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
       type: Function,
       required: true,
     },
-    activeDate: {
+    value: {
       type: Date,
       required: true,
     },
+  },
+
+  data() {
+    return {
+      localValue: new Date(this.value.valueOf()),
+    };
   },
 
   computed: {
@@ -24,6 +30,12 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
       return Array
         .from({ length: 12 }, (_x, i) => i)
         .map((month: number) => new Date(d.setMonth(month)));
+    },
+  },
+
+  watch: {
+    value(value: Date) {
+      this.localValue = new Date(value.valueOf());
     },
   },
 
@@ -36,21 +48,12 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
           value: (new Date()).getFullYear(),
         },
         on: {
-          // input: (e: InputEvent) => {
-          //   const target = (e.target as HTMLInputElement);
-          //   let numericValue = parseInt(target.value, 10);
-
-          //   // eslint-disable-next-line no-restricted-globals
-          //   if (isNaN(numericValue)) {
-          //     numericValue = (new Date()).getFullYear();
-          //   }
-
-          //   if (target.value !== numericValue.toString()) {
-          //     target.value = numericValue.toString();
-          //   }
-
-          //   this.$emit('input', numericValue);
-          // },
+          input: (e: InputEvent) => {
+            const target = (e.target as HTMLSelectElement);
+            const newDate = new Date(this.localValue.valueOf());
+            newDate.setMonth(Number(target.value) - 1);
+            this.$emit('input', newDate);
+          },
         },
       },
       this.months.map((month: Date) => createElement(
