@@ -40,7 +40,6 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
   },
 
   render(createElement: CreateElement): VNode {
-    console.log(this.localValue.getMonth());
     return createElement(
       'select',
       {
