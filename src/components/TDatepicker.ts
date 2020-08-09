@@ -7,7 +7,7 @@ import {
 import HtmlInput from '@/base/HtmlInput';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatepickerNavigator from './TDatepicker/TDatepickerNavigator';
-import TDatePickerMonth from './TDatepicker/TDatePickerMonth';
+import TDatePickerMonths from './TDatepicker/TDatePickerMonths';
 
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
@@ -132,7 +132,7 @@ const TDatepicker = HtmlInput.extend({
           },
         ),
         createElement(
-          TDatePickerMonth,
+          TDatePickerMonths,
           {
             props: {
               value: this.localValue,

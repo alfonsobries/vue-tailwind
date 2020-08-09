@@ -1,10 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatePickerMonthDays from './TDatePickerMonthDays';
-import TDatePickerMonthHeaders from './TDatePickerMonthHeaders';
+import TDatePickerMonthsMonth from './TDatePickerMonthsMonth';
 
-const TDatePickerMonth = Vue.extend({
-  name: 'TDatePickerMonth',
+const TDatePickerMonths = Vue.extend({
+  name: 'TDatePickerMonths',
 
   props: {
     value: {
@@ -53,22 +52,11 @@ const TDatePickerMonth = Vue.extend({
       },
       [
         createElement(
-          TDatePickerMonthHeaders,
-          {
-            props: {
-              dateFormatter: this.dateFormatter,
-              weekStart: this.weekStart,
-              locale: this.locale,
-              getElementCssClass: this.getElementCssClass,
-            },
-          },
-        ),
-        createElement(
-          TDatePickerMonthDays,
+          TDatePickerMonthsMonth,
           {
             props: {
               value: this.value,
-              activeDate: this.localActiveDate,
+              activeDate: this.activeDate,
               weekStart: this.weekStart,
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
@@ -86,4 +74,4 @@ const TDatePickerMonth = Vue.extend({
   },
 });
 
-export default TDatePickerMonth;
+export default TDatePickerMonths;
