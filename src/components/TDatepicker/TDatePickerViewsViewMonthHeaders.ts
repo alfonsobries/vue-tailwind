@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-const TDatePickerMonthsMonthHeaders = Vue.extend({
-  name: 'TDatePickerMonthsMonthHeaders',
+const TDatePickerViewsViewMonthHeaders = Vue.extend({
+  name: 'TDatePickerViewsViewMonthHeaders',
 
   props: {
     locale: {
@@ -62,4 +62,4 @@ const TDatePickerMonthsMonthHeaders = Vue.extend({
 
 });
 
-export default TDatePickerMonthsMonthHeaders;
+export default TDatePickerViewsViewMonthHeaders;

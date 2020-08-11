@@ -6,7 +6,8 @@ import {
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
-import TDatePickerMonths from './TDatepicker/TDatePickerMonths';
+import TDatePickerViews from './TDatepicker/TDatePickerViews';
+import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
@@ -49,6 +50,13 @@ const TDatepicker = HtmlInput.extend({
     dateParser: {
       type: Function,
       default: createDateParser({ l10n: english }),
+    },
+    initialView: {
+      type: String,
+      default: CalendarView.Day,
+      validator(value: CalendarView) {
+        return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
+      },
     },
     fixedClasses: {
       type: Object,
@@ -98,7 +106,7 @@ const TDatepicker = HtmlInput.extend({
     const subElements: VNode[] = [];
 
     subElements.push(createElement(
-      TDatePickerMonths,
+      TDatePickerViews,
       {
         props: {
           value: this.localValue,
@@ -108,6 +116,7 @@ const TDatepicker = HtmlInput.extend({
           locale: this.locale,
           getElementCssClass: this.getElementCssClass,
           dateFormatter: this.dateFormatter,
+          initialView: this.initialView,
         },
         on: {
           input: (day: Date) => {

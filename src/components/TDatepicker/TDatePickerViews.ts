@@ -1,9 +1,10 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatePickerMonthsMonth from './TDatePickerMonthsMonth';
+import TDatePickerViewsView from './TDatePickerViewsView';
+import { CalendarView } from './TDatepickerNavigator';
 
-const TDatePickerMonths = Vue.extend({
-  name: 'TDatePickerMonths',
+const TDatePickerViews = Vue.extend({
+  name: 'TDatePickerViews',
 
   props: {
     value: {
@@ -33,6 +34,13 @@ const TDatePickerMonths = Vue.extend({
     dateFormatter: {
       type: Function,
       required: true,
+    },
+    initialView: {
+      type: String,
+      default: CalendarView.Day,
+      validator(value: CalendarView) {
+        return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
+      },
     },
   },
 
@@ -67,7 +75,7 @@ const TDatePickerMonths = Vue.extend({
         class: 'flex',
       },
       this.activeMonths.map((activeMonth: Date, index: number) => createElement(
-        TDatePickerMonthsMonth,
+        TDatePickerViewsView,
         {
           props: {
             value: this.value,
@@ -79,6 +87,7 @@ const TDatePickerMonths = Vue.extend({
             dateFormatter: this.dateFormatter,
             monthsPerView: this.monthsPerView,
             monthIndex: index,
+            initialView: this.initialView,
           },
           on: {
             input: (day: Date) => {
@@ -91,4 +100,4 @@ const TDatePickerMonths = Vue.extend({
   },
 });
 
-export default TDatePickerMonths;
+export default TDatePickerViews;
