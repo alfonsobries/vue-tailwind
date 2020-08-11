@@ -165,19 +165,19 @@ export const createDateParser = ({
   return parsedDate;
 };
 
-// /**
-//  * Compute the difference in dates, measured in ms
-//  */
-// export function compareDates(date1: Date, date2: Date, timeless = true) {
-//   if (timeless !== false) {
-//     return (
-//       new Date(date1.getTime()).setHours(0, 0, 0, 0)
-//       - new Date(date2.getTime()).setHours(0, 0, 0, 0)
-//     );
-//   }
+/**
+ * Compute the difference in dates, measured in ms
+ */
+export function compareDates(date1: Date, date2: Date, timeless = true): number {
+  if (timeless !== false) {
+    return (
+      new Date(date1.getTime()).setHours(0, 0, 0, 0)
+      - new Date(date2.getTime()).setHours(0, 0, 0, 0)
+    );
+  }
 
-//   return date1.getTime() - date2.getTime();
-// }
+  return date1.getTime() - date2.getTime();
+}
 
 // /**
 //  * Compute the difference in times, measured in ms
@@ -191,7 +191,7 @@ export const createDateParser = ({
 //   );
 // }
 
-// export const isBetween = (ts: number, ts1: number, ts2: number) => ts > Math.min(ts1, ts2) && ts < Math.max(ts1, ts2);
+// export const isBetween = (ts: number, ts1: number, ts2: number): boolean => ts > Math.min(ts1, ts2) && ts < Math.max(ts1, ts2);
 
 // export const duration = {
 //   DAY: 86400000,

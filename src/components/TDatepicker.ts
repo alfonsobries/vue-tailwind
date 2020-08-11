@@ -2,7 +2,7 @@ import { CreateElement, VNode } from 'vue';
 import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
-  createDateFormatter, createDateParser, DateParser, DateValue,
+  createDateFormatter, createDateParser, DateParser, DateValue, compareDates,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
@@ -26,7 +26,7 @@ const TDatepicker = HtmlInput.extend({
     },
     monthsPerView: {
       type: Number,
-      default: 3,
+      default: 1,
       validator(value) {
         return value >= 1;
       },
@@ -89,11 +89,32 @@ const TDatepicker = HtmlInput.extend({
     };
   },
 
+  computed: {
+    visibleRange(): [Date, Date] {
+      const start = new Date(this.activeDate.valueOf());
+      const end = new Date(this.activeDate.valueOf());
+      start.setDate(1);
+      end.setMonth(end.getMonth() + this.monthsPerView, 0);
+
+      return [start, end];
+    },
+    currentValueIsInTheView(): boolean {
+      // eslint-disable-next-line no-restricted-globals
+      if (this.localValue instanceof Date && !isNaN(this.localValue.getTime())) {
+        const [start, end] = this.visibleRange;
+        return compareDates(end, this.localValue) >= 0 && compareDates(this.localValue, start) >= 0;
+      }
+
+      return true;
+    },
+  },
+
   watch: {
     localValue(localValue: DateValue) {
       this.$emit('input', new Date(localValue.valueOf()));
-      // eslint-disable-next-line no-restricted-globals
-      if (localValue instanceof Date && !isNaN(localValue.getTime())) {
+
+
+      if (!this.currentValueIsInTheView) {
         this.activeDate = new Date(localValue.valueOf());
       }
     },
