@@ -29,6 +29,10 @@ const TDatePickerMonthsMonthDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
+    showDaysForOtherMonth: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -75,7 +79,11 @@ const TDatePickerMonthsMonthDaysDay = Vue.extend({
       }
 
       if (this.isForAnotherMonth) {
-        return this.getElementCssClass('otherMonthDay');
+        if (this.showDaysForOtherMonth) {
+          return this.getElementCssClass('otherMonthDay');
+        }
+
+        return 'invisible pointer-events-none';
       }
 
       return this.getElementCssClass('day');

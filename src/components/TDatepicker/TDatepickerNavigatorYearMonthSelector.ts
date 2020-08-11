@@ -42,7 +42,7 @@ const TDatepickerNavigatorYearMonthSelector = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'grid grid-cols-2',
+        class: 'flex',
       },
       [
         createElement(

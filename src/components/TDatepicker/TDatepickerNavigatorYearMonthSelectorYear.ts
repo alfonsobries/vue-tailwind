@@ -62,7 +62,7 @@ const TDatepickerNavigatorYearMonthSelectorYear = Vue.extend({
           step: 1,
           maxlength: '4',
           size: '4',
-          class: 'border w-full h-full',
+          class: 'p-0 pl-2 text-gray-600 w-16 focus:text-gray-200 focus:text-gray-700 rounded-sm border',
           value: this.localValue.getFullYear(),
         },
         on: {

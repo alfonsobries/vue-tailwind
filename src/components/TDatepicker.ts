@@ -6,7 +6,6 @@ import {
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
-import TDatepickerNavigator from './TDatepicker/TDatepickerNavigator';
 import TDatePickerMonths from './TDatepicker/TDatePickerMonths';
 
 const TDatepicker = HtmlInput.extend({
@@ -23,6 +22,13 @@ const TDatepicker = HtmlInput.extend({
     weekStart: {
       type: Number,
       default: 0,
+    },
+    monthsPerView: {
+      type: Number,
+      default: 1,
+      validator(value) {
+        return value >= 1;
+      },
     },
     locale: {
       type: String,
@@ -89,11 +95,46 @@ const TDatepicker = HtmlInput.extend({
   },
 
   render(createElement: CreateElement): VNode {
+    const subElements: VNode[] = [];
+
+    subElements.push(createElement(
+      TDatePickerMonths,
+      {
+        props: {
+          value: this.localValue,
+          activeDate: this.activeDate,
+          weekStart: this.weekStart,
+          monthsPerView: this.monthsPerView,
+          locale: this.locale,
+          getElementCssClass: this.getElementCssClass,
+          dateFormatter: this.dateFormatter,
+        },
+        on: {
+          input: (day: Date) => {
+            this.localValue = day;
+          },
+        },
+      },
+    ));
+
+
     return createElement(
       TDropdown,
       {
         props: {
           show: true,
+          classes: {
+            button: 'p-3',
+            wrapper: 'inline-flex flex-col',
+            dropdownWrapper: 'relative z-10',
+            dropdown: 'origin-top-left absolute rounded-md shadow-lg bg-white',
+            enterClass: '',
+            enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',
+            enterToClass: 'transform opacity-100 scale-100',
+            leaveClass: 'transition ease-in transform opacity-100 scale-100',
+            leaveActiveClass: '',
+            leaveToClass: 'transform opacity-0 scale-95 duration-75',
+          },
         },
         scopedSlots: {
           trigger: (props) => createElement(
@@ -117,39 +158,7 @@ const TDatepicker = HtmlInput.extend({
           ),
         },
       },
-      [
-        createElement(
-          TDatepickerNavigator,
-          {
-            props: {
-              value: this.activeDate,
-              dateFormatter: this.dateFormatter,
-              getElementCssClass: this.getElementCssClass,
-            },
-            on: {
-              input: this.activDateInputHandler,
-            },
-          },
-        ),
-        createElement(
-          TDatePickerMonths,
-          {
-            props: {
-              value: this.localValue,
-              activeDate: this.activeDate,
-              weekStart: this.weekStart,
-              locale: this.locale,
-              getElementCssClass: this.getElementCssClass,
-              dateFormatter: this.dateFormatter,
-            },
-            on: {
-              input: (day: Date) => {
-                this.localValue = day;
-              },
-            },
-          },
-        ),
-      ],
+      subElements,
     );
   },
 });

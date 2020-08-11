@@ -18,6 +18,10 @@ const TDatePickerMonths = Vue.extend({
       type: Number,
       required: true,
     },
+    monthsPerView: {
+      type: Number,
+      required: true,
+    },
     locale: {
       type: String,
       required: true,
@@ -38,6 +42,18 @@ const TDatePickerMonths = Vue.extend({
     };
   },
 
+  computed: {
+    activeMonths(): Date[] {
+      return Array
+        .from({ length: this.monthsPerView }, (_x, i) => i)
+        .map((i) => {
+          const activeMonth = new Date(this.localActiveDate.valueOf());
+          activeMonth.setMonth(activeMonth.getMonth() + i);
+          return activeMonth;
+        });
+    },
+  },
+
   watch: {
     activeDate(activeDate: Date) {
       this.localActiveDate = new Date(activeDate.valueOf());
@@ -48,28 +64,29 @@ const TDatePickerMonths = Vue.extend({
     return createElement(
       'div',
       {
-        class: '',
+        class: 'flex',
       },
-      [
-        createElement(
-          TDatePickerMonthsMonth,
-          {
-            props: {
-              value: this.value,
-              activeDate: this.activeDate,
-              weekStart: this.weekStart,
-              locale: this.locale,
-              getElementCssClass: this.getElementCssClass,
-              dateFormatter: this.dateFormatter,
-            },
-            on: {
-              input: (day: Date) => {
-                this.$emit('input', day);
-              },
+      this.activeMonths.map((activeMonth: Date, index: number) => createElement(
+        TDatePickerMonthsMonth,
+        {
+          props: {
+            value: this.value,
+            activeDate: activeMonth,
+            // activeDate: this.activeDate,
+            weekStart: this.weekStart,
+            locale: this.locale,
+            getElementCssClass: this.getElementCssClass,
+            dateFormatter: this.dateFormatter,
+            monthsPerView: this.monthsPerView,
+            monthIndex: index,
+          },
+          on: {
+            input: (day: Date) => {
+              this.$emit('input', day);
             },
           },
-        ),
-      ],
+        },
+      )),
     );
   },
 });

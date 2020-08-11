@@ -44,7 +44,7 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
       'select',
       {
         attrs: {
-          class: 'border',
+          class: 'pl-3 text-center text-gray-600 hover:bg-gray-200 focus:text-gray-700 focus:text-gray-700 border rounded-sm appearance-none',
         },
         on: {
           input: (e: InputEvent) => {

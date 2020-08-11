@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-const TDatepickerNavigatorPrevNext = Vue.extend({
-  name: 'TDatepickerNavigatorPrevNext',
+const TDatepickerNavigatorNext = Vue.extend({
+  name: 'TDatepickerNavigatorNext',
 
   props: {
     dateFormatter: {
@@ -48,34 +48,37 @@ const TDatepickerNavigatorPrevNext = Vue.extend({
 
   render(createElement: CreateElement): VNode {
     return createElement(
-      'div',
+      'button',
       {
-        class: 'grid grid-cols-2',
+        attrs: {
+          type: 'button',
+          class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1',
+        },
+        on: {
+          click: this.nextMonth,
+        },
       },
       [
         createElement(
-          'button',
+          'svg',
           {
             attrs: {
-              type: 'button',
+              fill: 'none',
+              viewBox: '0 0 24 24',
+              stroke: 'currentColor',
             },
-            on: {
-              click: this.prevMonth,
-            },
+            class: 'h-6 w-6 text-gray-500 inline-flex',
           },
-          '<',
-        ),
-        createElement(
-          'button',
-          {
-            attrs: {
-              type: 'button',
-            },
-            on: {
-              click: this.nextMonth,
-            },
-          },
-          '>',
+          [
+            createElement('path', {
+              attrs: {
+                'stroke-linecap': 'round',
+                'stroke-linejoin': 'round',
+                'stroke-width': 2,
+                d: 'M9 5l7 7-7 7',
+              },
+            }),
+          ],
         ),
       ],
     );
@@ -83,4 +86,4 @@ const TDatepickerNavigatorPrevNext = Vue.extend({
 
 });
 
-export default TDatepickerNavigatorPrevNext;
+export default TDatepickerNavigatorNext;

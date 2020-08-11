@@ -30,6 +30,10 @@ const TDatePickerMonthsMonthDays = Vue.extend({
       type: Function,
       required: true,
     },
+    showDaysForOtherMonth: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -109,6 +113,7 @@ const TDatePickerMonthsMonthDays = Vue.extend({
             activeDate: this.localActiveDate,
             getElementCssClass: this.getElementCssClass,
             dateFormatter: this.dateFormatter,
+            showDaysForOtherMonth: this.showDaysForOtherMonth,
           },
           on: {
             click: () => this.$emit('input', day),
