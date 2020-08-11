@@ -88,14 +88,15 @@ const TDatePickerViewsView = Vue.extend({
 
       this.resetView();
     },
-    activeDateInputHandler(date: Date) {
-      this.localActiveDate = date;
+
+    viewInputActiveDateHandler(date: Date) {
+      this.inputActiveDateHandler(date);
 
       this.resetView();
     },
 
-    navigatorInputHandler(date: Date) {
-      this.localActiveDate = date;
+    inputActiveDateHandler(date: Date) {
+      this.$emit('inputActiveDate', date);
     },
 
     resetView() {
@@ -124,7 +125,7 @@ const TDatePickerViewsView = Vue.extend({
           yearsPerView: this.yearsPerView,
         },
         on: {
-          input: this.navigatorInputHandler,
+          input: this.inputActiveDateHandler,
           setView: (newView: CalendarView) => {
             this.currentView = newView;
           },
@@ -165,7 +166,7 @@ const TDatePickerViewsView = Vue.extend({
               dateFormatter: this.dateFormatter,
             },
             on: {
-              input: this.activeDateInputHandler,
+              input: this.viewInputActiveDateHandler,
             },
           },
         ),
@@ -184,7 +185,7 @@ const TDatePickerViewsView = Vue.extend({
               yearsPerView: this.yearsPerView,
             },
             on: {
-              input: this.activeDateInputHandler,
+              input: this.viewInputActiveDateHandler,
             },
           },
         ),

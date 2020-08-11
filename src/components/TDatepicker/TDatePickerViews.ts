@@ -83,8 +83,8 @@ const TDatePickerViews = Vue.extend({
         {
           props: {
             value: this.value,
-            // activeDate: activeMonth,
-            activeDate: this.activeDate,
+            activeDate: activeMonth,
+            // activeDate: this.localActiveDate,
             weekStart: this.weekStart,
             locale: this.locale,
             getElementCssClass: this.getElementCssClass,
@@ -95,8 +95,11 @@ const TDatePickerViews = Vue.extend({
             yearsPerView: this.yearsPerView,
           },
           on: {
-            input: (day: Date) => {
-              this.$emit('input', day);
+            input: (date: Date) => {
+              this.$emit('input', date);
+            },
+            inputActiveDate: (date: Date) => {
+              this.$emit('inputActiveDate', date);
             },
           },
         },

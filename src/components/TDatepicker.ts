@@ -26,7 +26,7 @@ const TDatepicker = HtmlInput.extend({
     },
     monthsPerView: {
       type: Number,
-      default: 1,
+      default: 3,
       validator(value) {
         return value >= 1;
       },
@@ -103,7 +103,7 @@ const TDatepicker = HtmlInput.extend({
     inputHandler(newDate: Date): void {
       this.localValue = new Date(newDate.valueOf());
     },
-    activDateInputHandler(newDate: Date): void {
+    inputActiveDateHandler(newDate: Date): void {
       this.activeDate = new Date(newDate.valueOf());
     },
   },
@@ -126,9 +126,8 @@ const TDatepicker = HtmlInput.extend({
           yearsPerView: this.yearsPerView,
         },
         on: {
-          input: (day: Date) => {
-            this.localValue = day;
-          },
+          input: this.inputHandler,
+          inputActiveDate: this.inputActiveDateHandler,
         },
       },
     ));
