@@ -1,8 +1,8 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 
-const TDatePickerViewsViewMonthDaysDay = Vue.extend({
-  name: 'TDatePickerViewsViewMonthDaysDay',
+const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
+  name: 'TDatePickerViewsViewCalendarDaysDay',
 
   props: {
     day: {
@@ -107,4 +107,4 @@ const TDatePickerViewsViewMonthDaysDay = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewMonthDaysDay;
+export default TDatePickerViewsViewCalendarDaysDay;
