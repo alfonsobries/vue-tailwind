@@ -1,5 +1,12 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
+export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
+  const currentYear = date.getFullYear();
+  const from = currentYear - Math.floor(currentYear % yearsPerView);
+  const to = from + yearsPerView - 1;
+  return [from, to];
+};
+
 export enum CalendarView {
   Day = 'day',
   Month = 'month',
@@ -199,6 +206,15 @@ const TDatepickerNavigator = Vue.extend({
             ],
           ),
         );
+        buttonElements.push(
+          createElement(
+            'span',
+            {
+              class: 'text-gray-600 ml-1',
+            },
+            getYearsRange(this.localValue, this.yearsPerView).join(' - '),
+          ),
+        );
       }
 
       subElements.push(createElement(
@@ -279,9 +295,7 @@ const TDatepickerNavigator = Vue.extend({
           ],
         ),
       );
-    }
 
-    if (this.showSelector) {
       subElements.push(
         createElement(
           'button',

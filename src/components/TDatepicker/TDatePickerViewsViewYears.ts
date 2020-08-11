@@ -1,6 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
 import TDatePickerViewsViewYearsYear from './TDatePickerViewsViewYearsYear';
+import { getYearsRange } from './TDatepickerNavigator';
 
 const TDatePickerViewsViewYears = Vue.extend({
   name: 'TDatePickerViewsViewYears',
@@ -40,8 +41,7 @@ const TDatePickerViewsViewYears = Vue.extend({
 
   computed: {
     years(): Date[] {
-      const currentYear = this.localActiveDate.getFullYear();
-      const initialYear = currentYear - Math.floor(currentYear % this.yearsPerView);
+      const [initialYear] = getYearsRange(this.localActiveDate, this.yearsPerView);
       return Array
         .from({ length: this.yearsPerView }, (_x, i) => i)
         .map((year) => this.getYear(initialYear + year));
