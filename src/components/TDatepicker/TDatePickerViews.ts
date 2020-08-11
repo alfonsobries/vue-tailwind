@@ -42,6 +42,10 @@ const TDatePickerViews = Vue.extend({
         return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
       },
     },
+    yearsPerView: {
+      type: Number,
+      required: true,
+    },
   },
 
   data() {
@@ -88,6 +92,7 @@ const TDatePickerViews = Vue.extend({
             monthsPerView: this.monthsPerView,
             monthIndex: index,
             initialView: this.initialView,
+            yearsPerView: this.yearsPerView,
           },
           on: {
             input: (day: Date) => {

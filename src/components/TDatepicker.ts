@@ -58,6 +58,10 @@ const TDatepicker = HtmlInput.extend({
         return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
       },
     },
+    yearsPerView: {
+      type: Number,
+      default: 12,
+    },
     fixedClasses: {
       type: Object,
       default: () => ({
@@ -119,6 +123,7 @@ const TDatepicker = HtmlInput.extend({
           getElementCssClass: this.getElementCssClass,
           dateFormatter: this.dateFormatter,
           initialView: this.initialView,
+          yearsPerView: this.yearsPerView,
         },
         on: {
           input: (day: Date) => {

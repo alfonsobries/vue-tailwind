@@ -33,6 +33,10 @@ const TDatepickerNavigator = Vue.extend({
         return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
       },
     },
+    yearsPerView: {
+      type: Number,
+      required: true,
+    },
   },
 
   data() {
@@ -78,7 +82,7 @@ const TDatepickerNavigator = Vue.extend({
       } else if (this.currentView === CalendarView.Month) {
         this.nextYear();
       } else if (this.currentView === CalendarView.Year) {
-        // this.$emit('setView', CalendarView.Day);
+        this.nextYearGroup();
       }
     },
     prev(): void {
@@ -87,7 +91,7 @@ const TDatepickerNavigator = Vue.extend({
       } else if (this.currentView === CalendarView.Month) {
         this.prevYear();
       } else if (this.currentView === CalendarView.Year) {
-        // this.$emit('setView', CalendarView.Day);
+        this.prevYearGroup();
       }
     },
     prevMonth(): void {
@@ -108,6 +112,16 @@ const TDatepickerNavigator = Vue.extend({
     nextYear(): void {
       const newDate = new Date(this.localValue.valueOf());
       newDate.setFullYear(newDate.getFullYear() + 1);
+      this.inputHandler(newDate);
+    },
+    prevYearGroup(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setFullYear(newDate.getFullYear() - this.yearsPerView);
+      this.inputHandler(newDate);
+    },
+    nextYearGroup(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setFullYear(newDate.getFullYear() + this.yearsPerView);
       this.inputHandler(newDate);
     },
   },

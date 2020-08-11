@@ -3,6 +3,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 import TDatePickerViewsViewCalendar from './TDatePickerViewsViewCalendar';
 import TDatepickerNavigator, { CalendarView } from './TDatepickerNavigator';
 import TDatePickerViewsViewMonths from './TDatePickerViewsViewMonths';
+import TDatePickerViewsViewYears from './TDatePickerViewsViewYears';
 
 const TDatePickerViewsView = Vue.extend({
   name: 'TDatePickerViewsView',
@@ -46,6 +47,10 @@ const TDatePickerViewsView = Vue.extend({
       validator(value: CalendarView) {
         return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
       },
+    },
+    yearsPerView: {
+      type: Number,
+      required: true,
     },
   },
 
@@ -97,7 +102,7 @@ const TDatePickerViewsView = Vue.extend({
       if (this.currentView === CalendarView.Month) {
         this.currentView = CalendarView.Day;
       } else if (this.currentView === CalendarView.Year) {
-        this.currentView = CalendarView.Year;
+        this.currentView = CalendarView.Month;
       } else {
         this.currentView = CalendarView.Day;
       }
@@ -116,6 +121,7 @@ const TDatePickerViewsView = Vue.extend({
           getElementCssClass: this.getElementCssClass,
           showSelector: this.isFirstMonth,
           currentView: this.currentView,
+          yearsPerView: this.yearsPerView,
         },
         on: {
           input: this.navigatorInputHandler,
@@ -152,11 +158,30 @@ const TDatePickerViewsView = Vue.extend({
           TDatePickerViewsViewMonths,
           {
             props: {
-              value: this.localActiveDate,
-              weekStart: this.weekStart,
+              value: this.value,
+              activeDate: this.localActiveDate,
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
               dateFormatter: this.dateFormatter,
+            },
+            on: {
+              input: this.activeDateInputHandler,
+            },
+          },
+        ),
+      );
+    } else if (this.currentView === CalendarView.Year) {
+      subElements.push(
+        createElement(
+          TDatePickerViewsViewYears,
+          {
+            props: {
+              value: this.value,
+              activeDate: this.localActiveDate,
+              locale: this.locale,
+              getElementCssClass: this.getElementCssClass,
+              dateFormatter: this.dateFormatter,
+              yearsPerView: this.yearsPerView,
             },
             on: {
               input: this.activeDateInputHandler,

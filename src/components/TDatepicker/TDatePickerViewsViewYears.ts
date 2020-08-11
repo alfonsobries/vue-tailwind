@@ -1,9 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatePickerViewsViewMonthsMonth from './TDatePickerViewsViewMonthsMonth';
+import TDatePickerViewsViewYearsYear from './TDatePickerViewsViewYearsYear';
 
-const TDatePickerViewsViewMonths = Vue.extend({
-  name: 'TDatePickerViewsViewMonths',
+const TDatePickerViewsViewYears = Vue.extend({
+  name: 'TDatePickerViewsViewYears',
 
   props: {
     value: {
@@ -26,6 +26,10 @@ const TDatePickerViewsViewMonths = Vue.extend({
       type: Function,
       required: true,
     },
+    yearsPerView: {
+      type: Number,
+      required: true,
+    },
   },
 
   data() {
@@ -35,10 +39,12 @@ const TDatePickerViewsViewMonths = Vue.extend({
   },
 
   computed: {
-    months(): Date[] {
+    years(): Date[] {
+      const currentYear = this.localActiveDate.getFullYear();
+      const initialYear = currentYear - Math.floor(currentYear % this.yearsPerView);
       return Array
-        .from({ length: 12 }, (_x, i) => i)
-        .map((monthNumber) => this.getMonth(monthNumber));
+        .from({ length: this.yearsPerView }, (_x, i) => i)
+        .map((year) => this.getYear(initialYear + year));
     },
   },
 
@@ -48,9 +54,10 @@ const TDatePickerViewsViewMonths = Vue.extend({
     },
   },
 
+
   methods: {
-    getMonth(monthNumber: number) {
-      return new Date(this.localActiveDate.getFullYear(), monthNumber, 1);
+    getYear(year: number) {
+      return new Date(year, 0, 1);
     },
   },
 
@@ -60,18 +67,18 @@ const TDatePickerViewsViewMonths = Vue.extend({
       {
         class: 'grid gap-1 grid-cols-4 ',
       },
-      this.months.map((month: Date) => createElement(
-        TDatePickerViewsViewMonthsMonth,
+      this.years.map((year: Date) => createElement(
+        TDatePickerViewsViewYearsYear,
         {
           props: {
-            month,
+            year,
             locale: this.locale,
             value: this.value,
             getElementCssClass: this.getElementCssClass,
             dateFormatter: this.dateFormatter,
           },
           on: {
-            click: () => this.$emit('input', month),
+            click: () => this.$emit('input', year),
           },
         },
       )),
@@ -79,4 +86,4 @@ const TDatePickerViewsViewMonths = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewMonths;
+export default TDatePickerViewsViewYears;
