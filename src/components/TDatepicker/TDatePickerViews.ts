@@ -79,8 +79,8 @@ const TDatePickerViews = Vue.extend({
         {
           props: {
             value: this.value,
-            activeDate: activeMonth,
-            // activeDate: this.activeDate,
+            // activeDate: activeMonth,
+            activeDate: this.activeDate,
             weekStart: this.weekStart,
             locale: this.locale,
             getElementCssClass: this.getElementCssClass,

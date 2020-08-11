@@ -1,6 +1,4 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import TDatepickerNavigatorPrev from './TDatepickerNavigatorPrev';
-import TDatepickerNavigatorNext from './TDatepickerNavigatorNext';
 
 export enum CalendarView {
   Day = 'day',
@@ -43,6 +41,18 @@ const TDatepickerNavigator = Vue.extend({
     };
   },
 
+  computed: {
+    isDayView() {
+      return this.currentView === CalendarView.Day;
+    },
+    isYearView() {
+      return this.currentView === CalendarView.Year;
+    },
+    isMonthView() {
+      return this.currentView === CalendarView.Month;
+    },
+  },
+
   watch: {
     value(value: Date) {
       this.localValue = new Date(value.valueOf());
@@ -61,6 +71,44 @@ const TDatepickerNavigator = Vue.extend({
       } else if (this.currentView === CalendarView.Year) {
         this.$emit('setView', CalendarView.Day);
       }
+    },
+    next(): void {
+      if (this.currentView === CalendarView.Day) {
+        this.nextMonth();
+      } else if (this.currentView === CalendarView.Month) {
+        this.nextYear();
+      } else if (this.currentView === CalendarView.Year) {
+        // this.$emit('setView', CalendarView.Day);
+      }
+    },
+    prev(): void {
+      if (this.currentView === CalendarView.Day) {
+        this.prevMonth();
+      } else if (this.currentView === CalendarView.Month) {
+        this.prevYear();
+      } else if (this.currentView === CalendarView.Year) {
+        // this.$emit('setView', CalendarView.Day);
+      }
+    },
+    prevMonth(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setMonth(newDate.getMonth() - 1);
+      this.inputHandler(newDate);
+    },
+    nextMonth(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setMonth(newDate.getMonth() + 1);
+      this.inputHandler(newDate);
+    },
+    prevYear(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setFullYear(newDate.getFullYear() - 1);
+      this.inputHandler(newDate);
+    },
+    nextYear(): void {
+      const newDate = new Date(this.localValue.valueOf());
+      newDate.setFullYear(newDate.getFullYear() + 1);
+      this.inputHandler(newDate);
     },
   },
 
@@ -182,17 +230,39 @@ const TDatepickerNavigator = Vue.extend({
     if (this.showSelector) {
       subElements.push(
         createElement(
-          TDatepickerNavigatorPrev,
+          'button',
           {
-            props: {
-              value: this.localValue,
-              dateFormatter: this.dateFormatter,
-              getElementCssClass: this.getElementCssClass,
+            attrs: {
+              type: 'button',
+              class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full ml-auto p-1 ml-2',
             },
             on: {
-              input: this.inputHandler,
+              click: this.prev,
             },
           },
+          [
+            createElement(
+              'svg',
+              {
+                attrs: {
+                  fill: 'none',
+                  viewBox: '0 0 24 24',
+                  stroke: 'currentColor',
+                },
+                class: 'h-6 w-6 text-gray-500 inline-flex',
+              },
+              [
+                createElement('path', {
+                  attrs: {
+                    'stroke-linecap': 'round',
+                    'stroke-linejoin': 'round',
+                    'stroke-width': 2,
+                    d: 'M15 19l-7-7 7-7',
+                  },
+                }),
+              ],
+            ),
+          ],
         ),
       );
     }
@@ -200,17 +270,39 @@ const TDatepickerNavigator = Vue.extend({
     if (this.showSelector) {
       subElements.push(
         createElement(
-          TDatepickerNavigatorNext,
+          'button',
           {
-            props: {
-              value: this.localValue,
-              dateFormatter: this.dateFormatter,
-              getElementCssClass: this.getElementCssClass,
+            attrs: {
+              type: 'button',
+              class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1',
             },
             on: {
-              input: this.inputHandler,
+              click: this.next,
             },
           },
+          [
+            createElement(
+              'svg',
+              {
+                attrs: {
+                  fill: 'none',
+                  viewBox: '0 0 24 24',
+                  stroke: 'currentColor',
+                },
+                class: 'h-6 w-6 text-gray-500 inline-flex',
+              },
+              [
+                createElement('path', {
+                  attrs: {
+                    'stroke-linecap': 'round',
+                    'stroke-linejoin': 'round',
+                    'stroke-width': 2,
+                    d: 'M9 5l7 7-7 7',
+                  },
+                }),
+              ],
+            ),
+          ],
         ),
       );
     }
@@ -218,7 +310,7 @@ const TDatepickerNavigator = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'flex items-center justify-between',
+        class: 'flex items-center justify-between mb-2',
       },
       subElements,
     );

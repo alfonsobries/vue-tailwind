@@ -65,6 +65,8 @@ const TDatepicker = HtmlInput.extend({
         selectedDay: 'text-sm rounded-full bg-gray-200 w-8 h-8 bg-blue-500 text-white',
         disabledDay: 'text-sm rounded-full w-8 h-8 opacity-25 cursor-not-allowed',
         otherMonthDay: 'text-sm rounded-full w-8 h-8 hover:bg-blue-100 text-gray-400',
+        month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
+        selectedMonth: 'text-sm rounded bg-gray-200 w-full h-12 mx-auto bg-blue-500 text-white',
         weekDayWrapper: 'grid gap-1 grid-cols-7',
         weekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
       }),

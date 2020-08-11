@@ -2,6 +2,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 
 import TDatePickerViewsViewCalendar from './TDatePickerViewsViewCalendar';
 import TDatepickerNavigator, { CalendarView } from './TDatepickerNavigator';
+import TDatePickerViewsViewMonths from './TDatePickerViewsViewMonths';
 
 const TDatePickerViewsView = Vue.extend({
   name: 'TDatePickerViewsView',
@@ -79,6 +80,27 @@ const TDatePickerViewsView = Vue.extend({
   methods: {
     inputHandler(date: Date) {
       this.$emit('input', date);
+
+      this.resetView();
+    },
+    activeDateInputHandler(date: Date) {
+      this.localActiveDate = date;
+
+      this.resetView();
+    },
+
+    navigatorInputHandler(date: Date) {
+      this.localActiveDate = date;
+    },
+
+    resetView() {
+      if (this.currentView === CalendarView.Month) {
+        this.currentView = CalendarView.Day;
+      } else if (this.currentView === CalendarView.Year) {
+        this.currentView = CalendarView.Year;
+      } else {
+        this.currentView = CalendarView.Day;
+      }
     },
   },
 
@@ -96,7 +118,7 @@ const TDatePickerViewsView = Vue.extend({
           currentView: this.currentView,
         },
         on: {
-          input: this.inputHandler,
+          input: this.navigatorInputHandler,
           setView: (newView: CalendarView) => {
             this.currentView = newView;
           },
@@ -125,25 +147,23 @@ const TDatePickerViewsView = Vue.extend({
         ),
       );
     } else if (this.currentView === CalendarView.Month) {
-      // subElements.push(
-      //   createElement(
-      //     TDatePickerViewsViewCalendar,
-      //     {
-      //       props: {
-      //         value: this.value,
-      //         activeDate: this.localActiveDate,
-      //         weekStart: this.weekStart,
-      //         locale: this.locale,
-      //         getElementCssClass: this.getElementCssClass,
-      //         dateFormatter: this.dateFormatter,
-      //         monthsPerView: this.monthsPerView,
-      //       },
-      //       on: {
-      //         input: this.inputHandler,
-      //       },
-      //     },
-      //   ),
-      // );
+      subElements.push(
+        createElement(
+          TDatePickerViewsViewMonths,
+          {
+            props: {
+              value: this.localActiveDate,
+              weekStart: this.weekStart,
+              locale: this.locale,
+              getElementCssClass: this.getElementCssClass,
+              dateFormatter: this.dateFormatter,
+            },
+            on: {
+              input: this.activeDateInputHandler,
+            },
+          },
+        ),
+      );
     }
 
     return createElement(
