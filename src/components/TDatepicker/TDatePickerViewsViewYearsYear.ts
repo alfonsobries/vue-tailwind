@@ -15,7 +15,7 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
     },
     value: {
       type: Date,
-      required: true,
+      default: null,
     },
     getElementCssClass: {
       type: Function,
@@ -37,7 +37,7 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
     isSelected(): boolean {
       const d1 = this.year as unknown as Date;
       const d2 = this.value as unknown as Date;
-      return d1.getFullYear() === d2.getFullYear();
+      return d2 && d1.getFullYear() === d2.getFullYear();
     },
   },
 

@@ -8,8 +8,8 @@ const TDatepickerTriggerInput = HtmlInput.extend({
 
   props: {
     value: {
-      type: [Date, String, Number, Array],
-      required: true,
+      type: Date,
+      default: null,
     },
     placeholder: {
       type: String,

@@ -111,12 +111,16 @@ const TDatepicker = HtmlInput.extend({
 
   watch: {
     localValue(localValue: DateValue) {
-      this.$emit('input', new Date(localValue.valueOf()));
+      this.$emit('input', this.dateFormatter(localValue as Date, this.dateFormat));
 
 
       if (!this.currentValueIsInTheView) {
         this.activeDate = new Date(localValue.valueOf());
       }
+    },
+    value(value: DateValue) {
+      const dateParser = this.dateParser as DateParser;
+      this.localValue = dateParser(value, this.dateFormat);
     },
   },
 

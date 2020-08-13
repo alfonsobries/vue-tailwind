@@ -9,7 +9,7 @@ const TDatePickerViewsViewCalendar = Vue.extend({
   props: {
     value: {
       type: Date,
-      required: true,
+      default: null,
     },
     activeDate: {
       type: Date,

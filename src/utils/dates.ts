@@ -29,10 +29,14 @@ export const createDateFormatter = ({
   l10n = english,
   // isMobile = false,
 }: FormatterArgs) => (
-  dateObj: Date,
+  dateObj: Date | null,
   format: string,
   overrideLocale?: Locale,
 ): string => {
+  if (!dateObj) {
+    return '';
+  }
+
   const locale = overrideLocale || l10n;
 
   // if (config.formatDate !== undefined && !isMobile) {
