@@ -2,7 +2,7 @@ import { CreateElement, VNode } from 'vue';
 import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
-  createDateFormatter, createDateParser, DateParser, DateValue, compareDates,
+  createDateFormatter, createDateParser, DateParser, DateFormatter, DateValue, compareDates,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
@@ -111,7 +111,8 @@ const TDatepicker = HtmlInput.extend({
 
   watch: {
     localValue(localValue: DateValue) {
-      this.$emit('input', this.dateFormatter(localValue as Date, this.dateFormat));
+      const dateformatter = this.dateFormatter as DateFormatter;
+      this.$emit('input', dateformatter(localValue as Date, this.dateFormat));
 
 
       if (!this.currentValueIsInTheView) {

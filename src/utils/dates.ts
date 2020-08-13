@@ -11,6 +11,12 @@ import {
 
 export type DateValue = Date | string | number
 
+export type DateFormatter = (
+  dateObj: Date | null,
+  format: string,
+  overrideLocale?: Locale,
+) => string
+
 export type DateParser = (
   date: DateValue,
   givenFormat?: string,
@@ -28,7 +34,7 @@ export const createDateFormatter = ({
   // config = defaults,
   l10n = english,
   // isMobile = false,
-}: FormatterArgs) => (
+}: FormatterArgs): DateFormatter => (
   dateObj: Date | null,
   format: string,
   overrideLocale?: Locale,
@@ -36,7 +42,6 @@ export const createDateFormatter = ({
   if (!dateObj) {
     return '';
   }
-
   const locale = overrideLocale || l10n;
 
   // if (config.formatDate !== undefined && !isMobile) {
