@@ -52,6 +52,10 @@ const TDatePickerViewsView = Vue.extend({
       type: Number,
       required: true,
     },
+    focus: {
+      type: Function,
+      required: true,
+    },
   },
 
   data() {
@@ -100,6 +104,7 @@ const TDatePickerViewsView = Vue.extend({
     },
 
     resetView() {
+      this.focus();
       if (this.currentView === CalendarView.Month) {
         this.currentView = CalendarView.Day;
       } else if (this.currentView === CalendarView.Year) {
@@ -123,6 +128,7 @@ const TDatePickerViewsView = Vue.extend({
           showSelector: this.isFirstMonth,
           currentView: this.currentView,
           yearsPerView: this.yearsPerView,
+          focus: this.focus,
         },
         on: {
           input: this.inputActiveDateHandler,

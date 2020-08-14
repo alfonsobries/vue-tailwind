@@ -54,6 +54,10 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       'button',
       {
         class: this.getClass(),
+        attrs: {
+          type: 'button',
+          tabindex: -1,
+        },
         on: {
           click: (e: MouseEvent) => this.$emit('click', e),
         },

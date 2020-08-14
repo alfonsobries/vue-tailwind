@@ -132,33 +132,18 @@ const TDatepicker = HtmlInput.extend({
     inputActiveDateHandler(newDate: Date): void {
       this.activeDate = new Date(newDate.valueOf());
     },
+    focus(options?: FocusOptions | undefined) : void | never {
+      const wrapper = this.$el as HTMLDivElement;
+      const input: HTMLInputElement | null = wrapper.querySelector('input[type=text]');
+      if (!input) {
+        throw new Error('Input not found');
+      }
+
+      input.focus(options);
+    },
   },
 
   render(createElement: CreateElement): VNode {
-    const subElements: VNode[] = [];
-
-    subElements.push(createElement(
-      TDatePickerViews,
-      {
-        props: {
-          value: this.localValue,
-          activeDate: this.activeDate,
-          weekStart: this.weekStart,
-          monthsPerView: this.monthsPerView,
-          locale: this.locale,
-          getElementCssClass: this.getElementCssClass,
-          dateFormatter: this.dateFormatter,
-          initialView: this.initialView,
-          yearsPerView: this.yearsPerView,
-        },
-        on: {
-          input: this.inputHandler,
-          inputActiveDate: this.inputActiveDateHandler,
-        },
-      },
-    ));
-
-
     return createElement(
       TDropdown,
       {
@@ -181,6 +166,7 @@ const TDatepicker = HtmlInput.extend({
           trigger: (props) => createElement(
             TDatepickerTrigger,
             {
+              ref: 'trigger',
               props: {
                 id: this.id,
                 name: this.name,
@@ -199,7 +185,29 @@ const TDatepicker = HtmlInput.extend({
           ),
         },
       },
-      subElements,
+      [
+        createElement(
+          TDatePickerViews,
+          {
+            props: {
+              value: this.localValue,
+              activeDate: this.activeDate,
+              weekStart: this.weekStart,
+              monthsPerView: this.monthsPerView,
+              locale: this.locale,
+              getElementCssClass: this.getElementCssClass,
+              dateFormatter: this.dateFormatter,
+              initialView: this.initialView,
+              yearsPerView: this.yearsPerView,
+              focus: this.focus,
+            },
+            on: {
+              input: this.inputHandler,
+              inputActiveDate: this.inputActiveDateHandler,
+            },
+          },
+        ),
+      ],
     );
   },
 });

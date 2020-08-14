@@ -44,6 +44,10 @@ const TDatepickerNavigator = Vue.extend({
       type: Number,
       required: true,
     },
+    focus: {
+      type: Function,
+      required: true,
+    },
   },
 
   data() {
@@ -75,6 +79,7 @@ const TDatepickerNavigator = Vue.extend({
       this.$emit('input', newDate);
     },
     clickHandler() {
+      this.focus();
       if (this.currentView === CalendarView.Day) {
         this.$emit('setView', CalendarView.Month);
       } else if (this.currentView === CalendarView.Month) {
@@ -223,6 +228,7 @@ const TDatepickerNavigator = Vue.extend({
           attrs: {
             type: 'button',
             class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full flex items-center px-2 py-1 -ml-1',
+            tabindex: -1,
           },
           on: {
             click: this.clickHandler,
@@ -265,6 +271,7 @@ const TDatepickerNavigator = Vue.extend({
             attrs: {
               type: 'button',
               class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full ml-auto p-1 ml-2',
+              tabindex: -1,
             },
             on: {
               click: this.prev,
@@ -303,6 +310,7 @@ const TDatepickerNavigator = Vue.extend({
             attrs: {
               type: 'button',
               class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1',
+              tabindex: -1,
             },
             on: {
               click: this.next,

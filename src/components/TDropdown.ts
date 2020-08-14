@@ -96,7 +96,6 @@ const TDropdown = Component.extend({
       const defaultSlot = this.$scopedSlots.default
         ? this.$scopedSlots.default({
           hide: this.doHide,
-          hideIfFocusOutside: this.hideIfFocusOutside,
           show: this.doShow,
           toggle: this.doToggle,
           blurHandler: this.blurHandler,

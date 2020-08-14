@@ -15,14 +15,6 @@ const TDatepickerTrigger = HtmlInput.extend({
       type: String,
       default: undefined,
     },
-    show: {
-      type: Function,
-      required: true,
-    },
-    hideIfFocusOutside: {
-      type: Function,
-      required: true,
-    },
     dateFormatter: {
       type: Function,
       required: true,
@@ -33,6 +25,14 @@ const TDatepickerTrigger = HtmlInput.extend({
     },
     userFormat: {
       type: String,
+      required: true,
+    },
+    show: {
+      type: Function,
+      required: true,
+    },
+    hideIfFocusOutside: {
+      type: Function,
       required: true,
     },
   },
@@ -66,6 +66,7 @@ const TDatepickerTrigger = HtmlInput.extend({
         createElement(
           TDatepickerTriggerInput,
           {
+            ref: 'input',
             props: {
               id: this.id,
               name: this.name,
