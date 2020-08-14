@@ -9,6 +9,13 @@ import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 
+interface Dropdown extends Vue {
+  doToggle(): void
+  doHide(): void
+  doShow(): void
+  escapeHandler(e: KeyboardEvent): void
+}
+
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
   props: {
@@ -46,6 +53,10 @@ const TDatepicker = HtmlInput.extend({
     dateFormatter: {
       type: Function,
       default: createDateFormatter({ l10n: english }),
+    },
+    closeOnSelect: {
+      type: Boolean,
+      default: true,
     },
     dateParser: {
       type: Function,
@@ -126,12 +137,6 @@ const TDatepicker = HtmlInput.extend({
   },
 
   methods: {
-    inputHandler(newDate: Date): void {
-      this.localValue = new Date(newDate.valueOf());
-    },
-    inputActiveDateHandler(newDate: Date): void {
-      this.activeDate = new Date(newDate.valueOf());
-    },
     focus(options?: FocusOptions | undefined) : void | never {
       const wrapper = this.$el as HTMLDivElement;
       const input: HTMLInputElement | null = wrapper.querySelector('input[type=text]');
@@ -141,14 +146,95 @@ const TDatepicker = HtmlInput.extend({
 
       input.focus(options);
     },
+    hide(): void {
+      this.getDropdown().doHide();
+    },
+    show(): void {
+      this.getDropdown().doShow();
+    },
+    toggle(): void {
+      this.getDropdown().doToggle();
+    },
+    inputHandler(newDate: Date): void {
+      this.localValue = new Date(newDate.valueOf());
+      this.focus();
+
+      if (this.closeOnSelect) {
+        this.hide();
+      }
+    },
+    inputActiveDateHandler(newDate: Date): void {
+      this.activeDate = new Date(newDate.valueOf());
+      this.focus();
+    },
+    arrowDownHandler(e: KeyboardEvent): void {
+      e.preventDefault();
+
+      // if (!this.show) {
+      //   this.showOptions();
+      // }
+
+      // const endReached = this.highlighted !== null
+      //   && this.highlighted + 1 >= this.filteredflattenedOptions.length;
+
+      // if (endReached && this.usesAJax && this.nextPage) {
+      //   this.listEndReached();
+      // } else if (this.highlighted === null) {
+      //   this.highlighted = 0;
+      // } else {
+      //   this.highlighted = endReached ? 0 : this.highlighted + 1;
+      // }
+
+      // this.scrollToHighlightedOption();
+    },
+    arrowUpHandler(e: KeyboardEvent): void {
+      e.preventDefault();
+
+      // if (!this.show) {
+      //   this.showOptions();
+      //   return;
+      // }
+
+      // const endReached = this.highlighted !== null
+      //   && this.highlighted + 1 >= this.filteredflattenedOptions.length;
+
+      // if (endReached && this.usesAJax && this.nextPage) {
+      //   this.listEndReached();
+      // } else if (this.highlighted === null) {
+      //   this.highlighted = 0;
+      // } else {
+      //   this.highlighted = endReached ? 0 : this.highlighted + 1;
+      // }
+
+      // this.scrollToHighlightedOption();
+    },
+    enterHandler(e: KeyboardEvent): void {
+      e.preventDefault();
+
+      // this.getDropdown().doShow();
+    },
+    escapeHandler(e: KeyboardEvent): void {
+      e.preventDefault();
+
+      this.getDropdown().escapeHandler(e);
+    },
+    spaceHandler(e: KeyboardEvent): void {
+      e.preventDefault();
+
+      this.toggle();
+    },
+
+    getDropdown(): Dropdown {
+      return this.$refs.dropdown as Dropdown;
+    },
   },
 
   render(createElement: CreateElement): VNode {
     return createElement(
       TDropdown,
       {
+        ref: 'dropdown',
         props: {
-          show: true,
           classes: {
             button: 'p-3',
             wrapper: 'inline-flex flex-col',
@@ -178,8 +264,32 @@ const TDatepicker = HtmlInput.extend({
                 dateFormatter: this.dateFormatter,
                 userFormat: this.userFormat,
                 dateFormat: this.dateFormat,
+                closeOnSelect: this.closeOnSelect,
+                toggle: props.toggle,
                 show: props.show,
                 hideIfFocusOutside: props.hideIfFocusOutside,
+              },
+              on: {
+                keydown: (e: KeyboardEvent) => {
+                  console.log(e.keyCode);
+                  // Down
+                  if (e.keyCode === 40) {
+                    this.arrowDownHandler(e);
+                    // Up
+                  } else if (e.keyCode === 38) {
+                    this.arrowUpHandler(e);
+                    // Enter
+                  } else if (e.keyCode === 13) {
+                    this.enterHandler(e);
+                    // Esc
+                  } else if (e.keyCode === 27) {
+                    this.escapeHandler(e);
+                  } else if (e.keyCode === 32) {
+                    this.spaceHandler(e);
+                  }
+
+                  this.$emit('keydown', e);
+                },
               },
             },
           ),

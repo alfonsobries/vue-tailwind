@@ -31,6 +31,10 @@ const TDatepickerTrigger = HtmlInput.extend({
       type: Function,
       required: true,
     },
+    toggle: {
+      type: Function,
+      required: true,
+    },
     hideIfFocusOutside: {
       type: Function,
       required: true,
@@ -79,10 +83,14 @@ const TDatepickerTrigger = HtmlInput.extend({
               userFormat: this.userFormat,
               dateFormat: this.dateFormat,
               show: this.show,
+              toggle: this.toggle,
               hideIfFocusOutside: this.hideIfFocusOutside,
             },
             on: {
               input: this.inputHandler,
+              keydown: (e: KeyboardEvent) => {
+                this.$emit('keydown', e);
+              },
             },
           },
         ),

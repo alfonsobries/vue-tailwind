@@ -35,6 +35,10 @@ const TDatepickerTriggerInput = HtmlInput.extend({
       type: String,
       required: true,
     },
+    toggle: {
+      type: Function,
+      required: true,
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -56,12 +60,20 @@ const TDatepickerTriggerInput = HtmlInput.extend({
         props: {
           value: this.dateFormatter(value, this.userFormat),
         },
+        nativeOn: {
+          click: () => {
+            this.show();
+          },
+        },
         on: {
           focus: () => {
             this.show();
           },
           blur: (e: FocusEvent) => {
             this.hideIfFocusOutside(e);
+          },
+          keydown: (e: KeyboardEvent) => {
+            this.$emit('keydown', e);
           },
         },
       },

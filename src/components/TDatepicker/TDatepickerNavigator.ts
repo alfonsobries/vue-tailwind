@@ -44,10 +44,6 @@ const TDatepickerNavigator = Vue.extend({
       type: Number,
       required: true,
     },
-    focus: {
-      type: Function,
-      required: true,
-    },
   },
 
   data() {
@@ -79,7 +75,6 @@ const TDatepickerNavigator = Vue.extend({
       this.$emit('input', newDate);
     },
     clickHandler() {
-      this.focus();
       if (this.currentView === CalendarView.Day) {
         this.$emit('setView', CalendarView.Month);
       } else if (this.currentView === CalendarView.Month) {
