@@ -219,8 +219,8 @@ const TDatepicker = HtmlInput.extend({
       this.activeDate = new Date(newDate.valueOf());
       this.focus();
     },
-    viewChangedHandler(currentView: CalendarView): void {
-      this.currentView = currentView;
+    updateViewHandler(newView: CalendarView): void {
+      this.currentView = newView;
       this.focus();
     },
     enterHandler(e: KeyboardEvent): void {
@@ -330,13 +330,14 @@ const TDatepicker = HtmlInput.extend({
               getElementCssClass: this.getElementCssClass,
               dateFormatter: this.dateFormatter,
               initialView: this.initialView,
+              currentView: this.currentView,
               yearsPerView: this.yearsPerView,
               showActiveDate: this.showActiveDate,
             },
             on: {
               input: this.inputHandler,
               inputActiveDate: this.inputActiveDateHandler,
-              viewChanged: this.viewChangedHandler,
+              updateView: this.updateViewHandler,
             },
           },
         ),

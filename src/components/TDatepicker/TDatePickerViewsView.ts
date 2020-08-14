@@ -41,12 +41,9 @@ const TDatePickerViewsView = Vue.extend({
       type: Number,
       required: true,
     },
-    initialView: {
+    currentView: {
       type: String,
-      default: CalendarView.Day,
-      validator(value: CalendarView) {
-        return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
-      },
+      required: true,
     },
     yearsPerView: {
       type: Number,
@@ -61,7 +58,6 @@ const TDatePickerViewsView = Vue.extend({
   data() {
     return {
       localActiveDate: new Date(this.activeDate.valueOf()),
-      currentView: this.initialView as CalendarView,
     };
   },
 
@@ -84,11 +80,6 @@ const TDatePickerViewsView = Vue.extend({
     activeDate(activeDate: Date) {
       this.localActiveDate = new Date(activeDate.valueOf());
     },
-    currentView(currentView) {
-      if (this.isFirstMonth) {
-        this.$emit('viewChanged', currentView);
-      }
-    },
   },
 
   methods: {
@@ -110,11 +101,11 @@ const TDatePickerViewsView = Vue.extend({
 
     resetView() {
       if (this.currentView === CalendarView.Month) {
-        this.currentView = CalendarView.Day;
+        this.$emit('updateView', CalendarView.Day);
       } else if (this.currentView === CalendarView.Year) {
-        this.currentView = CalendarView.Month;
+        this.$emit('updateView', CalendarView.Month);
       } else {
-        this.currentView = CalendarView.Day;
+        this.$emit('updateView', CalendarView.Day);
       }
     },
   },
@@ -135,8 +126,8 @@ const TDatePickerViewsView = Vue.extend({
         },
         on: {
           input: this.inputActiveDateHandler,
-          setView: (newView: CalendarView) => {
-            this.currentView = newView;
+          updateView: (newView: CalendarView) => {
+            this.$emit('updateView', newView);
           },
         },
       },

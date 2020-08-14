@@ -37,10 +37,11 @@ const TDatePickerViews = Vue.extend({
     },
     initialView: {
       type: String,
-      default: CalendarView.Day,
-      validator(value: CalendarView) {
-        return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
-      },
+      required: true,
+    },
+    currentView: {
+      type: String,
+      required: true,
     },
     yearsPerView: {
       type: Number,
@@ -94,7 +95,7 @@ const TDatePickerViews = Vue.extend({
             dateFormatter: this.dateFormatter,
             monthsPerView: this.monthsPerView,
             monthIndex: index,
-            initialView: this.initialView,
+            currentView: index === 0 ? this.currentView : this.initialView,
             yearsPerView: this.yearsPerView,
             showActiveDate: this.showActiveDate,
           },
@@ -105,8 +106,8 @@ const TDatePickerViews = Vue.extend({
             inputActiveDate: (date: Date) => {
               this.$emit('inputActiveDate', date);
             },
-            viewChanged: (currentView: CalendarView) => {
-              this.$emit('viewChanged', currentView);
+            updateView: (newView: CalendarView) => {
+              this.$emit('updateView', newView);
             },
           },
         },
