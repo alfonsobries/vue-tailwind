@@ -209,7 +209,6 @@ const TDatepicker = HtmlInput.extend({
     inputHandler(newDate: Date): void {
       this.localValue = new Date(newDate.valueOf());
       this.focus();
-      this.resetActiveDate();
 
       if (this.closeOnSelect) {
         this.hide();
@@ -226,7 +225,9 @@ const TDatepicker = HtmlInput.extend({
     enterHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
-      if (this.showActiveDate) {
+      if (!this.shown) {
+        this.show();
+      } else if (this.showActiveDate) {
         this.inputHandler(new Date(this.activeDate.valueOf()));
       }
     },
@@ -243,7 +244,9 @@ const TDatepicker = HtmlInput.extend({
     getDropdown(): Dropdown {
       return this.$refs.dropdown as Dropdown;
     },
-    resetActiveDate() {
+    resetInitialState() {
+      this.shown = false;
+      this.currentView = this.initialView as CalendarView;
       this.showActiveDate = false;
       this.activeDate = this.localValue ? new Date(this.localValue.valueOf()) : new Date();
     },
@@ -269,10 +272,7 @@ const TDatepicker = HtmlInput.extend({
           },
         },
         on: {
-          hidden: () => {
-            this.shown = false;
-            this.resetActiveDate();
-          },
+          hidden: () => this.resetInitialState(),
           shown: () => {
             this.shown = true;
           },
