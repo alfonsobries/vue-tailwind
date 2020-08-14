@@ -109,6 +109,9 @@ const TDatePickerViews = Vue.extend({
             updateView: (newView: CalendarView) => {
               this.$emit('updateView', newView);
             },
+            resetView: () => {
+              this.$emit('resetView');
+            },
           },
         },
       )),

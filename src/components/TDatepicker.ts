@@ -134,7 +134,6 @@ const TDatepicker = HtmlInput.extend({
       const dateformatter = this.dateFormatter as DateFormatter;
       this.$emit('input', dateformatter(localValue as Date, this.dateFormat));
 
-
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
         this.activeDate = new Date(localValue.valueOf());
       }
@@ -218,9 +217,18 @@ const TDatepicker = HtmlInput.extend({
       this.activeDate = new Date(newDate.valueOf());
       this.focus();
     },
-    updateViewHandler(newView: CalendarView): void {
+    setView(newView: CalendarView): void {
       this.currentView = newView;
       this.focus();
+    },
+    resetView(): void {
+      if (this.currentView === CalendarView.Month) {
+        this.setView(CalendarView.Day);
+      } else if (this.currentView === CalendarView.Year) {
+        this.setView(CalendarView.Month);
+      } else {
+        this.setView(CalendarView.Day);
+      }
     },
     enterHandler(e: KeyboardEvent): void {
       e.preventDefault();
@@ -228,7 +236,11 @@ const TDatepicker = HtmlInput.extend({
       if (!this.shown) {
         this.show();
       } else if (this.showActiveDate) {
-        this.inputHandler(new Date(this.activeDate.valueOf()));
+        if (this.currentView === CalendarView.Day) {
+          this.inputHandler(new Date(this.activeDate.valueOf()));
+        } else {
+          this.resetView();
+        }
       }
     },
     escapeHandler(e: KeyboardEvent): void {
@@ -337,7 +349,8 @@ const TDatepicker = HtmlInput.extend({
             on: {
               input: this.inputHandler,
               inputActiveDate: this.inputActiveDateHandler,
-              updateView: this.updateViewHandler,
+              updateView: this.setView,
+              resetView: this.resetView,
             },
           },
         ),

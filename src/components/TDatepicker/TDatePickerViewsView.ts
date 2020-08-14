@@ -100,13 +100,7 @@ const TDatePickerViewsView = Vue.extend({
     },
 
     resetView() {
-      if (this.currentView === CalendarView.Month) {
-        this.$emit('updateView', CalendarView.Day);
-      } else if (this.currentView === CalendarView.Year) {
-        this.$emit('updateView', CalendarView.Month);
-      } else {
-        this.$emit('updateView', CalendarView.Day);
-      }
+      this.$emit('resetView');
     },
   },
 
