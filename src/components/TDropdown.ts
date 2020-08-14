@@ -67,7 +67,7 @@ const TDropdown = Component.extend({
   data() {
     return {
       localShow: this.show,
-      hasFocus: false,
+      hasFocus: false as boolean,
       hideOnLeaveTimeoutHolder: null as ReturnType<typeof setTimeout> | null,
     };
   },
@@ -78,10 +78,10 @@ const TDropdown = Component.extend({
   },
 
   watch: {
-    show(show) {
+    show(show): void {
       this.localShow = show;
     },
-    async localShow(localShow) {
+    localShow(localShow): void {
       this.$emit('update:show', localShow);
       if (localShow) {
         this.$emit('shown');
@@ -273,7 +273,7 @@ const TDropdown = Component.extend({
         this.doHide();
       }
     },
-    async doShow() {
+    doShow() {
       this.localShow = true;
     },
     doToggle() {
