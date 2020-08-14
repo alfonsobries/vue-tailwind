@@ -50,7 +50,17 @@ const TDatePickerViewsViewMonths = Vue.extend({
 
   methods: {
     getMonth(monthNumber: number) {
-      return new Date(this.localActiveDate.getFullYear(), monthNumber, 1);
+      let newDate = new Date(this.localActiveDate.valueOf());
+      newDate.setMonth(monthNumber);
+
+      // Means the current day has less days so the extra month is
+      // in the following month
+      if (newDate.getDate() !== this.localActiveDate.getDate()) {
+        // Assign the last day of previous month
+        newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
+      }
+
+      return newDate;
     },
   },
 
