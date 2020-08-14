@@ -52,10 +52,6 @@ const TDatePickerViewsView = Vue.extend({
       type: Number,
       required: true,
     },
-    focus: {
-      type: Function,
-      required: true,
-    },
     showActiveDate: {
       type: Boolean,
       required: true,
@@ -88,8 +84,10 @@ const TDatePickerViewsView = Vue.extend({
     activeDate(activeDate: Date) {
       this.localActiveDate = new Date(activeDate.valueOf());
     },
-    currentView() {
-      this.focus();
+    currentView(currentView) {
+      if (this.isFirstMonth) {
+        this.$emit('viewChanged', currentView);
+      }
     },
   },
 
@@ -176,6 +174,7 @@ const TDatePickerViewsView = Vue.extend({
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
               dateFormatter: this.dateFormatter,
+              showActiveDate: this.showActiveDate,
             },
             on: {
               input: this.viewInputActiveDateHandler,
@@ -195,6 +194,7 @@ const TDatePickerViewsView = Vue.extend({
               getElementCssClass: this.getElementCssClass,
               dateFormatter: this.dateFormatter,
               yearsPerView: this.yearsPerView,
+              showActiveDate: this.showActiveDate,
             },
             on: {
               input: this.viewInputActiveDateHandler,

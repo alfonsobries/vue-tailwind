@@ -188,6 +188,40 @@ export function compareDates(date1: Date, date2: Date, timeless = true): number 
   return date1.getTime() - date2.getTime();
 }
 
+export function addDays(date: Date, amount = 1): Date {
+  const newDate = new Date(date.valueOf());
+  newDate.setDate(newDate.getDate() + amount);
+  return newDate;
+}
+
+export function addMonths(date: Date, amount = 1): Date {
+  let newDate = new Date(date.valueOf());
+  newDate.setMonth(date.getMonth() + amount);
+
+  // Means the current day has less days so the extra month is
+  // in the following month
+  if (newDate.getDate() !== date.getDate()) {
+    // Assign the last day of previous month
+    newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
+  }
+
+  return newDate;
+}
+
+export function addYears(date: Date, amount = 1): Date {
+  let newDate = new Date(date.valueOf());
+  newDate.setFullYear(date.getFullYear() + amount);
+
+  // Means the current day has less days so the extra month is
+  // in the following month
+  if (newDate.getDate() !== date.getDate()) {
+    // Assign the last day of previous month
+    newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
+  }
+
+  return newDate;
+}
+
 // /**
 //  * Compute the difference in times, measured in ms
 //  */

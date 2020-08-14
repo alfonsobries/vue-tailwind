@@ -46,10 +46,6 @@ const TDatePickerViews = Vue.extend({
       type: Number,
       required: true,
     },
-    focus: {
-      type: Function,
-      required: true,
-    },
     showActiveDate: {
       type: Boolean,
       required: true,
@@ -100,7 +96,6 @@ const TDatePickerViews = Vue.extend({
             monthIndex: index,
             initialView: this.initialView,
             yearsPerView: this.yearsPerView,
-            focus: this.focus,
             showActiveDate: this.showActiveDate,
           },
           on: {
@@ -109,6 +104,9 @@ const TDatePickerViews = Vue.extend({
             },
             inputActiveDate: (date: Date) => {
               this.$emit('inputActiveDate', date);
+            },
+            viewChanged: (currentView: CalendarView) => {
+              this.$emit('viewChanged', currentView);
             },
           },
         },

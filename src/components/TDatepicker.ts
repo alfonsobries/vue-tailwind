@@ -2,7 +2,7 @@ import { CreateElement, VNode } from 'vue';
 import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
-  createDateFormatter, createDateParser, DateParser, DateFormatter, DateValue, compareDates,
+  createDateFormatter, createDateParser, DateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
@@ -78,12 +78,16 @@ const TDatepicker = HtmlInput.extend({
       type: Object,
       default: () => ({
         day: 'text-sm rounded-full w-8 h-8 hover:bg-blue-100',
-        activeDay: 'text-sm rounded-full bg-gray-200 w-8 h-8',
+        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8',
         selectedDay: 'text-sm rounded-full w-8 h-8 bg-blue-500 text-white',
         disabledDay: 'text-sm rounded-full w-8 h-8 opacity-25 cursor-not-allowed',
         otherMonthDay: 'text-sm rounded-full w-8 h-8 hover:bg-blue-100 text-gray-400',
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
-        selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
+        selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
+        activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
+        year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
+        selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
+        activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
         weekDayWrapper: 'grid gap-1 grid-cols-7',
         weekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
       }),
@@ -95,12 +99,13 @@ const TDatepicker = HtmlInput.extend({
     const localValue = dateParser(this.value as DateValue, this.dateFormat);
     // Used to show the selected month/year
     const activeDate: Date = localValue || new Date();
-
+    const currentView: CalendarView = this.initialView as CalendarView;
     return {
       localValue,
       activeDate,
       shown: false,
       showActiveDate: false,
+      currentView,
     };
   },
 
@@ -169,21 +174,37 @@ const TDatepicker = HtmlInput.extend({
         return;
       }
 
-      let days = 0;
-
-      if (e.keyCode === Key.DOWN) {
-        days = 7;
-      } else if (e.keyCode === Key.LEFT) {
-        days = -1;
-      } else if (e.keyCode === Key.UP) {
-        days = -7;
-      } else if (e.keyCode === Key.RIGHT) {
-        days = 1;
+      if (this.currentView === CalendarView.Day) {
+        if (e.keyCode === Key.DOWN) {
+          this.activeDate = addDays(this.activeDate, 7);
+        } else if (e.keyCode === Key.LEFT) {
+          this.activeDate = addDays(this.activeDate, -1);
+        } else if (e.keyCode === Key.UP) {
+          this.activeDate = addDays(this.activeDate, -7);
+        } else if (e.keyCode === Key.RIGHT) {
+          this.activeDate = addDays(this.activeDate, 1);
+        }
+      } else if (this.currentView === CalendarView.Month) {
+        if (e.keyCode === Key.DOWN) {
+          this.activeDate = addMonths(this.activeDate, 4);
+        } else if (e.keyCode === Key.LEFT) {
+          this.activeDate = addMonths(this.activeDate, -1);
+        } else if (e.keyCode === Key.UP) {
+          this.activeDate = addMonths(this.activeDate, -4);
+        } else if (e.keyCode === Key.RIGHT) {
+          this.activeDate = addMonths(this.activeDate, 1);
+        }
+      } else if (this.currentView === CalendarView.Year) {
+        if (e.keyCode === Key.DOWN) {
+          this.activeDate = addYears(this.activeDate, 4);
+        } else if (e.keyCode === Key.LEFT) {
+          this.activeDate = addYears(this.activeDate, -1);
+        } else if (e.keyCode === Key.UP) {
+          this.activeDate = addYears(this.activeDate, -4);
+        } else if (e.keyCode === Key.RIGHT) {
+          this.activeDate = addYears(this.activeDate, 1);
+        }
       }
-
-      const newActiveDate = new Date(this.activeDate.valueOf());
-      newActiveDate.setDate(this.activeDate.getDate() + days);
-      this.activeDate = newActiveDate;
     },
     inputHandler(newDate: Date): void {
       this.localValue = new Date(newDate.valueOf());
@@ -198,7 +219,10 @@ const TDatepicker = HtmlInput.extend({
       this.activeDate = new Date(newDate.valueOf());
       this.focus();
     },
-
+    viewChangedHandler(currentView: CalendarView): void {
+      this.currentView = currentView;
+      this.focus();
+    },
     enterHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
@@ -216,7 +240,6 @@ const TDatepicker = HtmlInput.extend({
 
       this.toggle();
     },
-
     getDropdown(): Dropdown {
       return this.$refs.dropdown as Dropdown;
     },
@@ -309,11 +332,11 @@ const TDatepicker = HtmlInput.extend({
               initialView: this.initialView,
               yearsPerView: this.yearsPerView,
               showActiveDate: this.showActiveDate,
-              focus: this.focus,
             },
             on: {
               input: this.inputHandler,
               inputActiveDate: this.inputActiveDateHandler,
+              viewChanged: this.viewChangedHandler,
             },
           },
         ),

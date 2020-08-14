@@ -1,4 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import { addMonths } from '@/utils/dates';
 
 export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
   const currentYear = date.getFullYear();
@@ -102,30 +103,10 @@ const TDatepickerNavigator = Vue.extend({
       }
     },
     prevMonth(): void {
-      let newDate = new Date(this.localValue.valueOf());
-      newDate.setMonth(newDate.getMonth() - 1);
-
-      // Means the current day has less days so the extra month is
-      // in the following month
-      if (newDate.getDate() !== this.localValue.getDate()) {
-        // Assign the last day of previous month
-        newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
-      }
-
-      this.inputHandler(newDate);
+      this.inputHandler(addMonths(this.localValue, -1));
     },
     nextMonth(): void {
-      let newDate = new Date(this.localValue.valueOf());
-      newDate.setMonth(newDate.getMonth() + 1);
-
-      // Means the current day has less days so the extra month is
-      // in the following month
-      if (newDate.getDate() !== this.localValue.getDate()) {
-        // Assign the last day of previous month
-        newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
-      }
-
-      this.inputHandler(newDate);
+      this.inputHandler(addMonths(this.localValue, 1));
     },
     prevYear(): void {
       const newDate = new Date(this.localValue.valueOf());

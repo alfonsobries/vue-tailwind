@@ -17,12 +17,20 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       type: Date,
       default: null,
     },
+    activeDate: {
+      type: Date,
+      required: true,
+    },
     getElementCssClass: {
       type: Function,
       required: true,
     },
     dateFormatter: {
       type: Function,
+      required: true,
+    },
+    showActiveDate: {
+      type: Boolean,
       required: true,
     },
   },
@@ -34,12 +42,22 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       return d2 && d1.getFullYear() === d2.getFullYear()
         && d1.getMonth() === d2.getMonth();
     },
+    isActive(): boolean {
+      const d1 = this.month as unknown as Date;
+      const d2 = this.activeDate as unknown as Date;
+      return d2 && d1.getFullYear() === d2.getFullYear()
+        && d1.getMonth() === d2.getMonth();
+    },
   },
 
   methods: {
     getClass(): CssClass {
       if (this.isSelected) {
         return this.getElementCssClass('selectedMonth');
+      }
+
+      if (this.isActive && this.showActiveDate) {
+        return this.getElementCssClass('activeMonth');
       }
 
       return this.getElementCssClass('month');
