@@ -100,6 +100,7 @@ const TDatepicker = HtmlInput.extend({
       localValue,
       activeDate,
       shown: false,
+      showActiveDate: false,
     };
   },
 
@@ -129,7 +130,7 @@ const TDatepicker = HtmlInput.extend({
       this.$emit('input', dateformatter(localValue as Date, this.dateFormat));
 
 
-      if (!this.currentValueIsInTheView) {
+      if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
         this.activeDate = new Date(localValue.valueOf());
       }
     },
@@ -161,6 +162,8 @@ const TDatepicker = HtmlInput.extend({
     arrowKeyHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
+      this.showActiveDate = true;
+
       if (!this.shown) {
         this.show();
         return;
@@ -185,6 +188,7 @@ const TDatepicker = HtmlInput.extend({
     inputHandler(newDate: Date): void {
       this.localValue = new Date(newDate.valueOf());
       this.focus();
+      this.resetActiveDate();
 
       if (this.closeOnSelect) {
         this.hide();
@@ -198,7 +202,9 @@ const TDatepicker = HtmlInput.extend({
     enterHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
-      // this.getDropdown().doShow();
+      if (this.showActiveDate) {
+        this.inputHandler(new Date(this.activeDate.valueOf()));
+      }
     },
     escapeHandler(e: KeyboardEvent): void {
       e.preventDefault();
@@ -213,6 +219,10 @@ const TDatepicker = HtmlInput.extend({
 
     getDropdown(): Dropdown {
       return this.$refs.dropdown as Dropdown;
+    },
+    resetActiveDate() {
+      this.showActiveDate = false;
+      this.activeDate = this.localValue ? new Date(this.localValue.valueOf()) : new Date();
     },
   },
 
@@ -238,6 +248,7 @@ const TDatepicker = HtmlInput.extend({
         on: {
           hidden: () => {
             this.shown = false;
+            this.resetActiveDate();
           },
           shown: () => {
             this.shown = true;
@@ -297,6 +308,7 @@ const TDatepicker = HtmlInput.extend({
               dateFormatter: this.dateFormatter,
               initialView: this.initialView,
               yearsPerView: this.yearsPerView,
+              showActiveDate: this.showActiveDate,
               focus: this.focus,
             },
             on: {

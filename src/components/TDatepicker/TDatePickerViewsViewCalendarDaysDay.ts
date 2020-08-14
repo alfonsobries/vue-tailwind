@@ -33,6 +33,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: Boolean,
       required: true,
     },
+    showActiveDate: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -84,7 +88,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         return this.getElementCssClass('selectedDay');
       }
 
-      if (this.isActive) {
+      if (this.isActive && this.showActiveDate) {
         return this.getElementCssClass('activeDay');
       }
 

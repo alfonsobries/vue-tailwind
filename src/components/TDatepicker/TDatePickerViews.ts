@@ -50,6 +50,10 @@ const TDatePickerViews = Vue.extend({
       type: Function,
       required: true,
     },
+    showActiveDate: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -97,6 +101,7 @@ const TDatePickerViews = Vue.extend({
             initialView: this.initialView,
             yearsPerView: this.yearsPerView,
             focus: this.focus,
+            showActiveDate: this.showActiveDate,
           },
           on: {
             input: (date: Date) => {
