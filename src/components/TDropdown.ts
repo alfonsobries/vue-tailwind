@@ -1,5 +1,6 @@
 import Component from '@/base/Component';
 import { CreateElement, VNode } from 'vue';
+import Key from '@/types/Key';
 
 const TDropdown = Component.extend({
   name: 'TDropdown',
@@ -226,11 +227,9 @@ const TDropdown = Component.extend({
       }
     },
     keydownHandler(e: KeyboardEvent) {
-      // Enter or space bar
-      if ([13, 32].includes(e.keyCode)) {
+      if ([Key.ENTER, Key.SPACE].includes(e.keyCode)) {
         this.mousedownHandler();
-        // Esc
-      } else if (e.keyCode === 27) {
+      } else if (e.keyCode === Key.ESC) {
         this.escapeHandler();
       }
     },

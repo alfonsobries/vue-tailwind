@@ -5,6 +5,7 @@ import {
   createDateFormatter, createDateParser, DateParser, DateFormatter, DateValue, compareDates,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
+import Key from '@/types/Key';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
@@ -77,11 +78,12 @@ const TDatepicker = HtmlInput.extend({
       type: Object,
       default: () => ({
         day: 'text-sm rounded-full w-8 h-8 hover:bg-blue-100',
-        selectedDay: 'text-sm rounded-full bg-gray-200 w-8 h-8 bg-blue-500 text-white',
+        activeDay: 'text-sm rounded-full bg-gray-200 w-8 h-8',
+        selectedDay: 'text-sm rounded-full w-8 h-8 bg-blue-500 text-white',
         disabledDay: 'text-sm rounded-full w-8 h-8 opacity-25 cursor-not-allowed',
         otherMonthDay: 'text-sm rounded-full w-8 h-8 hover:bg-blue-100 text-gray-400',
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
-        selectedMonth: 'text-sm rounded bg-gray-200 w-full h-12 mx-auto bg-blue-500 text-white',
+        selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         weekDayWrapper: 'grid gap-1 grid-cols-7',
         weekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
       }),
@@ -97,6 +99,7 @@ const TDatepicker = HtmlInput.extend({
     return {
       localValue,
       activeDate,
+      shown: false,
     };
   },
 
@@ -155,6 +158,30 @@ const TDatepicker = HtmlInput.extend({
     toggle(): void {
       this.getDropdown().doToggle();
     },
+    arrowKeyHandler(e: KeyboardEvent): void {
+      e.preventDefault();
+
+      if (!this.shown) {
+        this.show();
+        return;
+      }
+
+      let days = 0;
+
+      if (e.keyCode === Key.DOWN) {
+        days = 7;
+      } else if (e.keyCode === Key.LEFT) {
+        days = -1;
+      } else if (e.keyCode === Key.UP) {
+        days = -7;
+      } else if (e.keyCode === Key.RIGHT) {
+        days = 1;
+      }
+
+      const newActiveDate = new Date(this.activeDate.valueOf());
+      newActiveDate.setDate(this.activeDate.getDate() + days);
+      this.activeDate = newActiveDate;
+    },
     inputHandler(newDate: Date): void {
       this.localValue = new Date(newDate.valueOf());
       this.focus();
@@ -167,47 +194,7 @@ const TDatepicker = HtmlInput.extend({
       this.activeDate = new Date(newDate.valueOf());
       this.focus();
     },
-    arrowDownHandler(e: KeyboardEvent): void {
-      e.preventDefault();
 
-      // if (!this.show) {
-      //   this.showOptions();
-      // }
-
-      // const endReached = this.highlighted !== null
-      //   && this.highlighted + 1 >= this.filteredflattenedOptions.length;
-
-      // if (endReached && this.usesAJax && this.nextPage) {
-      //   this.listEndReached();
-      // } else if (this.highlighted === null) {
-      //   this.highlighted = 0;
-      // } else {
-      //   this.highlighted = endReached ? 0 : this.highlighted + 1;
-      // }
-
-      // this.scrollToHighlightedOption();
-    },
-    arrowUpHandler(e: KeyboardEvent): void {
-      e.preventDefault();
-
-      // if (!this.show) {
-      //   this.showOptions();
-      //   return;
-      // }
-
-      // const endReached = this.highlighted !== null
-      //   && this.highlighted + 1 >= this.filteredflattenedOptions.length;
-
-      // if (endReached && this.usesAJax && this.nextPage) {
-      //   this.listEndReached();
-      // } else if (this.highlighted === null) {
-      //   this.highlighted = 0;
-      // } else {
-      //   this.highlighted = endReached ? 0 : this.highlighted + 1;
-      // }
-
-      // this.scrollToHighlightedOption();
-    },
     enterHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
@@ -248,6 +235,14 @@ const TDatepicker = HtmlInput.extend({
             leaveToClass: 'transform opacity-0 scale-95 duration-75',
           },
         },
+        on: {
+          hidden: () => {
+            this.shown = false;
+          },
+          shown: () => {
+            this.shown = true;
+          },
+        },
         scopedSlots: {
           trigger: (props) => createElement(
             TDatepickerTrigger,
@@ -271,20 +266,13 @@ const TDatepicker = HtmlInput.extend({
               },
               on: {
                 keydown: (e: KeyboardEvent) => {
-                  console.log(e.keyCode);
-                  // Down
-                  if (e.keyCode === 40) {
-                    this.arrowDownHandler(e);
-                    // Up
-                  } else if (e.keyCode === 38) {
-                    this.arrowUpHandler(e);
-                    // Enter
-                  } else if (e.keyCode === 13) {
+                  if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
+                    this.arrowKeyHandler(e);
+                  } else if (e.keyCode === Key.ENTER) {
                     this.enterHandler(e);
-                    // Esc
-                  } else if (e.keyCode === 27) {
+                  } else if (e.keyCode === Key.ESC) {
                     this.escapeHandler(e);
-                  } else if (e.keyCode === 32) {
+                  } else if (e.keyCode === Key.SPACE) {
                     this.spaceHandler(e);
                   }
 

@@ -1,6 +1,7 @@
 import { CreateElement, VNode } from 'vue';
 import HtmlInput from '@/base/HtmlInput';
 import CssClass from '@/types/CssClass';
+import Key from '@/types/Key';
 
 const TCheckbox = HtmlInput.extend({
   name: 'TCheckbox',
@@ -177,8 +178,7 @@ const TCheckbox = HtmlInput.extend({
           },
           on: {
             keydown: (e: KeyboardEvent) => {
-              // Space
-              if (e.keyCode === 32) {
+              if (e.keyCode === Key.SPACE) {
                 this.wrapperSpaceHandler(e);
               }
             },

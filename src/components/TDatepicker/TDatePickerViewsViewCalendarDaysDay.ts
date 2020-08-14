@@ -49,10 +49,16 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         && d1.getMonth() === d2.getMonth()
         && d1.getDate() === d2.getDate();
     },
+    isActive(): boolean {
+      const d1 = this.day as unknown as Date;
+      const d2 = this.localActiveDate as unknown as Date;
+      return d2 && d1.getFullYear() === d2.getFullYear()
+        && d1.getMonth() === d2.getMonth()
+        && d1.getDate() === d2.getDate();
+    },
     // @TODO
     isDisabled(): boolean {
-      const d = this.day as unknown as Date;
-      return d.getDate() === 10;
+      return false;
     },
     isForAnotherMonth(): boolean {
       const d1 = this.localActiveDate as unknown as Date;
@@ -76,6 +82,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
       if (this.isSelected) {
         return this.getElementCssClass('selectedDay');
+      }
+
+      if (this.isActive) {
+        return this.getElementCssClass('activeDay');
       }
 
       if (this.isForAnotherMonth) {
