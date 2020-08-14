@@ -299,6 +299,12 @@
         unchecked-value="Unchecked"
         :indeterminate.sync="indeterminate"
       />
+      <t-toggle
+        v-model="checked"
+        name="checked"
+        value="Checked"
+        unchecked-value="Unchecked"
+      />
       <span class="ml-2 text-sm">
         {{ checked }}
       </span>
