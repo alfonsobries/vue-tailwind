@@ -102,13 +102,29 @@ const TDatepickerNavigator = Vue.extend({
       }
     },
     prevMonth(): void {
-      const newDate = new Date(this.localValue.valueOf());
+      let newDate = new Date(this.localValue.valueOf());
       newDate.setMonth(newDate.getMonth() - 1);
+
+      // Means the current day has less days so the extra month is
+      // in the following month
+      if (newDate.getDate() !== this.localValue.getDate()) {
+        // Assign the last day of previous month
+        newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
+      }
+
       this.inputHandler(newDate);
     },
     nextMonth(): void {
-      const newDate = new Date(this.localValue.valueOf());
+      let newDate = new Date(this.localValue.valueOf());
       newDate.setMonth(newDate.getMonth() + 1);
+
+      // Means the current day has less days so the extra month is
+      // in the following month
+      if (newDate.getDate() !== this.localValue.getDate()) {
+        // Assign the last day of previous month
+        newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
+      }
+
       this.inputHandler(newDate);
     },
     prevYear(): void {
