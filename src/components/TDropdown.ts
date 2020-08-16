@@ -1,5 +1,6 @@
 import Component from '@/base/Component';
 import { CreateElement, VNode } from 'vue';
+import Key from '@/types/Key';
 
 const TDropdown = Component.extend({
   name: 'TDropdown',
@@ -67,7 +68,7 @@ const TDropdown = Component.extend({
   data() {
     return {
       localShow: this.show,
-      hasFocus: false,
+      hasFocus: false as boolean,
       hideOnLeaveTimeoutHolder: null as ReturnType<typeof setTimeout> | null,
     };
   },
@@ -78,10 +79,10 @@ const TDropdown = Component.extend({
   },
 
   watch: {
-    show(show) {
+    show(show): void {
       this.localShow = show;
     },
-    async localShow(localShow) {
+    localShow(localShow): void {
       this.$emit('update:show', localShow);
       if (localShow) {
         this.$emit('shown');
@@ -96,7 +97,6 @@ const TDropdown = Component.extend({
       const defaultSlot = this.$scopedSlots.default
         ? this.$scopedSlots.default({
           hide: this.doHide,
-          hideIfFocusOutside: this.hideIfFocusOutside,
           show: this.doShow,
           toggle: this.doToggle,
           blurHandler: this.blurHandler,
@@ -227,11 +227,9 @@ const TDropdown = Component.extend({
       }
     },
     keydownHandler(e: KeyboardEvent) {
-      // Enter or space bar
-      if ([13, 32].includes(e.keyCode)) {
+      if ([Key.ENTER, Key.SPACE].includes(e.keyCode)) {
         this.mousedownHandler();
-        // Esc
-      } else if (e.keyCode === 27) {
+      } else if (e.keyCode === Key.ESC) {
         this.escapeHandler();
       }
     },
@@ -274,7 +272,7 @@ const TDropdown = Component.extend({
         this.doHide();
       }
     },
-    async doShow() {
+    doShow() {
       this.localShow = true;
     },
     doToggle() {

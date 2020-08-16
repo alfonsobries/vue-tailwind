@@ -1,6 +1,7 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import Component from '@/base/Component';
 import Vue, { CreateElement, VNode } from 'vue';
+import Key from '@/types/Key';
 
 
 const TModal = Component.extend({
@@ -353,8 +354,7 @@ const TModal = Component.extend({
       }
     },
     keyupHandler(e: KeyboardEvent) {
-      // Esc key
-      if (e.keyCode === 27 && this.escToClose) {
+      if (e.keyCode === Key.ESC && this.escToClose) {
         this.hide();
       }
     },

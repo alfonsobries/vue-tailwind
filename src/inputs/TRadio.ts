@@ -2,6 +2,7 @@ import isEqual from 'lodash/isEqual';
 import { CreateElement, VNode } from 'vue';
 import HtmlInput from '@/base/HtmlInput';
 import CssClass from '@/types/CssClass';
+import Key from '@/types/Key';
 
 const checkIfTagShouldBeChecked = (
   model: string | Record<string, unknown> | number | boolean | undefined,
@@ -173,14 +174,11 @@ const TRadio = HtmlInput.extend({
           },
           on: {
             keydown: (e: KeyboardEvent) => {
-              // Down & right
-              if ([39, 40].includes(e.keyCode)) {
+              if ([Key.DOWN, Key.RIGHT].includes(e.keyCode)) {
                 this.selectNextRadio(e);
-              // Up & left
-              } else if ([37, 38].includes(e.keyCode)) {
+              } else if ([Key.UP, Key.LEFT].includes(e.keyCode)) {
                 this.selectPrevRadio(e);
-              // Space
-              } else if (e.keyCode === 32) {
+              } else if (e.keyCode === Key.SPACE) {
                 this.wrapperSpaceHandler(e);
               }
             },
