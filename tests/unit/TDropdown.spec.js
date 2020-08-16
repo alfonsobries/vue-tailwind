@@ -1,6 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
 import TDropdown from '@/components/TDropdown';
-import { wrap } from 'lodash';
 
 describe('TDropdown', () => {
   it('renders the dropdown button', () => {

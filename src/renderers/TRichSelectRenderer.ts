@@ -2,6 +2,7 @@ import { CreateElement, VNode, VNodeChildren } from 'vue';
 import TRichSelectInterface from '@/types/TRichSelect';
 import NormalizedOptions from '@/types/NormalizedOptions';
 import NormalizedOption from '@/types/NormalizedOption';
+import Key from '@/types/Key';
 
 export default class TRichSelectRenderer {
   createElement: CreateElement
@@ -95,17 +96,13 @@ export default class TRichSelectRenderer {
           click: this.component.clickHandler,
           focus: this.component.focusHandler,
           keydown: (e: KeyboardEvent) => {
-            // Down
-            if (e.keyCode === 40) {
+            if (e.keyCode === Key.DOWN) {
               this.component.arrowDownHandler(e);
-            // Up
-            } else if (e.keyCode === 38) {
+            } else if (e.keyCode === Key.UP) {
               this.component.arrowUpHandler(e);
-            // Enter
-            } else if (e.keyCode === 13) {
+            } else if (e.keyCode === Key.ENTER) {
               this.component.enterHandler(e);
-            // Esc
-            } else if (e.keyCode === 27) {
+            } else if (e.keyCode === Key.ESC) {
               this.component.escapeHandler(e);
             }
           },
@@ -239,17 +236,13 @@ export default class TRichSelectRenderer {
         },
         on: {
           keydown: (e: KeyboardEvent) => {
-            // Down
-            if (e.keyCode === 40) {
+            if (e.keyCode === Key.DOWN) {
               this.component.arrowDownHandler(e);
-            // Up
-            } else if (e.keyCode === 38) {
+            } else if (e.keyCode === Key.UP) {
               this.component.arrowUpHandler(e);
-            // Enter
-            } else if (e.keyCode === 13) {
+            } else if (e.keyCode === Key.ENTER) {
               this.component.enterHandler(e);
-            // Esc
-            } else if (e.keyCode === 27) {
+            } else if (e.keyCode === Key.ESC) {
               this.component.escapeHandler(e);
             }
           },
