@@ -1,6 +1,7 @@
 import { VNode, CreateElement } from 'vue';
 import HtmlInput from '@/base/HtmlInput';
 import CheckboxValue from '@/types/CheckboxValues';
+import Key from '@/types/Key';
 
 const isChecked = (model: CheckboxValue, value: CheckboxValue): boolean => {
   if (Array.isArray(model)) {
@@ -31,15 +32,24 @@ const TToggle = HtmlInput.extend({
       type: [String, Number],
       default: 0,
     },
+    showPlaceholder: {
+      type: Boolean,
+      default: false,
+    },
+    showValue: {
+      type: Boolean,
+      default: false,
+    },
     classes: {
       type: Object,
       default() {
         return {
-          wrapper: 'bg-gray-200',
-          wrapperChecked: 'bg-blue-500',
-          wrapperDisabled: '',
-          button: 'h-5 w-5 rounded-full bg-white shadow translate-x-0',
-          buttonChecked: 'h-5 w-5 rounded-full bg-white shadow translate-x-4',
+          wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-full w-10 border-2 border-transparent',
+          wrapperChecked: 'bg-blue-500 focus:outline-none focus:shadow-outline rounded-full w-10 border-2 border-transparent',
+          button: 'h-5 w-5 rounded-full bg-white shadow translate-x-0 flex items-center justify-center text-gray-400 text-xs',
+          buttonChecked: 'h-5 w-5 rounded-full bg-white shadow translate-x-4 flex items-center justify-center text-blue-500 text-xs',
+          checkedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-500 text-xs',
+          uncheckedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-500 text-xs',
         };
       },
     },
@@ -47,10 +57,12 @@ const TToggle = HtmlInput.extend({
       type: [String, Array, Object],
       default() {
         return {
-          wrapper: 'relative inline-flex flex-shrink-0 w-10 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline',
-          wrapperChecked: 'relative inline-flex flex-shrink-0 w-10 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline',
+          wrapper: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
+          wrapperChecked: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
           button: 'relative inline-block transform transition ease-in-out duration-200',
           buttonChecked: 'relative inline-block transform transition ease-in-out duration-200',
+          checkedPlaceholder: 'absolute inline-block left-0',
+          uncheckedPlaceholder: 'absolute inline-block right-0',
         };
       },
     },
@@ -143,42 +155,38 @@ const TToggle = HtmlInput.extend({
   },
 
   render(createElement: CreateElement): VNode {
-    let subElements = [
-      createElement(
-        'input',
-        {
-          ref: 'input',
-          attrs: {
-            value: this.currentValue,
-            id: this.id,
-            type: 'hidden',
-            name: this.name,
-            disabled: this.disabled,
-            readonly: this.readonly,
-            required: this.required,
-            autofocus: undefined,
-            tabindex: -1,
-          },
-        },
-      ),
-    ];
+    const wrapperClass = this.isChecked
+      ? this.getElementCssClass('wrapperChecked')
+      : this.getElementCssClass('wrapper');
 
-    const defaultSlot = this.$scopedSlots.default ? this.$scopedSlots.default({
+    let defaultSlot = this.$scopedSlots.default ? this.$scopedSlots.default({
       value: this.currentValue,
+      uncheckedValue: this.uncheckedValue,
       isChecked: this.isChecked,
-    }) : undefined;
+    }) : null;
 
-    if (defaultSlot !== undefined) {
-      subElements = subElements.concat(defaultSlot);
+    if (this.showValue && !defaultSlot) {
+      defaultSlot = this.isChecked ? this.value : this.uncheckedValue;
     }
 
-    let wrapperClass;
-    if (this.isDisabled) {
-      wrapperClass = this.getElementCssClass('wrapperDisabled');
-    } else {
-      wrapperClass = this.isChecked
-        ? this.getElementCssClass('wrapperChecked')
-        : this.getElementCssClass('wrapper');
+    let checkedslot = this.$scopedSlots.checked ? this.$scopedSlots.checked({
+      value: this.currentValue,
+      uncheckedValue: this.uncheckedValue,
+      isChecked: this.isChecked,
+    }) : null;
+
+    if (this.showPlaceholder && !checkedslot) {
+      checkedslot = this.uncheckedValue;
+    }
+
+    let uncheckedSlot = this.$scopedSlots.checked ? this.$scopedSlots.checked({
+      value: this.currentValue,
+      uncheckedValue: this.uncheckedValue,
+      isChecked: this.isChecked,
+    }) : null;
+
+    if (this.showPlaceholder && !uncheckedSlot) {
+      uncheckedSlot = this.value;
     }
 
     return createElement(
@@ -199,8 +207,7 @@ const TToggle = HtmlInput.extend({
             this.$emit('click', e);
           },
           keydown: (e: KeyboardEvent) => {
-            // Space
-            if (e.keyCode === 32) {
+            if (e.keyCode === Key.SPACE) {
               this.spaceHandler(e);
             }
 
@@ -209,6 +216,43 @@ const TToggle = HtmlInput.extend({
         },
       },
       [
+        createElement(
+          'input',
+          {
+            ref: 'input',
+            attrs: {
+              value: this.currentValue,
+              id: this.id,
+              type: 'hidden',
+              name: this.name,
+              disabled: this.disabled,
+              readonly: this.readonly,
+              required: this.required,
+              autofocus: undefined,
+              tabindex: -1,
+            },
+          },
+        ),
+        createElement(
+          'span',
+          {
+            class: this.getElementCssClass('checkedPlaceholder'),
+            attrs: {
+              'aria-hidden': 'true',
+            },
+          },
+          checkedslot,
+        ),
+        createElement(
+          'span',
+          {
+            class: this.getElementCssClass('uncheckedPlaceholder'),
+            attrs: {
+              'aria-hidden': 'true',
+            },
+          },
+          uncheckedSlot,
+        ),
         createElement(
           'span',
           {
@@ -219,7 +263,7 @@ const TToggle = HtmlInput.extend({
               'aria-hidden': 'true',
             },
           },
-          subElements,
+          defaultSlot,
         ),
       ],
     );

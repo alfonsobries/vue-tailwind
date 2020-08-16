@@ -7,6 +7,25 @@
     footer="Made with love by @alfonsobries"
   >
     <ul>
+      <t-toggle
+        v-model="multipleVariants"
+        name="variant"
+        value="AM"
+        unchecked-value="PM"
+        show-placeholder
+        show-value
+        :classes="{
+          wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm w-12 h-6 border-2',
+          wrapperChecked: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm w-12 h-6 border-2',
+          button: 'h-full w-6 rounded-sm bg-white shadow translate-x-0 flex items-center justify-center text-gray-800 text-xs',
+          buttonChecked: 'h-full w-6 rounded-sm bg-white shadow translate-x-5 flex items-center justify-center text-gray-800 text-xs',
+          checkedPlaceholder: 'rounded-sm w-1/2 h-full flex items-center justify-start text-gray-500 text-xs',
+          uncheckedPlaceholder: 'rounded-sm w-1/2 h-full flex items-center justify-end text-gray-500 text-xs'
+        }"
+      />
+
+      <br>
+
       <t-dropdown>
         <template
           slot="trigger"
