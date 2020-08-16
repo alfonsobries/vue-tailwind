@@ -15,6 +15,7 @@ import TTag from './components/TTag';
 import TRadioGroup from './components/TRadioGroup';
 import TCheckboxGroup from './components/TCheckboxGroup';
 import TTable from './components/TTable';
+import TToggle from './components/TToggle';
 
 export {
   TInput,
@@ -34,4 +35,5 @@ export {
   TRadioGroup,
   TCheckboxGroup,
   TTable,
+  TToggle,
 };

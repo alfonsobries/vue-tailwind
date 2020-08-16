@@ -99,7 +99,7 @@ const TCheckbox = HtmlInput.extend({
 
   watch: {
     isChecked(isChecked) {
-      const input = this.$refs.input as HTMLInputElement;
+      const input = this.getInput();
       if (input.checked !== isChecked) {
         input.checked = isChecked;
       }
@@ -113,6 +113,9 @@ const TCheckbox = HtmlInput.extend({
   },
 
   methods: {
+    getInput(): HTMLInputElement {
+      return this.$refs.input as HTMLInputElement;
+    },
     renderWrapped(createElement: CreateElement) {
       const childElements: VNode[] = [];
       const input = this.render(createElement);
@@ -219,7 +222,7 @@ const TCheckbox = HtmlInput.extend({
     },
 
     setIndeterminate(indeterminate: boolean) {
-      const input = this.$refs.input as HTMLInputElement;
+      const input = this.getInput();
 
       input.indeterminate = indeterminate;
 
@@ -228,7 +231,7 @@ const TCheckbox = HtmlInput.extend({
     },
 
     setChecked(checked: boolean) {
-      const input = this.$refs.input as HTMLInputElement;
+      const input = this.getInput();
 
       // this.localValue = checked;
       input.checked = !checked;
@@ -238,8 +241,8 @@ const TCheckbox = HtmlInput.extend({
       this.$emit('update:checked', checked);
     },
 
-    changeHandler(e: Event) {
-      const input = e.target as HTMLInputElement;
+    changeHandler() {
+      const input = this.getInput();
       const isChecked = input.checked;
 
       let localValue;
@@ -270,15 +273,15 @@ const TCheckbox = HtmlInput.extend({
     },
 
     blur() {
-      (this.$refs.input as HTMLInputElement).blur();
+      this.getInput().blur();
     },
 
     click() {
-      (this.$refs.input as HTMLInputElement).click();
+      this.getInput().click();
     },
 
     focus(options?: FocusOptions | undefined) {
-      (this.$refs.input as HTMLInputElement).focus(options);
+      this.getInput().focus(options);
     },
   },
 });

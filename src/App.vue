@@ -299,6 +299,7 @@
         unchecked-value="Unchecked"
         :indeterminate.sync="indeterminate"
       />
+
       <span class="ml-2 text-sm">
         {{ checked }}
       </span>
@@ -329,11 +330,54 @@
       class="flex items-center"
       for="variant"
     >
-      <t-checkbox
+
+      <t-toggle
         v-model="multipleVariants"
-        :value="variantValue"
         name="variant"
-      />
+        :value="variantValue"
+      >
+        <template
+          slot="default"
+          slot-scope="{ isChecked }"
+        >
+          <span
+            class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
+            :class="{
+              'opacity-100 ease-in duration-200': !isChecked,
+              'opacity-0 ease-out duration-100': isChecked,
+            }"
+          >
+            <svg
+              class="h-3 w-3 text-gray-400"
+              fill="none"
+              viewBox="0 0 12 12"
+            >
+              <path
+                d="M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span
+            class=" absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
+            :class="{
+              'opacity-100 ease-in duration-200': isChecked,
+              'opacity-0 ease-out duration-100': !isChecked,
+            }"
+          >
+            <svg
+              class="h-3 w-3 text-blue-500"
+              fill="currentColor"
+              viewBox="0 0 12 12"
+            >
+              <path d="M3.707 5.293a1 1 0 00-1.414 1.414l1.414-1.414zM5 8l-.707.707a1 1 0 001.414 0L5 8zm4.707-3.293a1 1 0 00-1.414-1.414l1.414 1.414zm-7.414 2l2 2 1.414-1.414-2-2-1.414 1.414zm3.414 2l4-4-1.414-1.414-4 4 1.414 1.414z" />
+            </svg>
+          </span>
+        </template>
+      </t-toggle>
 
       <span class="ml-2 text-sm">
         {{ variantValue }}
