@@ -37,6 +37,7 @@ const TToggle = HtmlInput.extend({
         return {
           wrapper: 'bg-gray-200',
           wrapperChecked: 'bg-blue-500',
+          wrapperDisabled: '',
           button: 'h-5 w-5 rounded-full bg-white shadow translate-x-0',
           buttonChecked: 'h-5 w-5 rounded-full bg-white shadow translate-x-4',
         };
@@ -67,6 +68,9 @@ const TToggle = HtmlInput.extend({
   },
 
   computed: {
+    isDisabled() {
+      return this.disabled || this.readonly;
+    },
     currentValue(): CheckboxValue {
       return this.isChecked ? this.value : this.uncheckedValue;
     },
@@ -118,10 +122,19 @@ const TToggle = HtmlInput.extend({
 
     spaceHandler(e: KeyboardEvent) {
       e.preventDefault();
-      this.isChecked = !this.isChecked;
+      this.toggleValue();
     },
     clickHandler() {
+      this.toggleValue();
+    },
+    toggleValue() {
+      if (this.isDisabled) {
+        return;
+      }
       this.isChecked = !this.isChecked;
+    },
+    setChecked(checked: boolean) {
+      this.isChecked = checked;
     },
 
     focus(options?: FocusOptions | undefined) {
@@ -134,6 +147,7 @@ const TToggle = HtmlInput.extend({
       createElement(
         'input',
         {
+          ref: 'input',
           attrs: {
             value: this.currentValue,
             id: this.id,
@@ -158,12 +172,19 @@ const TToggle = HtmlInput.extend({
       subElements = subElements.concat(defaultSlot);
     }
 
+    let wrapperClass;
+    if (this.isDisabled) {
+      wrapperClass = this.getElementCssClass('wrapperDisabled');
+    } else {
+      wrapperClass = this.isChecked
+        ? this.getElementCssClass('wrapperChecked')
+        : this.getElementCssClass('wrapper');
+    }
+
     return createElement(
       'span',
       {
-        class: this.isChecked
-          ? this.getElementCssClass('wrapperChecked')
-          : this.getElementCssClass('wrapper'),
+        class: wrapperClass,
         attrs: {
           role: 'checkbox',
           tabindex: this.tabindex,
