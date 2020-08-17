@@ -8,12 +8,13 @@
   >
     <ul>
       <t-toggle
-        v-model="multipleVariants"
         name="variant"
         value="AM"
         unchecked-value="PM"
         checked-placeholder="AM"
         unchecked-placeholder="PM"
+        checked-label="AM"
+        unchecked-label="PM"
         show-value
         :classes="{
           wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm border-2',

@@ -44,9 +44,13 @@ const TToggle = HtmlInput.extend({
       type: String,
       default: undefined,
     },
-    showValue: {
-      type: Boolean,
-      default: false,
+    uncheckedLabel: {
+      type: String,
+      default: undefined,
+    },
+    checkedLabel: {
+      type: String,
+      default: undefined,
     },
     classes: {
       type: Object,
@@ -174,14 +178,14 @@ const TToggle = HtmlInput.extend({
       ? this.getElementCssClass('wrapperChecked')
       : this.getElementCssClass('wrapper');
 
-    let defaultSlot = this.$scopedSlots.default ? this.$scopedSlots.default({
+    let defaultSlot: VNode[] | string | null | undefined = this.$scopedSlots.default ? this.$scopedSlots.default({
       value: this.currentValue,
       uncheckedValue: this.uncheckedValue,
       isChecked: this.isChecked,
     }) : null;
 
-    if (this.showValue && !defaultSlot) {
-      defaultSlot = this.isChecked ? this.value : this.uncheckedValue;
+    if (!defaultSlot) {
+      defaultSlot = this.isChecked ? this.checkedLabel : this.uncheckedLabel;
     }
 
     let checkedslot: VNode[] | string | null | undefined = this.$scopedSlots.checked ? this.$scopedSlots.checked({
