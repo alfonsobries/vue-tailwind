@@ -194,18 +194,18 @@ const TToggle = HtmlInput.extend({
       isChecked: this.isChecked,
     }) : null;
 
-    if (this.uncheckedPlaceholder && !checkedslot) {
-      checkedslot = this.uncheckedPlaceholder;
+    if (this.checkedPlaceholder && !checkedslot) {
+      checkedslot = this.checkedPlaceholder;
     }
 
-    let uncheckedSlot: VNode[] | string | null | undefined = this.$scopedSlots.checked ? this.$scopedSlots.checked({
+    let uncheckedSlot: VNode[] | string | null | undefined = this.$scopedSlots.unchecked ? this.$scopedSlots.unchecked({
       value: this.currentValue,
       uncheckedValue: this.uncheckedValue,
       isChecked: this.isChecked,
     }) : null;
 
-    if (this.checkedPlaceholder && !uncheckedSlot) {
-      uncheckedSlot = this.checkedPlaceholder;
+    if (this.uncheckedPlaceholder && !uncheckedSlot) {
+      uncheckedSlot = this.uncheckedPlaceholder;
     }
 
     return createElement(

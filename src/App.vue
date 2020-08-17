@@ -9,13 +9,12 @@
     <ul>
       <t-toggle
         name="variant"
-        value="AM"
-        unchecked-value="PM"
+        value="PM"
+        unchecked-value="AM"
         checked-placeholder="AM"
         unchecked-placeholder="PM"
-        checked-label="AM"
-        unchecked-label="PM"
-        show-value
+        checked-label="PM"
+        unchecked-label="AM"
         :classes="{
           wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm border-2',
           wrapperChecked: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm border-2',
