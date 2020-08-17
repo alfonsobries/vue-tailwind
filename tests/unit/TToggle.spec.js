@@ -122,10 +122,6 @@ describe('TToggle', () => {
     const wrapper = shallowMount(TToggle);
 
     const values = {
-      id: {
-        default: '',
-        new: 'new-id',
-      },
       disabled: {
         default: false,
         new: true,
