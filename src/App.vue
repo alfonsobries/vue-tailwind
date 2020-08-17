@@ -27,7 +27,11 @@
 
       <t-toggle
         v-model="multipleVariants"
-        name="variant"
+        checked
+      />
+      <t-toggle
+        checked
+        name="checked"
       />
 
       <br>
