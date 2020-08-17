@@ -32,9 +32,13 @@ const TToggle = HtmlInput.extend({
       type: [String, Number],
       default: 0,
     },
-    showPlaceholder: {
-      type: Boolean,
-      default: false,
+    uncheckedPlaceholder: {
+      type: String,
+      default: undefined,
+    },
+    checkedPlaceholder: {
+      type: String,
+      default: undefined,
     },
     showValue: {
       type: Boolean,
@@ -44,10 +48,10 @@ const TToggle = HtmlInput.extend({
       type: Object,
       default() {
         return {
-          wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-full w-10 border-2 border-transparent',
-          wrapperChecked: 'bg-blue-500 focus:outline-none focus:shadow-outline rounded-full w-10 border-2 border-transparent',
-          button: 'h-5 w-5 rounded-full bg-white shadow translate-x-0 flex items-center justify-center text-gray-400 text-xs',
-          buttonChecked: 'h-5 w-5 rounded-full bg-white shadow translate-x-4 flex items-center justify-center text-blue-500 text-xs',
+          wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-full border-2 border-transparent',
+          wrapperChecked: 'bg-blue-500 focus:outline-none focus:shadow-outline rounded-full border-2 border-transparent',
+          button: 'h-5 w-5 rounded-full bg-white shadow  flex items-center justify-center text-gray-400 text-xs',
+          buttonChecked: 'h-5 w-5 rounded-full bg-white shadow  flex items-center justify-center text-blue-500 text-xs',
           checkedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-500 text-xs',
           uncheckedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-500 text-xs',
         };
@@ -59,10 +63,10 @@ const TToggle = HtmlInput.extend({
         return {
           wrapper: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
           wrapperChecked: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
-          button: 'relative inline-block transform transition ease-in-out duration-200',
-          buttonChecked: 'relative inline-block transform transition ease-in-out duration-200',
-          checkedPlaceholder: 'absolute inline-block left-0',
-          uncheckedPlaceholder: 'absolute inline-block right-0',
+          button: 'inline-block absolute transform transition ease-in-out duration-200',
+          buttonChecked: 'inline-block absolute transform transition ease-in-out duration-200',
+          checkedPlaceholder: 'inline-block',
+          uncheckedPlaceholder: 'inline-block',
         };
       },
     },
@@ -76,10 +80,20 @@ const TToggle = HtmlInput.extend({
   data() {
     return {
       isChecked: isChecked(this.model, this.value),
+      translateAreaWidth: 0,
     };
   },
 
+  mounted() {
+    this.translateAreaWidth = this.getTraslateAmount();
+  },
+
   computed: {
+    buttonStyle(): { [key: string]: string} {
+      return {
+        transform: `translateX(${this.translateAreaWidth}px)`,
+      };
+    },
     isDisabled() {
       return this.disabled || this.readonly;
     },
@@ -106,12 +120,21 @@ const TToggle = HtmlInput.extend({
         localValue = this.currentValue;
       }
 
+      this.translateAreaWidth = this.getTraslateAmount();
+
       this.$emit('input', localValue);
       this.$emit('change', localValue);
     },
   },
 
   methods: {
+    getTraslateAmount(): number {
+      if (!this.isChecked) {
+        return 0;
+      }
+
+      return this.$el.clientWidth - (this.$refs.button as HTMLElement).offsetWidth;
+    },
     blurHandler(e: FocusEvent) {
       this.$emit('blur', e);
     },
@@ -169,24 +192,24 @@ const TToggle = HtmlInput.extend({
       defaultSlot = this.isChecked ? this.value : this.uncheckedValue;
     }
 
-    let checkedslot = this.$scopedSlots.checked ? this.$scopedSlots.checked({
+    let checkedslot: VNode[] | string | null | undefined = this.$scopedSlots.checked ? this.$scopedSlots.checked({
       value: this.currentValue,
       uncheckedValue: this.uncheckedValue,
       isChecked: this.isChecked,
     }) : null;
 
-    if (this.showPlaceholder && !checkedslot) {
-      checkedslot = this.uncheckedValue;
+    if (this.uncheckedPlaceholder && !checkedslot) {
+      checkedslot = this.uncheckedPlaceholder;
     }
 
-    let uncheckedSlot = this.$scopedSlots.checked ? this.$scopedSlots.checked({
+    let uncheckedSlot: VNode[] | string | null | undefined = this.$scopedSlots.checked ? this.$scopedSlots.checked({
       value: this.currentValue,
       uncheckedValue: this.uncheckedValue,
       isChecked: this.isChecked,
     }) : null;
 
-    if (this.showPlaceholder && !uncheckedSlot) {
-      uncheckedSlot = this.value;
+    if (this.checkedPlaceholder && !uncheckedSlot) {
+      uncheckedSlot = this.checkedPlaceholder;
     }
 
     return createElement(
@@ -256,12 +279,14 @@ const TToggle = HtmlInput.extend({
         createElement(
           'span',
           {
+            ref: 'button',
             class: this.isChecked
               ? this.getElementCssClass('buttonChecked')
               : this.getElementCssClass('button'),
             attrs: {
               'aria-hidden': 'true',
             },
+            style: this.buttonStyle,
           },
           defaultSlot,
         ),

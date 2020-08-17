@@ -12,16 +12,22 @@
         name="variant"
         value="AM"
         unchecked-value="PM"
-        show-placeholder
+        checked-placeholder="AM"
+        unchecked-placeholder="PM"
         show-value
         :classes="{
-          wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm w-12 h-6 border-2',
-          wrapperChecked: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm w-12 h-6 border-2',
-          button: 'h-full w-6 rounded-sm bg-white shadow translate-x-0 flex items-center justify-center text-gray-800 text-xs',
-          buttonChecked: 'h-full w-6 rounded-sm bg-white shadow translate-x-5 flex items-center justify-center text-gray-800 text-xs',
-          checkedPlaceholder: 'rounded-sm w-1/2 h-full flex items-center justify-start text-gray-500 text-xs',
-          uncheckedPlaceholder: 'rounded-sm w-1/2 h-full flex items-center justify-end text-gray-500 text-xs'
+          wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm border-2',
+          wrapperChecked: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-sm border-2',
+          button: 'rounded-sm w-6 h-6 bg-white shadow flex items-center justify-center text-gray-800 text-xs',
+          buttonChecked: 'rounded-sm w-6 h-6 bg-white shadow flex items-center justify-center text-gray-800 text-xs',
+          checkedPlaceholder: 'rounded-sm w-6 h-6 flex items-center justify-center text-gray-500 text-xs',
+          uncheckedPlaceholder: 'rounded-sm w-6 h-6 flex items-center justify-center text-gray-500 text-xs'
         }"
+      />
+
+      <t-toggle
+        v-model="multipleVariants"
+        name="variant"
       />
 
       <br>
