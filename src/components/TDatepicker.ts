@@ -99,14 +99,17 @@ const TDatepicker = HtmlInput.extend({
     const localValue = dateParser(this.value as DateValue, this.dateFormat);
 
     const dateformatter = this.dateFormatter as DateFormatter;
-    const formattedDate = dateformatter(localValue as Date, this.dateFormat);
+    const formatedDate = dateformatter(localValue as Date, this.dateFormat);
+    const userFormatedDate = dateformatter(localValue as Date, this.userFormat);
+
     // Used to show the selected month/year
     const activeDate: Date = localValue || new Date();
     const currentView: CalendarView = this.initialView as CalendarView;
 
     return {
       localValue,
-      formattedDate,
+      formatedDate,
+      userFormatedDate,
       activeDate,
       shown: false,
       showActiveDate: false,
@@ -135,13 +138,14 @@ const TDatepicker = HtmlInput.extend({
   },
 
   watch: {
-    formattedDate(formattedDate) {
-      this.$emit('input', formattedDate);
+    formatedDate(formatedDate) {
+      this.$emit('input', formatedDate);
     },
     localValue(localValue: DateValue) {
       const dateformatter = this.dateFormatter as DateFormatter;
-      const formattedDate = dateformatter(localValue as Date, this.dateFormat);
-      this.formattedDate = formattedDate;
+
+      this.formatedDate = dateformatter(localValue as Date, this.dateFormat);
+      this.userFormatedDate = dateformatter(localValue as Date, this.userFormat);
 
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
         this.activeDate = localValue ? new Date(localValue.valueOf()) : new Date();
@@ -311,12 +315,7 @@ const TDatepicker = HtmlInput.extend({
                   autofocus: this.autofocus,
                   required: this.required,
                   placeholder: this.placeholder,
-                  value: this.localValue,
-                  dateFormatter: this.dateFormatter,
-                  userFormat: this.userFormat,
-                  dateFormat: this.dateFormat,
-                  closeOnSelect: this.closeOnSelect,
-                  toggle: props.toggle,
+                  userFormatedDate: this.userFormatedDate,
                   show: props.show,
                   hideIfFocusOutside: props.hideIfFocusOutside,
                 },
@@ -342,7 +341,7 @@ const TDatepicker = HtmlInput.extend({
               {
                 attrs: {
                   type: 'hidden',
-                  value: this.formattedDate,
+                  value: this.formatedDate,
                   name: this.name,
                   disabled: this.disabled,
                   readonly: this.readonly,

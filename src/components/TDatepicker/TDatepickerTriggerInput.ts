@@ -1,16 +1,11 @@
 import { CreateElement, VNode } from 'vue';
 import TInput from '@/inputs/TInput';
-import { DateValue } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 
 const TDatepickerTriggerInput = HtmlInput.extend({
   name: 'TDatepickerTriggerInput',
 
   props: {
-    value: {
-      type: Date,
-      default: null,
-    },
     placeholder: {
       type: String,
       default: undefined,
@@ -23,29 +18,17 @@ const TDatepickerTriggerInput = HtmlInput.extend({
       type: Function,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
-    dateFormat: {
+    userFormatedDate: {
       type: String,
-      required: true,
-    },
-    userFormat: {
-      type: String,
-      required: true,
-    },
-    toggle: {
-      type: Function,
       required: true,
     },
   },
 
   render(createElement: CreateElement): VNode {
-    const value = this.value as DateValue;
     return createElement(
       TInput,
       {
+        ref: 'input',
         attrs: {
           readonly: true,
           id: this.id,
@@ -58,7 +41,7 @@ const TDatepickerTriggerInput = HtmlInput.extend({
           placeholder: this.placeholder,
         },
         props: {
-          value: this.dateFormatter(value, this.userFormat),
+          value: this.userFormatedDate,
         },
         nativeOn: {
           click: () => {
