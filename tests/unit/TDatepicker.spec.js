@@ -2,6 +2,13 @@ import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
 
 const getCalendarViewDays = (wrapper) => wrapper.vm.$refs.views.$refs.view.$refs.calendar.$refs.days;
+const getCalendarViewDaysDay = (wrapper, dateString) => {
+  const [year, month, day] = dateString.split('-');
+
+  return getCalendarViewDays(wrapper).$children.find((vm) => vm.day.getFullYear() === Number(year)
+        && vm.day.getMonth() === Number(month) - 1
+        && vm.day.getDate() === Number(day));
+};
 
 describe('TDatepicker', () => {
   it('renders the date picker text and hidden input', () => {
@@ -236,5 +243,33 @@ describe('TDatepicker', () => {
     expect(days[0]).toEqual(new Date(2019, 8, 29));
     // 2019-11-02
     expect(days[34]).toEqual(new Date(2019, 10, 2));
+  });
+
+  it('select a date when the user press the day', async () => {
+    const inputValue = '2019-10-16';
+    const dateToSearch = '2019-10-30';
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const day = getCalendarViewDaysDay(wrapper, dateToSearch);
+    day.$el.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted('input')[0]).toEqual([dateToSearch]);
+
+    expect(wrapper.vm.localValue).toEqual(new Date(2019, 9, 30));
+    expect(wrapper.vm.formatedDate).toEqual(dateToSearch);
   });
 });
