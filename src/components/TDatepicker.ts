@@ -97,11 +97,16 @@ const TDatepicker = HtmlInput.extend({
   data() {
     const dateParser = this.dateParser as DateParser;
     const localValue = dateParser(this.value as DateValue, this.dateFormat);
+
+    const dateformatter = this.dateFormatter as DateFormatter;
+    const formattedDate = dateformatter(localValue as Date, this.dateFormat);
     // Used to show the selected month/year
     const activeDate: Date = localValue || new Date();
     const currentView: CalendarView = this.initialView as CalendarView;
+
     return {
       localValue,
+      formattedDate,
       activeDate,
       shown: false,
       showActiveDate: false,
@@ -130,12 +135,16 @@ const TDatepicker = HtmlInput.extend({
   },
 
   watch: {
+    formattedDate(formattedDate) {
+      this.$emit('input', formattedDate);
+    },
     localValue(localValue: DateValue) {
       const dateformatter = this.dateFormatter as DateFormatter;
-      this.$emit('input', dateformatter(localValue as Date, this.dateFormat));
+      const formattedDate = dateformatter(localValue as Date, this.dateFormat);
+      this.formattedDate = formattedDate;
 
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
-        this.activeDate = new Date(localValue.valueOf());
+        this.activeDate = localValue ? new Date(localValue.valueOf()) : new Date();
       }
     },
     value(value: DateValue) {
@@ -290,43 +299,58 @@ const TDatepicker = HtmlInput.extend({
           },
         },
         scopedSlots: {
-          trigger: (props) => createElement(
-            TDatepickerTrigger,
-            {
-              ref: 'trigger',
-              props: {
-                id: this.id,
-                name: this.name,
-                disabled: this.disabled,
-                autofocus: this.autofocus,
-                required: this.required,
-                placeholder: this.placeholder,
-                value: this.localValue,
-                dateFormatter: this.dateFormatter,
-                userFormat: this.userFormat,
-                dateFormat: this.dateFormat,
-                closeOnSelect: this.closeOnSelect,
-                toggle: props.toggle,
-                show: props.show,
-                hideIfFocusOutside: props.hideIfFocusOutside,
-              },
-              on: {
-                keydown: (e: KeyboardEvent) => {
-                  if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
-                    this.arrowKeyHandler(e);
-                  } else if (e.keyCode === Key.ENTER) {
-                    this.enterHandler(e);
-                  } else if (e.keyCode === Key.ESC) {
-                    this.escapeHandler(e);
-                  } else if (e.keyCode === Key.SPACE) {
-                    this.spaceHandler(e);
-                  }
+          trigger: (props) => [
+            createElement(
+              TDatepickerTrigger,
+              {
+                ref: 'trigger',
+                props: {
+                  id: this.id,
+                  name: this.name,
+                  disabled: this.disabled,
+                  autofocus: this.autofocus,
+                  required: this.required,
+                  placeholder: this.placeholder,
+                  value: this.localValue,
+                  dateFormatter: this.dateFormatter,
+                  userFormat: this.userFormat,
+                  dateFormat: this.dateFormat,
+                  closeOnSelect: this.closeOnSelect,
+                  toggle: props.toggle,
+                  show: props.show,
+                  hideIfFocusOutside: props.hideIfFocusOutside,
+                },
+                on: {
+                  keydown: (e: KeyboardEvent) => {
+                    if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
+                      this.arrowKeyHandler(e);
+                    } else if (e.keyCode === Key.ENTER) {
+                      this.enterHandler(e);
+                    } else if (e.keyCode === Key.ESC) {
+                      this.escapeHandler(e);
+                    } else if (e.keyCode === Key.SPACE) {
+                      this.spaceHandler(e);
+                    }
 
-                  this.$emit('keydown', e);
+                    this.$emit('keydown', e);
+                  },
                 },
               },
-            },
-          ),
+            ),
+            createElement(
+              'input',
+              {
+                attrs: {
+                  type: 'hidden',
+                  value: this.formattedDate,
+                  name: this.name,
+                  disabled: this.disabled,
+                  readonly: this.readonly,
+                  required: this.required,
+                },
+              },
+            ),
+          ],
         },
       },
       [
