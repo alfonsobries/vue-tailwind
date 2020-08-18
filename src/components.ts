@@ -12,7 +12,7 @@ import TModal from './components/TModal';
 import TDropdown from './components/TDropdown';
 import TPagination from './components/TPagination';
 import TTag from './components/TTag';
-import TRadioGroup from './components/TRadioGroup'; 
+import TRadioGroup from './components/TRadioGroup';
 import TCheckboxGroup from './components/TCheckboxGroup';
 import TTable from './components/TTable';
 import TDatepicker from './components/TDatepicker';
