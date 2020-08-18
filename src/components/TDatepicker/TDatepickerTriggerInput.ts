@@ -49,11 +49,13 @@ const TDatepickerTriggerInput = HtmlInput.extend({
           },
         },
         on: {
-          focus: () => {
+          focus: (e: FocusEvent) => {
             this.show();
+            this.$emit('focus', e);
           },
           blur: (e: FocusEvent) => {
             this.hideIfFocusOutside(e);
+            this.$emit('blur', e);
           },
           keydown: (e: KeyboardEvent) => {
             this.$emit('keydown', e);

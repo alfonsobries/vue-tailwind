@@ -81,7 +81,7 @@ describe('TDatepicker', () => {
     expect(wrapper.vm.$refs.dropdown.localShow).toBe(true);
   });
 
-  it('opens/close the calendar picker when input is focus/blur alt test', () => {
+  it('opens/close the calendar picker when input is focus/blur alt test', async () => {
     const wrapper = mount(TDatepicker);
 
     const input = wrapper.vm.$el.querySelector('input[type=text]');
@@ -89,8 +89,111 @@ describe('TDatepicker', () => {
 
     input.dispatchEvent(new Event('focus'));
     expect(wrapper.vm.$refs.dropdown.localShow).toBe(true);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.shown).toBe(true);
 
     input.dispatchEvent(new Event('blur'));
     expect(wrapper.vm.$refs.dropdown.localShow).toBe(false);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.shown).toBe(false);
+  });
+
+  it('shows the datepicker with the show method', () => {
+    const wrapper = mount(TDatepicker);
+    wrapper.vm.doShow();
+
+    expect(wrapper.vm.$refs.dropdown.localShow).toBe(true);
+  });
+
+  it('shows the datepicker if according to the show prop', () => {
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        show: true,
+      },
+    });
+
+    expect(wrapper.vm.shown).toBe(true);
+    expect(wrapper.vm.$refs.dropdown.localShow).toBe(true);
+  });
+
+  it('emits an input event with the input value', async () => {
+    const value = '1987-02-18';
+    const wrapper = shallowMount(TDatepicker, {
+      propsData: { value },
+    });
+
+    const inputValue = '2019-12-04';
+
+    wrapper.setProps({
+      value: inputValue,
+    });
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted('input')[0]).toEqual([inputValue]);
+  });
+
+  it('emits an change event with the input value', async () => {
+    const wrapper = shallowMount(TDatepicker);
+
+    const inputValue = '1987-02-18';
+
+    wrapper.setProps({
+      value: inputValue,
+    });
+
+    await wrapper.vm.$nextTick();
+
+    // The change event should be emitted when the input is blurred
+    const input = wrapper.vm.$el;
+    input.dispatchEvent(new Event('blur'));
+
+    expect(wrapper.emitted('change')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('change').length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted('change')[0]).toEqual([inputValue]);
+  });
+
+  it('emits a blur event when the input is blurred', () => {
+    const inputValue = '1987-02-18';
+    const wrapper = mount(TDatepicker, {
+      propsData: { value: inputValue },
+    });
+
+    const input = wrapper.vm.$el.querySelector('input[type=text]');
+
+    // The change event should be emitted when the input is blurred
+    input.dispatchEvent(new Event('blur'));
+
+    expect(wrapper.emitted('blur')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('blur').length).toBe(1);
+  });
+
+  it('emits a focus event when the input is focused', () => {
+    const inputValue = '1987-02-18';
+    const wrapper = mount(TDatepicker, {
+      propsData: { value: inputValue },
+    });
+
+    const input = wrapper.vm.$el.querySelector('input[type=text]');
+
+    // The change event should be emitted when the input is focusred
+    input.dispatchEvent(new Event('focus'));
+
+    expect(wrapper.emitted('focus')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('focus').length).toBe(1);
   });
 });

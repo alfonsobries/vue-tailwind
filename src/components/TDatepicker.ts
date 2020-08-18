@@ -63,6 +63,10 @@ const TDatepicker = HtmlInput.extend({
       type: Function,
       default: createDateParser({ l10n: english }),
     },
+    show: {
+      type: Boolean,
+      default: false,
+    },
     initialView: {
       type: String,
       default: CalendarView.Day,
@@ -111,7 +115,7 @@ const TDatepicker = HtmlInput.extend({
       formatedDate,
       userFormatedDate,
       activeDate,
-      shown: false,
+      shown: this.show,
       showActiveDate: false,
       currentView,
     };
@@ -138,8 +142,12 @@ const TDatepicker = HtmlInput.extend({
   },
 
   watch: {
+    showm(shown) {
+      this.$emit('update:show', shown);
+    },
     formatedDate(formatedDate) {
       this.$emit('input', formatedDate);
+      this.$emit('change', formatedDate);
     },
     localValue(localValue: DateValue) {
       const dateformatter = this.dateFormatter as DateFormatter;
@@ -167,10 +175,10 @@ const TDatepicker = HtmlInput.extend({
 
       input.focus(options);
     },
-    hide(): void {
+    doHide(): void {
       this.getDropdown().doHide();
     },
-    show(): void {
+    doShow(): void {
       this.getDropdown().doShow();
     },
     toggle(): void {
@@ -182,7 +190,7 @@ const TDatepicker = HtmlInput.extend({
       this.showActiveDate = true;
 
       if (!this.shown) {
-        this.show();
+        this.doShow();
         return;
       }
 
@@ -223,7 +231,7 @@ const TDatepicker = HtmlInput.extend({
       this.focus();
 
       if (this.closeOnSelect) {
-        this.hide();
+        this.doHide();
       }
     },
     inputActiveDateHandler(newDate: Date): void {
@@ -247,7 +255,7 @@ const TDatepicker = HtmlInput.extend({
       e.preventDefault();
 
       if (!this.shown) {
-        this.show();
+        this.doShow();
       } else if (this.showActiveDate) {
         if (this.currentView === CalendarView.Day) {
           this.inputHandler(new Date(this.activeDate.valueOf()));
@@ -275,6 +283,12 @@ const TDatepicker = HtmlInput.extend({
       this.showActiveDate = false;
       this.activeDate = this.localValue ? new Date(this.localValue.valueOf()) : new Date();
     },
+    focusHandler(e: FocusEvent) {
+      this.$emit('focus', e);
+    },
+    blurHandler(e: FocusEvent) {
+      this.$emit('blur', e);
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -295,10 +309,15 @@ const TDatepicker = HtmlInput.extend({
             leaveActiveClass: '',
             leaveToClass: 'transform opacity-0 scale-95 duration-75',
           },
+          show: this.show,
         },
         on: {
-          hidden: () => this.resetInitialState(),
+          hidden: () => {
+            this.$emit('hidden');
+            this.resetInitialState();
+          },
           shown: () => {
+            this.$emit('shown');
             this.shown = true;
           },
         },
@@ -320,6 +339,8 @@ const TDatepicker = HtmlInput.extend({
                   hideIfFocusOutside: props.hideIfFocusOutside,
                 },
                 on: {
+                  focus: this.focusHandler,
+                  blur: this.blurHandler,
                   keydown: (e: KeyboardEvent) => {
                     if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
                       this.arrowKeyHandler(e);
