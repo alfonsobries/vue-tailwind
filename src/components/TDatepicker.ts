@@ -377,6 +377,7 @@ const TDatepicker = HtmlInput.extend({
         createElement(
           TDatePickerViews,
           {
+            ref: 'views',
             props: {
               value: this.localValue,
               activeDate: this.activeDate,

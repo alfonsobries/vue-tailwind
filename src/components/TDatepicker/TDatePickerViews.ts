@@ -86,6 +86,7 @@ const TDatePickerViews = Vue.extend({
       this.activeMonths.map((activeMonth: Date, index: number) => createElement(
         TDatePickerViewsView,
         {
+          ref: 'view',
           props: {
             value: this.value,
             activeDate: activeMonth,

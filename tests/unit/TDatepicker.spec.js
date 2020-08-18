@@ -1,6 +1,7 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
-import { wrap } from 'lodash';
+
+const getCalendarViewDays = (wrapper) => wrapper.vm.$refs.views.$refs.view.$refs.calendar.$refs.days;
 
 describe('TDatepicker', () => {
   it('renders the date picker text and hidden input', () => {
@@ -195,5 +196,45 @@ describe('TDatepicker', () => {
 
     // assert event count
     expect(wrapper.emitted('focus').length).toBe(1);
+  });
+
+  it('disables the input', async () => {
+    const wrapper = mount(TDatepicker);
+    const input = wrapper.vm.$el.querySelector('input[type=text]');
+    expect(input.disabled).toBe(false);
+
+    wrapper.setProps({ disabled: true });
+    await wrapper.vm.$nextTick();
+    expect(input.disabled).toBe(true);
+  });
+
+  it('it renders of days of the month', async () => {
+    const inputValue = '1987-02-18';
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+    const { days } = getCalendarViewDays(wrapper);
+    expect(days.length).toBe(28);
+    expect(days[0]).toEqual(new Date(1987, 1, 1));
+    expect(days[27]).toEqual(new Date(1987, 1, 28));
+  });
+
+  it('it renders of days of others months', async () => {
+    const inputValue = '2019-10-16';
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+    const { days } = getCalendarViewDays(wrapper);
+    expect(days.length).toBe(35);
+    // 2019-09-29
+    expect(days[0]).toEqual(new Date(2019, 8, 29));
+    // 2019-11-02
+    expect(days[34]).toEqual(new Date(2019, 10, 2));
   });
 });

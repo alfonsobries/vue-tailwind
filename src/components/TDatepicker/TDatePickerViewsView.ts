@@ -132,6 +132,7 @@ const TDatePickerViewsView = Vue.extend({
         createElement(
           TDatePickerViewsViewCalendar,
           {
+            ref: 'calendar',
             props: {
               value: this.value,
               activeDate: this.localActiveDate,
@@ -153,6 +154,7 @@ const TDatePickerViewsView = Vue.extend({
         createElement(
           TDatePickerViewsViewMonths,
           {
+            ref: 'months',
             props: {
               value: this.value,
               activeDate: this.localActiveDate,
@@ -172,6 +174,7 @@ const TDatePickerViewsView = Vue.extend({
         createElement(
           TDatePickerViewsViewYears,
           {
+            ref: 'years',
             props: {
               value: this.value,
               activeDate: this.localActiveDate,

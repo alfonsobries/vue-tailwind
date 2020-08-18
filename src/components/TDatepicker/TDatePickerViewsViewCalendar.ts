@@ -86,6 +86,7 @@ const TDatePickerViewsViewCalendar = Vue.extend({
         createElement(
           TDatePickerViewsViewCalendarDays,
           {
+            ref: 'days',
             props: {
               value: this.value,
               activeDate: this.localActiveDate,
