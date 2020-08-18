@@ -54,4 +54,7 @@ echo 'Building TCheckboxGroup...'
 echo 'Building TTable...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TTable --filename components/TTable --no-clean ./src/t-table.ts
 
+echo 'Building TToggle...'
+./node_modules/.bin/vue-cli-service build --target lib --name TToggle --filename components/TToggle --no-clean ./src/t-toggle.ts
+
 echo 'Done building assets.'

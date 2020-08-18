@@ -191,7 +191,7 @@ The variant prop also accepts an object that takes the first attribute with a _t
 - Im working in a datepicker that is the most requested component, after that im planning to create a swal like dialog component.
 - Already started to work in a react version of this package called react-tailwind.
 - Im making some final changes to the Community themes features that should be released soon.
-- Working in make in adding Vue 3 compatibility
+- Vue 3 compatibility
 
 ## Contribute
 
