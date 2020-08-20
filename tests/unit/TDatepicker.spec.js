@@ -1,14 +1,21 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
+import { isSameDay, createDateParser } from '@/utils/dates';
 
-const getCalendarViewDays = (wrapper) => wrapper.vm.$refs.views.$refs.view.$refs.calendar.$refs.days;
-const getCalendarViewDaysDay = (wrapper, dateString) => {
-  const [year, month, day] = dateString.split('-');
+const dateParser = createDateParser({});
 
-  return getCalendarViewDays(wrapper).$children.find((vm) => vm.day.getFullYear() === Number(year)
-        && vm.day.getMonth() === Number(month) - 1
-        && vm.day.getDate() === Number(day));
+const getCalendarView = (wrapper) => wrapper.vm.$refs.views.$refs.view;
+const getCalendarNavigator = (wrapper) => getCalendarView(wrapper).$refs.navigator;
+const getCalendarViewCalendar = (wrapper) => getCalendarView(wrapper).$refs.calendar;
+const getCalendarViewMonths = (wrapper) => getCalendarView(wrapper).$refs.months;
+const getCalendarViewYears = (wrapper) => getCalendarView(wrapper).$refs.years;
+const getCalendarViewDays = (wrapper) => getCalendarViewCalendar(wrapper).$refs.days;
+const getCalendarViewDaysDay = (wrapper, day) => {
+  const dayToSearch = typeof day === 'string' ? dateParser(day, 'Y-m-d') : day;
+
+  return getCalendarViewDays(wrapper).$children.find((vm) => isSameDay(vm.day, dayToSearch));
 };
+
 
 describe('TDatepicker', () => {
   it('renders the date picker text and hidden input', () => {
@@ -271,5 +278,131 @@ describe('TDatepicker', () => {
 
     expect(wrapper.vm.localValue).toEqual(new Date(2019, 9, 30));
     expect(wrapper.vm.formatedDate).toEqual(dateToSearch);
+  });
+
+  it('shows the month view when the setting is set', async () => {
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        initialView: 'month',
+        show: true,
+      },
+    });
+
+    const calendarView = getCalendarViewCalendar(wrapper);
+    expect(calendarView).toBeFalsy();
+
+    const monthsView = getCalendarViewMonths(wrapper);
+    expect(monthsView).toBeTruthy();
+  });
+
+  // it('shows the years view when the setting is set', async () => {
+  //   const wrapper = mount(TDatepicker, {
+  //     propsData: {
+  //       initialView: 'year',
+  //       show: true,
+  //     },
+  //   });
+
+  //   const calendarView = getCalendarViewCalendar(wrapper);
+  //   expect(calendarView).toBeFalsy();
+
+  //   const yearsView = getCalendarViewYears(wrapper);
+  //   expect(yearsView).toBeTruthy();
+  // });
+
+  it('changes to prev month when press prev button', async () => {
+    const inputValue = new Date(2019, 9, 16);
+    const expectedActiveDate = new Date(2019, 8, 16);
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const prevButton = getCalendarNavigator(wrapper).$refs.prev;
+    prevButton.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
+  });
+
+  it('changes to next month when press next button', async () => {
+    const inputValue = new Date(2019, 9, 16);
+    const expectedActiveDate = new Date(2019, 10, 16);
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const nextButton = getCalendarNavigator(wrapper).$refs.next;
+    nextButton.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
+  });
+
+  it('selects the last day of the next month if doesnt have equivalent last', async () => {
+    // Mar 31
+    const inputValue = new Date(1987, 2, 31);
+    // Feb 28
+    const expectedActiveDate = new Date(1987, 1, 28);
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const prevButton = getCalendarNavigator(wrapper).$refs.prev;
+    prevButton.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
+  });
+
+  it('selects the last day of the prev month if doesnt have equivalent last', async () => {
+    // Jan 31
+    const inputValue = new Date(1987, 0, 31);
+    // Feb 28
+    const expectedActiveDate = new Date(1987, 1, 28);
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const nextButton = getCalendarNavigator(wrapper).$refs.next;
+    nextButton.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
   });
 });

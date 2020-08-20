@@ -28,7 +28,7 @@ const TDatepickerNavigator = Vue.extend({
     },
     value: {
       type: Date,
-      required: true,
+      default: null,
     },
     showSelector: {
       type: Boolean,
@@ -260,6 +260,7 @@ const TDatepickerNavigator = Vue.extend({
         createElement(
           'button',
           {
+            ref: 'prev',
             attrs: {
               type: 'button',
               class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full ml-auto p-1 ml-2',
@@ -299,6 +300,7 @@ const TDatepickerNavigator = Vue.extend({
         createElement(
           'button',
           {
+            ref: 'next',
             attrs: {
               type: 'button',
               class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1',

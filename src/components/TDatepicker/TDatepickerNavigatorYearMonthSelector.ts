@@ -16,7 +16,7 @@ const TDatepickerNavigatorYearMonthSelector = Vue.extend({
     },
     value: {
       type: Date,
-      required: true,
+      default: null,
     },
   },
 

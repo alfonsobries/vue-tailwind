@@ -110,6 +110,7 @@ const TDatePickerViewsView = Vue.extend({
     subElements.push(createElement(
       TDatepickerNavigator,
       {
+        ref: 'navigator',
         props: {
           value: this.localActiveDate,
           dateFormatter: this.dateFormatter,

@@ -37,7 +37,7 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
 
   data() {
     return {
-      localActiveDate: new Date(this.value.valueOf()),
+      localActiveDate: new Date(this.activeDate.valueOf()),
     };
   },
 
