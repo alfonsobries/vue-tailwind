@@ -1,6 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
-import { isSameDay, createDateParser } from '@/utils/dates';
+import { isSameDay, isSameMonth, createDateParser } from '@/utils/dates';
 
 const dateParser = createDateParser({});
 
@@ -14,6 +14,10 @@ const getCalendarViewDaysDay = (wrapper, day) => {
   const dayToSearch = typeof day === 'string' ? dateParser(day, 'Y-m-d') : day;
 
   return getCalendarViewDays(wrapper).$children.find((vm) => isSameDay(vm.day, dayToSearch));
+};
+const getCalendarViewMonthsMonth = (wrapper, day) => {
+  const dayToSearch = typeof day === 'string' ? dateParser(day, 'Y-m-d') : day;
+  return getCalendarViewMonths(wrapper).$children.find((vm) => isSameMonth(vm.month, dayToSearch));
 };
 
 
@@ -444,5 +448,30 @@ describe('TDatepicker', () => {
     expect(wrapper.emitted('input')).toBeFalsy();
 
     expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
+  });
+
+  it('when select a month it changes to the date view', async () => {
+    // Feb 18
+    const inputValue = new Date(1098, 1, 18);
+
+    const monthToLook = new Date(1098, 5, 18);
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        initialView: 'month',
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const month = getCalendarViewMonthsMonth(wrapper, monthToLook);
+    month.$el.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.vm.activeDate).toEqual(monthToLook);
+    expect(wrapper.vm.currentView).toBe('day');
   });
 });
