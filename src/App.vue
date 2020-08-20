@@ -7,7 +7,9 @@
     footer="Made with love by @alfonsobries"
   >
     <t-datepicker
-      initial-view="year"
+      v-model="date"
+      :week-start="0"
+      initial-view="month"
     />
     <ul>
       <t-toggle
@@ -981,7 +983,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      date: '1987-02-18',
+      date: '2020-02-29',
       wrappedRadioValue: '2',
       wrappedCheckboxValue: ['2'],
       repositories: [] as string[],

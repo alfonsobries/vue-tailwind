@@ -295,20 +295,20 @@ describe('TDatepicker', () => {
     expect(monthsView).toBeTruthy();
   });
 
-  // it('shows the years view when the setting is set', async () => {
-  //   const wrapper = mount(TDatepicker, {
-  //     propsData: {
-  //       initialView: 'year',
-  //       show: true,
-  //     },
-  //   });
+  it('shows the years view when the setting is set', async () => {
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        initialView: 'year',
+        show: true,
+      },
+    });
 
-  //   const calendarView = getCalendarViewCalendar(wrapper);
-  //   expect(calendarView).toBeFalsy();
+    const calendarView = getCalendarViewCalendar(wrapper);
+    expect(calendarView).toBeFalsy();
 
-  //   const yearsView = getCalendarViewYears(wrapper);
-  //   expect(yearsView).toBeTruthy();
-  // });
+    const yearsView = getCalendarViewYears(wrapper);
+    expect(yearsView).toBeTruthy();
+  });
 
   it('changes to prev month when press prev button', async () => {
     const inputValue = new Date(2019, 9, 16);
@@ -325,8 +325,6 @@ describe('TDatepicker', () => {
     prevButton.click();
 
     await wrapper.vm.$nextTick();
-
-    expect(wrapper.emitted('input')).toBeFalsy();
 
     expect(wrapper.emitted('input')).toBeFalsy();
 
@@ -348,8 +346,6 @@ describe('TDatepicker', () => {
     nextButton.click();
 
     await wrapper.vm.$nextTick();
-
-    expect(wrapper.emitted('input')).toBeFalsy();
 
     expect(wrapper.emitted('input')).toBeFalsy();
 
@@ -376,8 +372,6 @@ describe('TDatepicker', () => {
 
     expect(wrapper.emitted('input')).toBeFalsy();
 
-    expect(wrapper.emitted('input')).toBeFalsy();
-
     expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
   });
 
@@ -400,6 +394,52 @@ describe('TDatepicker', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
+  });
+
+  it('selects the last day of the prev year->month if doesnt have equivalent last', async () => {
+    // Feb 29
+    const inputValue = new Date(2020, 1, 29);
+    // Feb 28
+    const expectedActiveDate = new Date(2020 - 1, 1, 28);
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        initialView: 'month',
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const prevButton = getCalendarNavigator(wrapper).$refs.prev;
+    prevButton.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
+
+    expect(wrapper.vm.activeDate).toEqual(expectedActiveDate);
+  });
+
+  it('selects the last day of the next year->month if doesnt have equivalent last', async () => {
+    // Feb 29
+    const inputValue = new Date(2020, 1, 29);
+    // Feb 28
+    const expectedActiveDate = new Date(2020 + 1, 1, 28);
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        initialView: 'month',
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const nextButton = getCalendarNavigator(wrapper).$refs.next;
+    nextButton.click();
+
+    await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted('input')).toBeFalsy();
 

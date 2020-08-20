@@ -1,5 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { addMonths } from '@/utils/dates';
+import { addMonths, addYears } from '@/utils/dates';
 
 export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
   const currentYear = date.getFullYear();
@@ -109,24 +109,16 @@ const TDatepickerNavigator = Vue.extend({
       this.inputHandler(addMonths(this.localValue, 1));
     },
     prevYear(): void {
-      const newDate = new Date(this.localValue.valueOf());
-      newDate.setFullYear(newDate.getFullYear() - 1);
-      this.inputHandler(newDate);
+      this.inputHandler(addYears(this.localValue, -1));
     },
     nextYear(): void {
-      const newDate = new Date(this.localValue.valueOf());
-      newDate.setFullYear(newDate.getFullYear() + 1);
-      this.inputHandler(newDate);
+      this.inputHandler(addYears(this.localValue, 1));
     },
     prevYearGroup(): void {
-      const newDate = new Date(this.localValue.valueOf());
-      newDate.setFullYear(newDate.getFullYear() - this.yearsPerView);
-      this.inputHandler(newDate);
+      this.inputHandler(addYears(this.localValue, -this.yearsPerView));
     },
     nextYearGroup(): void {
-      const newDate = new Date(this.localValue.valueOf());
-      newDate.setFullYear(newDate.getFullYear() + this.yearsPerView);
-      this.inputHandler(newDate);
+      this.inputHandler(addYears(this.localValue, this.yearsPerView));
     },
   },
 
