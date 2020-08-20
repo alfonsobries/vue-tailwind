@@ -228,6 +228,11 @@ const TRichSelect = InputWithOptions.extend({
         this.focusSearchBox();
       }
     },
+    filteredflattenedOptions(filteredflattenedOptions) {
+      if (filteredflattenedOptions?.length) {
+        this.selectedOption = this.findOptionByValue(this.value);
+      }
+    },
   },
 
   computed: {
