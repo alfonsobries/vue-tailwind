@@ -273,6 +273,20 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.highlighted).toBe(0);
   });
 
+  it('select the value selected when renred', async () => {
+    const options = ['Option A', 'Option B', 'Option C'];
+    const value = 'Option A';
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: { options, value },
+    });
+
+    expect(wrapper.vm.selectedOption).toEqual({
+      value,
+      text: value,
+      raw: value,
+    });
+  });
+
   it('select the next item when down key', async () => {
     const options = ['Option A', 'Option B', 'Option C'];
     const wrapper = shallowMount(TRichSelect, {

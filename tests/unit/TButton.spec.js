@@ -63,6 +63,32 @@ describe('TButton', () => {
     expect(Object.keys(wrapper.vm.getAttributes())).toEqual(['to', 'replace', 'append', 'tag', 'activeClass', 'exact', 'event', 'exactActiveClass', 'id', 'value', 'autofocus', 'disabled', 'name', 'type']);
   });
 
+  it('uses native button for inertia when tag name is not `a`', () => {
+    const wrapper = shallowMount(TButton, {
+      propsData: { tagName: 'button', href: '/test' },
+      computed: {
+        isInertiaLinkComponentAvailable() {
+          return true;
+        },
+      },
+    });
+
+    expect(Object.keys(wrapper.vm.getAttributes())).toEqual(['id', 'value', 'autofocus', 'disabled', 'name', 'href', 'type']);
+  });
+
+  it('uses native button when native is set', () => {
+    const wrapper = shallowMount(TButton, {
+      propsData: { to: '/some-place', native: true },
+      computed: {
+        isRouterLinkComponentAvailable() {
+          return true;
+        },
+      },
+    });
+
+    expect(Object.keys(wrapper.vm.getAttributes())).toEqual(['id', 'value', 'autofocus', 'disabled', 'name', 'href', 'type']);
+  });
+
   it('has common attributes', async () => {
     const wrapper = shallowMount(TButton);
 
