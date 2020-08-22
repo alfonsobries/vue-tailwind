@@ -58,21 +58,21 @@
         >
           <li>
             <a
-              class="block w-full p-3 hover:bg-gray-200"
+              class="block p-3 w-full hover:bg-gray-200"
               href=""
               @blur="blurHandler"
             >Option A</a>
           </li>
           <li>
             <a
-              class="block w-full p-3 hover:bg-gray-200"
+              class="block p-3 w-full hover:bg-gray-200"
               href=""
               @blur="blurHandler"
             >Option B</a>
           </li>
           <li>
             <a
-              class="block w-full p-3 hover:bg-gray-200"
+              class="block p-3 w-full hover:bg-gray-200"
               href=""
               @blur="blurHandler"
             >Option C</a>
@@ -169,9 +169,9 @@
                 :src="repo.owner.avatar_url"
               >
             </span>
-            <div class="flex flex-col ml-2 text-gray-800">
+            <div class="ml-2 flex flex-col text-gray-800">
               <strong>{{ repo.full_name }}</strong>
-              <span class="text-sm leading-tight text-gray-700">{{ repo.description }}</span>
+              <span class="text-sm text-gray-700 leading-tight">{{ repo.description }}</span>
             </div>
           </div>
         </template>
@@ -197,10 +197,10 @@
                 :src="repo.owner.avatar_url"
               >
             </span>
-            <div class="flex flex-col ml-2 text-gray-800">
+            <div class="ml-2 flex flex-col text-gray-800">
               <strong>{{ repo.full_name }}</strong>
-              <span class="text-sm leading-tight text-gray-700">{{ repo.description }}</span>
-              <div class="flex justify-between mt-1 -mx-1 text-xs text-gray-700">
+              <span class="text-sm text-gray-700 leading-tight">{{ repo.description }}</span>
+              <div class="flex justify-between -mx-1 text-xs text-gray-700 mt-1">
                 <span class="px-1">{{ repo.forks_count }} Forks</span>
                 <span class="px-1">{{ repo.stargazers_count }} Stars</span>
                 <span class="px-1">{{ repo.watchers_count }} Watchers</span>
@@ -370,14 +370,14 @@
           slot-scope="{ isChecked }"
         >
           <span
-            class="absolute inset-0 flex items-center justify-center w-full h-full transition-opacity"
+            class="absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
             :class="{
               'opacity-100 ease-in duration-200': !isChecked,
               'opacity-0 ease-out duration-100': isChecked,
             }"
           >
             <svg
-              class="w-3 h-3 text-gray-400"
+              class="h-3 w-3 text-gray-400"
               fill="none"
               viewBox="0 0 12 12"
             >
@@ -391,14 +391,14 @@
             </svg>
           </span>
           <span
-            class="absolute inset-0 flex items-center justify-center w-full h-full transition-opacity "
+            class=" absolute inset-0 h-full w-full flex items-center justify-center transition-opacity"
             :class="{
               'opacity-100 ease-in duration-200': isChecked,
               'opacity-0 ease-out duration-100': !isChecked,
             }"
           >
             <svg
-              class="w-3 h-3 text-blue-500"
+              class="h-3 w-3 text-blue-500"
               fill="currentColor"
               viewBox="0 0 12 12"
             >
@@ -498,8 +498,6 @@
       v-model="showModal"
       name="named-modal"
       :variant="variant"
-      @before-close="beforeClose"
-      @before-open="beforeOpen"
     >
       <template v-slot:footer>
         <p>
@@ -579,13 +577,13 @@
                   :visible-arrow="false"
                   placement="left-start"
                   variant="tertiary"
-                  class="absolute top-0 right-0"
+                  class="absolute right-0 top-0"
                 >
                   <template slot="button-content">
                     <svg
                       version="1.1"
                       viewBox="0 0 16 16"
-                      class="text-gray-600 fill-current svg-icon svg-fill"
+                      class="fill-current text-gray-600 svg-icon svg-fill"
                       heigth="20"
                       style="width: 20px;"
                     ><path
@@ -594,12 +592,12 @@
                     /></svg>
                   </template>
                   <button
-                    class="block w-full px-4 py-2 text-left text-gray-800 hover:text-white hover:bg-blue-500"
+                    class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
                   >
                     Edit
                   </button>
                   <button
-                    class="block w-full px-4 py-2 text-left text-gray-800 hover:text-white hover:bg-blue-500"
+                    class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
                   >
                     Delete
                   </button>
@@ -625,13 +623,13 @@
               <td :class="[tdClass]">
                 <span
                   v-if="row.is_approved"
-                  class="px-5 py-1 text-sm font-bold text-green-900 bg-green-200 rounded-full d-flex"
+                  class="d-flex py-1 px-5 bg-green-200 text-green-900 text-sm rounded-full font-bold"
                 >
                   Active
                 </span>
                 <span
                   v-else
-                  class="px-5 py-1 text-sm font-bold text-gray-900 bg-gray-200 rounded-full d-flex"
+                  class="d-flex py-1 px-5 bg-gray-200 text-gray-900 text-sm rounded-full font-bold"
                 >
                   Inactive
                 </span>
@@ -657,13 +655,13 @@
           <td :class="[tdClass, 'text-center']">
             <span
               v-if="row.is_approved"
-              class="px-5 py-2 text-sm font-bold text-green-900 bg-green-200 rounded-full d-flex"
+              class="d-flex py-2 px-5 bg-green-200 text-green-900 text-sm rounded-full font-bold"
             >
               Active
             </span>
             <span
               v-else
-              class="px-5 py-2 text-sm font-bold text-gray-900 bg-gray-200 rounded-full d-flex"
+              class="d-flex py-2 px-5 bg-gray-200 text-gray-900 text-sm rounded-full font-bold"
             >
               Inactive
             </span>
@@ -678,7 +676,7 @@
                 <svg
                   version="1.1"
                   viewBox="0 0 16 16"
-                  class="text-gray-600 fill-current svg-icon svg-fill"
+                  class="fill-current text-gray-600 svg-icon svg-fill"
                   heigth="20"
                   style="width: 20px;"
                 ><path
@@ -687,13 +685,13 @@
                 /></svg>
               </template>
               <button
-                class="block w-full px-4 py-2 text-left text-gray-800 hover:text-white hover:bg-blue-500"
+                class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
               >
                 Edit
               </button>
               <button
                 :to="{ name: 'settings.profile' }"
-                class="block w-full px-4 py-2 text-left text-gray-800 hover:text-white hover:bg-blue-500"
+                class="block hover:text-white text-gray-800 px-4 py-2 hover:bg-blue-500 w-full text-left"
               >
                 Delete
               </button>
@@ -1016,16 +1014,6 @@ export default Vue.extend({
     };
   },
   methods: {
-    beforeOpen(e) {
-      if (this.wrappedRadioValue === '2') {
-        e.cancel();
-      }
-    },
-    beforeClose(e) {
-      if (this.wrappedRadioValue === '2') {
-        e.cancel();
-      }
-    },
     addOption(repository: string): void {
       this.repositories.push(repository);
       this.repository = repository;
