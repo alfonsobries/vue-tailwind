@@ -98,7 +98,9 @@ const TButton = HtmlInput.extend({
      * @return {Boolean}
      */
     isARouterLink(): boolean {
-      return this.to !== undefined && this.isRouterLinkComponentAvailable;
+      return this.to !== undefined
+        && this.isRouterLinkComponentAvailable
+        && !this.native;
     },
     /**
      * If we have the `href` defined and the InertiaLink component is available
@@ -107,20 +109,21 @@ const TButton = HtmlInput.extend({
      * @return {Boolean}
      */
     isAnIntertiaLink(): boolean {
-      return this.href !== null && this.tagName === 'a' && this.isInertiaLinkComponentAvailable;
+      return this.href !== null
+        && this.tagName === 'a'
+        && this.isInertiaLinkComponentAvailable
+        && !this.native;
     },
     /**
      * The component to render according to the props
      * @return {String}
      */
     componentToRender() {
-      if (!this.native) {
-        if (this.isARouterLink && this.$options.components) {
-          return this.$options.components.NuxtLink || this.$options.components.RouterLink;
-        }
-        if (this.isAnIntertiaLink) {
-          return this.$options.components?.InertiaLink;
-        }
+      if (this.isARouterLink && this.$options.components) {
+        return this.$options.components.NuxtLink || this.$options.components.RouterLink;
+      }
+      if (this.isAnIntertiaLink) {
+        return this.$options.components?.InertiaLink;
       }
       if (this.href) {
         return 'a';
@@ -195,13 +198,11 @@ const TButton = HtmlInput.extend({
      * @return {Object}
      */
     getAttributes() {
-      if (!this.native) {
-        if (this.isAnIntertiaLink) {
-          return this.inertiaLinkAttributes();
-        }
-        if (this.isARouterLink) {
-          return this.routerLinkAttributes();
-        }
+      if (this.isAnIntertiaLink) {
+        return this.inertiaLinkAttributes();
+      }
+      if (this.isARouterLink) {
+        return this.routerLinkAttributes();
       }
 
       return {
