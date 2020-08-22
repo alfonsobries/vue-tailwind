@@ -3,7 +3,6 @@ import Component from '@/base/Component';
 import Vue, { CreateElement, VNode } from 'vue';
 import Key from '@/types/Key';
 
-
 const TModal = Component.extend({
   name: 'TModal',
 
@@ -109,6 +108,7 @@ const TModal = Component.extend({
       overlayShow: this.value,
       modalShow: this.value,
       params: undefined,
+      preventAction: false,
     };
   },
 
@@ -122,6 +122,7 @@ const TModal = Component.extend({
   },
 
   watch: {
+
     value(value) {
       if (value) {
         this.show();
@@ -133,22 +134,20 @@ const TModal = Component.extend({
       this.$emit('input', shown);
       this.$emit('change', shown);
 
+      await this.$nextTick();
+
       if (shown) {
-        this.beforeOpen();
-        await this.$nextTick();
         this.modalShow = true;
       } else {
-        await this.$nextTick();
         this.closed();
       }
     },
     async modalShow(shown) {
+      await this.$nextTick();
+
       if (!shown) {
-        this.beforeClose();
-        await this.$nextTick();
         this.overlayShow = false;
       } else {
-        await this.$nextTick();
         this.opened();
       }
     },
@@ -359,7 +358,7 @@ const TModal = Component.extend({
       }
     },
     beforeOpen() {
-      this.$emit('before-open', { params: this.params });
+      this.$emit('before-open', { params: this.params, cancel: this.cancel });
     },
     opened() {
       this.$emit('opened', { params: this.params });
@@ -372,7 +371,7 @@ const TModal = Component.extend({
           enableBodyScroll(mdl);
         }
       }
-      this.$emit('before-close');
+      this.$emit('before-close', { cancel: this.cancel });
     },
     closed() {
       this.$emit('closed');
@@ -395,11 +394,27 @@ const TModal = Component.extend({
       }
     },
     hide() {
-      this.modalShow = false;
+      this.beforeClose();
+
+      if (!this.preventAction) {
+        this.modalShow = false;
+      } else {
+        this.preventAction = false;
+      }
     },
     show(params = undefined) {
       this.params = params;
-      this.overlayShow = true;
+
+      this.beforeOpen();
+
+      if (!this.preventAction) {
+        this.overlayShow = true;
+      } else {
+        this.preventAction = false;
+      }
+    },
+    cancel() {
+      this.preventAction = true;
     },
     outsideClick() {
       if (this.clickToClose) {
