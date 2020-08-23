@@ -1,6 +1,6 @@
 # Vue-Tailwind 
 
-![Node CI](https://github.com/alfonsobries/vue-tailwind/workflows/Node%20CI/badge.svg)
+![CI](https://github.com/alfonsobries/vue-tailwind/workflows/CI/badge.svg)
 
 For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
 
