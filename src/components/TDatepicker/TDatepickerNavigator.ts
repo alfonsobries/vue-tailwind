@@ -2,6 +2,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 import {
   addMonths, addYears, dateIsOutOfRange,
   createDateFormatter,
+  DateParser,
 } from '@/utils/dates';
 
 
@@ -44,6 +45,14 @@ const TDatepickerNavigator = Vue.extend({
         return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
       },
     },
+    dateParser: {
+      type: Function,
+      required: true,
+    },
+    dateFormat: {
+      type: String,
+      required: true,
+    },
     yearsPerView: {
       type: Number,
       required: true,
@@ -76,12 +85,14 @@ const TDatepickerNavigator = Vue.extend({
       return this.currentView === CalendarView.Month;
     },
     prevButtonIsDisabled(): boolean {
+      const dateParser = this.dateParser as DateParser;
       const prevDate = this.getPrevDate();
-      return !prevDate || dateIsOutOfRange(prevDate, this.minDate, this.maxDate);
+      return !prevDate || dateIsOutOfRange(prevDate, this.minDate, this.maxDate, dateParser, this.dateFormat);
     },
     nextButtonIsDisabled(): boolean {
       const nextDate = this.getNextDate();
-      return !nextDate || dateIsOutOfRange(nextDate, this.minDate, this.maxDate);
+      const dateParser = this.dateParser as DateParser;
+      return !nextDate || dateIsOutOfRange(nextDate, this.minDate, this.maxDate, dateParser, this.dateFormat);
     },
   },
 

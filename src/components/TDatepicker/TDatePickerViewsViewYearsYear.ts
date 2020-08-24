@@ -44,14 +44,17 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
 
   computed: {
     isSelected(): boolean {
-      const d1 = this.year as unknown as Date;
+      const d1 = this.getYear();
       const d2 = this.value as unknown as Date;
       return d2 && d1.getFullYear() === d2.getFullYear();
     },
     isActive(): boolean {
-      const d1 = this.year as unknown as Date;
+      const d1 = this.getYear();
       const d2 = this.activeDate as unknown as Date;
       return d2 && d1.getFullYear() === d2.getFullYear();
+    },
+    yearFormatted(): string {
+      return this.dateFormatter(this.getYear(), 'Y');
     },
   },
 
@@ -73,8 +76,8 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
 
       return this.getElementCssClass('year');
     },
-    getYear(): string {
-      return this.dateFormatter(this.year, 'Y');
+    getYear(): Date {
+      return this.year as unknown as Date;
     },
   },
 
@@ -91,7 +94,7 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
           click: (e: MouseEvent) => this.$emit('click', e),
         },
       },
-      this.getYear(),
+      this.yearFormatted,
     );
   },
 });

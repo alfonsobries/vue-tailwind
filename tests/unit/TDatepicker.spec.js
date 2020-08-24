@@ -513,7 +513,6 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
     value: currentDate,
     activeDate: currentDate,
     getElementCssClass: datePicker.vm.getElementCssClass,
-    dateFormatter: datePicker.vm.dateFormatter,
     dateParser: datePicker.vm.dateParser,
     dateFormat: datePicker.vm.dateFormat,
     showDaysForOtherMonth: false,
@@ -695,7 +694,8 @@ describe('TDatePickerNavigator', () => {
   const currentDate = new Date(1987, 1, 19);
 
   const navProps = {
-    dateFormatter: datePicker.vm.dateFormatter,
+    dateFormat: datePicker.vm.dateFormat,
+    dateParser: datePicker.vm.dateParser,
     getElementCssClass: datePicker.vm.getElementCssClass,
     value: currentDate,
     showSelector: true,

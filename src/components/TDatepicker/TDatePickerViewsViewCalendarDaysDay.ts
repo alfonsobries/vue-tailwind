@@ -29,7 +29,6 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
-
     dateParser: {
       type: Function,
       required: true,
@@ -69,21 +68,21 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
   computed: {
     isSelected(): boolean {
-      const d1 = this.day as unknown as Date;
+      const d1 = this.getDay();
       const d2 = this.value as unknown as Date;
       return d2 && d1.getFullYear() === d2.getFullYear()
         && d1.getMonth() === d2.getMonth()
         && d1.getDate() === d2.getDate();
     },
     isActive(): boolean {
-      const d1 = this.day as unknown as Date;
+      const d1 = this.getDay();
       const d2 = this.localActiveDate as unknown as Date;
       return d2 && d1.getFullYear() === d2.getFullYear()
         && d1.getMonth() === d2.getMonth()
         && d1.getDate() === d2.getDate();
     },
     isDisabled(): boolean {
-      const day = this.day as unknown as Date;
+      const day = this.getDay();
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
       const dateParser: DateParser = this.dateParser as DateParser;
 
@@ -92,9 +91,12 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
     },
     isForAnotherMonth(): boolean {
       const d1 = this.localActiveDate as unknown as Date;
-      const d2 = this.day as unknown as Date;
+      const d2 = this.getDay();
       return d1.getFullYear() !== d2.getFullYear()
         || d1.getMonth() !== d2.getMonth();
+    },
+    dayFormatted(): string {
+      return this.dateFormatter(this.getDay(), 'j');
     },
   },
 
@@ -128,9 +130,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
       return this.getElementCssClass('day');
     },
-    getDay(): string {
-      return this.dateFormatter(this.day, 'j');
+    getDay(): Date {
+      return this.day as unknown as Date;
     },
+
   },
   render(createElement: CreateElement): VNode {
     return createElement(
@@ -146,7 +149,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
           click: (e: MouseEvent) => this.$emit('click', e),
         },
       },
-      this.getDay(),
+      this.dayFormatted,
     );
   },
 });

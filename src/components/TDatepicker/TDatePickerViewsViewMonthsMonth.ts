@@ -43,16 +43,19 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
 
   computed: {
     isSelected(): boolean {
-      const d1 = this.month as unknown as Date;
+      const d1 = this.getMonth();
       const d2 = this.value as unknown as Date;
       return d2 && d1.getFullYear() === d2.getFullYear()
         && d1.getMonth() === d2.getMonth();
     },
     isActive(): boolean {
-      const d1 = this.month as unknown as Date;
+      const d1 = this.getMonth();
       const d2 = this.activeDate as unknown as Date;
       return d2 && d1.getFullYear() === d2.getFullYear()
         && d1.getMonth() === d2.getMonth();
+    },
+    monthFormatted(): string {
+      return this.dateFormatter(this.getMonth(), 'M');
     },
   },
 
@@ -68,8 +71,8 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
 
       return this.getElementCssClass('month');
     },
-    getMonth(): string {
-      return this.dateFormatter(this.month, 'M');
+    getMonth(): Date {
+      return this.month as unknown as Date;
     },
   },
 
@@ -86,7 +89,7 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
           click: (e: MouseEvent) => this.$emit('click', e),
         },
       },
-      this.getMonth(),
+      this.monthFormatted,
     );
   },
 });
