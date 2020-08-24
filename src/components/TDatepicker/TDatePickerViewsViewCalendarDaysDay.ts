@@ -1,5 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
+import { isSameDay } from '@/utils/dates';
+
+type DisabledDate = string | Date | undefined | ((day: Date) => boolean);
+type DisabledDates = DisabledDate | DisabledDate[]
 
 const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   name: 'TDatePickerViewsViewCalendarDaysDay',
@@ -29,6 +33,14 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
+    dateParser: {
+      type: Function,
+      required: true,
+    },
+    dateFormat: {
+      type: String,
+      required: true,
+    },
     showDaysForOtherMonth: {
       type: Boolean,
       required: true,
@@ -36,6 +48,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
     showActiveDate: {
       type: Boolean,
       required: true,
+    },
+    disabledDates: {
+      type: [Date, Array, Function, String],
+      default: undefined,
     },
   },
 
@@ -60,9 +76,14 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         && d1.getMonth() === d2.getMonth()
         && d1.getDate() === d2.getDate();
     },
-    // @TODO
     isDisabled(): boolean {
-      return false;
+      const disabledDate: DisabledDates = this.disabledDates as DisabledDates;
+
+      if (Array.isArray(disabledDate)) {
+        return disabledDate.some((d) => this.getIsDisabled(d));
+      }
+
+      return this.getIsDisabled(disabledDate);
     },
     isForAnotherMonth(): boolean {
       const d1 = this.localActiveDate as unknown as Date;
@@ -79,6 +100,24 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   },
 
   methods: {
+    getIsDisabled(date: DisabledDate): boolean {
+      const day: Date = this.day as unknown as Date;
+
+      if (typeof date === 'function') {
+        return date(day);
+      }
+
+      if (typeof date === 'string' || date instanceof String) {
+        const disabledDate = this.dateParser(date, this.dateFormat);
+        return isSameDay(disabledDate, day);
+      }
+
+      if (date instanceof Date) {
+        return isSameDay(date, day);
+      }
+
+      return false;
+    },
     getClass(): CssClass {
       if (this.isDisabled) {
         return this.getElementCssClass('disabledDay');

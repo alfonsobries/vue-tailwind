@@ -30,6 +30,14 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
       type: Function,
       required: true,
     },
+    dateParser: {
+      type: Function,
+      required: true,
+    },
+    dateFormat: {
+      type: String,
+      required: true,
+    },
     showDaysForOtherMonth: {
       type: Boolean,
       required: true,
@@ -37,6 +45,10 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
     showActiveDate: {
       type: Boolean,
       required: true,
+    },
+    disabledDates: {
+      type: [Date, Array, Function, String],
+      default: undefined,
     },
   },
 
@@ -117,8 +129,11 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
             activeDate: this.localActiveDate,
             getElementCssClass: this.getElementCssClass,
             dateFormatter: this.dateFormatter,
+            dateParser: this.dateParser,
+            dateFormat: this.dateFormat,
             showDaysForOtherMonth: this.showDaysForOtherMonth,
             showActiveDate: this.showActiveDate,
+            disabledDates: this.disabledDates,
           },
           on: {
             click: () => this.$emit('input', day),

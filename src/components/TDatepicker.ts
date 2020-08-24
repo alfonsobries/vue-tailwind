@@ -55,13 +55,13 @@ const TDatepicker = HtmlInput.extend({
       type: Function,
       default: createDateFormatter({ l10n: english }),
     },
-    closeOnSelect: {
-      type: Boolean,
-      default: true,
-    },
     dateParser: {
       type: Function,
       default: createDateParser({ l10n: english }),
+    },
+    closeOnSelect: {
+      type: Boolean,
+      default: true,
     },
     show: {
       type: Boolean,
@@ -77,6 +77,10 @@ const TDatepicker = HtmlInput.extend({
     yearsPerView: {
       type: Number,
       default: 12,
+    },
+    disabledDates: {
+      type: [Date, Array, Function, String],
+      default: undefined,
     },
     fixedClasses: {
       type: Object,
@@ -386,10 +390,13 @@ const TDatepicker = HtmlInput.extend({
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
               dateFormatter: this.dateFormatter,
+              dateParser: this.dateParser,
+              dateFormat: this.dateFormat,
               initialView: this.initialView,
               currentView: this.currentView,
               yearsPerView: this.yearsPerView,
               showActiveDate: this.showActiveDate,
+              disabledDates: this.disabledDates,
             },
             on: {
               input: this.inputHandler,

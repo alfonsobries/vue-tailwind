@@ -1,6 +1,8 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
+import TDatePickerViewsViewCalendarDaysDay from '@/components/TDatepicker/TDatePickerViewsViewCalendarDaysDay';
 import { isSameDay, isSameMonth, createDateParser } from '@/utils/dates';
+import { wrap } from 'lodash';
 
 const dateParser = createDateParser({});
 
@@ -20,6 +22,104 @@ const getCalendarViewMonthsMonth = (wrapper, day) => {
   return getCalendarViewMonths(wrapper).$children.find((vm) => isSameMonth(vm.month, dayToSearch));
 };
 
+describe('TDatePickerViewsViewCalendarDaysDay', () => {
+  const datePicker = shallowMount(TDatepicker);
+  const day = new Date(1987, 1, 18);
+  const currentDate = new Date(1987, 1, 19);
+
+  const dayProps = {
+    day,
+    locale: 'en',
+    value: currentDate,
+    activeDate: currentDate,
+    getElementCssClass: datePicker.vm.getElementCssClass,
+    dateFormatter: datePicker.vm.dateFormatter,
+    dateParser: datePicker.vm.dateParser,
+    dateFormat: datePicker.vm.dateFormat,
+    showDaysForOtherMonth: false,
+    showActiveDate: true,
+  };
+
+  it('disables a date by date object', () => {
+    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+      propsData: {
+        ...dayProps,
+        ...{
+          disabledDates: day,
+        },
+      },
+    });
+    expect(wrapper.vm.isDisabled).toBe(true);
+  });
+
+  it('disables a date by string object', () => {
+    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+      propsData: {
+        ...dayProps,
+        ...{
+          disabledDates: '1987-02-18',
+        },
+      },
+    });
+
+
+    expect(wrapper.vm.isDisabled).toBe(true);
+  });
+
+  it('disables a date by a function', () => {
+    const disabledFunc = (date) => isSameDay(date, day);
+
+    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+      propsData: {
+        ...dayProps,
+        ...{
+          disabledDates: disabledFunc,
+        },
+      },
+    });
+
+    expect(wrapper.vm.isDisabled).toBe(true);
+  });
+
+  it('disables a date by an array', () => {
+    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+      propsData: {
+        ...dayProps,
+        ...{
+          disabledDates: ['1987-02-18'],
+        },
+      },
+    });
+
+    expect(wrapper.vm.isDisabled).toBe(true);
+
+    wrapper.setProps({
+      disabledDates: [],
+    });
+
+    expect(wrapper.vm.isDisabled).toBe(false);
+
+    wrapper.setProps({
+      disabledDates: [day],
+    });
+
+    expect(wrapper.vm.isDisabled).toBe(true);
+
+    wrapper.setProps({
+      disabledDates: [],
+    });
+
+    expect(wrapper.vm.isDisabled).toBe(false);
+
+    const disabledFunc = (date) => isSameDay(date, day);
+
+    wrapper.setProps({
+      disabledDates: [disabledFunc],
+    });
+
+    expect(wrapper.vm.isDisabled).toBe(true);
+  });
+});
 
 describe('TDatepicker', () => {
   it('renders the date picker text and hidden input', () => {

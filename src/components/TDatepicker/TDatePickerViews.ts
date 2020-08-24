@@ -35,6 +35,14 @@ const TDatePickerViews = Vue.extend({
       type: Function,
       required: true,
     },
+    dateParser: {
+      type: Function,
+      required: true,
+    },
+    dateFormat: {
+      type: String,
+      required: true,
+    },
     initialView: {
       type: String,
       required: true,
@@ -50,6 +58,10 @@ const TDatePickerViews = Vue.extend({
     showActiveDate: {
       type: Boolean,
       required: true,
+    },
+    disabledDates: {
+      type: [Date, Array, Function, String],
+      default: undefined,
     },
   },
 
@@ -94,6 +106,9 @@ const TDatePickerViews = Vue.extend({
             locale: this.locale,
             getElementCssClass: this.getElementCssClass,
             dateFormatter: this.dateFormatter,
+            dateParser: this.dateParser,
+            dateFormat: this.dateFormat,
+            disabledDates: this.disabledDates,
             monthsPerView: this.monthsPerView,
             monthIndex: index,
             currentView: index === 0 ? this.currentView : this.initialView,
