@@ -27,29 +27,9 @@ const TButton = HtmlInput.extend({
       type: String,
       default: null,
     },
-    method: {
-      type: String,
-      default: undefined,
-    },
-    data: {
-      type: Object,
-      default: undefined,
-    },
-    preserveState: {
-      type: Boolean,
-      default: false,
-    },
-    preserveScroll: {
-      type: Boolean,
-      default: false,
-    },
     to: {
       type: [String, Object],
       default: undefined,
-    },
-    replace: {
-      type: Boolean,
-      default: false,
     },
     append: {
       type: Boolean,
@@ -71,6 +51,34 @@ const TButton = HtmlInput.extend({
       type: [String, Array],
       default: 'click',
     },
+    data: {
+      type: Object,
+      default: () => ({}),
+    },
+    method: {
+      type: String,
+      default: 'get',
+    },
+    replace: {
+      type: Boolean,
+      default: false,
+    },
+    preserveScroll: {
+      type: Boolean,
+      default: false,
+    },
+    preserveState: {
+      type: Boolean,
+      default: false,
+    },
+    only: {
+      type: Array,
+      default: () => [],
+    },
+    native: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isInertiaLinkComponentAvailable(): boolean {
@@ -90,7 +98,9 @@ const TButton = HtmlInput.extend({
      * @return {Boolean}
      */
     isARouterLink(): boolean {
-      return this.to !== undefined && this.isRouterLinkComponentAvailable;
+      return this.to !== undefined
+        && this.isRouterLinkComponentAvailable
+        && !this.native;
     },
     /**
      * If we have the `href` defined and the InertiaLink component is available
@@ -99,7 +109,10 @@ const TButton = HtmlInput.extend({
      * @return {Boolean}
      */
     isAnIntertiaLink(): boolean {
-      return this.href !== undefined && this.isInertiaLinkComponentAvailable;
+      return this.href !== null
+        && this.tagName === 'a'
+        && this.isInertiaLinkComponentAvailable
+        && !this.native;
     },
     /**
      * The component to render according to the props
@@ -110,7 +123,7 @@ const TButton = HtmlInput.extend({
         return this.$options.components.NuxtLink || this.$options.components.RouterLink;
       }
       if (this.isAnIntertiaLink) {
-        return this.$options.components && this.$options.components.InertiaLink;
+        return this.$options.components?.InertiaLink;
       }
       if (this.href) {
         return 'a';
@@ -144,14 +157,15 @@ const TButton = HtmlInput.extend({
     focus() {
       (this.$el as HTMLButtonElement).focus();
     },
-
     inertiaLinkAttributes() {
       return {
+        data: this.data,
         href: this.href,
         method: this.method,
-        data: this.data,
-        preserveState: this.preserveState,
+        replace: this.replace,
         preserveScroll: this.preserveScroll,
+        preserveState: this.preserveState,
+        only: this.only,
         id: this.id,
         value: this.value,
         autofocus: this.autofocus,
@@ -160,7 +174,6 @@ const TButton = HtmlInput.extend({
         type: this.type,
       };
     },
-
     routerLinkAttributes() {
       return {
         to: this.to,

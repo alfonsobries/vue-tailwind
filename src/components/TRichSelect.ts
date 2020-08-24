@@ -179,6 +179,13 @@ const TRichSelect = InputWithOptions.extend({
   created() {
     this.selectedOption = this.findOptionByValue(this.value);
   },
+
+  updated() {
+    if (typeof this.selectedOption === 'undefined' || this.selectedOption.value !== this.value) {
+      this.selectedOption = this.findOptionByValue(this.value);
+    }
+  },
+
   watch: {
     normalizedOptions: {
       handler() {

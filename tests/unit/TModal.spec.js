@@ -200,6 +200,6 @@ describe('TModal', () => {
     // called from the bus but can be called from every
     wrapper.vm.$modal.show('modal-name', params);
     await wrapper.vm.$nextTick();
-    expect(wrapper.emitted('before-open')[0]).toEqual([{ params }]);
+    expect(wrapper.emitted('before-open')[0][0].params).toEqual(params);
   });
 });
