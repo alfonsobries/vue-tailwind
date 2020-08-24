@@ -1,6 +1,8 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
-import { DateConditions, dayIsPartOfTheConditions, DateParser } from '@/utils/dates';
+import {
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange,
+} from '@/utils/dates';
 
 const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   name: 'TDatePickerViewsViewCalendarDaysDay',
@@ -50,6 +52,14 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: [Date, Array, Function, String],
       default: undefined,
     },
+    maxDate: {
+      type: [Date, String],
+      default: undefined,
+    },
+    minDate: {
+      type: [Date, String],
+      default: undefined,
+    },
   },
 
   data() {
@@ -77,7 +87,9 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       const day = this.day as unknown as Date;
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
       const dateParser: DateParser = this.dateParser as DateParser;
-      return dayIsPartOfTheConditions(day, disabledDates, dateParser, this.dateFormat);
+
+      return dateIsOutOfRange(day, this.minDate, this.maxDate, dateParser, this.dateFormat)
+        || dayIsPartOfTheConditions(day, disabledDates, dateParser, this.dateFormat);
     },
     isForAnotherMonth(): boolean {
       const d1 = this.localActiveDate as unknown as Date;

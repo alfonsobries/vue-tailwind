@@ -12,6 +12,7 @@ import {
 export type DateValue = Date | string | number
 
 export type DateCondition = string | Date | undefined | ((day: Date) => boolean);
+
 export type DateConditions = DateCondition | DateCondition[]
 
 export type DateFormatter = (
@@ -229,6 +230,38 @@ export function dayIsPartOfTheConditions(day: Date, condition: DateConditions, d
 
   if (Array.isArray(condition)) {
     return condition.some((c) => dayIsPartOfTheConditions(day, c, dateParser, dateFormat));
+  }
+
+  return false;
+}
+
+export function dateIsOutOfRange(date: Date, min: Date | string | undefined, max: Date | string | undefined, dateParser: DateParser, dateFormat: string): boolean {
+  let minDate: Date | undefined;
+  if (typeof min === 'string' || min instanceof String) {
+    minDate = dateParser(min, dateFormat);
+  } else {
+    minDate = min;
+  }
+
+  let maxDate: Date | undefined;
+  if (typeof max === 'string' || max instanceof String) {
+    maxDate = dateParser(max, dateFormat);
+  } else {
+    maxDate = max;
+  }
+
+  const time = date.getTime();
+
+  if (minDate && maxDate) {
+    return time < minDate.getTime() || time > maxDate.getTime();
+  }
+
+  if (minDate) {
+    return time < minDate.getTime();
+  }
+
+  if (maxDate) {
+    return time > maxDate.getTime();
   }
 
   return false;

@@ -51,6 +51,14 @@ const TDatePickerViewsViewCalendar = Vue.extend({
       type: [Date, Array, Function, String],
       default: undefined,
     },
+    maxDate: {
+      type: [Date, String],
+      default: undefined,
+    },
+    minDate: {
+      type: [Date, String],
+      default: undefined,
+    },
   },
 
   data() {
@@ -111,6 +119,8 @@ const TDatePickerViewsViewCalendar = Vue.extend({
               showDaysForOtherMonth: this.showDaysForOtherMonth,
               showActiveDate: this.showActiveDate,
               disabledDates: this.disabledDates,
+              minDate: this.minDate,
+              maxDate: this.maxDate,
             },
             on: {
               input: this.inputHandler,

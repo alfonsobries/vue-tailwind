@@ -63,6 +63,14 @@ const TDatePickerViews = Vue.extend({
       type: [Date, Array, Function, String],
       default: undefined,
     },
+    maxDate: {
+      type: [Date, String],
+      default: undefined,
+    },
+    minDate: {
+      type: [Date, String],
+      default: undefined,
+    },
   },
 
   data() {
@@ -108,12 +116,14 @@ const TDatePickerViews = Vue.extend({
             dateFormatter: this.dateFormatter,
             dateParser: this.dateParser,
             dateFormat: this.dateFormat,
-            disabledDates: this.disabledDates,
             monthsPerView: this.monthsPerView,
             monthIndex: index,
             currentView: index === 0 ? this.currentView : this.initialView,
             yearsPerView: this.yearsPerView,
             showActiveDate: this.showActiveDate,
+            disabledDates: this.disabledDates,
+            minDate: this.minDate,
+            maxDate: this.maxDate,
           },
           on: {
             input: (date: Date) => {

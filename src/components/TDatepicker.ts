@@ -2,8 +2,8 @@ import { CreateElement, VNode } from 'vue';
 import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
-  createDateFormatter, createDateParser, DateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
-  DateConditions, dayIsPartOfTheConditions, DateParser,
+  createDateFormatter, createDateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
@@ -82,6 +82,14 @@ const TDatepicker = HtmlInput.extend({
     },
     disabledDates: {
       type: [Date, Array, Function, String],
+      default: undefined,
+    },
+    maxDate: {
+      type: [Date, String],
+      default: undefined,
+    },
+    minDate: {
+      type: [Date, String],
       default: undefined,
     },
     fixedClasses: {
@@ -200,43 +208,53 @@ const TDatepicker = HtmlInput.extend({
         return;
       }
 
+      let newActiveDate: Date | undefined;
+
       if (this.currentView === CalendarView.Day) {
         if (e.keyCode === Key.DOWN) {
-          this.activeDate = addDays(this.activeDate, 7);
+          newActiveDate = addDays(this.activeDate, 7);
         } else if (e.keyCode === Key.LEFT) {
-          this.activeDate = addDays(this.activeDate, -1);
+          newActiveDate = addDays(this.activeDate, -1);
         } else if (e.keyCode === Key.UP) {
-          this.activeDate = addDays(this.activeDate, -7);
+          newActiveDate = addDays(this.activeDate, -7);
         } else if (e.keyCode === Key.RIGHT) {
-          this.activeDate = addDays(this.activeDate, 1);
+          newActiveDate = addDays(this.activeDate, 1);
         }
       } else if (this.currentView === CalendarView.Month) {
         if (e.keyCode === Key.DOWN) {
-          this.activeDate = addMonths(this.activeDate, 4);
+          newActiveDate = addMonths(this.activeDate, 4);
         } else if (e.keyCode === Key.LEFT) {
-          this.activeDate = addMonths(this.activeDate, -1);
+          newActiveDate = addMonths(this.activeDate, -1);
         } else if (e.keyCode === Key.UP) {
-          this.activeDate = addMonths(this.activeDate, -4);
+          newActiveDate = addMonths(this.activeDate, -4);
         } else if (e.keyCode === Key.RIGHT) {
-          this.activeDate = addMonths(this.activeDate, 1);
+          newActiveDate = addMonths(this.activeDate, 1);
         }
       } else if (this.currentView === CalendarView.Year) {
         if (e.keyCode === Key.DOWN) {
-          this.activeDate = addYears(this.activeDate, 4);
+          newActiveDate = addYears(this.activeDate, 4);
         } else if (e.keyCode === Key.LEFT) {
-          this.activeDate = addYears(this.activeDate, -1);
+          newActiveDate = addYears(this.activeDate, -1);
         } else if (e.keyCode === Key.UP) {
-          this.activeDate = addYears(this.activeDate, -4);
+          newActiveDate = addYears(this.activeDate, -4);
         } else if (e.keyCode === Key.RIGHT) {
-          this.activeDate = addYears(this.activeDate, 1);
+          newActiveDate = addYears(this.activeDate, 1);
         }
+      }
+
+      const dateParser: DateParser = this.dateParser as DateParser;
+      if (newActiveDate && !dateIsOutOfRange(newActiveDate, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        this.activeDate = newActiveDate;
       }
     },
     inputHandler(newDate: Date): void {
       const date = new Date(newDate.valueOf());
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
       const dateParser: DateParser = this.dateParser as DateParser;
-      if (dayIsPartOfTheConditions(date, disabledDates, dateParser, this.dateFormat)) {
+      if (
+        dayIsPartOfTheConditions(date, disabledDates, dateParser, this.dateFormat)
+          || dateIsOutOfRange(date, this.minDate, this.maxDate, dateParser, this.dateFormat)
+      ) {
         return;
       }
 
@@ -406,6 +424,8 @@ const TDatepicker = HtmlInput.extend({
               yearsPerView: this.yearsPerView,
               showActiveDate: this.showActiveDate,
               disabledDates: this.disabledDates,
+              minDate: this.minDate,
+              maxDate: this.maxDate,
             },
             on: {
               input: this.inputHandler,
