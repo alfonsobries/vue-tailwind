@@ -92,6 +92,10 @@ const TDatepicker = HtmlInput.extend({
       type: [Date, String],
       default: undefined,
     },
+    initialDate: {
+      type: [Date, String],
+      default: undefined,
+    },
     fixedClasses: {
       type: Object,
       default: () => ({
@@ -121,7 +125,7 @@ const TDatepicker = HtmlInput.extend({
     const userFormatedDate = dateformatter(localValue as Date, this.userFormat);
 
     // Used to show the selected month/year
-    const activeDate: Date = localValue || new Date();
+    const activeDate: Date = localValue || dateParser(this.initialDate as DateValue, this.dateFormat) || new Date();
     const currentView: CalendarView = this.initialView as CalendarView;
 
     return {

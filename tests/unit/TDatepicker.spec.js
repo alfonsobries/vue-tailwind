@@ -29,6 +29,31 @@ describe('TDatepicker', () => {
     expect(wrapper.get('input[type=hidden]')).toBeTruthy();
   });
 
+  it('The initial active date is the current date', () => {
+    const wrapper = shallowMount(TDatepicker);
+    expect(isSameDay(wrapper.vm.activeDate, new Date())).toBe(true);
+  });
+
+  it('The initial active date is the date used as param', () => {
+    const wrapper = shallowMount(TDatepicker, {
+      propsData: {
+        initialDate: new Date(1987, 1, 18),
+      },
+    });
+
+    expect(isSameDay(wrapper.vm.activeDate, new Date(1987, 1, 18))).toBe(true);
+  });
+
+  it('The initial active date is the date used as param from string', () => {
+    const wrapper = shallowMount(TDatepicker, {
+      propsData: {
+        initialDate: '1987-02-18',
+      },
+    });
+
+    expect(isSameDay(wrapper.vm.activeDate, new Date(1987, 1, 18))).toBe(true);
+  });
+
   it('accepts a date as string in the default format', () => {
     const date = '1987-02-18';
     const expectedDate = new Date(1987, 1, 18);
