@@ -3,12 +3,14 @@ import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
   createDateFormatter, createDateParser, DateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
+  DateConditions, dayIsPartOfTheConditions, DateParser,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
+
 
 interface Dropdown extends Vue {
   doToggle(): void
@@ -231,7 +233,14 @@ const TDatepicker = HtmlInput.extend({
       }
     },
     inputHandler(newDate: Date): void {
-      this.localValue = new Date(newDate.valueOf());
+      const date = new Date(newDate.valueOf());
+      const disabledDates: DateConditions = this.disabledDates as DateConditions;
+      const dateParser: DateParser = this.dateParser as DateParser;
+      if (dayIsPartOfTheConditions(date, disabledDates, dateParser, this.dateFormat)) {
+        return;
+      }
+
+      this.localValue = date;
       this.focus();
 
       if (this.closeOnSelect) {

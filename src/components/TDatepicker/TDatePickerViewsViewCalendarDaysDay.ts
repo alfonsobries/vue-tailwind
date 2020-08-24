@@ -1,9 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
-import { isSameDay } from '@/utils/dates';
-
-type DisabledDate = string | Date | undefined | ((day: Date) => boolean);
-type DisabledDates = DisabledDate | DisabledDate[]
+import { DateConditions, dayIsPartOfTheConditions, DateParser } from '@/utils/dates';
 
 const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   name: 'TDatePickerViewsViewCalendarDaysDay',
@@ -77,13 +74,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         && d1.getDate() === d2.getDate();
     },
     isDisabled(): boolean {
-      const disabledDate: DisabledDates = this.disabledDates as DisabledDates;
-
-      if (Array.isArray(disabledDate)) {
-        return disabledDate.some((d) => this.getIsDisabled(d));
-      }
-
-      return this.getIsDisabled(disabledDate);
+      const day = this.day as unknown as Date;
+      const disabledDates: DateConditions = this.disabledDates as DateConditions;
+      const dateParser: DateParser = this.dateParser as DateParser;
+      return dayIsPartOfTheConditions(day, disabledDates, dateParser, this.dateFormat);
     },
     isForAnotherMonth(): boolean {
       const d1 = this.localActiveDate as unknown as Date;
@@ -100,24 +94,6 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   },
 
   methods: {
-    getIsDisabled(date: DisabledDate): boolean {
-      const day: Date = this.day as unknown as Date;
-
-      if (typeof date === 'function') {
-        return date(day);
-      }
-
-      if (typeof date === 'string' || date instanceof String) {
-        const disabledDate = this.dateParser(date, this.dateFormat);
-        return isSameDay(disabledDate, day);
-      }
-
-      if (date instanceof Date) {
-        return isSameDay(date, day);
-      }
-
-      return false;
-    },
     getClass(): CssClass {
       if (this.isDisabled) {
         return this.getElementCssClass('disabledDay');
@@ -145,7 +121,6 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       return this.dateFormatter(this.day, 'j');
     },
   },
-
   render(createElement: CreateElement): VNode {
     return createElement(
       'button',
@@ -154,6 +129,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         attrs: {
           type: 'button',
           tabindex: -1,
+          disabled: this.isDisabled ? true : undefined,
         },
         on: {
           click: (e: MouseEvent) => this.$emit('click', e),
