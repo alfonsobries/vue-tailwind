@@ -6,10 +6,6 @@ const TDatepickerNavigatorYearMonthSelector = Vue.extend({
   name: 'TDatepickerNavigatorYearMonthSelector',
 
   props: {
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     getElementCssClass: {
       type: Function,
       required: true,
@@ -49,7 +45,6 @@ const TDatepickerNavigatorYearMonthSelector = Vue.extend({
           TDatepickerNavigatorYearMonthSelectorMonth,
           {
             props: {
-              dateFormatter: this.dateFormatter,
               getElementCssClass: this.getElementCssClass,
               value: this.localValue,
             },
@@ -62,7 +57,6 @@ const TDatepickerNavigatorYearMonthSelector = Vue.extend({
           TDatepickerNavigatorYearMonthSelectorYear,
           {
             props: {
-              dateFormatter: this.dateFormatter,
               getElementCssClass: this.getElementCssClass,
               value: this.localValue,
             },

@@ -1,8 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange,
+  createDateFormatter, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange,
 } from '@/utils/dates';
+import { english } from '@/l10n/default';
 
 const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   name: 'TDatePickerViewsViewCalendarDaysDay',
@@ -28,10 +29,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
+
     dateParser: {
       type: Function,
       required: true,
@@ -65,6 +63,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   data() {
     return {
       localActiveDate: new Date(this.activeDate.valueOf()),
+      dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
 

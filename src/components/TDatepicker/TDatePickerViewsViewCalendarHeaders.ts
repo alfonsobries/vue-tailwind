@@ -1,4 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import { createDateFormatter } from '@/utils/dates';
+import { english } from '@/l10n/default';
 
 const TDatePickerViewsViewCalendarHeaders = Vue.extend({
   name: 'TDatePickerViewsViewCalendarHeaders',
@@ -12,14 +14,16 @@ const TDatePickerViewsViewCalendarHeaders = Vue.extend({
       type: Number,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     getElementCssClass: {
       type: Function,
       required: true,
     },
+  },
+
+  data() {
+    return {
+      dateFormatter: createDateFormatter({ l10n: english }),
+    };
   },
 
   computed: {

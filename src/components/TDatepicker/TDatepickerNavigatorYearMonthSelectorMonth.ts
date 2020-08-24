@@ -1,13 +1,13 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import {
+  createDateFormatter,
+} from '@/utils/dates';
+import { english } from '@/l10n/default';
 
 const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
   name: 'TDatepickerNavigatorYearMonthSelectorMonth',
 
   props: {
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     getElementCssClass: {
       type: Function,
       required: true,
@@ -21,6 +21,7 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
   data() {
     return {
       localValue: new Date(this.value.valueOf()),
+      dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
 

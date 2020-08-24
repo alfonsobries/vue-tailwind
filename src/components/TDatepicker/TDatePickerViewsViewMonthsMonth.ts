@@ -1,5 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
+import {
+  createDateFormatter,
+} from '@/utils/dates';
+import { english } from '@/l10n/default';
 
 const TDatePickerViewsViewMonthsMonth = Vue.extend({
   name: 'TDatePickerViewsViewMonthsMonth',
@@ -25,14 +29,16 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       type: Function,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     showActiveDate: {
       type: Boolean,
       required: true,
     },
+  },
+
+  data() {
+    return {
+      dateFormatter: createDateFormatter({ l10n: english }),
+    };
   },
 
   computed: {

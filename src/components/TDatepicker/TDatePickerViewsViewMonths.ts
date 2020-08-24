@@ -22,10 +22,6 @@ const TDatePickerViewsViewMonths = Vue.extend({
       type: Function,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     showActiveDate: {
       type: Boolean,
       required: true,
@@ -83,7 +79,6 @@ const TDatePickerViewsViewMonths = Vue.extend({
             value: this.value,
             activeDate: this.localActiveDate,
             getElementCssClass: this.getElementCssClass,
-            dateFormatter: this.dateFormatter,
             showActiveDate: this.showActiveDate,
           },
           on: {

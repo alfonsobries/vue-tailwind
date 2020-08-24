@@ -23,10 +23,6 @@ const TDatePickerViewsViewYears = Vue.extend({
       type: Function,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     yearsPerView: {
       type: Number,
       required: true,
@@ -90,7 +86,6 @@ const TDatePickerViewsViewYears = Vue.extend({
             activeDate: this.localActiveDate,
             value: this.value,
             getElementCssClass: this.getElementCssClass,
-            dateFormatter: this.dateFormatter,
             showActiveDate: this.showActiveDate,
           },
           on: {

@@ -4,10 +4,6 @@ const TDatepickerNavigatorYearMonthSelectorYear = Vue.extend({
   name: 'TDatepickerNavigatorYearMonthSelectorYear',
 
   props: {
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     getElementCssClass: {
       type: Function,
       required: true,

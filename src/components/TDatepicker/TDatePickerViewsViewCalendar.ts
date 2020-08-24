@@ -27,10 +27,6 @@ const TDatePickerViewsViewCalendar = Vue.extend({
       type: Function,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     dateParser: {
       type: Function,
       required: true,
@@ -96,7 +92,6 @@ const TDatePickerViewsViewCalendar = Vue.extend({
           TDatePickerViewsViewCalendarHeaders,
           {
             props: {
-              dateFormatter: this.dateFormatter,
               weekStart: this.weekStart,
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
@@ -113,7 +108,6 @@ const TDatePickerViewsViewCalendar = Vue.extend({
               weekStart: this.weekStart,
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
-              dateFormatter: this.dateFormatter,
               dateParser: this.dateParser,
               dateFormat: this.dateFormat,
               showDaysForOtherMonth: this.showDaysForOtherMonth,

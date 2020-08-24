@@ -31,10 +31,6 @@ const TDatePickerViews = Vue.extend({
       type: Function,
       required: true,
     },
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     dateParser: {
       type: Function,
       required: true,
@@ -113,7 +109,6 @@ const TDatePickerViews = Vue.extend({
             weekStart: this.weekStart,
             locale: this.locale,
             getElementCssClass: this.getElementCssClass,
-            dateFormatter: this.dateFormatter,
             dateParser: this.dateParser,
             dateFormat: this.dateFormat,
             monthsPerView: this.monthsPerView,

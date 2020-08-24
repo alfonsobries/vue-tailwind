@@ -1,5 +1,11 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { addMonths, addYears, dateIsOutOfRange } from '@/utils/dates';
+import {
+  addMonths, addYears, dateIsOutOfRange,
+  createDateFormatter,
+} from '@/utils/dates';
+
+
+import { english } from '@/l10n/default';
 
 export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
   const currentYear = date.getFullYear();
@@ -7,6 +13,7 @@ export const getYearsRange = (date: Date, yearsPerView: number): [number, number
   const to = from + yearsPerView - 1;
   return [from, to];
 };
+
 
 export enum CalendarView {
   Day = 'day',
@@ -18,10 +25,6 @@ const TDatepickerNavigator = Vue.extend({
   name: 'TDatepickerNavigator',
 
   props: {
-    dateFormatter: {
-      type: Function,
-      required: true,
-    },
     getElementCssClass: {
       type: Function,
       required: true,
@@ -58,6 +61,7 @@ const TDatepickerNavigator = Vue.extend({
   data() {
     return {
       localValue: new Date(this.value.valueOf()),
+      dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
 
