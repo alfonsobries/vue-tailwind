@@ -1,5 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { addMonths, addYears } from '@/utils/dates';
+import { addMonths, addYears, dateIsOutOfRange } from '@/utils/dates';
 
 export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
   const currentYear = date.getFullYear();
@@ -45,6 +45,14 @@ const TDatepickerNavigator = Vue.extend({
       type: Number,
       required: true,
     },
+    maxDate: {
+      type: [Date, String],
+      default: undefined,
+    },
+    minDate: {
+      type: [Date, String],
+      default: undefined,
+    },
   },
 
   data() {
@@ -63,6 +71,14 @@ const TDatepickerNavigator = Vue.extend({
     isMonthView() {
       return this.currentView === CalendarView.Month;
     },
+    prevButtonIsDisabled(): boolean {
+      const prevDate = this.getPrevDate();
+      return !prevDate || dateIsOutOfRange(prevDate, this.minDate, this.maxDate);
+    },
+    nextButtonIsDisabled(): boolean {
+      const nextDate = this.getNextDate();
+      return !nextDate || dateIsOutOfRange(nextDate, this.minDate, this.maxDate);
+    },
   },
 
   watch: {
@@ -72,6 +88,28 @@ const TDatepickerNavigator = Vue.extend({
   },
 
   methods: {
+    getNextDate(): Date | undefined {
+      let nextDate: Date | undefined;
+      if (this.currentView === CalendarView.Day) {
+        nextDate = this.getNextMonth();
+      } else if (this.currentView === CalendarView.Month) {
+        nextDate = this.getNextYear();
+      } else if (this.currentView === CalendarView.Year) {
+        nextDate = this.getNextYearGroup();
+      }
+      return nextDate;
+    },
+    getPrevDate(): Date | undefined {
+      let prevDate: Date | undefined;
+      if (this.currentView === CalendarView.Day) {
+        prevDate = this.getPrevMonth();
+      } else if (this.currentView === CalendarView.Month) {
+        prevDate = this.getPrevYear();
+      } else if (this.currentView === CalendarView.Year) {
+        prevDate = this.getPrevYearGroup();
+      }
+      return prevDate;
+    },
     inputHandler(newDate: Date): void {
       this.$emit('input', newDate);
     },
@@ -85,40 +123,34 @@ const TDatepickerNavigator = Vue.extend({
       }
     },
     next(): void {
-      if (this.currentView === CalendarView.Day) {
-        this.nextMonth();
-      } else if (this.currentView === CalendarView.Month) {
-        this.nextYear();
-      } else if (this.currentView === CalendarView.Year) {
-        this.nextYearGroup();
+      const nextDate = this.getNextDate();
+      if (nextDate) {
+        this.inputHandler(nextDate);
       }
     },
     prev(): void {
-      if (this.currentView === CalendarView.Day) {
-        this.prevMonth();
-      } else if (this.currentView === CalendarView.Month) {
-        this.prevYear();
-      } else if (this.currentView === CalendarView.Year) {
-        this.prevYearGroup();
+      const prevDate = this.getPrevDate();
+      if (prevDate) {
+        this.inputHandler(prevDate);
       }
     },
-    prevMonth(): void {
-      this.inputHandler(addMonths(this.localValue, -1));
+    getPrevMonth(): Date {
+      return addMonths(this.localValue, -1);
     },
-    nextMonth(): void {
-      this.inputHandler(addMonths(this.localValue, 1));
+    getNextMonth(): Date {
+      return addMonths(this.localValue, 1);
     },
-    prevYear(): void {
-      this.inputHandler(addYears(this.localValue, -1));
+    getPrevYear(): Date {
+      return addYears(this.localValue, -1);
     },
-    nextYear(): void {
-      this.inputHandler(addYears(this.localValue, 1));
+    getNextYear(): Date {
+      return addYears(this.localValue, 1);
     },
-    prevYearGroup(): void {
-      this.inputHandler(addYears(this.localValue, -this.yearsPerView));
+    getPrevYearGroup(): Date {
+      return addYears(this.localValue, -this.yearsPerView);
     },
-    nextYearGroup(): void {
-      this.inputHandler(addYears(this.localValue, this.yearsPerView));
+    getNextYearGroup(): Date {
+      return addYears(this.localValue, this.yearsPerView);
     },
   },
 
@@ -257,6 +289,7 @@ const TDatepickerNavigator = Vue.extend({
               type: 'button',
               class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full ml-auto p-1 ml-2',
               tabindex: -1,
+              disabled: this.prevButtonIsDisabled ? true : undefined,
             },
             on: {
               click: this.prev,
@@ -297,6 +330,7 @@ const TDatepickerNavigator = Vue.extend({
               type: 'button',
               class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1',
               tabindex: -1,
+              disabled: this.nextButtonIsDisabled ? true : undefined,
             },
             on: {
               click: this.next,

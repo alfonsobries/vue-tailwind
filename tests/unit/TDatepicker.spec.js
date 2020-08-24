@@ -1,8 +1,8 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
 import TDatePickerViewsViewCalendarDaysDay from '@/components/TDatepicker/TDatePickerViewsViewCalendarDaysDay';
+import TDatePickerNavigator from '@/components/TDatepicker/TDatePickerNavigator';
 import { isSameDay, isSameMonth, createDateParser } from '@/utils/dates';
-import { wrap } from 'lodash';
 
 const dateParser = createDateParser({});
 
@@ -661,5 +661,71 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
     });
 
     expect(wrapper.vm.isDisabled).toBe(true);
+  });
+});
+
+
+describe('TDatePickerNavigator', () => {
+  const datePicker = shallowMount(TDatepicker);
+  const currentDate = new Date(1987, 1, 19);
+
+  const navProps = {
+    dateFormatter: datePicker.vm.dateFormatter,
+    getElementCssClass: datePicker.vm.getElementCssClass,
+    value: currentDate,
+    showSelector: true,
+    currentView: 'day',
+    yearsPerView: 12,
+  };
+
+  it('usually not disables next/prev buttons', () => {
+    const wrapper = shallowMount(TDatePickerNavigator, {
+      propsData: navProps,
+    });
+
+    expect(wrapper.vm.prevButtonIsDisabled).toBe(false);
+    expect(wrapper.vm.nextButtonIsDisabled).toBe(false);
+  });
+
+  it('disables the next button if next date > maxDate', () => {
+    const wrapper = shallowMount(TDatePickerNavigator, {
+      propsData: {
+        ...navProps,
+        ...{
+          maxDate: new Date(1987, 2, 17),
+        },
+      },
+    });
+
+    expect(wrapper.vm.prevButtonIsDisabled).toBe(false);
+    expect(wrapper.vm.nextButtonIsDisabled).toBe(true);
+  });
+
+  it('disables the prev button if prev date < minDate', () => {
+    const wrapper = shallowMount(TDatePickerNavigator, {
+      propsData: {
+        ...navProps,
+        ...{
+          minDate: new Date(1987, 0, 20),
+        },
+      },
+    });
+
+    expect(wrapper.vm.prevButtonIsDisabled).toBe(true);
+    expect(wrapper.vm.nextButtonIsDisabled).toBe(false);
+  });
+
+  it('not disables the next button if next date < maxDate', () => {
+    const wrapper = shallowMount(TDatePickerNavigator, {
+      propsData: {
+        ...navProps,
+        ...{
+          maxDate: new Date(1987, 2, 19),
+        },
+      },
+    });
+
+    expect(wrapper.vm.prevButtonIsDisabled).toBe(false);
+    expect(wrapper.vm.nextButtonIsDisabled).toBe(false);
   });
 });

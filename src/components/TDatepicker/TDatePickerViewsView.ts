@@ -138,6 +138,8 @@ const TDatePickerViewsView = Vue.extend({
           showSelector: this.isFirstMonth,
           currentView: this.currentView,
           yearsPerView: this.yearsPerView,
+          minDate: this.minDate,
+          maxDate: this.maxDate,
         },
         on: {
           input: this.inputActiveDateHandler,

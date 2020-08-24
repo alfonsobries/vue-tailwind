@@ -235,9 +235,15 @@ export function dayIsPartOfTheConditions(day: Date, condition: DateConditions, d
   return false;
 }
 
-export function dateIsOutOfRange(date: Date, min: Date | string | undefined, max: Date | string | undefined, dateParser: DateParser, dateFormat: string): boolean {
+export function dateIsOutOfRange(date: Date, min: Date | string | undefined, max: Date | string | undefined, dateParser: DateParser | null = null, dateFormat: string | null = null): boolean {
   let minDate: Date | undefined;
   if (typeof min === 'string' || min instanceof String) {
+    if (!dateParser) {
+      throw new Error('strings needs a date parser');
+    }
+    if (!dateFormat) {
+      throw new Error('strings needs a date format');
+    }
     minDate = dateParser(min, dateFormat);
   } else {
     minDate = min;
@@ -245,6 +251,12 @@ export function dateIsOutOfRange(date: Date, min: Date | string | undefined, max
 
   let maxDate: Date | undefined;
   if (typeof max === 'string' || max instanceof String) {
+    if (!dateParser) {
+      throw new Error('strings needs a date parser');
+    }
+    if (!dateFormat) {
+      throw new Error('strings needs a date format');
+    }
     maxDate = dateParser(max, dateFormat);
   } else {
     maxDate = max;
