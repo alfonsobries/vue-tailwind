@@ -13,6 +13,10 @@ const TDatePickerViewsView = Vue.extend({
       type: Date,
       default: null,
     },
+    activeMonth: {
+      type: Date,
+      required: true,
+    },
     activeDate: {
       type: Date,
       required: true,
@@ -74,6 +78,7 @@ const TDatePickerViewsView = Vue.extend({
   data() {
     return {
       localActiveDate: new Date(this.activeDate.valueOf()),
+      localActiveMonth: new Date(this.activeMonth.valueOf()),
     };
   },
 
@@ -95,6 +100,9 @@ const TDatePickerViewsView = Vue.extend({
   watch: {
     activeDate(activeDate: Date) {
       this.localActiveDate = new Date(activeDate.valueOf());
+    },
+    activeMonth(activeMonth: Date) {
+      this.localActiveMonth = new Date(activeMonth.valueOf());
     },
   },
 
@@ -128,7 +136,7 @@ const TDatePickerViewsView = Vue.extend({
       {
         ref: 'navigator',
         props: {
-          value: this.localActiveDate,
+          value: this.localActiveMonth,
           getElementCssClass: this.getElementCssClass,
           showSelector: this.isFirstMonth,
           currentView: this.currentView,
@@ -155,6 +163,7 @@ const TDatePickerViewsView = Vue.extend({
             ref: 'calendar',
             props: {
               value: this.value,
+              activeMonth: this.localActiveMonth,
               activeDate: this.localActiveDate,
               weekStart: this.weekStart,
               locale: this.locale,

@@ -25,6 +25,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: Date,
       required: true,
     },
+    activeMonth: {
+      type: Date,
+      required: true,
+    },
     getElementCssClass: {
       type: Function,
       required: true,
@@ -62,6 +66,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   data() {
     return {
       localActiveDate: new Date(this.activeDate.valueOf()),
+      localActiveMonth: new Date(this.activeMonth.valueOf()),
       dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
@@ -90,7 +95,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         || dayIsPartOfTheConditions(day, disabledDates, dateParser, this.dateFormat);
     },
     isForAnotherMonth(): boolean {
-      const d1 = this.localActiveDate as unknown as Date;
+      const d1 = this.localActiveMonth as unknown as Date;
       const d2 = this.getDay();
       return d1.getFullYear() !== d2.getFullYear()
         || d1.getMonth() !== d2.getMonth();
@@ -104,6 +109,9 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
     activeDate(activeDate: Date) {
       this.localActiveDate = new Date(activeDate.valueOf());
     },
+    activeMonth(activeMonth: Date) {
+      this.localActiveMonth = new Date(activeMonth.valueOf());
+    },
   },
 
   methods: {
@@ -116,16 +124,16 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         return this.getElementCssClass('selectedDay');
       }
 
-      if (this.isActive && this.showActiveDate) {
-        return this.getElementCssClass('activeDay');
-      }
-
       if (this.isForAnotherMonth) {
         if (this.showDaysForOtherMonth) {
           return this.getElementCssClass('otherMonthDay');
         }
 
         return 'invisible pointer-events-none';
+      }
+
+      if (this.isActive && this.showActiveDate) {
+        return this.getElementCssClass('activeDay');
       }
 
       return this.getElementCssClass('day');

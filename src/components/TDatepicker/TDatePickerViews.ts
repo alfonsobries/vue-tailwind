@@ -1,5 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
+import { addMonths } from '@/utils/dates';
 import TDatePickerViewsView from './TDatePickerViewsView';
 import { CalendarView } from './TDatepickerNavigator';
 
@@ -79,11 +80,7 @@ const TDatePickerViews = Vue.extend({
     activeMonths(): Date[] {
       return Array
         .from({ length: this.monthsPerView }, (_x, i) => i)
-        .map((i) => {
-          const activeMonth = new Date(this.localActiveDate.valueOf());
-          activeMonth.setMonth(activeMonth.getMonth() + i);
-          return activeMonth;
-        });
+        .map((i) => addMonths(this.localActiveDate, i));
     },
   },
 
@@ -105,7 +102,8 @@ const TDatePickerViews = Vue.extend({
           ref: 'view',
           props: {
             value: this.value,
-            activeDate: activeMonth,
+            activeMonth,
+            activeDate: this.localActiveDate,
             weekStart: this.weekStart,
             locale: this.locale,
             getElementCssClass: this.getElementCssClass,
