@@ -1,5 +1,6 @@
 import { Locale } from '@/types/locale';
 import { english } from '@/l10n/default';
+
 // import { defaults, ParsedOptions } from '@/types/options';
 import {
   tokenRegex,
@@ -33,6 +34,27 @@ export interface FormatterArgs {
   l10n?: Locale;
   // isMobile?: boolean;
 }
+
+
+export const formatDate = (dateObj: Date | null, format: string, localeOverride: Locale | null = null): string => {
+  if (!dateObj) {
+    return '';
+  }
+
+  const locale = localeOverride || english;
+
+  return format
+    .split('')
+    .map((char, i, arr) => {
+      if (formats[char as token] && arr[i - 1] !== '\\') {
+        return formats[char as token](dateObj, locale);
+      } if (char !== '\\') {
+        return char;
+      }
+      return '';
+    })
+    .join('');
+};
 
 export const createDateFormatter = ({
   // config = defaults,
@@ -312,21 +334,3 @@ export function addYears(date: Date, amount = 1): Date {
 
   return newDate;
 }
-
-// /**
-//  * Compute the difference in times, measured in ms
-//  */
-// export function compareTimes(date1: Date, date2: Date) {
-//   return (
-//     3600 * (date1.getHours() - date2.getHours())
-//     + 60 * (date1.getMinutes() - date2.getMinutes())
-//     + date1.getSeconds()
-//     - date2.getSeconds()
-//   );
-// }
-
-// export const isBetween = (ts: number, ts1: number, ts2: number): boolean => ts > Math.min(ts1, ts2) && ts < Math.max(ts1, ts2);
-
-// export const duration = {
-//   DAY: 86400000,
-// };

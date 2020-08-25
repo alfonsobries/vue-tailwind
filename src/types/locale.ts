@@ -51,15 +51,12 @@ export type Locale = {
   ordinal: (nth: number) => string;
   rangeSeparator: string;
   weekAbbreviation: string;
-  scrollTitle: string;
-  toggleTitle: string;
   amPM: [string, string];
   yearAriaLabel: string;
   monthAriaLabel: string;
   hourAriaLabel: string;
   minuteAriaLabel: string;
-  // eslint-disable-next-line camelcase
-  time_24hr: boolean;
+  time24hr: boolean;
 };
 
 export type CustomLocale = {
@@ -68,13 +65,11 @@ export type CustomLocale = {
   firstDayOfWeek?: Locale['firstDayOfWeek'];
   rangeSeparator?: Locale['rangeSeparator'];
   weekAbbreviation?: Locale['weekAbbreviation'];
-  toggleTitle?: Locale['toggleTitle'];
-  scrollTitle?: Locale['scrollTitle'];
   yearAriaLabel?: string;
   hourAriaLabel?: string;
   minuteAriaLabel?: string;
   amPM?: Locale['amPM'];
-  time_24hr?: Locale['time_24hr'];
+  time24hr?: Locale['time24hr'];
   weekdays: {
     shorthand: [string, string, string, string, string, string, string];
     longhand: [string, string, string, string, string, string, string];

@@ -61,14 +61,12 @@ export const english: Locale = {
   },
   rangeSeparator: ' to ',
   weekAbbreviation: 'Wk',
-  scrollTitle: 'Scroll to increment',
-  toggleTitle: 'Click to toggle',
   amPM: ['AM', 'PM'],
   yearAriaLabel: 'Year',
   monthAriaLabel: 'Month',
   hourAriaLabel: 'Hour',
   minuteAriaLabel: 'Minute',
-  time_24hr: false,
+  time24hr: false,
 };
 
 export default english;

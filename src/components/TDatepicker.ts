@@ -1,8 +1,7 @@
 import { CreateElement, VNode } from 'vue';
-import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
-  createDateFormatter, createDateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
+  formatDate, createDateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
   DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
@@ -11,7 +10,6 @@ import { isEqual } from 'lodash';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
-
 
 interface Dropdown extends Vue {
   doToggle(): void
@@ -60,11 +58,11 @@ const TDatepicker = HtmlInput.extend({
     },
     dateFormatter: {
       type: Function,
-      default: createDateFormatter({ l10n: english }),
+      default: formatDate,
     },
     dateParser: {
       type: Function,
-      default: createDateParser({ l10n: english }),
+      default: createDateParser({}),
     },
     closeOnSelect: {
       type: Boolean,
