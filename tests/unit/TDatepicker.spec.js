@@ -595,6 +595,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
     dateFormat: datePicker.vm.dateFormat,
     showDaysForOtherMonth: false,
     showActiveDate: true,
+    range: false,
   };
 
   it('usually not disables a date ', () => {

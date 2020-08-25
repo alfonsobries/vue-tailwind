@@ -3,7 +3,7 @@ import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
   createDateFormatter, createDateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
-  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, DateRange,
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
@@ -116,18 +116,22 @@ const TDatepicker = HtmlInput.extend({
     fixedClasses: {
       type: Object,
       default: () => ({
-        day: 'text-sm rounded-full w-8 h-8 hover:bg-blue-100',
-        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8',
-        selectedDay: 'text-sm rounded-full w-8 h-8 bg-blue-500 text-white',
-        disabledDay: 'text-sm rounded-full w-8 h-8 opacity-25 cursor-not-allowed',
-        otherMonthDay: 'text-sm rounded-full w-8 h-8 hover:bg-blue-100 text-gray-400',
+        dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
+        day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100',
+        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto',
+        selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-blue-500 text-white',
+        disabledDay: 'text-sm rounded-full w-8 h-8 mx-auto opacity-25 cursor-not-allowed',
+        otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400',
+        inRangeDay: 'text-sm bg-blue-200 w-full h-8',
+        inRangeFirstDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-l-full',
+        inRangeLastDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-r-full',
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
         activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
-        weekDayWrapper: 'grid gap-1 grid-cols-7',
+        weekDayWrapper: 'grid grid-cols-7',
         weekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
       }),
     },
@@ -136,7 +140,7 @@ const TDatepicker = HtmlInput.extend({
   data() {
     const dateParser = this.dateParser as DateParser;
 
-    let localValue: Date | null | Date[] | DateRange = this.multiple || this.range ? [] : null;
+    let localValue: Date | null | Date[] = this.multiple || this.range ? [] : null;
 
     if (Array.isArray(this.value)) {
       localValue = (this.value as (Date | string | number)[])
@@ -340,7 +344,7 @@ const TDatepicker = HtmlInput.extend({
       }
 
       if (this.range) {
-        let range: DateRange = [];
+        let range: Date[] = [];
 
         // Reset the range when
         // 1. Is not an array
@@ -367,7 +371,7 @@ const TDatepicker = HtmlInput.extend({
         this.localValue = range;
 
         // Range is complete
-        if (this.localValue.length === 2) {
+        if (this.localValue.length === 2 && this.closeOnSelect) {
           this.doHide();
         }
       } else if (Array.isArray(this.localValue)) {
@@ -569,6 +573,7 @@ const TDatepicker = HtmlInput.extend({
               disabledDates: this.disabledDates,
               minDate: this.minDate,
               maxDate: this.maxDate,
+              range: this.range,
             },
             on: {
               input: this.inputHandler,

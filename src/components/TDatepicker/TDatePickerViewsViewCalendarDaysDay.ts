@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  createDateFormatter, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
+  createDateFormatter, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
 } from '@/utils/dates';
 import { english } from '@/l10n/default';
 
@@ -61,6 +61,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: [Date, String],
       default: undefined,
     },
+    range: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -105,6 +109,31 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       return d1.getFullYear() !== d2.getFullYear()
         || d1.getMonth() !== d2.getMonth();
     },
+    isInRange(): boolean {
+      if (!this.range || !Array.isArray(this.value)) {
+        return false;
+      }
+      const [from, to] = this.value as Date[];
+      if (from && to) {
+        return !dateIsOutOfRange(this.getDay(), addDays(from, 1), addDays(to, -1));
+      }
+
+      return false;
+    },
+    isFirstDayOfRange(): boolean {
+      if (!this.range || !Array.isArray(this.value)) {
+        return false;
+      }
+      const [from] = this.value as Date[];
+      return from && isSameDay(from, this.getDay());
+    },
+    isLastDayOfRange(): boolean {
+      if (!this.range || !Array.isArray(this.value)) {
+        return false;
+      }
+      const [, to] = this.value as Date[];
+      return to && isSameDay(to, this.getDay());
+    },
     dayFormatted(): string {
       return this.dateFormatter(this.getDay(), 'j');
     },
@@ -121,6 +150,18 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
   methods: {
     getClass(): CssClass {
+      if (this.isFirstDayOfRange) {
+        return this.getElementCssClass('inRangeFirstDay');
+      }
+
+      if (this.isLastDayOfRange) {
+        return this.getElementCssClass('inRangeLastDay');
+      }
+
+      if (this.isInRange) {
+        return this.getElementCssClass('inRangeDay');
+      }
+
       if (this.isDisabled) {
         return this.getElementCssClass('disabledDay');
       }

@@ -58,6 +58,10 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
       type: [Date, String],
       default: undefined,
     },
+    range: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -129,30 +133,37 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'grid gap-1 grid-cols-7 ',
+        class: 'grid grid-cols-7 ',
       },
       this.days.map((day: Date) => createElement(
-        TDatePickerViewsViewCalendarDaysDay,
+        'span',
         {
-          props: {
-            day,
-            locale: this.locale,
-            value: this.value,
-            activeDate: this.localActiveDate,
-            activeMonth: this.localActiveMonth,
-            getElementCssClass: this.getElementCssClass,
-            dateParser: this.dateParser,
-            dateFormat: this.dateFormat,
-            showDaysForOtherMonth: this.showDaysForOtherMonth,
-            showActiveDate: this.showActiveDate,
-            disabledDates: this.disabledDates,
-            minDate: this.minDate,
-            maxDate: this.maxDate,
-          },
-          on: {
-            click: () => this.$emit('input', day),
-          },
-        },
+          class: this.getElementCssClass('dayWrapper'),
+        }, [
+          createElement(
+            TDatePickerViewsViewCalendarDaysDay,
+            {
+              props: {
+                day,
+                locale: this.locale,
+                value: this.value,
+                activeDate: this.localActiveDate,
+                activeMonth: this.localActiveMonth,
+                getElementCssClass: this.getElementCssClass,
+                dateParser: this.dateParser,
+                dateFormat: this.dateFormat,
+                showDaysForOtherMonth: this.showDaysForOtherMonth,
+                showActiveDate: this.showActiveDate,
+                disabledDates: this.disabledDates,
+                minDate: this.minDate,
+                maxDate: this.maxDate,
+                range: this.range,
+              },
+              on: {
+                click: () => this.$emit('input', day),
+              },
+            },
+          )],
       )),
     );
   },

@@ -73,6 +73,10 @@ const TDatePickerViewsView = Vue.extend({
       type: [Date, String],
       default: undefined,
     },
+    range: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -175,6 +179,7 @@ const TDatePickerViewsView = Vue.extend({
               disabledDates: this.disabledDates,
               minDate: this.minDate,
               maxDate: this.maxDate,
+              range: this.range,
             },
             on: {
               input: this.inputHandler,
@@ -226,7 +231,7 @@ const TDatePickerViewsView = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'w-64 p-2',
+        class: 'p-2 w-64',
       },
       subElements,
     );
