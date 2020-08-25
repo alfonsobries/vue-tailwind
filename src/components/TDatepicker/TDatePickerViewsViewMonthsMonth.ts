@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  createDateFormatter,
+  createDateFormatter, isSameMonth,
 } from '@/utils/dates';
 import { english } from '@/l10n/default';
 
@@ -18,7 +18,7 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       required: true,
     },
     value: {
-      type: Date,
+      type: [Date, Array],
       default: null,
     },
     activeDate: {
@@ -44,15 +44,22 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
   computed: {
     isSelected(): boolean {
       const d1 = this.getMonth();
-      const d2 = this.value as unknown as Date;
-      return d2 && d1.getFullYear() === d2.getFullYear()
-        && d1.getMonth() === d2.getMonth();
+      const d2 = this.value as Date | Date[];
+
+      if (d2 instanceof Date) {
+        return isSameMonth(d1, d2);
+      }
+
+      if (Array.isArray(d2)) {
+        return d2.some((d) => isSameMonth(d, d1));
+      }
+
+      return false;
     },
     isActive(): boolean {
       const d1 = this.getMonth();
       const d2 = this.activeDate as unknown as Date;
-      return d2 && d1.getFullYear() === d2.getFullYear()
-        && d1.getMonth() === d2.getMonth();
+      return isSameMonth(d1, d2);
     },
     monthFormatted(): string {
       return this.dateFormatter(this.getMonth(), 'M');

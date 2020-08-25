@@ -150,6 +150,18 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
   methods: {
     getClass(): CssClass {
+      if (this.isDisabled) {
+        return this.getElementCssClass('disabledDay');
+      }
+
+      if (this.isForAnotherMonth) {
+        if (this.showDaysForOtherMonth) {
+          return this.getElementCssClass('otherMonthDay');
+        }
+
+        return 'invisible pointer-events-none';
+      }
+
       if (this.isFirstDayOfRange) {
         return this.getElementCssClass('inRangeFirstDay');
       }
@@ -162,21 +174,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         return this.getElementCssClass('inRangeDay');
       }
 
-      if (this.isDisabled) {
-        return this.getElementCssClass('disabledDay');
-      }
-
       if (this.isSelected) {
         return this.getElementCssClass('selectedDay');
       }
 
-      if (this.isForAnotherMonth) {
-        if (this.showDaysForOtherMonth) {
-          return this.getElementCssClass('otherMonthDay');
-        }
-
-        return 'invisible pointer-events-none';
-      }
 
       if (this.isActive && this.showActiveDate) {
         return this.getElementCssClass('activeDay');
