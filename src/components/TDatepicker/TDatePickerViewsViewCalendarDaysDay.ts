@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  createDateFormatter, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange,
+  createDateFormatter, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
 } from '@/utils/dates';
 import { english } from '@/l10n/default';
 
@@ -18,7 +18,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       required: true,
     },
     value: {
-      type: Date,
+      type: [Date, Array],
       default: null,
     },
     activeDate: {
@@ -74,17 +74,22 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   computed: {
     isSelected(): boolean {
       const d1 = this.getDay();
-      const d2 = this.value as unknown as Date;
-      return d2 && d1.getFullYear() === d2.getFullYear()
-        && d1.getMonth() === d2.getMonth()
-        && d1.getDate() === d2.getDate();
+      const d2 = this.value;
+
+      if (d2 instanceof Date) {
+        return isSameDay(d1, d2);
+      }
+
+      if (Array.isArray(d2)) {
+        return d2.some((d) => isSameDay(d, d1));
+      }
+
+      return false;
     },
     isActive(): boolean {
       const d1 = this.getDay();
-      const d2 = this.localActiveDate as unknown as Date;
-      return d2 && d1.getFullYear() === d2.getFullYear()
-        && d1.getMonth() === d2.getMonth()
-        && d1.getDate() === d2.getDate();
+      const d2 = this.localActiveDate;
+      return isSameDay(d1, d2);
     },
     isDisabled(): boolean {
       const day = this.getDay();

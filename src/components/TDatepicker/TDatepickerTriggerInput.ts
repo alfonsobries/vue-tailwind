@@ -19,6 +19,10 @@ const TDatepickerTriggerInput = HtmlInput.extend({
       required: true,
     },
     userFormatedDate: {
+      type: [String, Array],
+      required: true,
+    },
+    conjuntion: {
       type: String,
       required: true,
     },
@@ -41,7 +45,7 @@ const TDatepickerTriggerInput = HtmlInput.extend({
           placeholder: this.placeholder,
         },
         props: {
-          value: this.userFormatedDate,
+          value: Array.isArray(this.userFormatedDate) ? this.userFormatedDate.join(this.conjuntion) : this.userFormatedDate,
         },
         nativeOn: {
           click: () => {

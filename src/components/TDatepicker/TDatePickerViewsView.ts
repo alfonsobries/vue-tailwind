@@ -10,7 +10,7 @@ const TDatePickerViewsView = Vue.extend({
 
   props: {
     value: {
-      type: Date,
+      type: [Date, Array],
       default: null,
     },
     activeMonth: {

@@ -3,10 +3,11 @@ import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
   createDateFormatter, createDateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
-  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange,
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
+import { isEqual } from 'lodash';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
@@ -96,6 +97,10 @@ const TDatepicker = HtmlInput.extend({
       type: [Date, String],
       default: undefined,
     },
+    conjuntion: {
+      type: String,
+      default: ',',
+    },
     fixedClasses: {
       type: Object,
       default: () => ({
@@ -118,14 +123,38 @@ const TDatepicker = HtmlInput.extend({
 
   data() {
     const dateParser = this.dateParser as DateParser;
-    const localValue = dateParser(this.value as DateValue, this.dateFormat);
+
+    let localValue: Date | null | Date[] = null;
+
+    if (Array.isArray(this.value)) {
+      localValue = (this.value as (Date | string | number)[])
+        .map((value) => dateParser(value, this.dateFormat) || null)
+        .filter((value) => !!value) as Date[];
+    } else {
+      localValue = dateParser(this.value, this.dateFormat) || null;
+    }
 
     const dateformatter = this.dateFormatter as DateFormatter;
-    const formatedDate = dateformatter(localValue as Date, this.dateFormat);
-    const userFormatedDate = dateformatter(localValue as Date, this.userFormat);
+
+    const formatedDate = Array.isArray(localValue)
+      ? localValue.map((d) => dateformatter(d, this.dateFormat))
+      : dateformatter(localValue, this.dateFormat);
+
+    const userFormatedDate = Array.isArray(localValue)
+      ? localValue.map((d) => dateformatter(d, this.userFormat))
+      : dateformatter(localValue, this.userFormat);
+
+    let activeDate: Date = new Date();
+
+    if (Array.isArray(localValue) && localValue.length) {
+      [activeDate] = localValue;
+    } else if (localValue instanceof Date) {
+      activeDate = localValue;
+    } else {
+      activeDate = dateParser(this.initialDate as DateValue, this.dateFormat) || activeDate;
+    }
 
     // Used to show the selected month/year
-    const activeDate: Date = localValue || dateParser(this.initialDate as DateValue, this.dateFormat) || new Date();
     const currentView: CalendarView = this.initialView as CalendarView;
 
     return {
@@ -148,11 +177,22 @@ const TDatepicker = HtmlInput.extend({
 
       return [start, end];
     },
+    latestDate(): Date | null {
+      if (Array.isArray(this.localValue)) {
+        if (this.localValue.length) {
+          return this.localValue[this.localValue.length - 1];
+        }
+
+        return null;
+      }
+
+      return this.localValue;
+    },
     currentValueIsInTheView(): boolean {
       // eslint-disable-next-line no-restricted-globals
-      if (this.localValue instanceof Date && !isNaN(this.localValue.getTime())) {
+      if (this.latestDate) {
         const [start, end] = this.visibleRange;
-        return compareDates(end, this.localValue) >= 0 && compareDates(this.localValue, start) >= 0;
+        return compareDates(end, this.latestDate) >= 0 && compareDates(this.latestDate, start) >= 0;
       }
 
       return true;
@@ -167,19 +207,42 @@ const TDatepicker = HtmlInput.extend({
       this.$emit('input', formatedDate);
       this.$emit('change', formatedDate);
     },
-    localValue(localValue: DateValue) {
+    localValue(localValue: Date | null | Date[]) {
       const dateformatter = this.dateFormatter as DateFormatter;
 
-      this.formatedDate = dateformatter(localValue as Date, this.dateFormat);
-      this.userFormatedDate = dateformatter(localValue as Date, this.userFormat);
+      const formatedDate = Array.isArray(localValue)
+        ? localValue.map((d) => dateformatter(d, this.dateFormat))
+        : dateformatter(localValue, this.dateFormat);
+
+      const userFormatedDate = Array.isArray(localValue)
+        ? localValue.map((d) => dateformatter(d, this.userFormat))
+        : dateformatter(localValue, this.userFormat);
+
+      this.formatedDate = formatedDate;
+      this.userFormatedDate = userFormatedDate;
 
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
-        this.activeDate = localValue ? new Date(localValue.valueOf()) : new Date();
+        if (Array.isArray(localValue) && localValue.length) {
+          [this.activeDate] = localValue;
+        } else {
+          this.activeDate = localValue instanceof Date ? localValue : new Date();
+        }
       }
     },
     value(value: DateValue) {
       const dateParser = this.dateParser as DateParser;
-      this.localValue = dateParser(value, this.dateFormat);
+
+      if (Array.isArray(value)) {
+        const localValue = (value as (Date | string | number)[])
+          .map((v) => dateParser(v, this.dateFormat) || null)
+          .filter((v) => !!v) as Date[];
+
+        if (!isEqual(localValue, this.localValue)) {
+          this.localValue = localValue;
+        }
+      } else {
+        this.localValue = dateParser(value, this.dateFormat) || null;
+      }
     },
   },
 
@@ -254,6 +317,7 @@ const TDatepicker = HtmlInput.extend({
     inputHandler(newDate: Date): void {
       const date = new Date(newDate.valueOf());
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
+
       const dateParser: DateParser = this.dateParser as DateParser;
       if (
         dayIsPartOfTheConditions(date, disabledDates, dateParser, this.dateFormat)
@@ -262,10 +326,19 @@ const TDatepicker = HtmlInput.extend({
         return;
       }
 
-      this.localValue = date;
-      this.focus();
+      if (Array.isArray(this.localValue)) {
+        const index = this.localValue.findIndex((d) => isSameDay(d, date));
+        if (index >= 0) {
+          this.localValue.splice(index, 1);
+        } else {
+          this.localValue.push(date);
+        }
+      } else {
+        this.focus();
+        this.localValue = date;
+      }
 
-      if (this.closeOnSelect) {
+      if (this.closeOnSelect && !Array.isArray(this.localValue)) {
         this.doHide();
       }
     },
@@ -316,7 +389,12 @@ const TDatepicker = HtmlInput.extend({
       this.shown = false;
       this.currentView = this.initialView as CalendarView;
       this.showActiveDate = false;
-      this.activeDate = this.localValue ? new Date(this.localValue.valueOf()) : new Date();
+
+      if (Array.isArray(this.localValue) && this.localValue.length) {
+        [this.activeDate] = this.localValue;
+      } else {
+        this.activeDate = this.localValue instanceof Date ? this.localValue : new Date();
+      }
     },
     focusHandler(e: FocusEvent) {
       this.$emit('focus', e);
@@ -372,6 +450,7 @@ const TDatepicker = HtmlInput.extend({
                   userFormatedDate: this.userFormatedDate,
                   show: props.show,
                   hideIfFocusOutside: props.hideIfFocusOutside,
+                  conjuntion: this.conjuntion,
                 },
                 on: {
                   focus: this.focusHandler,

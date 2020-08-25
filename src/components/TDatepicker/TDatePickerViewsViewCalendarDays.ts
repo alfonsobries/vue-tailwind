@@ -7,7 +7,7 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
 
   props: {
     value: {
-      type: Date,
+      type: [Date, Array],
       default: null,
     },
     activeDate: {
