@@ -101,6 +101,10 @@ const TDatepicker = HtmlInput.extend({
       type: String,
       default: ',',
     },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
     fixedClasses: {
       type: Object,
       default: () => ({
@@ -442,7 +446,7 @@ const TDatepicker = HtmlInput.extend({
                 ref: 'trigger',
                 props: {
                   id: this.id,
-                  name: this.name,
+                  name: !this.multiple ? this.name : undefined,
                   disabled: this.disabled,
                   autofocus: this.autofocus,
                   required: this.required,
@@ -471,19 +475,36 @@ const TDatepicker = HtmlInput.extend({
                 },
               },
             ),
-            createElement(
-              'input',
-              {
-                attrs: {
-                  type: 'hidden',
-                  value: this.formatedDate,
-                  name: this.name,
-                  disabled: this.disabled,
-                  readonly: this.readonly,
-                  required: this.required,
-                },
-              },
-            ),
+            ...this.multiple
+              ? (Array.isArray(this.formatedDate) ? this.formatedDate : [this.formatedDate])
+                .map((date: string) => createElement(
+                  'input',
+                  {
+                    attrs: {
+                      type: 'hidden',
+                      value: date,
+                      name: this.name,
+                      disabled: this.disabled,
+                      readonly: this.readonly,
+                      required: this.required,
+                    },
+                  },
+                ))
+              : [
+                createElement(
+                  'input',
+                  {
+                    attrs: {
+                      type: 'hidden',
+                      value: Array.isArray(this.formatedDate) ? this.formatedDate.join(this.conjuntion) : this.formatedDate,
+                      name: this.name,
+                      disabled: this.disabled,
+                      readonly: this.readonly,
+                      required: this.required,
+                    },
+                  },
+                ),
+              ],
           ],
         },
       },

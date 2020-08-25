@@ -347,6 +347,46 @@ describe('TDatepicker', () => {
     expect(wrapper.vm.formatedDate).toEqual([expectedFormattedDate[0]]);
   });
 
+  it('format array values separated by the conjuntion', () => {
+    const inputValue = ['2019-10-16', '2019-10-30'];
+    const conjuntion = ':';
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        userFormat: 'Ymd',
+        conjuntion,
+        value: inputValue,
+      },
+    });
+
+    expect(wrapper.vm.localValue.length).toBe(2);
+    expect(wrapper.vm.localValue[0]).toEqual(new Date(2019, 9, 16));
+    expect(wrapper.vm.localValue[1]).toEqual(new Date(2019, 9, 30));
+
+    expect(wrapper.vm.$el.querySelector('input[type=hidden]').value).toBe(inputValue.join(conjuntion));
+    expect(wrapper.vm.$el.querySelector('input[type=text]').value).toBe('20191016:20191030');
+  });
+
+  it('creates multiple hidden inputs if multiple flat is set', () => {
+    const inputValue = ['2019-10-16', '2019-10-30'];
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        userFormat: 'Ymd',
+        multiple: true,
+        value: inputValue,
+      },
+    });
+
+    expect(wrapper.vm.localValue.length).toBe(2);
+    expect(wrapper.vm.localValue[0]).toEqual(new Date(2019, 9, 16));
+    expect(wrapper.vm.localValue[1]).toEqual(new Date(2019, 9, 30));
+
+    expect(wrapper.vm.$el.querySelectorAll('input[type=hidden]').length).toBe(2);
+    expect(wrapper.vm.$el.querySelectorAll('input[type=hidden]')[0].value).toBe(inputValue[0]);
+    expect(wrapper.vm.$el.querySelectorAll('input[type=hidden]')[1].value).toBe(inputValue[1]);
+  });
+
   it('shows the month view when the setting is set', async () => {
     const wrapper = mount(TDatepicker, {
       propsData: {
