@@ -74,7 +74,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   computed: {
     isSelected(): boolean {
       const d1 = this.getDay();
-      const d2 = this.value;
+      const d2 = this.value as Date | Date[];
 
       if (d2 instanceof Date) {
         return isSameDay(d1, d2);

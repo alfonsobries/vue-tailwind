@@ -310,6 +310,43 @@ describe('TDatepicker', () => {
     expect(wrapper.vm.formatedDate).toEqual(dateToSearch);
   });
 
+  it('selects multiple dates when the value is an array and press the day', async () => {
+    const inputValue = ['2019-10-16'];
+    const dateToSearch = '2019-10-30';
+    const expectedFormattedDate = ['2019-10-16', '2019-10-30'];
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: inputValue,
+        show: true,
+      },
+    });
+
+    const day = getCalendarViewDaysDay(wrapper, dateToSearch);
+    day.$el.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted('input')[0]).toEqual([[inputValue[0], dateToSearch]]);
+
+    expect(wrapper.vm.localValue[0]).toEqual(new Date(2019, 9, 16));
+    expect(wrapper.vm.localValue[1]).toEqual(new Date(2019, 9, 30));
+    expect(wrapper.vm.formatedDate).toEqual(expectedFormattedDate);
+
+    day.$el.click();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.localValue[0]).toEqual(new Date(2019, 9, 16));
+    expect(wrapper.vm.localValue[1]).toBeUndefined();
+    expect(wrapper.vm.formatedDate).toEqual([expectedFormattedDate[0]]);
+  });
+
   it('shows the month view when the setting is set', async () => {
     const wrapper = mount(TDatepicker, {
       propsData: {
@@ -512,6 +549,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
     locale: 'en',
     value: currentDate,
     activeDate: currentDate,
+    activeMonth: currentDate,
     getElementCssClass: datePicker.vm.getElementCssClass,
     dateParser: datePicker.vm.dateParser,
     dateFormat: datePicker.vm.dateFormat,
