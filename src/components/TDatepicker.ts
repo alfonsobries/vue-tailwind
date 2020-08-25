@@ -31,6 +31,10 @@ const TDatepicker = HtmlInput.extend({
       type: String,
       default: undefined,
     },
+    inputName: {
+      type: String,
+      default: undefined,
+    },
     weekStart: {
       type: Number,
       default: 0,
@@ -446,7 +450,7 @@ const TDatepicker = HtmlInput.extend({
                 ref: 'trigger',
                 props: {
                   id: this.id,
-                  name: !this.multiple ? this.name : undefined,
+                  name: this.inputName,
                   disabled: this.disabled,
                   autofocus: this.autofocus,
                   required: this.required,
