@@ -2,9 +2,7 @@ import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
 import TDatePickerViewsViewCalendarDaysDay from '@/components/TDatepicker/TDatePickerViewsViewCalendarDaysDay';
 import TDatePickerNavigator from '@/components/TDatepicker/TDatePickerNavigator';
-import { isSameDay, isSameMonth, createDateParser } from '@/utils/dates';
-
-const dateParser = createDateParser({});
+import { isSameDay, isSameMonth, parseDate } from '@/utils/dates';
 
 const getCalendarView = (wrapper) => wrapper.vm.$refs.views.$refs.view;
 const getCalendarNavigator = (wrapper) => getCalendarView(wrapper).$refs.navigator;
@@ -13,12 +11,12 @@ const getCalendarViewMonths = (wrapper) => getCalendarView(wrapper).$refs.months
 const getCalendarViewYears = (wrapper) => getCalendarView(wrapper).$refs.years;
 const getCalendarViewDays = (wrapper) => getCalendarViewCalendar(wrapper).$refs.days;
 const getCalendarViewDaysDay = (wrapper, day) => {
-  const dayToSearch = typeof day === 'string' ? dateParser(day, 'Y-m-d') : day;
+  const dayToSearch = typeof day === 'string' ? parseDate(day, 'Y-m-d') : day;
 
   return getCalendarViewDays(wrapper).$children.find((vm) => isSameDay(vm.day, dayToSearch));
 };
 const getCalendarViewMonthsMonth = (wrapper, day) => {
-  const dayToSearch = typeof day === 'string' ? dateParser(day, 'Y-m-d') : day;
+  const dayToSearch = typeof day === 'string' ? parseDate(day, 'Y-m-d') : day;
   return getCalendarViewMonths(wrapper).$children.find((vm) => isSameMonth(vm.month, dayToSearch));
 };
 

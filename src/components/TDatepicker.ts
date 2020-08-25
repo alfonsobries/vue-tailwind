@@ -1,7 +1,7 @@
 import { CreateElement, VNode } from 'vue';
 import TDropdown from '@/components/TDropdown';
 import {
-  formatDate, createDateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
+  formatDate, parseDate, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
   DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
@@ -62,7 +62,7 @@ const TDatepicker = HtmlInput.extend({
     },
     dateParser: {
       type: Function,
-      default: createDateParser({}),
+      default: parseDate,
     },
     closeOnSelect: {
       type: Boolean,

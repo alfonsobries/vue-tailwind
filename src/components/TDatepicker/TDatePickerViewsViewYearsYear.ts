@@ -1,9 +1,8 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  createDateFormatter,
+  formatDate,
 } from '@/utils/dates';
-import { english } from '@/l10n/default';
 
 const TDatePickerViewsViewYearsYear = Vue.extend({
   name: 'TDatePickerViewsViewYearsYear',
@@ -38,7 +37,6 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
   data() {
     return {
       localActiveDate: new Date(this.activeDate.valueOf()),
-      dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
 
@@ -63,7 +61,7 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
       return d2 && d1.getFullYear() === d2.getFullYear();
     },
     yearFormatted(): string {
-      return this.dateFormatter(this.getYear(), 'Y');
+      return formatDate(this.getYear(), 'Y');
     },
   },
 

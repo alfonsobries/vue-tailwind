@@ -1,9 +1,8 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  createDateFormatter, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
+  formatDate, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
 } from '@/utils/dates';
-import { english } from '@/l10n/default';
 
 const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   name: 'TDatePickerViewsViewCalendarDaysDay',
@@ -71,7 +70,6 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
     return {
       localActiveDate: new Date(this.activeDate.valueOf()),
       localActiveMonth: new Date(this.activeMonth.valueOf()),
-      dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
 
@@ -135,7 +133,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       return to && isSameDay(to, this.getDay());
     },
     dayFormatted(): string {
-      return this.dateFormatter(this.getDay(), 'j');
+      return formatDate(this.getDay(), 'j');
     },
   },
 

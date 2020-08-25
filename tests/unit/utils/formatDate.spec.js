@@ -1,4 +1,4 @@
-import { createDateFormatter, createDateParser } from '@/utils/dates';
+import { formatDate, parseDate } from '@/utils/dates';
 
 // import flatpickr from '../index';
 // import { Russian } from '../l10n/ru';
@@ -170,10 +170,9 @@ describe('flatpickr', () => {
   // });
 
   describe('datetimestring parser', () => {
-    const parser = createDateParser({});
     describe('date string parser', () => {
       it('should parse timestamp', () => {
-        const parsedDate = parser(1477111633771);
+        const parsedDate = parseDate(1477111633771);
         const date = new Date('2016-10-22T04:47:13.771Z');
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getFullYear()).toEqual(date.getFullYear());
@@ -182,7 +181,7 @@ describe('flatpickr', () => {
       });
 
       it('should parse unix time', () => {
-        const parsedDate = parser('1477111633.771', 'U');
+        const parsedDate = parseDate('1477111633.771', 'U');
         const date = new Date('2016-10-22T04:47:13.771Z');
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getFullYear()).toEqual(date.getFullYear());
@@ -191,14 +190,14 @@ describe('flatpickr', () => {
       });
 
       it('should parse "2016-10"', () => {
-        const parsedDate = parser('2016-10');
+        const parsedDate = parseDate('2016-10');
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getFullYear()).toEqual(2016);
         expect(parsedDate.getMonth()).toEqual(9);
       });
 
       it('should parse "2016-10-20 3:30"', () => {
-        const parsedDate = parser('2016-10-20 3:30');
+        const parsedDate = parseDate('2016-10-20 3:30');
 
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getFullYear()).toEqual(2016);
@@ -209,7 +208,7 @@ describe('flatpickr', () => {
       });
 
       it('should parse ISO8601', () => {
-        const parsedDate = parser('2007-03-04T21:08:12');
+        const parsedDate = parseDate('2007-03-04T21:08:12');
 
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getFullYear()).toEqual(2007);
@@ -221,13 +220,13 @@ describe('flatpickr', () => {
       });
 
       it('should parse "today"', () => {
-        const parsedDate = parser('today');
+        const parsedDate = parseDate('today');
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getHours()).toBe(0);
       });
 
       it('should parse AM/PM', () => {
-        const parsedDate = parser('8/3/2017 12:00 AM', 'm/d/Y h:i K');
+        const parsedDate = parseDate('8/3/2017 12:00 AM', 'm/d/Y h:i K');
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getFullYear()).toEqual(2017);
         expect(parsedDate.getMonth()).toEqual(7);
@@ -237,7 +236,7 @@ describe('flatpickr', () => {
       });
 
       it('should parse JSON datestrings', () => {
-        const parsedDate = parser('2016-12-27T16:16:22.585Z');
+        const parsedDate = parseDate('2016-12-27T16:16:22.585Z');
 
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getTime()).toBeDefined();
@@ -247,7 +246,7 @@ describe('flatpickr', () => {
 
     describe('time string parser', () => {
       it('should parse "21:11"', () => {
-        const parsedDate = parser('21:11', 'H:i');
+        const parsedDate = parseDate('21:11', 'H:i');
 
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getHours()).toEqual(21);
@@ -255,7 +254,7 @@ describe('flatpickr', () => {
       });
 
       it('should parse "21:11:12"', () => {
-        const parsedDate = parser('21:11:12', 'H:i:S');
+        const parsedDate = parseDate('21:11:12', 'H:i:S');
 
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getHours()).toEqual(21);
@@ -264,7 +263,7 @@ describe('flatpickr', () => {
       });
 
       it('should parse "11:59 PM"', () => {
-        const parsedDate = parser('11:59 PM', 'h:i K');
+        const parsedDate = parseDate('11:59 PM', 'h:i K');
 
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getHours()).toBe(23);
@@ -273,7 +272,7 @@ describe('flatpickr', () => {
       });
 
       it('should parse "3:05:03 PM"', () => {
-        const parsedDate = parser('3:05:03 PM', 'h:i:S K');
+        const parsedDate = parseDate('3:05:03 PM', 'h:i:S K');
 
         expect(parsedDate).toBeDefined();
         expect(parsedDate.getHours()).toBe(15);
@@ -315,29 +314,28 @@ describe('flatpickr', () => {
       const DEFAULT_FORMAT_1 = 'd.m.y H:i:S';
       const DEFAULT_FORMAT_2 = "D j F, 'y";
       const DEFAULT_FORMAT_3 = 'Y-m-d';
-      const formatter = createDateFormatter({});
 
       it(`should format the date with the pattern "${DEFAULT_FORMAT_1}"`, () => {
         const RESULT = '20.10.16 09:19:59';
 
         const date = createDate('2016-10-20 09:19:59');
-        expect(formatter(date, DEFAULT_FORMAT_1)).toEqual(RESULT);
+        expect(formatDate(date, DEFAULT_FORMAT_1)).toEqual(RESULT);
 
         const date2 = createDate('2016-11-21 19:28:49');
-        expect(formatter(date2, DEFAULT_FORMAT_1)).not.toEqual(RESULT);
+        expect(formatDate(date2, DEFAULT_FORMAT_1)).not.toEqual(RESULT);
       });
 
       it('should format dates for year 0001', () => {
         const RESULT = '0001-07-15';
 
         const date = createDate('0001-07-15');
-        expect(formatter(date, DEFAULT_FORMAT_3)).not.toEqual(RESULT);
+        expect(formatDate(date, DEFAULT_FORMAT_3)).not.toEqual(RESULT);
       });
 
       it(`should format the date with the pattern "${DEFAULT_FORMAT_2}"`, () => {
         const RESULT = "Thu 20 October, '16";
         const date = createDate('2016-10-20 00:00:00');
-        expect(formatter(date, DEFAULT_FORMAT_2)).toEqual(RESULT);
+        expect(formatDate(date, DEFAULT_FORMAT_2)).toEqual(RESULT);
       });
     });
 

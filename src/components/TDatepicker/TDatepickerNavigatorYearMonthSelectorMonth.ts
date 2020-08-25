@@ -1,6 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import {
-  createDateFormatter,
+  formatDate,
 } from '@/utils/dates';
 import { english } from '@/l10n/default';
 
@@ -21,7 +21,6 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
   data() {
     return {
       localValue: new Date(this.value.valueOf()),
-      dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
 
@@ -64,7 +63,7 @@ const TDatepickerNavigatorYearMonthSelectorMonth = Vue.extend({
             value: month.getMonth(),
           },
         },
-        this.dateFormatter(month, 'F'),
+        formatDate(month, 'F'),
       )),
     );
   },

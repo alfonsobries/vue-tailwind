@@ -1,12 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import {
   addMonths, addYears, dateIsOutOfRange,
-  createDateFormatter,
+  formatDate,
   DateParser,
 } from '@/utils/dates';
-
-
-import { english } from '@/l10n/default';
 
 export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
   const currentYear = date.getFullYear();
@@ -70,7 +67,6 @@ const TDatepickerNavigator = Vue.extend({
   data() {
     return {
       localValue: new Date(this.value.valueOf()),
-      dateFormatter: createDateFormatter({ l10n: english }),
     };
   },
 
@@ -183,7 +179,7 @@ const TDatepickerNavigator = Vue.extend({
             {
               class: 'text-gray-700 font-semibold',
             },
-            this.dateFormatter(this.localValue, 'F'),
+            formatDate(this.localValue, 'F'),
           ),
         );
       }
@@ -195,7 +191,7 @@ const TDatepickerNavigator = Vue.extend({
             {
               class: 'text-gray-600 ml-1',
             },
-            this.dateFormatter(this.localValue, 'Y'),
+            formatDate(this.localValue, 'Y'),
           ),
         );
       }
@@ -281,14 +277,14 @@ const TDatepickerNavigator = Vue.extend({
             {
               class: 'text-gray-700 font-semibold',
             },
-            this.dateFormatter(this.localValue, 'F'),
+            formatDate(this.localValue, 'F'),
           ),
           createElement(
             'span',
             {
               class: 'text-gray-600 ml-1',
             },
-            this.dateFormatter(this.localValue, 'Y'),
+            formatDate(this.localValue, 'Y'),
           ),
         ],
       ));

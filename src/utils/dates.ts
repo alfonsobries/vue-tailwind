@@ -1,5 +1,5 @@
 import { Locale } from '@/types/locale';
-import { english } from '@/l10n/default';
+import { English } from '@/l10n/default';
 
 // import { defaults, ParsedOptions } from '@/types/options';
 import {
@@ -36,12 +36,12 @@ export interface FormatterArgs {
 }
 
 
-export const formatDate = (dateObj: Date | null, format: string, localeOverride: Locale | null = null): string => {
+export const formatDate = (dateObj: Date | null, format: string, customLocale?: Locale): string => {
   if (!dateObj) {
     return '';
   }
 
-  const locale = localeOverride || english;
+  const locale = customLocale || English;
 
   return format
     .split('')
@@ -56,70 +56,30 @@ export const formatDate = (dateObj: Date | null, format: string, localeOverride:
     .join('');
 };
 
-export const createDateFormatter = ({
-  // config = defaults,
-  l10n = english,
-  // isMobile = false,
-}: FormatterArgs): DateFormatter => (
-  dateObj: Date | null,
-  format: string,
-  overrideLocale?: Locale,
-): string => {
-  if (!dateObj) {
-    return '';
+export const parseDate = (date: Date | number | null, format = 'Y-m-d H:i:S', timeless?: boolean, customLocale?: Locale): Date | undefined => {
+  if (date !== 0 && !date) {
+    return undefined;
   }
-  const locale = overrideLocale || l10n;
 
-  // if (config.formatDate !== undefined && !isMobile) {
-  //   return config.formatDate(dateObj, format, locale);
-  // }
+  const locale = customLocale || English;
 
-  return format
-    .split('')
-    .map((char, i, arr) => {
-      if (formats[char as token] && arr[i - 1] !== '\\') {
-        return formats[char as token](dateObj, locale);
-      } if (char !== '\\') {
-        return char;
-      }
-      return '';
-    })
-    .join('');
-};
-
-export const createDateParser = ({
-  // config = defaults
-  l10n = english,
-}): DateParser => (
-  date: DateValue,
-  givenFormat?: string,
-  timeless?: boolean,
-  customLocale?: Locale,
-): Date | undefined => {
-  if (date !== 0 && !date) return undefined;
   const localeTokenRegex = { ...tokenRegex };
-  localeTokenRegex.K = `(${l10n.amPM[0]}|${
-    l10n.amPM[1]
-  }|${l10n.amPM[0].toLowerCase()}|${l10n.amPM[1].toLowerCase()})`;
-
-  const locale = customLocale || l10n;
+  localeTokenRegex.K = `(${locale.amPM[0]}|${
+    locale.amPM[1]
+  }|${locale.amPM[0].toLowerCase()}|${locale.amPM[1].toLowerCase()})`;
 
   let parsedDate: Date | undefined;
   const dateOrig = date;
 
-  if (date instanceof Date) parsedDate = new Date(date.getTime());
-  else if (
+  if (date instanceof Date) {
+    parsedDate = new Date(date.getTime());
+  } else if (
     typeof date !== 'string'
     && date.toFixed !== undefined // timestamp
   ) {
     // create a copy
     parsedDate = new Date(date);
   } else if (typeof date === 'string') {
-    // date string
-    // const format = givenFormat || (config || defaults).dateFormat;
-    // @TODO: This come from config and doesnt contians time by default
-    const format = givenFormat || 'Y-m-d H:i:S';
-
     // if (!userConfig.dateFormat && (userConfig.enableTime || timeMode)) {
     //   const defaultDateFormat =
     //     flatpickr.defaultConfig.dateFormat || defaultOptions.dateFormat;
@@ -140,10 +100,6 @@ export const createDateParser = ({
       || /GMT$/.test(datestr) // datestrings w/ timezone
     ) {
       parsedDate = new Date(date);
-
-      // @TODO
-    // } else if (config && config.parseDate) {
-    //   parsedDate = config.parseDate(date, format);
     } else {
       parsedDate = new Date(new Date().getFullYear(), 0, 1, 0, 0, 0, 0);
       // parsedDate = !config || !config.noCalendar
@@ -188,9 +144,6 @@ export const createDateParser = ({
   // eslint-disable-next-line no-restricted-globals
   if (!(parsedDate instanceof Date && !isNaN(parsedDate.getTime()))) {
     throw new Error(`Invalid date provided: ${dateOrig}`);
-    // @TODO
-    // config.errorHandler(new Error(`Invalid date provided: ${dateOrig}`));
-    return undefined;
   }
 
   if (timeless === true) {

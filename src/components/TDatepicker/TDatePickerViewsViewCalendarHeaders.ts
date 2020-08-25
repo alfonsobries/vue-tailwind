@@ -1,6 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { createDateFormatter } from '@/utils/dates';
-import { english } from '@/l10n/default';
+import { formatDate } from '@/utils/dates';
 
 const TDatePickerViewsViewCalendarHeaders = Vue.extend({
   name: 'TDatePickerViewsViewCalendarHeaders',
@@ -18,12 +17,6 @@ const TDatePickerViewsViewCalendarHeaders = Vue.extend({
       type: Function,
       required: true,
     },
-  },
-
-  data() {
-    return {
-      dateFormatter: createDateFormatter({ l10n: english }),
-    };
   },
 
   computed: {
@@ -44,7 +37,7 @@ const TDatePickerViewsViewCalendarHeaders = Vue.extend({
     getWeekDayName(weekDay: number): string {
       const date = new Date();
       date.setDate((date.getDate() + (7 + weekDay - date.getDay())) % 7);
-      return this.dateFormatter(date, 'D');
+      return formatDate(date, 'D');
     },
   },
 
