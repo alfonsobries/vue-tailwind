@@ -3,7 +3,7 @@ import { english } from '@/l10n/default';
 import TDropdown from '@/components/TDropdown';
 import {
   createDateFormatter, createDateParser, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
-  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, DateRange,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
@@ -109,6 +109,10 @@ const TDatepicker = HtmlInput.extend({
       type: Boolean,
       default: false,
     },
+    range: {
+      type: Boolean,
+      default: false,
+    },
     fixedClasses: {
       type: Object,
       default: () => ({
@@ -132,14 +136,14 @@ const TDatepicker = HtmlInput.extend({
   data() {
     const dateParser = this.dateParser as DateParser;
 
-    let localValue: Date | null | Date[] = null;
+    let localValue: Date | null | Date[] | DateRange = this.multiple || this.range ? [] : null;
 
     if (Array.isArray(this.value)) {
       localValue = (this.value as (Date | string | number)[])
         .map((value) => dateParser(value, this.dateFormat) || null)
         .filter((value) => !!value) as Date[];
     } else {
-      localValue = dateParser(this.value, this.dateFormat) || null;
+      localValue = dateParser(this.value, this.dateFormat) || localValue;
     }
 
     const dateformatter = this.dateFormatter as DateFormatter;
@@ -188,7 +192,7 @@ const TDatepicker = HtmlInput.extend({
     latestDate(): Date | null {
       if (Array.isArray(this.localValue)) {
         if (this.localValue.length) {
-          return this.localValue[this.localValue.length - 1];
+          return this.localValue[this.localValue.length - 1] || null;
         }
 
         return null;
@@ -249,7 +253,8 @@ const TDatepicker = HtmlInput.extend({
           this.localValue = localValue;
         }
       } else {
-        this.localValue = dateParser(value, this.dateFormat) || null;
+        this.localValue = dateParser(value, this.dateFormat)
+          || (this.multiple || this.range ? [] : null);
       }
     },
   },
@@ -334,7 +339,38 @@ const TDatepicker = HtmlInput.extend({
         return;
       }
 
-      if (Array.isArray(this.localValue)) {
+      if (this.range) {
+        let range: DateRange = [];
+
+        // Reset the range when
+        // 1. Is not an array
+        // 2. The range already have both values
+        // 3. The range has the first value and the second value is before
+        if (!this.localValue
+            || !Array.isArray(this.localValue)
+            || (
+              Array.isArray(this.localValue)
+              && (this.localValue.length === 0 || this.localValue.length === 2)
+            )
+            || (
+              Array.isArray(this.localValue)
+              && this.localValue.length === 1
+              && this.localValue[0]
+              && this.localValue[0].getTime() > date.getTime()
+            )
+        ) {
+          range = [date];
+        } else if (this.localValue.length === 1) {
+          range = [this.localValue[0], date];
+        }
+
+        this.localValue = range;
+
+        // Range is complete
+        if (this.localValue.length === 2) {
+          this.doHide();
+        }
+      } else if (Array.isArray(this.localValue)) {
         const index = this.localValue.findIndex((d) => isSameDay(d, date));
         if (index >= 0) {
           this.localValue.splice(index, 1);

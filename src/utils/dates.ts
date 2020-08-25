@@ -9,6 +9,8 @@ import {
   formats,
 } from './formatting';
 
+export type DateRange = [Date?, Date?]
+
 export type DateValue = Date | string | number
 
 export type DateCondition = string | Date | undefined | ((day: Date) => boolean);
