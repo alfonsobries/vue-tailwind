@@ -1,3 +1,4 @@
+/* Spanish locals for vue-tailwind */
 import { CustomLocale } from '../types/locale';
 
 export const Spanish: CustomLocale = {

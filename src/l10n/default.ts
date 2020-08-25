@@ -1,6 +1,6 @@
 import { Locale } from '../types/locale';
 
-export const english: Locale = {
+export const English: Locale = {
   weekdays: {
     shorthand: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     longhand: [
@@ -69,4 +69,4 @@ export const english: Locale = {
   time24hr: false,
 };
 
-export default english;
+export default English;
