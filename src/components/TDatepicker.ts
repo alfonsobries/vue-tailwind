@@ -6,7 +6,7 @@ import {
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
@@ -47,6 +47,10 @@ const TDatepicker = HtmlInput.extend({
     locale: {
       type: String,
       default: 'en',
+    },
+    locales: {
+      type: Array,
+      default: () => [],
     },
     dateFormat: {
       type: String,
