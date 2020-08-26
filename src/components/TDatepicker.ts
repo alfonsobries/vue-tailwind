@@ -2,12 +2,11 @@ import { CreateElement, VNode } from 'vue';
 import TDropdown from '@/components/TDropdown';
 import {
   buildDateParser, buildDateFormatter, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
-  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, extractLocaleFromProps,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
 import isEqual from 'lodash/isEqual';
-import { Locale, Locales, LocaleName } from '@/types/locale';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
@@ -18,7 +17,6 @@ interface Dropdown extends Vue {
   doShow(): void
   escapeHandler(e: KeyboardEvent): void
 }
-
 
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
@@ -60,7 +58,7 @@ const TDatepicker = HtmlInput.extend({
     },
     userFormat: {
       type: String,
-      default: 'F j, Y',
+      default: 'Y-m-d',
     },
     dateFormatter: {
       type: Function,
@@ -142,11 +140,12 @@ const TDatepicker = HtmlInput.extend({
   },
 
   data() {
+    const currentLocale = extractLocaleFromProps(this.locale, this.locales);
     const dateFormatter = this.dateFormatter as DateFormatter | undefined;
-    const parse: DateParser = buildDateParser(this.locale, this.locales, this.dateParser as DateParser);
-    const format: DateFormatter = buildDateFormatter(this.locale, this.locales, dateFormatter);
+    const parse: DateParser = buildDateParser(currentLocale, this.dateParser as DateParser);
+    const format: DateFormatter = buildDateFormatter(currentLocale, dateFormatter);
     // Keep a native formatter for the different views
-    const formatNative: DateFormatter = !dateFormatter ? format : buildDateFormatter(this.locale, this.locales);
+    const formatNative: DateFormatter = !dateFormatter ? format : buildDateFormatter(currentLocale);
 
     let localValue: Date | null | Date[] = this.multiple || this.range ? [] : null;
 
@@ -190,6 +189,7 @@ const TDatepicker = HtmlInput.extend({
       parse,
       format,
       formatNative,
+      currentLocale,
     };
   },
 
@@ -221,11 +221,6 @@ const TDatepicker = HtmlInput.extend({
       }
 
       return true;
-    },
-    currentLocale() : Locale | undefined {
-      const locales = this.locales as Locales;
-      const localeName: LocaleName = Object(locales).keys().find((l: LocaleName) => l === this.locale);
-      return locales[localeName];
     },
   },
 
@@ -271,10 +266,42 @@ const TDatepicker = HtmlInput.extend({
           || (this.multiple || this.range ? [] : null);
       }
     },
+    dateParser() {
+      this.refreshParser();
+    },
+    dateFormatter() {
+      this.refreshFormatter();
+    },
+    locale() {
+      this.refreshCurrentLocale();
+    },
+    locales: {
+      handler() {
+        this.refreshCurrentLocale();
+      },
+      deep: true,
+    },
   },
 
   methods: {
+    refreshCurrentLocale(): void {
+      this.currentLocale = extractLocaleFromProps(this.locale, this.locales);
+      this.refreshParser();
+      this.refreshFormatter();
+    },
+    refreshParser(): void {
+      const parse: DateParser = buildDateParser(this.currentLocale, this.dateParser as DateParser);
+      this.parse = parse;
+    },
+    refreshFormatter(): void {
+      const dateFormatter = this.dateFormatter as DateFormatter | undefined;
+      const format: DateFormatter = buildDateFormatter(this.currentLocale, dateFormatter);
+      // Keep a native formatter for the different views
+      const formatNative: DateFormatter = !dateFormatter ? format : buildDateFormatter(this.currentLocale);
 
+      this.format = format;
+      this.formatNative = formatNative;
+    },
     focus(options?: FocusOptions | undefined) : void | never {
       const wrapper = this.$el as HTMLDivElement;
       const input: HTMLInputElement | null = wrapper.querySelector('input[type=text]');
@@ -507,7 +534,7 @@ const TDatepicker = HtmlInput.extend({
                   userFormatedDate: this.userFormatedDate,
                   show: props.show,
                   hideIfFocusOutside: props.hideIfFocusOutside,
-                  conjuntion: this.conjuntion,
+                  conjuntion: this.range && this.currentLocale.rangeSeparator ? this.currentLocale.rangeSeparator : this.conjuntion,
                 },
                 on: {
                   focus: this.focusHandler,

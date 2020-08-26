@@ -7,10 +7,10 @@
     footer="Made with love by @alfonsobries"
   >
     <t-datepicker
-      v-model="date"
-      :week-start="0"
-      initial-view="month"
+      range
+      :close-on-select="false"
     />
+
     <ul>
       <t-toggle
         name="variant"
