@@ -1,12 +1,13 @@
 import { CreateElement, VNode } from 'vue';
 import TDropdown from '@/components/TDropdown';
 import {
-  formatDate, parseDate, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
+  buildDateParser, buildDateFormatter, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
   DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay,
 } from '@/utils/dates';
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
 import isEqual from 'lodash/isEqual';
+import { Locale, Locales, LocaleName } from '@/types/locale';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
@@ -17,6 +18,7 @@ interface Dropdown extends Vue {
   doShow(): void
   escapeHandler(e: KeyboardEvent): void
 }
+
 
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
@@ -49,8 +51,8 @@ const TDatepicker = HtmlInput.extend({
       default: 'en',
     },
     locales: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => ({}),
     },
     dateFormat: {
       type: String,
@@ -62,11 +64,11 @@ const TDatepicker = HtmlInput.extend({
     },
     dateFormatter: {
       type: Function,
-      default: formatDate,
+      default: undefined,
     },
     dateParser: {
       type: Function,
-      default: parseDate,
+      default: undefined,
     },
     closeOnSelect: {
       type: Boolean,
@@ -140,27 +142,29 @@ const TDatepicker = HtmlInput.extend({
   },
 
   data() {
-    const dateParser = this.dateParser as DateParser;
+    const dateFormatter = this.dateFormatter as DateFormatter | undefined;
+    const parse: DateParser = buildDateParser(this.locale, this.locales, this.dateParser as DateParser);
+    const format: DateFormatter = buildDateFormatter(this.locale, this.locales, dateFormatter);
+    // Keep a native formatter for the different views
+    const formatNative: DateFormatter = !dateFormatter ? format : buildDateFormatter(this.locale, this.locales);
 
     let localValue: Date | null | Date[] = this.multiple || this.range ? [] : null;
 
     if (Array.isArray(this.value)) {
       localValue = (this.value as (Date | string | number)[])
-        .map((value) => dateParser(value, this.dateFormat) || null)
+        .map((value) => parse(value, this.dateFormat) || null)
         .filter((value) => !!value) as Date[];
     } else {
-      localValue = dateParser(this.value, this.dateFormat) || localValue;
+      localValue = parse(this.value, this.dateFormat) || localValue;
     }
 
-    const dateformatter = this.dateFormatter as DateFormatter;
-
     const formatedDate = Array.isArray(localValue)
-      ? localValue.map((d) => dateformatter(d, this.dateFormat))
-      : dateformatter(localValue, this.dateFormat);
+      ? localValue.map((d) => format(d, this.dateFormat))
+      : format(localValue, this.dateFormat);
 
     const userFormatedDate = Array.isArray(localValue)
-      ? localValue.map((d) => dateformatter(d, this.userFormat))
-      : dateformatter(localValue, this.userFormat);
+      ? localValue.map((d) => format(d, this.userFormat))
+      : format(localValue, this.userFormat);
 
     let activeDate: Date = new Date();
 
@@ -169,7 +173,7 @@ const TDatepicker = HtmlInput.extend({
     } else if (localValue instanceof Date) {
       activeDate = localValue;
     } else {
-      activeDate = dateParser(this.initialDate as DateValue, this.dateFormat) || activeDate;
+      activeDate = parse(this.initialDate as DateValue, this.dateFormat) || activeDate;
     }
 
     // Used to show the selected month/year
@@ -183,6 +187,9 @@ const TDatepicker = HtmlInput.extend({
       shown: this.show,
       showActiveDate: false,
       currentView,
+      parse,
+      format,
+      formatNative,
     };
   },
 
@@ -215,10 +222,15 @@ const TDatepicker = HtmlInput.extend({
 
       return true;
     },
+    currentLocale() : Locale | undefined {
+      const locales = this.locales as Locales;
+      const localeName: LocaleName = Object(locales).keys().find((l: LocaleName) => l === this.locale);
+      return locales[localeName];
+    },
   },
 
   watch: {
-    showm(shown) {
+    shown(shown) {
       this.$emit('update:show', shown);
     },
     formatedDate(formatedDate) {
@@ -226,15 +238,13 @@ const TDatepicker = HtmlInput.extend({
       this.$emit('change', formatedDate);
     },
     localValue(localValue: Date | null | Date[]) {
-      const dateformatter = this.dateFormatter as DateFormatter;
-
       const formatedDate = Array.isArray(localValue)
-        ? localValue.map((d) => dateformatter(d, this.dateFormat))
-        : dateformatter(localValue, this.dateFormat);
+        ? localValue.map((d) => this.format(d, this.dateFormat))
+        : this.format(localValue, this.dateFormat);
 
       const userFormatedDate = Array.isArray(localValue)
-        ? localValue.map((d) => dateformatter(d, this.userFormat))
-        : dateformatter(localValue, this.userFormat);
+        ? localValue.map((d) => this.format(d, this.userFormat))
+        : this.format(localValue, this.userFormat);
 
       this.formatedDate = formatedDate;
       this.userFormatedDate = userFormatedDate;
@@ -248,24 +258,23 @@ const TDatepicker = HtmlInput.extend({
       }
     },
     value(value: DateValue) {
-      const dateParser = this.dateParser as DateParser;
-
       if (Array.isArray(value)) {
         const localValue = (value as (Date | string | number)[])
-          .map((v) => dateParser(v, this.dateFormat) || null)
+          .map((v) => this.parse(v, this.dateFormat) || null)
           .filter((v) => !!v) as Date[];
 
         if (!isEqual(localValue, this.localValue)) {
           this.localValue = localValue;
         }
       } else {
-        this.localValue = dateParser(value, this.dateFormat)
+        this.localValue = this.parse(value, this.dateFormat)
           || (this.multiple || this.range ? [] : null);
       }
     },
   },
 
   methods: {
+
     focus(options?: FocusOptions | undefined) : void | never {
       const wrapper = this.$el as HTMLDivElement;
       const input: HTMLInputElement | null = wrapper.querySelector('input[type=text]');
@@ -328,8 +337,7 @@ const TDatepicker = HtmlInput.extend({
         }
       }
 
-      const dateParser: DateParser = this.dateParser as DateParser;
-      if (newActiveDate && !dateIsOutOfRange(newActiveDate, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+      if (newActiveDate && !dateIsOutOfRange(newActiveDate, this.minDate, this.maxDate, this.parse, this.dateFormat)) {
         this.activeDate = newActiveDate;
       }
     },
@@ -337,10 +345,9 @@ const TDatepicker = HtmlInput.extend({
       const date = new Date(newDate.valueOf());
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
 
-      const dateParser: DateParser = this.dateParser as DateParser;
       if (
-        dayIsPartOfTheConditions(date, disabledDates, dateParser, this.dateFormat)
-          || dateIsOutOfRange(date, this.minDate, this.maxDate, dateParser, this.dateFormat)
+        dayIsPartOfTheConditions(date, disabledDates, this.parse, this.dateFormat)
+          || dateIsOutOfRange(date, this.minDate, this.maxDate, this.parse, this.dateFormat)
       ) {
         return;
       }
@@ -566,7 +573,8 @@ const TDatepicker = HtmlInput.extend({
               monthsPerView: this.monthsPerView,
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
-              dateParser: this.dateParser,
+              parse: this.parse,
+              formatNative: this.formatNative,
               dateFormat: this.dateFormat,
               initialView: this.initialView,
               currentView: this.currentView,

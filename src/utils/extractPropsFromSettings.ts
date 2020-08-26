@@ -44,8 +44,8 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
 
   if (typeof locales !== undefined) {
     customProps.locales = {
-      type: Array,
-      default: () => locales,
+      type: Object,
+      default: () => ({}),
     };
   }
 

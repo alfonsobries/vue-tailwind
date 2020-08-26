@@ -3,6 +3,7 @@ type CustomProps = {
   classes?: object;
   fixedClasses?: object;
   wrapped?: object;
+  locales?: object;
 } | undefined
 
 export default CustomProps;

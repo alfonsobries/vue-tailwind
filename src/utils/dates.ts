@@ -1,7 +1,6 @@
-import { Locale } from '@/types/locale';
+import { Locale, Locales, LocaleName } from '@/types/locale';
 import { English } from '@/l10n/default';
 
-// import { defaults, ParsedOptions } from '@/types/options';
 import {
   tokenRegex,
   RevFormatFn,
@@ -56,7 +55,7 @@ export const formatDate = (dateObj: Date | null, format: string, customLocale?: 
     .join('');
 };
 
-export const parseDate = (date: Date | number | null, format = 'Y-m-d H:i:S', timeless?: boolean, customLocale?: Locale): Date | undefined => {
+export const parseDate = (date: DateValue, format = 'Y-m-d H:i:S', timeless?: boolean, customLocale?: Locale): Date | undefined => {
   if (date !== 0 && !date) {
     return undefined;
   }
@@ -167,6 +166,31 @@ export function compareDates(date1: Date, date2: Date, timeless = true): number 
   return date1.getTime() - date2.getTime();
 }
 
+const getLocale = (localeName: string, locales: Locales) : Locale | undefined => {
+  const availableLocales: LocaleName[] = Object.keys(locales) as LocaleName[];
+  const find: LocaleName | undefined = availableLocales.find((l: LocaleName) => l === localeName);
+  return find ? locales[find] : undefined;
+};
+
+export const buildDateParser = (localeName: string, locales: Locales, customDateParser?: DateParser) : DateParser => (date: DateValue, format = 'Y-m-d H:i:S', timeless?: boolean) => {
+  const locale: Locale | undefined = getLocale(localeName, locales);
+
+  if (customDateParser) {
+    return customDateParser(date, format, timeless, locale);
+  }
+
+  return parseDate(date, format, timeless, locale);
+};
+
+export const buildDateFormatter = (localeName: string, locales: Locales, customDateFormatter?: DateFormatter) : DateFormatter => (date: Date | null, format = 'Y-m-d H:i:S') => {
+  const locale: Locale | undefined = getLocale(localeName, locales);
+
+  if (customDateFormatter) {
+    return customDateFormatter(date, format, locale);
+  }
+
+  return formatDate(date, format, locale);
+};
 
 /**
  * it two dates are in the same month

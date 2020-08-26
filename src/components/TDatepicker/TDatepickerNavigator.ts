@@ -1,7 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import {
   addMonths, addYears, dateIsOutOfRange,
-  formatDate,
   DateParser,
 } from '@/utils/dates';
 
@@ -42,7 +41,11 @@ const TDatepickerNavigator = Vue.extend({
         return [CalendarView.Day, CalendarView.Month, CalendarView.Year].includes(value);
       },
     },
-    dateParser: {
+    parse: {
+      type: Function,
+      required: true,
+    },
+    formatNative: {
       type: Function,
       required: true,
     },
@@ -81,13 +84,13 @@ const TDatepickerNavigator = Vue.extend({
       return this.currentView === CalendarView.Month;
     },
     prevButtonIsDisabled(): boolean {
-      const dateParser = this.dateParser as DateParser;
+      const dateParser = this.parse as DateParser;
       const prevDate = this.getPrevDate();
       return !prevDate || dateIsOutOfRange(prevDate, this.minDate, this.maxDate, dateParser, this.dateFormat);
     },
     nextButtonIsDisabled(): boolean {
       const nextDate = this.getNextDate();
-      const dateParser = this.dateParser as DateParser;
+      const dateParser = this.parse as DateParser;
       return !nextDate || dateIsOutOfRange(nextDate, this.minDate, this.maxDate, dateParser, this.dateFormat);
     },
   },
@@ -168,7 +171,6 @@ const TDatepickerNavigator = Vue.extend({
   render(createElement: CreateElement): VNode {
     const subElements: VNode[] = [];
 
-
     if (this.showSelector) {
       const buttonElements: VNode[] = [];
 
@@ -179,7 +181,7 @@ const TDatepickerNavigator = Vue.extend({
             {
               class: 'text-gray-700 font-semibold',
             },
-            formatDate(this.localValue, 'F'),
+            this.formatNative(this.localValue, 'F'),
           ),
         );
       }
@@ -191,7 +193,7 @@ const TDatepickerNavigator = Vue.extend({
             {
               class: 'text-gray-600 ml-1',
             },
-            formatDate(this.localValue, 'Y'),
+            this.formatNative(this.localValue, 'Y'),
           ),
         );
       }
@@ -277,14 +279,14 @@ const TDatepickerNavigator = Vue.extend({
             {
               class: 'text-gray-700 font-semibold',
             },
-            formatDate(this.localValue, 'F'),
+            this.formatNative(this.localValue, 'F'),
           ),
           createElement(
             'span',
             {
               class: 'text-gray-600 ml-1',
             },
-            formatDate(this.localValue, 'Y'),
+            this.formatNative(this.localValue, 'Y'),
           ),
         ],
       ));

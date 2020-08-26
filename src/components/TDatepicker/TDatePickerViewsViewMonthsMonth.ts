@@ -1,8 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
-import {
-  formatDate, isSameMonth,
-} from '@/utils/dates';
+import { isSameMonth } from '@/utils/dates';
 
 const TDatePickerViewsViewMonthsMonth = Vue.extend({
   name: 'TDatePickerViewsViewMonthsMonth',
@@ -25,6 +23,10 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       required: true,
     },
     getElementCssClass: {
+      type: Function,
+      required: true,
+    },
+    formatNative: {
       type: Function,
       required: true,
     },
@@ -55,7 +57,7 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       return isSameMonth(d1, d2);
     },
     monthFormatted(): string {
-      return formatDate(this.getMonth(), 'M');
+      return this.formatNative(this.getMonth(), 'M');
     },
   },
 

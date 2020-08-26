@@ -30,7 +30,11 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
       type: Function,
       required: true,
     },
-    dateParser: {
+    parse: {
+      type: Function,
+      required: true,
+    },
+    formatNative: {
       type: Function,
       required: true,
     },
@@ -150,7 +154,8 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
                 activeDate: this.localActiveDate,
                 activeMonth: this.localActiveMonth,
                 getElementCssClass: this.getElementCssClass,
-                dateParser: this.dateParser,
+                parse: this.parse,
+                formatNative: this.formatNative,
                 dateFormat: this.dateFormat,
                 showDaysForOtherMonth: this.showDaysForOtherMonth,
                 showActiveDate: this.showActiveDate,

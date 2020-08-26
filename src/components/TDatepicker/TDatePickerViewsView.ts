@@ -33,7 +33,11 @@ const TDatePickerViewsView = Vue.extend({
       type: Function,
       required: true,
     },
-    dateParser: {
+    formatNative: {
+      type: Function,
+      required: true,
+    },
+    parse: {
       type: Function,
       required: true,
     },
@@ -144,7 +148,8 @@ const TDatePickerViewsView = Vue.extend({
           getElementCssClass: this.getElementCssClass,
           showSelector: this.isFirstMonth,
           currentView: this.currentView,
-          dateParser: this.dateParser,
+          parse: this.parse,
+          formatNative: this.formatNative,
           dateFormat: this.dateFormat,
           yearsPerView: this.yearsPerView,
           minDate: this.minDate,
@@ -172,7 +177,8 @@ const TDatePickerViewsView = Vue.extend({
               weekStart: this.weekStart,
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
-              dateParser: this.dateParser,
+              parse: this.parse,
+              formatNative: this.formatNative,
               dateFormat: this.dateFormat,
               monthsPerView: this.monthsPerView,
               showActiveDate: this.showActiveDate,
@@ -199,6 +205,7 @@ const TDatePickerViewsView = Vue.extend({
               locale: this.locale,
               getElementCssClass: this.getElementCssClass,
               showActiveDate: this.showActiveDate,
+              formatNative: this.formatNative,
             },
             on: {
               input: this.viewInputActiveDateHandler,
@@ -219,6 +226,7 @@ const TDatePickerViewsView = Vue.extend({
               getElementCssClass: this.getElementCssClass,
               yearsPerView: this.yearsPerView,
               showActiveDate: this.showActiveDate,
+              formatNative: this.formatNative,
             },
             on: {
               input: this.viewInputActiveDateHandler,

@@ -106,7 +106,7 @@ export type CustomLocale = {
   };
 };
 
-export type key =
+export type LocaleName =
   | 'ar'
   | 'at'
   | 'az'
@@ -169,3 +169,7 @@ export type key =
   | 'uz'
   | 'uz_latn'
   | 'zh_tw';
+
+export type Locales = {
+  [key in LocaleName]: Locale
+}

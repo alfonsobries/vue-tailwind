@@ -1,5 +1,4 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { formatDate } from '@/utils/dates';
 
 const TDatePickerViewsViewCalendarHeaders = Vue.extend({
   name: 'TDatePickerViewsViewCalendarHeaders',
@@ -14,6 +13,10 @@ const TDatePickerViewsViewCalendarHeaders = Vue.extend({
       required: true,
     },
     getElementCssClass: {
+      type: Function,
+      required: true,
+    },
+    formatNative: {
       type: Function,
       required: true,
     },
@@ -37,7 +40,7 @@ const TDatePickerViewsViewCalendarHeaders = Vue.extend({
     getWeekDayName(weekDay: number): string {
       const date = new Date();
       date.setDate((date.getDate() + (7 + weekDay - date.getDay())) % 7);
-      return formatDate(date, 'D');
+      return this.formatNative(date, 'D');
     },
   },
 

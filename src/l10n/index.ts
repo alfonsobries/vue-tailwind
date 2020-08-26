@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { key, CustomLocale } from '../types/locale';
+import { LocaleName, CustomLocale } from '../types/locale';
 
 import { Arabic as ar } from './ar';
 import { Austria as at } from './at';
@@ -62,7 +62,7 @@ import { Vietnamese as vn } from './vn';
 import { Mandarin as zh } from './zh';
 import { MandarinTraditional as zh_tw } from './zh-tw';
 
-const l10n: Record<key, CustomLocale> = {
+const l10n: Record<LocaleName, CustomLocale> = {
   ar,
   at,
   az,

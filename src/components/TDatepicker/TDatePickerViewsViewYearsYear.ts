@@ -1,8 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
-import {
-  formatDate,
-} from '@/utils/dates';
 
 const TDatePickerViewsViewYearsYear = Vue.extend({
   name: 'TDatePickerViewsViewYearsYear',
@@ -30,6 +27,10 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
     },
     showActiveDate: {
       type: Boolean,
+      required: true,
+    },
+    formatNative: {
+      type: Function,
       required: true,
     },
   },
@@ -61,7 +62,7 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
       return d2 && d1.getFullYear() === d2.getFullYear();
     },
     yearFormatted(): string {
-      return formatDate(this.getYear(), 'Y');
+      return this.formatNative(this.getYear(), 'Y');
     },
   },
 

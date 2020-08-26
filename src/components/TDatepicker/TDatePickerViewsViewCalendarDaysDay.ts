@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  formatDate, DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
 } from '@/utils/dates';
 
 const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
@@ -32,7 +32,11 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
-    dateParser: {
+    parse: {
+      type: Function,
+      required: true,
+    },
+    formatNative: {
       type: Function,
       required: true,
     },
@@ -96,7 +100,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
     isDisabled(): boolean {
       const day = this.getDay();
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
-      const dateParser: DateParser = this.dateParser as DateParser;
+      const dateParser: DateParser = this.parse as DateParser;
 
       return dateIsOutOfRange(day, this.minDate, this.maxDate, dateParser, this.dateFormat)
         || dayIsPartOfTheConditions(day, disabledDates, dateParser, this.dateFormat);
@@ -133,7 +137,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       return to && isSameDay(to, this.getDay());
     },
     dayFormatted(): string {
-      return formatDate(this.getDay(), 'j');
+      return this.formatNative(this.getDay(), 'j');
     },
   },
 
