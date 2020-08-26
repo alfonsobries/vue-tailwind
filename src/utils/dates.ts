@@ -35,10 +35,12 @@ export interface FormatterArgs {
 }
 
 
-export const formatDate = (dateObj: Date | null, format: string, locale: Locale): string => {
+export const formatDate = (dateObj: Date | null, format: string, customLocale?: Locale): string => {
   if (!dateObj) {
     return '';
   }
+
+  const locale = customLocale || English;
 
   return format
     .split('')
@@ -53,10 +55,12 @@ export const formatDate = (dateObj: Date | null, format: string, locale: Locale)
     .join('');
 };
 
-export const parseDate = (date: DateValue, format = 'Y-m-d H:i:S', timeless = false, locale: Locale): Date | undefined => {
+export const parseDate = (date: DateValue, format = 'Y-m-d H:i:S', timeless?: boolean, customLocale?: Locale): Date | undefined => {
   if (date !== 0 && !date) {
     return undefined;
   }
+
+  const locale = customLocale || English;
 
   const localeTokenRegex = { ...tokenRegex };
   localeTokenRegex.K = `(${locale.amPM[0]}|${
@@ -165,7 +169,7 @@ export function compareDates(date1: Date, date2: Date, timeless = true): number 
 export const extractLocaleFromProps = (localeName: string, locales: Locales) : Locale => {
   const availableLocales: LocaleName[] = Object.keys(locales) as LocaleName[];
   const find: LocaleName | undefined = availableLocales.find((l: LocaleName) => l === localeName);
-  return find ? locales[find] : English;
+  return find && locales[find] ? locales[find] : English;
 };
 
 export const buildDateParser = (locale: Locale, customDateParser?: DateParser) : DateParser => (date: DateValue, format = 'Y-m-d H:i:S', timeless?: boolean) => {
