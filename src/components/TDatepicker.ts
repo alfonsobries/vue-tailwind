@@ -58,7 +58,7 @@ const TDatepicker = HtmlInput.extend({
     },
     userFormat: {
       type: String,
-      default: 'Y-m-d',
+      default: 'F j, Y',
     },
     dateFormatter: {
       type: Function,
