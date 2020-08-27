@@ -58,5 +58,6 @@
     "*.json",
     "*.js"
   ],
+  "typings": "./dist/main.d.ts",
   "main": "./dist/vue-tailwind.umd.js"
 }
