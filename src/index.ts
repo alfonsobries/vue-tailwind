@@ -5,21 +5,20 @@ import { extractPropsFromLibrarySettings } from '@/utils/extractPropsFromSetting
 
 // Import vue components
 import * as components from './components';
+import ComponentName from './types/ComponentName';
 
-// Define typescript interfaces for autoinstaller
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface InstallFunction extends PluginFunction<any> {
+export interface InstallFunction extends PluginFunction<LibrarySettings> {
   installed?: boolean;
 }
 
 // install function executed by Vue.use()
 // eslint-disable-next-line max-len
-const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, args: LibrarySettings = {}) {
+const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, options?: LibrarySettings) {
   if (install.installed) return;
   install.installed = true;
 
   Object.entries(components).forEach(([componentName, component]) => {
-    const customProps: CustomProps = extractPropsFromLibrarySettings(args, componentName);
+    const customProps: CustomProps = extractPropsFromLibrarySettings(options, componentName as ComponentName);
 
     if (customProps) {
       const componentWithCustomVariants = (component as VueConstructor).extend({
