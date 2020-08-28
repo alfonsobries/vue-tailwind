@@ -35,28 +35,28 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
     };
   }
 
-  if (typeof wrapped !== undefined) {
+  if (wrapped !== undefined) {
     customProps.wrapped = {
       type: Boolean,
       default: wrapped,
     };
   }
 
-  if (typeof locales !== undefined) {
+  if (locales !== undefined) {
     customProps.locales = {
       type: Object,
       default: () => locales,
     };
   }
 
-  if (typeof locale !== undefined) {
+  if (locale !== undefined) {
     customProps.locale = {
       type: Object,
       default: () => locale,
     };
   }
 
-  if (typeof lang !== undefined) {
+  if (lang !== undefined) {
     customProps.lang = {
       type: String,
       default: lang,
