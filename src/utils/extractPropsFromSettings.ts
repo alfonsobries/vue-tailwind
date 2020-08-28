@@ -2,6 +2,7 @@
 import LibrarySettings from '@/types/LibrarySettings';
 import CustomProps from '@/types/CustomProps';
 import ComponentSettings from '@/types/ComponentSettings';
+import ComponentName from '@/types/ComponentName';
 
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(args: ComponentSettings): CustomProps {
   const componentVariants = args && args.variants ? args.variants : undefined;
@@ -46,7 +47,7 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
   return undefined;
 };
 
-const extractPropsFromLibrarySettings = function extractPropsFromSettings(args: LibrarySettings, componentName: string): CustomProps {
+const extractPropsFromLibrarySettings = function extractPropsFromSettings(args: LibrarySettings | undefined, componentName: ComponentName): CustomProps {
   if (args && args[componentName]) {
     return extractPropsFromComponentSettings(args[componentName]);
   }
