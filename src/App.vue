@@ -7,9 +7,12 @@
     footer="Made with love by @alfonsobries"
   >
     <t-datepicker
-      range
-      :close-on-select="false"
+      v-model="date"
+      name="date"
+      input-name="date2"
     />
+
+    {{ date }}
 
     <ul>
       <t-toggle

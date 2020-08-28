@@ -8,7 +8,7 @@ import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
 import isEqual from 'lodash/isEqual';
 import { English } from '@/l10n/default';
-import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
+import TDatepickerTrigger from './TDatepicker/TDatepickerTrigger';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 
@@ -123,6 +123,17 @@ const TDatepicker = HtmlInput.extend({
     fixedClasses: {
       type: Object,
       default: () => ({
+        button: 'p-3',
+        wrapper: 'inline-flex flex-col',
+        dropdownWrapper: 'relative z-10',
+        dropdown: 'origin-top-left absolute rounded-md shadow-lg bg-white',
+        enterClass: '',
+        enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',
+        enterToClass: 'transform opacity-100 scale-100',
+        leaveClass: 'transition ease-in transform opacity-100 scale-100',
+        leaveActiveClass: '',
+        leaveToClass: 'transform opacity-0 scale-95 duration-75',
+
         dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
         day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100',
         activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto',
@@ -507,16 +518,16 @@ const TDatepicker = HtmlInput.extend({
         ref: 'dropdown',
         props: {
           classes: {
-            button: 'p-3',
-            wrapper: 'inline-flex flex-col',
-            dropdownWrapper: 'relative z-10',
-            dropdown: 'origin-top-left absolute rounded-md shadow-lg bg-white',
-            enterClass: '',
-            enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',
-            enterToClass: 'transform opacity-100 scale-100',
-            leaveClass: 'transition ease-in transform opacity-100 scale-100',
-            leaveActiveClass: '',
-            leaveToClass: 'transform opacity-0 scale-95 duration-75',
+            wrapper: this.getElementCssClass('wrapper'),
+            button: this.getElementCssClass('button'),
+            dropdownWrapper: this.getElementCssClass('dropdownWrapper'),
+            dropdown: this.getElementCssClass('dropdown'),
+            enterClass: this.getElementCssClass('enterClass'),
+            enterActiveClass: this.getElementCssClass('enterActiveClass'),
+            enterToClass: this.getElementCssClass('enterToClass'),
+            leaveClass: this.getElementCssClass('leaveClass'),
+            leaveActiveClass: this.getElementCssClass('leaveActiveClass'),
+            leaveToClass: this.getElementCssClass('leaveToClass'),
           },
           show: this.show,
         },
@@ -538,15 +549,20 @@ const TDatepicker = HtmlInput.extend({
                 ref: 'trigger',
                 props: {
                   id: this.id,
-                  name: this.inputName,
+                  name: this.name,
+                  inputName: this.inputName,
                   disabled: this.disabled,
                   autofocus: this.autofocus,
                   required: this.required,
                   placeholder: this.placeholder,
                   userFormatedDate: this.userFormatedDate,
+                  formatedDate: this.formatedDate,
                   show: props.show,
                   hideIfFocusOutside: props.hideIfFocusOutside,
-                  conjuntion: this.range && this.currentLocale.rangeSeparator ? this.currentLocale.rangeSeparator : this.conjuntion,
+                  conjuntion: this.conjuntion,
+                  multiple: this.multiple,
+                  range: this.range,
+                  locale: this.currentLocale,
                 },
                 on: {
                   focus: this.focusHandler,
@@ -567,36 +583,6 @@ const TDatepicker = HtmlInput.extend({
                 },
               },
             ),
-            ...this.multiple
-              ? (Array.isArray(this.formatedDate) ? this.formatedDate : [this.formatedDate])
-                .map((date: string) => createElement(
-                  'input',
-                  {
-                    attrs: {
-                      type: 'hidden',
-                      value: date,
-                      name: this.name,
-                      disabled: this.disabled,
-                      readonly: this.readonly,
-                      required: this.required,
-                    },
-                  },
-                ))
-              : [
-                createElement(
-                  'input',
-                  {
-                    attrs: {
-                      type: 'hidden',
-                      value: Array.isArray(this.formatedDate) ? this.formatedDate.join(this.conjuntion) : this.formatedDate,
-                      name: this.name,
-                      disabled: this.disabled,
-                      readonly: this.readonly,
-                      required: this.required,
-                    },
-                  },
-                ),
-              ],
           ],
         },
       },
