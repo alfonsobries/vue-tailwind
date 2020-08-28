@@ -166,10 +166,10 @@ export function compareDates(date1: Date, date2: Date, timeless = true): number 
   return date1.getTime() - date2.getTime();
 }
 
-export const extractLocaleFromProps = (localeName: string, locales: Locales) : Locale => {
+export const extractLocaleFromProps = (localeName: string, locales: Locales, defaultLocale: Locale) : Locale => {
   const availableLocales: LocaleName[] = Object.keys(locales) as LocaleName[];
   const find: LocaleName | undefined = availableLocales.find((l: LocaleName) => l === localeName);
-  return find && locales[find] ? locales[find] : English;
+  return find && locales[find] ? locales[find] : defaultLocale;
 };
 
 export const buildDateParser = (locale: Locale, customDateParser?: DateParser) : DateParser => (date: DateValue, format = 'Y-m-d H:i:S', timeless?: boolean) => {

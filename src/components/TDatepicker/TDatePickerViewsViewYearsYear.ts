@@ -9,10 +9,6 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
       type: Date,
       required: true,
     },
-    locale: {
-      type: String,
-      required: true,
-    },
     activeDate: {
       type: Date,
       required: true,

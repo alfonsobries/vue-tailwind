@@ -10,10 +10,6 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       type: Date,
       required: true,
     },
-    locale: {
-      type: String,
-      required: true,
-    },
     value: {
       type: [Date, Array],
       default: null,

@@ -15,10 +15,6 @@ const TDatePickerViewsViewYears = Vue.extend({
       type: Date,
       required: true,
     },
-    locale: {
-      type: String,
-      required: true,
-    },
     getElementCssClass: {
       type: Function,
       required: true,
@@ -86,7 +82,6 @@ const TDatePickerViewsViewYears = Vue.extend({
         {
           props: {
             year,
-            locale: this.locale,
             activeDate: this.localActiveDate,
             value: this.value,
             getElementCssClass: this.getElementCssClass,

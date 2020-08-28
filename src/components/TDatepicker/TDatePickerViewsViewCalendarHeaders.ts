@@ -4,10 +4,6 @@ const TDatePickerViewsViewCalendarHeaders = Vue.extend({
   name: 'TDatePickerViewsViewCalendarHeaders',
 
   props: {
-    locale: {
-      type: String,
-      required: true,
-    },
     weekStart: {
       type: Number,
       required: true,

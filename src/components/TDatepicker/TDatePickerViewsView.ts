@@ -25,7 +25,7 @@ const TDatePickerViewsView = Vue.extend({
       type: Number,
       required: true,
     },
-    locale: {
+    lang: {
       type: String,
       required: true,
     },
@@ -175,7 +175,6 @@ const TDatePickerViewsView = Vue.extend({
               activeMonth: this.localActiveMonth,
               activeDate: this.localActiveDate,
               weekStart: this.weekStart,
-              locale: this.locale,
               getElementCssClass: this.getElementCssClass,
               parse: this.parse,
               formatNative: this.formatNative,
@@ -202,7 +201,6 @@ const TDatePickerViewsView = Vue.extend({
             props: {
               value: this.value,
               activeDate: this.localActiveDate,
-              locale: this.locale,
               getElementCssClass: this.getElementCssClass,
               showActiveDate: this.showActiveDate,
               formatNative: this.formatNative,
@@ -222,7 +220,6 @@ const TDatePickerViewsView = Vue.extend({
             props: {
               value: this.value,
               activeDate: this.localActiveDate,
-              locale: this.locale,
               getElementCssClass: this.getElementCssClass,
               yearsPerView: this.yearsPerView,
               showActiveDate: this.showActiveDate,

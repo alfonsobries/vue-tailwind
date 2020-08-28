@@ -22,10 +22,6 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
       type: Number,
       required: true,
     },
-    locale: {
-      type: String,
-      required: true,
-    },
     getElementCssClass: {
       type: Function,
       required: true,
@@ -149,7 +145,6 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
             {
               props: {
                 day,
-                locale: this.locale,
                 value: this.value,
                 activeDate: this.localActiveDate,
                 activeMonth: this.localActiveMonth,

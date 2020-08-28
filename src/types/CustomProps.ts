@@ -1,6 +1,6 @@
 import ComponentVariants from './ComponentVariants';
 import CssClasses from './CssClasses';
-import { Locales, LocaleName } from './locale';
+import { Locales, LocaleName, Locale } from './locale';
 
 interface VariantProp {
   type: ObjectConstructor;
@@ -21,6 +21,11 @@ interface LocalesProp {
   default: () => Locales | undefined
 }
 
+interface LocaleProp {
+  type: ObjectConstructor,
+  default: () => Locale | undefined
+}
+
 interface LangProp {
   type: StringConstructor,
   default: LocaleName | undefined
@@ -33,6 +38,7 @@ type CustomProps = {
   wrapped?: BooleanProp;
   locales?: LocalesProp;
   lang?: LangProp;
+  locale?: LocaleProp;
 } | undefined
 
 export default CustomProps;

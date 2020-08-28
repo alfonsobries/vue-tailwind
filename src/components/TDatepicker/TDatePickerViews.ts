@@ -24,7 +24,7 @@ const TDatePickerViews = Vue.extend({
       type: Number,
       required: true,
     },
-    locale: {
+    lang: {
       type: String,
       required: true,
     },
@@ -113,7 +113,7 @@ const TDatePickerViews = Vue.extend({
             activeMonth,
             activeDate: this.localActiveDate,
             weekStart: this.weekStart,
-            locale: this.locale,
+            lang: this.lang,
             getElementCssClass: this.getElementCssClass,
             parse: this.parse,
             dateFormat: this.dateFormat,

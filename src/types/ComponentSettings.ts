@@ -1,6 +1,6 @@
 import ComponentVariants from './ComponentVariants';
 import CssClasses from './CssClasses';
-import { Locales, LocaleName } from './locale';
+import { Locales, LocaleName, Locale } from './locale';
 
 type ComponentSettings = {
   variants?: ComponentVariants;
@@ -8,6 +8,7 @@ type ComponentSettings = {
   fixedClasses?: CssClasses;
   wrapped?: boolean;
   locales?: Locales
+  locale?: Locale
   lang?: LocaleName
 } | undefined
 

@@ -7,6 +7,7 @@ import {
 import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
 import isEqual from 'lodash/isEqual';
+import { English } from '@/l10n/default';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTriggerInput';
 import TDatePickerViews from './TDatepicker/TDatePickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
@@ -44,9 +45,13 @@ const TDatepicker = HtmlInput.extend({
         return value >= 1;
       },
     },
-    locale: {
+    lang: {
       type: String,
       default: 'en',
+    },
+    locale: {
+      type: Object,
+      default: () => English,
     },
     locales: {
       type: Object,
@@ -140,7 +145,7 @@ const TDatepicker = HtmlInput.extend({
   },
 
   data() {
-    const currentLocale = extractLocaleFromProps(this.locale, this.locales);
+    const currentLocale = extractLocaleFromProps(this.lang, this.locales, this.locale);
     const dateFormatter = this.dateFormatter as DateFormatter | undefined;
     const parse: DateParser = buildDateParser(currentLocale, this.dateParser as DateParser);
     const format: DateFormatter = buildDateFormatter(currentLocale, dateFormatter);
@@ -285,7 +290,7 @@ const TDatepicker = HtmlInput.extend({
 
   methods: {
     refreshCurrentLocale(): void {
-      this.currentLocale = extractLocaleFromProps(this.locale, this.locales);
+      this.currentLocale = extractLocaleFromProps(this.lang, this.locales, this.locale);
       this.refreshParser();
       this.refreshFormatter();
     },
@@ -598,7 +603,7 @@ const TDatepicker = HtmlInput.extend({
               activeDate: this.activeDate,
               weekStart: this.weekStart,
               monthsPerView: this.monthsPerView,
-              locale: this.locale,
+              lang: this.lang,
               getElementCssClass: this.getElementCssClass,
               parse: this.parse,
               formatNative: this.formatNative,
