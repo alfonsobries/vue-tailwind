@@ -7,7 +7,7 @@ import { extractPropsFromLibrarySettings } from '@/utils/extractPropsFromSetting
 import * as components from './components';
 import ComponentName from './types/ComponentName';
 
-interface InstallFunction extends PluginFunction<LibrarySettings> {
+export interface InstallFunction extends PluginFunction<LibrarySettings> {
   installed?: boolean;
 }
 
