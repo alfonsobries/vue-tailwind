@@ -1,14 +1,13 @@
 /* eslint-disable max-len */
-import CssClasses from '@/types/CssClasses';
 import LibrarySettings from '@/types/LibrarySettings';
 import CustomProps from '@/types/CustomProps';
 import ComponentSettings from '@/types/ComponentSettings';
 
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(args: ComponentSettings): CustomProps {
-  const componentVariants: CssClasses = args && args.variants ? args.variants : undefined;
-  const componentClasses: CssClasses = args && args.classes ? args.classes : undefined;
-  const componentFixedClasses: CssClasses = args && args.fixedClasses ? args.fixedClasses : undefined;
-  const wrapped: boolean | undefined = args && args.wrapped ? args.wrapped : undefined;
+  const componentVariants = args && args.variants ? args.variants : undefined;
+  const componentClasses = args && args.classes ? args.classes : undefined;
+  const componentFixedClasses = args && args.fixedClasses ? args.fixedClasses : undefined;
+  const wrapped = args && args.wrapped ? args.wrapped : undefined;
 
   const customProps: CustomProps = {};
 
@@ -33,7 +32,7 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
     };
   }
 
-  if (typeof wrapped !== undefined) {
+  if (wrapped !== undefined) {
     customProps.wrapped = {
       type: Boolean,
       default: wrapped,
