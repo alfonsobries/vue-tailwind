@@ -1,16 +1,15 @@
 /* eslint-disable max-len */
-import CssClasses from '@/types/CssClasses';
 import LibrarySettings from '@/types/LibrarySettings';
 import CustomProps from '@/types/CustomProps';
 import ComponentSettings from '@/types/ComponentSettings';
-import { CustomLocale } from '@/types/locale';
 
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(args: ComponentSettings): CustomProps {
-  const componentVariants: CssClasses = args && args.variants ? args.variants : undefined;
-  const componentClasses: CssClasses = args && args.classes ? args.classes : undefined;
-  const componentFixedClasses: CssClasses = args && args.fixedClasses ? args.fixedClasses : undefined;
-  const wrapped: boolean | undefined = args && args.wrapped ? args.wrapped : undefined;
-  const locales: CustomLocale[] | undefined = args && args.locales ? args.locales : undefined;
+  const componentVariants = args && args.variants ? args.variants : undefined;
+  const componentClasses = args && args.classes ? args.classes : undefined;
+  const componentFixedClasses = args && args.fixedClasses ? args.fixedClasses : undefined;
+  const wrapped = args && args.wrapped ? args.wrapped : undefined;
+  const locales = args && args.locales ? args.locales : undefined;
+  const lang = args && args.lang ? args.lang : undefined;
 
   const customProps: CustomProps = {};
 
@@ -46,6 +45,13 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
     customProps.locales = {
       type: Object,
       default: () => locales,
+    };
+  }
+
+  if (typeof lang !== undefined) {
+    customProps.lang = {
+      type: String,
+      default: lang,
     };
   }
 

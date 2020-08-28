@@ -1,13 +1,14 @@
 import ComponentVariants from './ComponentVariants';
 import CssClasses from './CssClasses';
-import { CustomLocale } from './locale';
+import { Locales, LocaleName } from './locale';
 
 type ComponentSettings = {
   variants?: ComponentVariants;
   classes?: CssClasses;
   fixedClasses?: CssClasses;
   wrapped?: boolean;
-  locales?: CustomLocale[];
+  locales?: Locales
+  lang?: LocaleName
 } | undefined
 
 export default ComponentSettings;
