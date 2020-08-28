@@ -1,6 +1,8 @@
-import { Locale, Locales, LocaleName } from '@/types/locale';
+import {
+  Locale, Locales, LocaleName, CustomLocale,
+} from '@/types/locale';
 import { English } from '@/l10n/default';
-
+import merge from 'lodash/merge';
 import {
   tokenRegex,
   RevFormatFn,
@@ -166,10 +168,11 @@ export function compareDates(date1: Date, date2: Date, timeless = true): number 
   return date1.getTime() - date2.getTime();
 }
 
-export const extractLocaleFromProps = (localeName: string, locales: Locales, defaultLocale: Locale) : Locale => {
+export const extractLocaleFromProps = (localeName: string, locales: Locales, defaultLocale: CustomLocale) : Locale => {
   const availableLocales: LocaleName[] = Object.keys(locales) as LocaleName[];
   const find: LocaleName | undefined = availableLocales.find((l: LocaleName) => l === localeName);
-  return find && locales[find] ? locales[find] : defaultLocale;
+  const locale = find && locales[find] ? locales[find] : defaultLocale;
+  return merge<Locale, CustomLocale>(English, locale);
 };
 
 export const buildDateParser = (locale: Locale, customDateParser?: DateParser) : DateParser => (date: DateValue, format = 'Y-m-d H:i:S', timeless?: boolean) => {
