@@ -238,17 +238,6 @@ const TDatepicker = HtmlInput.extend({
       this.$emit('change', formatedDate);
     },
     localValue(localValue: Date | null | Date[]) {
-      const formatedDate = Array.isArray(localValue)
-        ? localValue.map((d) => this.format(d, this.dateFormat))
-        : this.format(localValue, this.dateFormat);
-
-      const userFormatedDate = Array.isArray(localValue)
-        ? localValue.map((d) => this.format(d, this.userFormat))
-        : this.format(localValue, this.userFormat);
-
-      this.formatedDate = formatedDate;
-      this.userFormatedDate = userFormatedDate;
-
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
         if (Array.isArray(localValue) && localValue.length) {
           [this.activeDate] = localValue;
@@ -256,6 +245,8 @@ const TDatepicker = HtmlInput.extend({
           this.activeDate = localValue instanceof Date ? localValue : new Date();
         }
       }
+
+      this.refreshFormattedDate();
     },
     value(value: DateValue) {
       if (Array.isArray(value)) {
@@ -277,6 +268,9 @@ const TDatepicker = HtmlInput.extend({
     dateFormatter() {
       this.refreshFormatter();
     },
+    lang() {
+      this.refreshCurrentLocale();
+    },
     locale() {
       this.refreshCurrentLocale();
     },
@@ -289,10 +283,23 @@ const TDatepicker = HtmlInput.extend({
   },
 
   methods: {
+    refreshFormattedDate(): void {
+      const formatedDate = Array.isArray(this.localValue)
+        ? this.localValue.map((d) => this.format(d, this.dateFormat))
+        : this.format(this.localValue, this.dateFormat);
+
+      const userFormatedDate = Array.isArray(this.localValue)
+        ? this.localValue.map((d) => this.format(d, this.userFormat))
+        : this.format(this.localValue, this.userFormat);
+
+      this.formatedDate = formatedDate;
+      this.userFormatedDate = userFormatedDate;
+    },
     refreshCurrentLocale(): void {
       this.currentLocale = extractLocaleFromProps(this.lang, this.locales, this.locale);
       this.refreshParser();
       this.refreshFormatter();
+      this.refreshFormattedDate();
     },
     refreshParser(): void {
       const parse: DateParser = buildDateParser(this.currentLocale, this.dateParser as DateParser);
