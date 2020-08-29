@@ -142,6 +142,13 @@ const TDatepicker = HtmlInput.extend({
         viewGroup: 'flex flex-col',
         view: 'p-2 w-64',
 
+        // Navigator
+        navigator: 'flex items-center justify-between mb-2',
+        navigatorViewButtonIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
+        navigatorViewButtonBackIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
+        navigatorViewButtonMonth: 'text-gray-700 font-semibold',
+        navigatorViewButtonYear: 'text-gray-600 ml-1',
+
 
         dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
         day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100',
