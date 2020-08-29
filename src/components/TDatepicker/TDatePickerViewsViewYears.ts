@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatepickerViewsViewYearsYear from './TDatepickerViewsViewYearsYear';
-import { getYearsRange } from './TDatepickerNavigator';
+import TDatepickerViewsViewYearsYear from '@/components/TDatepicker/TDatepickerViewsViewYearsYear';
+import { getYearsRange } from '@/components/TDatepicker/TDatepickerNavigator';
 
 const TDatepickerViewsViewYears = Vue.extend({
   name: 'TDatepickerViewsViewYears',

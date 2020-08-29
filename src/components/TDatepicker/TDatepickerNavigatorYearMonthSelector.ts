@@ -1,6 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import TDatepickerNavigatorYearMonthSelectorYear from './TDatepickerNavigatorYearMonthSelectorYear';
-import TDatepickerNavigatorYearMonthSelectorMonth from './TDatepickerNavigatorYearMonthSelectorMonth';
+import TDatepickerNavigatorYearMonthSelectorYear from '@/components/TDatepicker/TDatepickerNavigatorYearMonthSelectorYear';
+import TDatepickerNavigatorYearMonthSelectorMonth from '@/components/TDatepicker/TDatepickerNavigatorYearMonthSelectorMonth';
 
 const TDatepickerNavigatorYearMonthSelector = Vue.extend({
   name: 'TDatepickerNavigatorYearMonthSelector',

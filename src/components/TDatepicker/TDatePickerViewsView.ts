@@ -1,9 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatepickerViewsViewCalendar from './TDatepickerViewsViewCalendar';
-import TDatepickerNavigator, { CalendarView } from './TDatepickerNavigator';
-import TDatepickerViewsViewMonths from './TDatepickerViewsViewMonths';
-import TDatepickerViewsViewYears from './TDatepickerViewsViewYears';
+import TDatepickerViewsViewCalendar from '@/components/TDatepicker/TDatepickerViewsViewCalendar';
+import TDatepickerNavigator, { CalendarView } from '@/components/TDatepicker/TDatepickerNavigator';
+import TDatepickerViewsViewMonths from '@/components/TDatepicker/TDatepickerViewsViewMonths';
+import TDatepickerViewsViewYears from '@/components/TDatepicker/TDatepickerViewsViewYears';
 
 const TDatepickerViewsView = Vue.extend({
   name: 'TDatepickerViewsView',

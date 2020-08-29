@@ -1,6 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatepickerViewsViewMonthsMonth from './TDatepickerViewsViewMonthsMonth';
+import TDatepickerViewsViewMonthsMonth from '@/components/TDatepicker/TDatepickerViewsViewMonthsMonth';
 
 const TDatepickerViewsViewMonths = Vue.extend({
   name: 'TDatepickerViewsViewMonths',
