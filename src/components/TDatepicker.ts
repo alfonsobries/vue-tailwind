@@ -139,7 +139,8 @@ const TDatepicker = HtmlInput.extend({
         input: 'form-input',
 
         // Picker views
-        views: 'flex flex-col',
+        viewGroup: 'flex flex-col',
+        view: 'p-2 w-64',
 
 
         dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',

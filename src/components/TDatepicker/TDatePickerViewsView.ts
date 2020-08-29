@@ -236,7 +236,7 @@ const TDatePickerViewsView = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'p-2 w-64',
+        class: this.getElementCssClass('view'),
       },
       subElements,
     );
