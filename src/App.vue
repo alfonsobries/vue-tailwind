@@ -6,6 +6,14 @@
     header="VueTailwind"
     footer="Made with love by @alfonsobries"
   >
+    <t-datepicker
+      v-model="date"
+      name="date"
+      input-name="date2"
+    />
+
+    {{ date }}
+
     <ul>
       <t-toggle
         name="variant"
@@ -979,6 +987,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      date: '2020-02-29',
       wrappedRadioValue: '2',
       wrappedCheckboxValue: ['2'],
       repositories: [] as string[],

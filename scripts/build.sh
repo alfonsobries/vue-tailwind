@@ -57,4 +57,10 @@ echo 'Building TTable...'
 echo 'Building TToggle...'
 ./node_modules/.bin/vue-cli-service build --target lib --name TToggle --filename components/TToggle --no-clean ./src/t-toggle.ts
 
+echo 'Building TDatepicker...'
+./node_modules/.bin/vue-cli-service build --target lib --name TDatepicker --filename components/TDatepicker --no-clean ./src/t-datepicker.ts
+
+echo 'Building Locale...'
+./node_modules/.bin/tsc --build tsconfig.locale.json
+
 echo 'Done building assets.'

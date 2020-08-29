@@ -9,6 +9,9 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
   const componentClasses = args && args.classes ? args.classes : undefined;
   const componentFixedClasses = args && args.fixedClasses ? args.fixedClasses : undefined;
   const wrapped = args && args.wrapped ? args.wrapped : undefined;
+  const locales = args && args.locales ? args.locales : undefined;
+  const locale = args && args.locale ? args.locale : undefined;
+  const lang = args && args.lang ? args.lang : undefined;
 
   const customProps: CustomProps = {};
 
@@ -37,6 +40,27 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
     customProps.wrapped = {
       type: Boolean,
       default: wrapped,
+    };
+  }
+
+  if (locales !== undefined) {
+    customProps.locales = {
+      type: Object,
+      default: () => locales,
+    };
+  }
+
+  if (locale !== undefined) {
+    customProps.locale = {
+      type: Object,
+      default: () => locale,
+    };
+  }
+
+  if (lang !== undefined) {
+    customProps.lang = {
+      type: String,
+      default: lang,
     };
   }
 
