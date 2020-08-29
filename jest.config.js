@@ -3,4 +3,7 @@ module.exports = {
   moduleFileExtensions: [
     'ts', 'js',
   ],
+  moduleNameMapper: {
+    '/^@\/(.*)$/': '<rootDir>/src/$1',
+  },
 };
