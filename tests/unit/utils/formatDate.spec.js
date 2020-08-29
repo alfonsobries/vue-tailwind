@@ -325,6 +325,12 @@ describe('flatpickr', () => {
         expect(formatDate(date2, DEFAULT_FORMAT_1)).not.toEqual(RESULT);
       });
 
+      it('should format dates for year 0001', () => {
+        const RESULT = '0001-07-15';
+
+        const date = createDate('0001-07-15');
+        expect(formatDate(date, DEFAULT_FORMAT_3)).not.toEqual(RESULT);
+      });
 
       it(`should format the date with the pattern "${DEFAULT_FORMAT_2}"`, () => {
         const RESULT = "Thu 20 October, '16";
