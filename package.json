@@ -30,6 +30,7 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@tailwindcss/custom-forms": "^0.2.1",
     "@types/body-scroll-lock": "^2.6.1",
     "@types/jest": "^26.0.9",
     "@types/lodash": "^4.14.159",
@@ -44,10 +45,12 @@
     "@vue/eslint-config-airbnb": "^5.1.0",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "1.0.3",
+    "autoprefixer": "^9.8.6",
     "eslint": "^7.7.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-vue": "^6.2.2",
     "release-it": "^13.6.6",
+    "tailwindcss": "^1.7.5",
     "typescript": "~3.9.7",
     "vue-template-compiler": "^2.6.11"
   },
