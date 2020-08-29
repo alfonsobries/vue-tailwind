@@ -732,6 +732,7 @@
 </template>
 
 <script lang="ts">
+import '../css/tailwind.css';
 
 /* eslint-disable max-len */
 
