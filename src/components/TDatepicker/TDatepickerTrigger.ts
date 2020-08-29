@@ -1,11 +1,37 @@
-import { CreateElement, VNode } from 'vue';
-import HtmlInput from '@/base/HtmlInput';
-import TDatepickerTriggerInput from './TDatepickerTriggerInput';
+import Vue, { CreateElement, VNode } from 'vue';
 
-const TDatepickerTrigger = HtmlInput.extend({
+const TDatepickerTrigger = Vue.extend({
   name: 'TDatepickerTrigger',
 
   props: {
+    id: {
+      type: String,
+      default: undefined,
+    },
+    name: {
+      type: String,
+      default: undefined,
+    },
+    disabled: {
+      type: Boolean,
+      default: undefined,
+    },
+    readonly: {
+      type: Boolean,
+      default: undefined,
+    },
+    autofocus: {
+      type: Boolean,
+      default: undefined,
+    },
+    required: {
+      type: Boolean,
+      default: undefined,
+    },
+    tabindex: {
+      type: [String, Number],
+      default: undefined,
+    },
     inputName: {
       type: String,
       default: undefined,
@@ -46,6 +72,10 @@ const TDatepickerTrigger = HtmlInput.extend({
       type: [String, Array],
       required: true,
     },
+    getElementCssClass: {
+      type: Function,
+      required: true,
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -53,22 +83,29 @@ const TDatepickerTrigger = HtmlInput.extend({
 
     const subElements = [
       createElement(
-        TDatepickerTriggerInput,
+        'input',
         {
           ref: 'input',
-          props: {
+          class: this.getElementCssClass('input'),
+          attrs: {
+            readonly: true,
             id: this.id,
-            name: this.inputName,
+            name: this.name,
             disabled: this.disabled,
+            autocomplete: 'off',
             autofocus: this.autofocus,
+            type: 'text',
             required: this.required,
             placeholder: this.placeholder,
-            conjuntion: this.range && this.locale.rangeSeparator ? this.locale.rangeSeparator : this.conjuntion,
-            show: this.show,
-            hideIfFocusOutside: this.hideIfFocusOutside,
-            userFormatedDate: this.userFormatedDate,
+            tabindex: this.tabindex,
+            value: Array.isArray(this.userFormatedDate) ? this.userFormatedDate.join(this.conjuntion) : this.userFormatedDate,
           },
           on: {
+            click: (e: MouseEvent) => {
+              this.show();
+
+              this.$emit('click', e);
+            },
             input: (e: Date) => {
               this.$emit('input', e);
             },
@@ -76,9 +113,13 @@ const TDatepickerTrigger = HtmlInput.extend({
               this.$emit('keydown', e);
             },
             blur: (e: KeyboardEvent) => {
+              this.hideIfFocusOutside(e);
+
               this.$emit('blur', e);
             },
             focus: (e: KeyboardEvent) => {
+              this.show();
+
               this.$emit('focus', e);
             },
           },
@@ -124,7 +165,7 @@ const TDatepickerTrigger = HtmlInput.extend({
     return createElement(
       'div',
       {
-        class: this.getElementCssClass(''),
+        class: this.getElementCssClass('inputWrapper'),
       },
       subElements,
     );

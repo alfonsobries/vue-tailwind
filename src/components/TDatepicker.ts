@@ -123,7 +123,7 @@ const TDatepicker = HtmlInput.extend({
     fixedClasses: {
       type: Object,
       default: () => ({
-        button: 'p-3',
+        // Dropdown related classes
         wrapper: 'inline-flex flex-col',
         dropdownWrapper: 'relative z-10',
         dropdown: 'origin-top-left absolute rounded-md shadow-lg bg-white',
@@ -133,6 +133,10 @@ const TDatepicker = HtmlInput.extend({
         leaveClass: 'transition ease-in transform opacity-100 scale-100',
         leaveActiveClass: '',
         leaveToClass: 'transform opacity-0 scale-95 duration-75',
+        // Text input related classes
+        inputWrapper: 'relative',
+        input: 'form-input',
+
 
         dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
         day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100',
@@ -519,7 +523,6 @@ const TDatepicker = HtmlInput.extend({
         props: {
           classes: {
             wrapper: this.getElementCssClass('wrapper'),
-            button: this.getElementCssClass('button'),
             dropdownWrapper: this.getElementCssClass('dropdownWrapper'),
             dropdown: this.getElementCssClass('dropdown'),
             enterClass: this.getElementCssClass('enterClass'),
@@ -552,9 +555,11 @@ const TDatepicker = HtmlInput.extend({
                   name: this.name,
                   inputName: this.inputName,
                   disabled: this.disabled,
+                  readonly: this.readonly,
                   autofocus: this.autofocus,
                   required: this.required,
                   placeholder: this.placeholder,
+                  tabindex: this.tabindex,
                   userFormatedDate: this.userFormatedDate,
                   formatedDate: this.formatedDate,
                   show: props.show,
@@ -563,6 +568,7 @@ const TDatepicker = HtmlInput.extend({
                   multiple: this.multiple,
                   range: this.range,
                   locale: this.currentLocale,
+                  getElementCssClass: this.getElementCssClass,
                 },
                 on: {
                   focus: this.focusHandler,
