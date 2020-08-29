@@ -326,6 +326,9 @@ const TDatepicker = HtmlInput.extend({
     shown(shown) {
       this.$emit('update:show', shown);
     },
+    activeDate(activeDate) {
+      this.$emit('activeChange', activeDate);
+    },
     formatedDate(formatedDate) {
       this.$emit('input', formatedDate);
       this.$emit('change', formatedDate);
