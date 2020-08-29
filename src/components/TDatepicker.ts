@@ -133,9 +133,13 @@ const TDatepicker = HtmlInput.extend({
         leaveClass: 'transition ease-in transform opacity-100 scale-100',
         leaveActiveClass: '',
         leaveToClass: 'transform opacity-0 scale-95 duration-75',
+
         // Text input related classes
         inputWrapper: 'relative',
         input: 'form-input',
+
+        // Picker views
+        views: 'flex flex-col',
 
 
         dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
