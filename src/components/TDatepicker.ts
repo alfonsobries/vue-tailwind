@@ -9,7 +9,7 @@ import Key from '@/types/Key';
 import isEqual from 'lodash/isEqual';
 import { English } from '@/l10n/default';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTrigger';
-import TDatePickerViews from './TDatepicker/TDatePickerViews';
+import TDatepickerViews from './TDatepicker/TDatepickerViews';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 
 interface Dropdown extends Vue {
@@ -686,7 +686,7 @@ const TDatepicker = HtmlInput.extend({
       },
       [
         createElement(
-          TDatePickerViews,
+          TDatepickerViews,
           {
             ref: 'views',
             props: {

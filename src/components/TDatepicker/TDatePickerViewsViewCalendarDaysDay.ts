@@ -4,8 +4,8 @@ import {
   DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
 } from '@/utils/dates';
 
-const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
-  name: 'TDatePickerViewsViewCalendarDaysDay',
+const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
+  name: 'TDatepickerViewsViewCalendarDaysDay',
 
   props: {
     day: {
@@ -249,4 +249,4 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewCalendarDaysDay;
+export default TDatepickerViewsViewCalendarDaysDay;

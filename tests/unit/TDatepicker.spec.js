@@ -1,7 +1,7 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
-import TDatePickerViewsViewCalendarDaysDay from '@/components/TDatepicker/TDatePickerViewsViewCalendarDaysDay';
-import TDatePickerNavigator from '@/components/TDatepicker/TDatePickerNavigator';
+import TDatepickerViewsViewCalendarDaysDay from '@/components/TDatepicker/TDatepickerViewsViewCalendarDaysDay';
+import TDatepickerNavigator from '@/components/TDatepicker/TDatepickerNavigator';
 import { isSameDay, isSameMonth, parseDate } from '@/utils/dates';
 
 const getCalendarView = (wrapper) => wrapper.vm.$refs.views.$refs.view;
@@ -577,7 +577,7 @@ describe('TDatepicker', () => {
   });
 });
 
-describe('TDatePickerViewsViewCalendarDaysDay', () => {
+describe('TDatepickerViewsViewCalendarDaysDay', () => {
   const datePicker = shallowMount(TDatepicker);
   const day = new Date(1987, 1, 18);
   const currentDate = new Date(1987, 1, 19);
@@ -600,7 +600,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   };
 
   it('usually not disables a date ', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: dayProps,
     });
 
@@ -608,7 +608,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('disables a date by date object', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -620,7 +620,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('disables a date by string object', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -636,7 +636,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   it('disables a date by a function', () => {
     const disabledFunc = (date) => isSameDay(date, day);
 
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -649,7 +649,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('disables a date by an array', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -688,7 +688,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('disables a date > maxDate', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -701,7 +701,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('not disables a date < maxDate', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -714,7 +714,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('disables a date < minDate', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -727,7 +727,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('not disables a date > minDate', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -740,7 +740,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('not disables a between min and max date', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -754,7 +754,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
   });
 
   it('disables a date between min and max date', () => {
-    const wrapper = shallowMount(TDatePickerViewsViewCalendarDaysDay, {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
         ...{
@@ -769,7 +769,7 @@ describe('TDatePickerViewsViewCalendarDaysDay', () => {
 });
 
 
-describe('TDatePickerNavigator', () => {
+describe('TDatepickerNavigator', () => {
   const datePicker = shallowMount(TDatepicker);
   const currentDate = new Date(1987, 1, 19);
 
@@ -786,7 +786,7 @@ describe('TDatePickerNavigator', () => {
   };
 
   it('usually not disables next/prev buttons', () => {
-    const wrapper = shallowMount(TDatePickerNavigator, {
+    const wrapper = shallowMount(TDatepickerNavigator, {
       propsData: navProps,
     });
 
@@ -795,7 +795,7 @@ describe('TDatePickerNavigator', () => {
   });
 
   it('disables the next button if next date > maxDate', () => {
-    const wrapper = shallowMount(TDatePickerNavigator, {
+    const wrapper = shallowMount(TDatepickerNavigator, {
       propsData: {
         ...navProps,
         ...{
@@ -809,7 +809,7 @@ describe('TDatePickerNavigator', () => {
   });
 
   it('disables the prev button if prev date < minDate', () => {
-    const wrapper = shallowMount(TDatePickerNavigator, {
+    const wrapper = shallowMount(TDatepickerNavigator, {
       propsData: {
         ...navProps,
         ...{
@@ -823,7 +823,7 @@ describe('TDatePickerNavigator', () => {
   });
 
   it('not disables the next button if next date < maxDate', () => {
-    const wrapper = shallowMount(TDatePickerNavigator, {
+    const wrapper = shallowMount(TDatepickerNavigator, {
       propsData: {
         ...navProps,
         ...{

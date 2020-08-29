@@ -1,8 +1,8 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 
-const TDatePickerViewsViewYearsYear = Vue.extend({
-  name: 'TDatePickerViewsViewYearsYear',
+const TDatepickerViewsViewYearsYear = Vue.extend({
+  name: 'TDatepickerViewsViewYearsYear',
 
   props: {
     year: {
@@ -105,4 +105,4 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewYearsYear;
+export default TDatepickerViewsViewYearsYear;

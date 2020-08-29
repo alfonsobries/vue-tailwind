@@ -1,9 +1,9 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatePickerViewsViewMonthsMonth from './TDatePickerViewsViewMonthsMonth';
+import TDatepickerViewsViewMonthsMonth from './TDatepickerViewsViewMonthsMonth';
 
-const TDatePickerViewsViewMonths = Vue.extend({
-  name: 'TDatePickerViewsViewMonths',
+const TDatepickerViewsViewMonths = Vue.extend({
+  name: 'TDatepickerViewsViewMonths',
 
   props: {
     value: {
@@ -71,7 +71,7 @@ const TDatePickerViewsViewMonths = Vue.extend({
         class: this.getElementCssClass('monthWrapper'),
       },
       this.months.map((month: Date) => createElement(
-        TDatePickerViewsViewMonthsMonth,
+        TDatepickerViewsViewMonthsMonth,
         {
           props: {
             month,
@@ -90,4 +90,4 @@ const TDatePickerViewsViewMonths = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewMonths;
+export default TDatepickerViewsViewMonths;

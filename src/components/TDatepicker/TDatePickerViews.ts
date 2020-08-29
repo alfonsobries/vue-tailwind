@@ -1,11 +1,11 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
 import { addMonths } from '@/utils/dates';
-import TDatePickerViewsView from './TDatePickerViewsView';
+import TDatepickerViewsView from './TDatepickerViewsView';
 import { CalendarView } from './TDatepickerNavigator';
 
-const TDatePickerViews = Vue.extend({
-  name: 'TDatePickerViews',
+const TDatepickerViews = Vue.extend({
+  name: 'TDatepickerViews',
 
   props: {
     value: {
@@ -125,7 +125,7 @@ const TDatePickerViews = Vue.extend({
         class: this.getElementCssClass('viewGroup'),
       },
       this.activeMonths.map((activeMonth: Date, index: number) => createElement(
-        TDatePickerViewsView,
+        TDatepickerViewsView,
         {
           ref: 'view',
           props: {
@@ -173,4 +173,4 @@ const TDatePickerViews = Vue.extend({
   },
 });
 
-export default TDatePickerViews;
+export default TDatepickerViews;

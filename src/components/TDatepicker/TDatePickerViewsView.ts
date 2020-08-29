@@ -1,12 +1,12 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatePickerViewsViewCalendar from './TDatePickerViewsViewCalendar';
+import TDatepickerViewsViewCalendar from './TDatepickerViewsViewCalendar';
 import TDatepickerNavigator, { CalendarView } from './TDatepickerNavigator';
-import TDatePickerViewsViewMonths from './TDatePickerViewsViewMonths';
-import TDatePickerViewsViewYears from './TDatePickerViewsViewYears';
+import TDatepickerViewsViewMonths from './TDatepickerViewsViewMonths';
+import TDatepickerViewsViewYears from './TDatepickerViewsViewYears';
 
-const TDatePickerViewsView = Vue.extend({
-  name: 'TDatePickerViewsView',
+const TDatepickerViewsView = Vue.extend({
+  name: 'TDatepickerViewsView',
 
   props: {
     value: {
@@ -185,7 +185,7 @@ const TDatePickerViewsView = Vue.extend({
     if (this.currentView === CalendarView.Day) {
       subElements.push(
         createElement(
-          TDatePickerViewsViewCalendar,
+          TDatepickerViewsViewCalendar,
           {
             ref: 'calendar',
             props: {
@@ -217,7 +217,7 @@ const TDatePickerViewsView = Vue.extend({
     } else if (this.currentView === CalendarView.Month) {
       subElements.push(
         createElement(
-          TDatePickerViewsViewMonths,
+          TDatepickerViewsViewMonths,
           {
             ref: 'months',
             props: {
@@ -236,7 +236,7 @@ const TDatePickerViewsView = Vue.extend({
     } else if (this.currentView === CalendarView.Year) {
       subElements.push(
         createElement(
-          TDatePickerViewsViewYears,
+          TDatepickerViewsViewYears,
           {
             ref: 'years',
             props: {
@@ -265,4 +265,4 @@ const TDatePickerViewsView = Vue.extend({
   },
 });
 
-export default TDatePickerViewsView;
+export default TDatepickerViewsView;

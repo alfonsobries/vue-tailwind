@@ -1,10 +1,10 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatePickerViewsViewYearsYear from './TDatePickerViewsViewYearsYear';
+import TDatepickerViewsViewYearsYear from './TDatepickerViewsViewYearsYear';
 import { getYearsRange } from './TDatepickerNavigator';
 
-const TDatePickerViewsViewYears = Vue.extend({
-  name: 'TDatePickerViewsViewYears',
+const TDatepickerViewsViewYears = Vue.extend({
+  name: 'TDatepickerViewsViewYears',
 
   props: {
     value: {
@@ -78,7 +78,7 @@ const TDatePickerViewsViewYears = Vue.extend({
         class: this.getElementCssClass('yearWrapper'),
       },
       this.years.map((year: Date) => createElement(
-        TDatePickerViewsViewYearsYear,
+        TDatepickerViewsViewYearsYear,
         {
           props: {
             year,
@@ -97,4 +97,4 @@ const TDatePickerViewsViewYears = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewYears;
+export default TDatepickerViewsViewYears;

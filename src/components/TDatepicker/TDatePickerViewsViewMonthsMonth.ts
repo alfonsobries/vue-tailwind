@@ -2,8 +2,8 @@ import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import { isSameMonth } from '@/utils/dates';
 
-const TDatePickerViewsViewMonthsMonth = Vue.extend({
-  name: 'TDatePickerViewsViewMonthsMonth',
+const TDatepickerViewsViewMonthsMonth = Vue.extend({
+  name: 'TDatepickerViewsViewMonthsMonth',
 
   props: {
     month: {
@@ -94,4 +94,4 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewMonthsMonth;
+export default TDatepickerViewsViewMonthsMonth;

@@ -1,10 +1,10 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import TDatePickerViewsViewCalendarDays from './TDatePickerViewsViewCalendarDays';
-import TDatePickerViewsViewCalendarHeaders from './TDatePickerViewsViewCalendarHeaders';
+import TDatepickerViewsViewCalendarDays from './TDatepickerViewsViewCalendarDays';
+import TDatepickerViewsViewCalendarHeaders from './TDatepickerViewsViewCalendarHeaders';
 
-const TDatePickerViewsViewCalendar = Vue.extend({
-  name: 'TDatePickerViewsViewCalendar',
+const TDatepickerViewsViewCalendar = Vue.extend({
+  name: 'TDatepickerViewsViewCalendar',
 
   props: {
     value: {
@@ -111,7 +111,7 @@ const TDatePickerViewsViewCalendar = Vue.extend({
       },
       [
         createElement(
-          TDatePickerViewsViewCalendarHeaders,
+          TDatepickerViewsViewCalendarHeaders,
           {
             props: {
               weekStart: this.weekStart,
@@ -121,7 +121,7 @@ const TDatePickerViewsViewCalendar = Vue.extend({
           },
         ),
         createElement(
-          TDatePickerViewsViewCalendarDays,
+          TDatepickerViewsViewCalendarDays,
           {
             ref: 'days',
             props: {
@@ -153,4 +153,4 @@ const TDatePickerViewsViewCalendar = Vue.extend({
   },
 });
 
-export default TDatePickerViewsViewCalendar;
+export default TDatepickerViewsViewCalendar;
