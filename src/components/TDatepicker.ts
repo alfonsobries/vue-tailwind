@@ -521,6 +521,7 @@ const TDatepicker = HtmlInput.extend({
       {
         ref: 'dropdown',
         props: {
+          fixedClasses: undefined,
           classes: {
             wrapper: this.getElementCssClass('wrapper'),
             dropdownWrapper: this.getElementCssClass('dropdownWrapper'),
