@@ -1,7 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import CssClass from '@/types/CssClass';
 import {
-  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
+  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays, DateFormatter,
 } from '@/utils/dates';
 
 const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
@@ -32,11 +32,19 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
+    format: {
+      type: Function,
+      required: true,
+    },
     formatNative: {
       type: Function,
       required: true,
     },
     dateFormat: {
+      type: String,
+      required: true,
+    },
+    userFormat: {
       type: String,
       required: true,
     },
@@ -140,6 +148,9 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
     dayFormatted(): string {
       return this.formatNative(this.getDay(), 'j');
     },
+    ariaLabel(): string {
+      return this.format(this.getDay(), this.userFormat);
+    },
   },
 
   watch: {
@@ -204,6 +215,8 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       {
         class: this.getClass(),
         attrs: {
+          'aria-label': this.ariaLabel,
+          'aria-current': this.isToday ? 'date' : undefined,
           type: 'button',
           tabindex: -1,
           disabled: this.isDisabled ? true : undefined,

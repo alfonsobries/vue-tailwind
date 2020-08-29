@@ -41,6 +41,14 @@ const TDatePickerViewsView = Vue.extend({
       type: Function,
       required: true,
     },
+    format: {
+      type: Function,
+      required: true,
+    },
+    userFormat: {
+      type: String,
+      required: true,
+    },
     dateFormat: {
       type: String,
       required: true,
@@ -179,8 +187,10 @@ const TDatePickerViewsView = Vue.extend({
               getElementCssClass: this.getElementCssClass,
               showDaysForOtherMonth: this.showDaysForOtherMonth,
               parse: this.parse,
+              format: this.format,
               formatNative: this.formatNative,
               dateFormat: this.dateFormat,
+              userFormat: this.userFormat,
               monthsPerView: this.monthsPerView,
               showActiveDate: this.showActiveDate,
               disabledDates: this.disabledDates,

@@ -31,11 +31,19 @@ const TDatePickerViewsViewCalendar = Vue.extend({
       type: Function,
       required: true,
     },
+    format: {
+      type: Function,
+      required: true,
+    },
     formatNative: {
       type: Function,
       required: true,
     },
     dateFormat: {
+      type: String,
+      required: true,
+    },
+    userFormat: {
       type: String,
       required: true,
     },
@@ -119,7 +127,9 @@ const TDatePickerViewsViewCalendar = Vue.extend({
               weekStart: this.weekStart,
               getElementCssClass: this.getElementCssClass,
               parse: this.parse,
+              format: this.format,
               formatNative: this.formatNative,
+              userFormat: this.userFormat,
               dateFormat: this.dateFormat,
               showDaysForOtherMonth: this.monthsPerView > 1 ? false : this.showDaysForOtherMonth,
               showActiveDate: this.showActiveDate,

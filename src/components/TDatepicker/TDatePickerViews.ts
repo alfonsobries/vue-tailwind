@@ -36,11 +36,19 @@ const TDatePickerViews = Vue.extend({
       type: Function,
       required: true,
     },
+    format: {
+      type: Function,
+      required: true,
+    },
     formatNative: {
       type: Function,
       required: true,
     },
     dateFormat: {
+      type: String,
+      required: true,
+    },
+    userFormat: {
       type: String,
       required: true,
     },
@@ -120,7 +128,9 @@ const TDatePickerViews = Vue.extend({
             lang: this.lang,
             getElementCssClass: this.getElementCssClass,
             parse: this.parse,
+            format: this.format,
             dateFormat: this.dateFormat,
+            userFormat: this.userFormat,
             formatNative: this.formatNative,
             monthsPerView: this.monthsPerView,
             monthIndex: index,
