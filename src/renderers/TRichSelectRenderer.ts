@@ -174,6 +174,7 @@ export default class TRichSelectRenderer {
         ref: 'selectButtonClearButton',
         class: this.component.getElementCssClass('selectButtonClearButton'),
         attrs: {
+          type: 'button',
           tabindex: -1,
         },
         on: {

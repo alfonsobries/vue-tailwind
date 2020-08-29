@@ -124,6 +124,10 @@ const TDatepicker = HtmlInput.extend({
       type: Boolean,
       default: false,
     },
+    clearable: {
+      type: Boolean,
+      default: true,
+    },
     classes: {
       type: Object,
       default: () => ({
@@ -191,6 +195,9 @@ const TDatepicker = HtmlInput.extend({
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
+
+        clearButton: 'hover:bg-gray-200 text-gray-500 rounded',
+        clearButtonIcon: '',
       }),
     },
     fixedClasses: {
@@ -211,6 +218,9 @@ const TDatepicker = HtmlInput.extend({
         calendarHeaderWrapper: 'grid grid-cols-7',
         monthWrapper: 'grid grid-cols-4',
         yearWrapper: 'grid grid-cols-4',
+
+        clearButton: 'flex flex-shrink-0 items-center justify-center absolute right-0 top-0 m-2 h-6 w-6',
+        clearButtonIcon: 'fill-current h-3 w-3',
       }),
     },
   },
@@ -270,6 +280,13 @@ const TDatepicker = HtmlInput.extend({
   },
 
   computed: {
+    hasValue(): boolean {
+      if (Array.isArray(this.localValue)) {
+        return this.localValue.length > 0;
+      }
+
+      return !!this.localValue;
+    },
     visibleRange(): [Date, Date] {
       const start = new Date(this.activeDate.valueOf());
       const end = new Date(this.activeDate.valueOf());
@@ -563,6 +580,13 @@ const TDatepicker = HtmlInput.extend({
         this.activeDate = this.localValue instanceof Date ? this.localValue : new Date();
       }
     },
+    clearHandler() {
+      if (this.multiple || this.range) {
+        this.localValue = [];
+      } else {
+        this.localValue = null;
+      }
+    },
     focusHandler(e: FocusEvent) {
       this.$emit('focus', e);
     },
@@ -624,10 +648,13 @@ const TDatepicker = HtmlInput.extend({
                   conjuntion: this.conjuntion,
                   multiple: this.multiple,
                   range: this.range,
+                  clearable: this.clearable,
                   locale: this.currentLocale,
+                  hasValue: this.hasValue,
                   getElementCssClass: this.getElementCssClass,
                 },
                 on: {
+                  clear: this.clearHandler,
                   focus: this.focusHandler,
                   blur: this.blurHandler,
                   keydown: (e: KeyboardEvent) => {
