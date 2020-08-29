@@ -144,11 +144,19 @@ const TDatepicker = HtmlInput.extend({
 
         // Navigator
         navigator: 'flex items-center justify-between mb-2',
+        navigatorViewButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer rounded-full flex items-center px-2 py-1 -ml-1 hover:bg-gray-200',
         navigatorViewButtonIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
         navigatorViewButtonBackIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
         navigatorViewButtonMonth: 'text-gray-700 font-semibold',
         navigatorViewButtonYear: 'text-gray-600 ml-1',
-
+        navigatorViewButtonYearRange: 'text-gray-600 ml-1',
+        navigatorLabel: 'flex items-center py-1',
+        navigatorLabelMonth: 'text-gray-700 font-semibold',
+        navigatorLabelYear: 'text-gray-600 ml-1',
+        navigatorPrevButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 ml-2 ml-auto disabled:opacity-25 disabled:cursor-not-allowed',
+        navigatorNextButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1 disabled:opacity-25 disabled:cursor-not-allowed',
+        navigatorPrevButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
+        navigatorNextButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
 
         dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
         day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100',

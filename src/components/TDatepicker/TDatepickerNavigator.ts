@@ -243,7 +243,7 @@ const TDatepickerNavigator = Vue.extend({
           createElement(
             'span',
             {
-              class: 'text-gray-600 ml-1',
+              class: this.getElementCssClass('navigatorViewButtonYearRange'),
             },
             getYearsRange(this.localValue, this.yearsPerView).join(' - '),
           ),
@@ -255,7 +255,7 @@ const TDatepickerNavigator = Vue.extend({
         {
           attrs: {
             type: 'button',
-            class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full flex items-center px-2 py-1 -ml-1',
+            class: this.getElementCssClass('navigatorViewButton'),
             tabindex: -1,
           },
           on: {
@@ -269,21 +269,21 @@ const TDatepickerNavigator = Vue.extend({
         'span',
         {
           attrs: {
-            class: 'flex items-center py-1',
+            class: this.getElementCssClass('navigatorLabel'),
           },
         },
         [
           createElement(
             'span',
             {
-              class: 'text-gray-700 font-semibold',
+              class: this.getElementCssClass('navigatorLabelMonth'),
             },
             this.formatNative(this.localValue, 'F'),
           ),
           createElement(
             'span',
             {
-              class: 'text-gray-600 ml-1',
+              class: this.getElementCssClass('navigatorLabelYear'),
             },
             this.formatNative(this.localValue, 'Y'),
           ),
@@ -299,7 +299,7 @@ const TDatepickerNavigator = Vue.extend({
             ref: 'prev',
             attrs: {
               type: 'button',
-              class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full ml-auto p-1 ml-2',
+              class: this.getElementCssClass('navigatorPrevButton'),
               tabindex: -1,
               disabled: this.prevButtonIsDisabled ? true : undefined,
             },
@@ -316,7 +316,7 @@ const TDatepickerNavigator = Vue.extend({
                   viewBox: '0 0 24 24',
                   stroke: 'currentColor',
                 },
-                class: 'h-6 w-6 text-gray-500 inline-flex',
+                class: this.getElementCssClass('navigatorPrevButtonIcon'),
               },
               [
                 createElement('path', {
@@ -340,7 +340,7 @@ const TDatepickerNavigator = Vue.extend({
             ref: 'next',
             attrs: {
               type: 'button',
-              class: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1',
+              class: this.getElementCssClass('navigatorNextButton'),
               tabindex: -1,
               disabled: this.nextButtonIsDisabled ? true : undefined,
             },
@@ -357,7 +357,7 @@ const TDatepickerNavigator = Vue.extend({
                   viewBox: '0 0 24 24',
                   stroke: 'currentColor',
                 },
-                class: 'h-6 w-6 text-gray-500 inline-flex',
+                class: this.getElementCssClass('navigatorNextButtonIcon'),
               },
               [
                 createElement('path', {
