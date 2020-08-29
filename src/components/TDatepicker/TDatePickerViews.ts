@@ -60,6 +60,10 @@ const TDatePickerViews = Vue.extend({
       type: Boolean,
       required: true,
     },
+    showDaysForOtherMonth: {
+      type: Boolean,
+      required: true,
+    },
     disabledDates: {
       type: [Date, Array, Function, String],
       default: undefined,
@@ -127,6 +131,7 @@ const TDatePickerViews = Vue.extend({
             minDate: this.minDate,
             maxDate: this.maxDate,
             range: this.range,
+            showDaysForOtherMonth: this.showDaysForOtherMonth,
           },
           on: {
             input: (date: Date) => {

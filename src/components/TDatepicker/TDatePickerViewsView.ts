@@ -65,6 +65,10 @@ const TDatePickerViewsView = Vue.extend({
       type: Boolean,
       required: true,
     },
+    showDaysForOtherMonth: {
+      type: Boolean,
+      required: true,
+    },
     disabledDates: {
       type: [Date, Array, Function, String],
       default: undefined,
@@ -99,9 +103,6 @@ const TDatePickerViewsView = Vue.extend({
     },
     showMonthName() {
       return this.monthsPerView > 1;
-    },
-    showDaysForOtherMonth() {
-      return this.monthsPerView === 1;
     },
   },
 
@@ -176,6 +177,7 @@ const TDatePickerViewsView = Vue.extend({
               activeDate: this.localActiveDate,
               weekStart: this.weekStart,
               getElementCssClass: this.getElementCssClass,
+              showDaysForOtherMonth: this.showDaysForOtherMonth,
               parse: this.parse,
               formatNative: this.formatNative,
               dateFormat: this.dateFormat,

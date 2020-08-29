@@ -93,6 +93,11 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       const d2 = this.localActiveDate;
       return isSameDay(d1, d2);
     },
+    isToday(): boolean {
+      const d1 = this.getDay();
+      const d2 = new Date();
+      return isSameDay(d1, d2);
+    },
     isDisabled(): boolean {
       const day = this.getDay();
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
@@ -148,16 +153,8 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
   methods: {
     getClass(): CssClass {
-      if (this.isDisabled) {
-        return this.getElementCssClass('disabledDay');
-      }
-
       if (this.isForAnotherMonth) {
-        if (this.showDaysForOtherMonth) {
-          return this.getElementCssClass('otherMonthDay');
-        }
-
-        return 'invisible pointer-events-none';
+        return this.getElementCssClass('otherMonthDay');
       }
 
       if (this.isFirstDayOfRange) {
@@ -176,9 +173,12 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         return this.getElementCssClass('selectedDay');
       }
 
-
       if (this.isActive && this.showActiveDate) {
         return this.getElementCssClass('activeDay');
+      }
+
+      if (this.isToday) {
+        return this.getElementCssClass('today');
       }
 
       return this.getElementCssClass('day');
@@ -189,6 +189,16 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
   },
   render(createElement: CreateElement): VNode {
+    if (this.isForAnotherMonth && !this.showDaysForOtherMonth) {
+      return createElement(
+        'span',
+        {
+          class: this.getElementCssClass('emptyDay'),
+        },
+        '',
+      );
+    }
+
     return createElement(
       'button',
       {

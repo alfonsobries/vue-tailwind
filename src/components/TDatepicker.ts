@@ -77,6 +77,10 @@ const TDatepicker = HtmlInput.extend({
       type: Boolean,
       default: true,
     },
+    showDaysForOtherMonth: {
+      type: Boolean,
+      default: true,
+    },
     show: {
       type: Boolean,
       default: false,
@@ -139,11 +143,11 @@ const TDatepicker = HtmlInput.extend({
         input: 'form-input',
 
         // Picker views
-        viewGroup: 'flex flex-col',
-        view: 'p-2 w-64',
+        viewGroup: 'flex',
+        view: 'w-64',
 
         // Navigator
-        navigator: 'flex items-center justify-between mb-2',
+        navigator: 'flex items-center justify-between pt-2 px-2',
         navigatorViewButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer rounded-full flex items-center px-2 py-1 -ml-1 hover:bg-gray-200',
         navigatorViewButtonIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
         navigatorViewButtonBackIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
@@ -158,23 +162,30 @@ const TDatepicker = HtmlInput.extend({
         navigatorPrevButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
         navigatorNextButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
 
-        dayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
-        day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100',
-        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto',
-        selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-blue-500 text-white',
-        disabledDay: 'text-sm rounded-full w-8 h-8 mx-auto opacity-25 cursor-not-allowed',
-        otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400',
-        inRangeDay: 'text-sm bg-blue-200 w-full h-8',
+        // CalendarView
+        calendarWrapper: 'p-2',
+        calendarHeaderWrapper: 'grid grid-cols-7',
+        calendarHeaderWeekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
+        calendarDaysWrapper: 'grid grid-cols-7',
+        calendarDaysDayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
+
+        // Day item
+        otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400 disabled:opacity-25 disabled:cursor-not-allowed',
+        emptyDay: '',
         inRangeFirstDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-l-full',
         inRangeLastDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-r-full',
+        inRangeDay: 'text-sm bg-blue-200 w-full h-8 disabled:opacity-25 disabled:cursor-not-allowed',
+        selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-blue-500 text-white disabled:opacity-25 disabled:cursor-not-allowed',
+        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto disabled:opacity-25 disabled:cursor-not-allowed',
+        day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed',
+        today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed border border-blue-500',
+
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
         activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
-        weekDayWrapper: 'grid grid-cols-7',
-        weekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
       }),
     },
   },
@@ -636,6 +647,7 @@ const TDatepicker = HtmlInput.extend({
               minDate: this.minDate,
               maxDate: this.maxDate,
               range: this.range,
+              showDaysForOtherMonth: this.showDaysForOtherMonth,
             },
             on: {
               input: this.inputHandler,

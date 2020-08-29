@@ -63,6 +63,10 @@ const TDatePickerViewsViewCalendar = Vue.extend({
       type: Boolean,
       required: true,
     },
+    showDaysForOtherMonth: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   data() {
@@ -70,12 +74,6 @@ const TDatePickerViewsViewCalendar = Vue.extend({
       localActiveDate: new Date(this.activeDate.valueOf()),
       localActiveMonth: new Date(this.activeMonth.valueOf()),
     };
-  },
-
-  computed: {
-    showDaysForOtherMonth() {
-      return this.monthsPerView === 1;
-    },
   },
 
   watch: {
@@ -97,7 +95,7 @@ const TDatePickerViewsViewCalendar = Vue.extend({
     return createElement(
       'div',
       {
-        class: '',
+        class: this.getElementCssClass('calendarWrapper'),
       },
       [
         createElement(
@@ -123,7 +121,7 @@ const TDatePickerViewsViewCalendar = Vue.extend({
               parse: this.parse,
               formatNative: this.formatNative,
               dateFormat: this.dateFormat,
-              showDaysForOtherMonth: this.showDaysForOtherMonth,
+              showDaysForOtherMonth: this.monthsPerView > 1 ? false : this.showDaysForOtherMonth,
               showActiveDate: this.showActiveDate,
               disabledDates: this.disabledDates,
               minDate: this.minDate,

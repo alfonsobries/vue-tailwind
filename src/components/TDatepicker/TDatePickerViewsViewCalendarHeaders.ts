@@ -44,12 +44,12 @@ const TDatePickerViewsViewCalendarHeaders = Vue.extend({
     return createElement(
       'div',
       {
-        class: this.getElementCssClass('weekDayWrapper'),
+        class: this.getElementCssClass('calendarHeaderWrapper'),
       },
       this.weekDays.map((weekDayName: string) => createElement(
         'span',
         {
-          class: this.getElementCssClass('weekDay'),
+          class: this.getElementCssClass('calendarHeaderWeekDay'),
         },
         weekDayName,
       )),

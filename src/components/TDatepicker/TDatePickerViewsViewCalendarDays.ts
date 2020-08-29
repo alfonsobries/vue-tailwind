@@ -133,12 +133,12 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'grid grid-cols-7 ',
+        class: this.getElementCssClass('calendarDaysWrapper'),
       },
       this.days.map((day: Date) => createElement(
         'span',
         {
-          class: this.getElementCssClass('dayWrapper'),
+          class: this.getElementCssClass('calendarDaysDayWrapper'),
         }, [
           createElement(
             TDatePickerViewsViewCalendarDaysDay,
