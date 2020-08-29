@@ -124,7 +124,7 @@ const TDatepicker = HtmlInput.extend({
       type: Boolean,
       default: false,
     },
-    fixedClasses: {
+    classes: {
       type: Object,
       default: () => ({
         // Dropdown related classes
@@ -139,36 +139,35 @@ const TDatepicker = HtmlInput.extend({
         leaveToClass: 'transform opacity-0 scale-95 duration-75',
 
         // Text input related classes
-        inputWrapper: 'relative',
+        inputWrapper: '',
         input: 'form-input',
 
         // Picker views
-        viewGroup: 'flex',
-        view: 'w-64',
+        viewGroup: '',
+        view: '',
 
         // Navigator
-        navigator: 'flex items-center justify-between pt-2 px-2',
-        navigatorViewButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer rounded-full flex items-center px-2 py-1 -ml-1 hover:bg-gray-200',
-        navigatorViewButtonIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
-        navigatorViewButtonBackIcon: 'fill-current flex-shrink-0 h-5 w-5 text-gray-500',
+        navigator: 'pt-2 px-2',
+        navigatorViewButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer rounded-full px-2 py-1 -ml-1 hover:bg-gray-200',
+        navigatorViewButtonIcon: 'fill-current text-gray-500',
+        navigatorViewButtonBackIcon: 'fill-current text-gray-500',
         navigatorViewButtonMonth: 'text-gray-700 font-semibold',
         navigatorViewButtonYear: 'text-gray-600 ml-1',
         navigatorViewButtonYearRange: 'text-gray-600 ml-1',
-        navigatorLabel: 'flex items-center py-1',
+        navigatorLabel: 'py-1',
         navigatorLabelMonth: 'text-gray-700 font-semibold',
         navigatorLabelYear: 'text-gray-600 ml-1',
         navigatorPrevButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 ml-2 ml-auto disabled:opacity-25 disabled:cursor-not-allowed',
         navigatorNextButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1 disabled:opacity-25 disabled:cursor-not-allowed',
-        navigatorPrevButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
-        navigatorNextButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
+        navigatorPrevButtonIcon: 'text-gray-500',
+        navigatorNextButtonIcon: 'text-gray-500',
 
         // Calendar View
         calendarWrapper: 'p-2',
-        calendarHeaderWrapper: 'grid grid-cols-7',
+        calendarHeaderWrapper: '',
         calendarHeaderWeekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
-        calendarDaysWrapper: 'grid grid-cols-7',
+        calendarDaysWrapper: '',
         calendarDaysDayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
-
 
         // Day item
         otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400 disabled:opacity-25 disabled:cursor-not-allowed',
@@ -182,16 +181,36 @@ const TDatepicker = HtmlInput.extend({
         today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed border border-blue-500',
 
         // Months View
-        monthWrapper: 'p-2 grid grid-cols-4',
+        monthWrapper: 'p-2',
         selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
 
         // Years View
-        yearWrapper: 'p-2 grid grid-cols-4',
+        yearWrapper: 'p-2',
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
+      }),
+    },
+    fixedClasses: {
+      type: Object,
+      default: () => ({
+        navigator: 'flex',
+        navigatorViewButton: 'flex items-center',
+        navigatorViewButtonIcon: 'flex-shrink-0 h-5 w-5',
+        navigatorViewButtonBackIcon: 'flex-shrink-0 h-5 w-5',
+        navigatorLabel: 'flex items-center py-1',
+        navigatorPrevButtonIcon: 'h-6 w-6 inline-flex',
+        navigatorNextButtonIcon: 'h-6 w-6 inline-flex',
+
+        inputWrapper: 'relative',
+        viewGroup: 'flex',
+        view: 'w-64',
+        calendarDaysWrapper: 'grid grid-cols-7',
+        calendarHeaderWrapper: 'grid grid-cols-7',
+        monthWrapper: 'grid grid-cols-4',
+        yearWrapper: 'grid grid-cols-4',
       }),
     },
   },
