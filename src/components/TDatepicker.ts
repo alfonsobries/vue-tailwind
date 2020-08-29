@@ -8,9 +8,9 @@ import HtmlInput from '@/base/HtmlInput';
 import Key from '@/types/Key';
 import isEqual from 'lodash/isEqual';
 import { English } from '@/l10n/default';
-import TDatepickerTrigger from './TDatepicker/TDatepickerTrigger';
-import TDatepickerViews from './TDatepicker/TDatepickerViews';
-import { CalendarView } from './TDatepicker/TDatepickerNavigator';
+import TDatepickerTrigger from '@/components/TDatepicker/TDatepickerTrigger';
+import TDatepickerViews from '@/components/TDatepicker/TDatepickerViews';
+import { CalendarView } from '@/components/TDatepicker/TDatepickerNavigator';
 
 interface Dropdown extends Vue {
   doToggle(): void
