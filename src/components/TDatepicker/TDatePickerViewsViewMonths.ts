@@ -68,7 +68,7 @@ const TDatePickerViewsViewMonths = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'grid gap-1 grid-cols-4 ',
+        class: this.getElementCssClass('monthWrapper'),
       },
       this.months.map((month: Date) => createElement(
         TDatePickerViewsViewMonthsMonth,

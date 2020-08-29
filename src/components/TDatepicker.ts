@@ -162,12 +162,13 @@ const TDatepicker = HtmlInput.extend({
         navigatorPrevButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
         navigatorNextButtonIcon: 'h-6 w-6 text-gray-500 inline-flex',
 
-        // CalendarView
+        // Calendar View
         calendarWrapper: 'p-2',
         calendarHeaderWrapper: 'grid grid-cols-7',
         calendarHeaderWeekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
         calendarDaysWrapper: 'grid grid-cols-7',
         calendarDaysDayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
+
 
         // Day item
         otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400 disabled:opacity-25 disabled:cursor-not-allowed',
@@ -180,11 +181,16 @@ const TDatepicker = HtmlInput.extend({
         day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed',
         today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed border border-blue-500',
 
-        month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
-        selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
+        // Months View
+        monthWrapper: 'p-2 grid grid-cols-4',
+        selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
+        month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
+
+        // Years View
+        yearWrapper: 'p-2 grid grid-cols-4',
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
-        selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500  text-white',
+        selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
       }),
     },

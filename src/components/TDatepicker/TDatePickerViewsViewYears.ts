@@ -75,7 +75,7 @@ const TDatePickerViewsViewYears = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'grid grid-cols-4 ',
+        class: this.getElementCssClass('yearWrapper'),
       },
       this.years.map((year: Date) => createElement(
         TDatePickerViewsViewYearsYear,
