@@ -60,6 +60,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
       type: [Date, Array, Function, String],
       default: undefined,
     },
+    highlightDates: {
+      type: [Date, Array, Function, String],
+      default: undefined,
+    },
     maxDate: {
       type: [Date, String],
       default: undefined,
@@ -113,6 +117,13 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
       return dateIsOutOfRange(day, this.minDate, this.maxDate, dateParser, this.dateFormat)
         || dayIsPartOfTheConditions(day, disabledDates, dateParser, this.dateFormat);
+    },
+    isHighlighted(): boolean {
+      const day = this.getDay();
+      const highlightDates: DateConditions = this.highlightDates as DateConditions;
+      const dateParser: DateParser = this.parse as DateParser;
+
+      return dayIsPartOfTheConditions(day, highlightDates, dateParser, this.dateFormat);
     },
     isForAnotherMonth(): boolean {
       const d1 = this.localActiveMonth as unknown as Date;
@@ -189,6 +200,10 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
 
       if (this.isActive && this.showActiveDate) {
         return this.getElementCssClass('activeDay');
+      }
+
+      if (this.isHighlighted) {
+        return this.getElementCssClass('highlightedDay');
       }
 
       if (this.isToday) {

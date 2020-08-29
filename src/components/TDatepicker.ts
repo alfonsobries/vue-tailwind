@@ -100,6 +100,10 @@ const TDatepicker = HtmlInput.extend({
       type: [Date, Array, Function, String],
       default: undefined,
     },
+    highlightDates: {
+      type: [Date, Array, Function, String],
+      default: undefined,
+    },
     maxDate: {
       type: [Date, String],
       default: undefined,
@@ -181,6 +185,7 @@ const TDatepicker = HtmlInput.extend({
         inRangeDay: 'text-sm bg-blue-200 w-full h-8 disabled:opacity-25 disabled:cursor-not-allowed',
         selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-blue-500 text-white disabled:opacity-25 disabled:cursor-not-allowed',
         activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto disabled:opacity-25 disabled:cursor-not-allowed',
+        highlightedDay: 'text-sm rounded-full bg-blue-200 w-8 h-8 mx-auto disabled:opacity-25 disabled:cursor-not-allowed',
         day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed',
         today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed border border-blue-500',
 
@@ -699,6 +704,7 @@ const TDatepicker = HtmlInput.extend({
               yearsPerView: this.yearsPerView,
               showActiveDate: this.showActiveDate,
               disabledDates: this.disabledDates,
+              highlightDates: this.highlightDates,
               minDate: this.minDate,
               maxDate: this.maxDate,
               range: this.range,

@@ -58,6 +58,10 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
       type: [Date, Array, Function, String],
       default: undefined,
     },
+    highlightDates: {
+      type: [Date, Array, Function, String],
+      default: undefined,
+    },
     maxDate: {
       type: [Date, String],
       default: undefined,
@@ -165,6 +169,7 @@ const TDatePickerViewsViewCalendarDays = Vue.extend({
                 showDaysForOtherMonth: this.showDaysForOtherMonth,
                 showActiveDate: this.showActiveDate,
                 disabledDates: this.disabledDates,
+                highlightDates: this.highlightDates,
                 minDate: this.minDate,
                 maxDate: this.maxDate,
                 range: this.range,
