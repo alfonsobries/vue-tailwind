@@ -660,6 +660,7 @@ const TDatepicker = HtmlInput.extend({
               weekStart: this.weekStart,
               monthsPerView: this.monthsPerView,
               lang: this.lang,
+              locale: this.currentLocale,
               getElementCssClass: this.getElementCssClass,
               parse: this.parse,
               format: this.format,

@@ -91,6 +91,8 @@ const TDatePickerViewsViewYearsYear = Vue.extend({
       {
         class: this.getClass(),
         attrs: {
+          'aria-label': this.yearFormatted,
+          'data-date': this.yearFormatted,
           type: 'button',
           tabindex: -1,
         },

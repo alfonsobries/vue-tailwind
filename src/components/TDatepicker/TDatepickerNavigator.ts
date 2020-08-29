@@ -64,6 +64,10 @@ const TDatepickerNavigator = Vue.extend({
       type: [Date, String],
       default: undefined,
     },
+    locale: {
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
@@ -91,6 +95,18 @@ const TDatepickerNavigator = Vue.extend({
       const nextDate = this.getNextDate();
       const dateParser = this.parse as DateParser;
       return !nextDate || dateIsOutOfRange(nextDate, this.minDate, this.maxDate, dateParser, this.dateFormat);
+    },
+    nextButtonAriaLabel(): string {
+      if (this.isDayView) {
+        return `Next ${this.locale.yearAriaLabel}`;
+      }
+      return `Next ${this.locale.yearAriaLabel}`;
+    },
+    prevButtonAriaLabel(): string {
+      if (this.isDayView) {
+        return `Prev ${this.locale.yearAriaLabel}`;
+      }
+      return `Prev ${this.locale.yearAriaLabel}`;
     },
   },
 
@@ -298,6 +314,7 @@ const TDatepickerNavigator = Vue.extend({
           {
             ref: 'prev',
             attrs: {
+              'aria-label': this.prevButtonAriaLabel,
               type: 'button',
               class: this.getElementCssClass('navigatorPrevButton'),
               tabindex: -1,
@@ -339,6 +356,7 @@ const TDatepickerNavigator = Vue.extend({
           {
             ref: 'next',
             attrs: {
+              'aria-label': this.nextButtonAriaLabel,
               type: 'button',
               class: this.getElementCssClass('navigatorNextButton'),
               tabindex: -1,

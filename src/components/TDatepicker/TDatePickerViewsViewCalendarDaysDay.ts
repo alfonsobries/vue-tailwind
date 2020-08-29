@@ -151,6 +151,9 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
     ariaLabel(): string {
       return this.format(this.getDay(), this.userFormat);
     },
+    dateFormatted(): string {
+      return this.format(this.getDay(), 'Y-m-d');
+    },
   },
 
   watch: {
@@ -217,6 +220,7 @@ const TDatePickerViewsViewCalendarDaysDay = Vue.extend({
         attrs: {
           'aria-label': this.ariaLabel,
           'aria-current': this.isToday ? 'date' : undefined,
+          'data-date': this.dateFormatted,
           type: 'button',
           tabindex: -1,
           disabled: this.isDisabled ? true : undefined,

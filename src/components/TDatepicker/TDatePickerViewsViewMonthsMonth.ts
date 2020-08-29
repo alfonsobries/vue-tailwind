@@ -80,6 +80,8 @@ const TDatePickerViewsViewMonthsMonth = Vue.extend({
       {
         class: this.getClass(),
         attrs: {
+          'aria-label': this.formatNative(this.getMonth(), 'F, Y'),
+          'data-date': this.formatNative(this.getMonth(), 'Y-m'),
           type: 'button',
           tabindex: -1,
         },

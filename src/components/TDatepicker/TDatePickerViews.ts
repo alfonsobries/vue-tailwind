@@ -88,6 +88,10 @@ const TDatePickerViews = Vue.extend({
       type: Boolean,
       required: true,
     },
+    locale: {
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
@@ -142,6 +146,7 @@ const TDatePickerViews = Vue.extend({
             maxDate: this.maxDate,
             range: this.range,
             showDaysForOtherMonth: this.showDaysForOtherMonth,
+            locale: this.locale,
           },
           on: {
             input: (date: Date) => {

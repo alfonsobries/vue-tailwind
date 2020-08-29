@@ -93,6 +93,10 @@ const TDatePickerViewsView = Vue.extend({
       type: Boolean,
       required: true,
     },
+    locale: {
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
@@ -163,6 +167,7 @@ const TDatePickerViewsView = Vue.extend({
           yearsPerView: this.yearsPerView,
           minDate: this.minDate,
           maxDate: this.maxDate,
+          locale: this.locale,
         },
         on: {
           input: this.inputActiveDateHandler,
