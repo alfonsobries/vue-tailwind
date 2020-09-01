@@ -297,11 +297,67 @@ const TDatepickerNavigator = Vue.extend({
 
       return validDate;
     },
-    getPrevYearGroup(): Date {
-      return addYears(this.localValue, -this.yearsPerView);
+    getPrevYearGroup(): Date | undefined {
+      const prevYear = addYears(this.localValue, -this.yearsPerView);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(prevYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return prevYear;
+      }
+
+      let validDate;
+      let dateToTry = prevYear;
+      const year = prevYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, this.yearsPerView);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, -this.yearsPerView);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
-    getNextYearGroup(): Date {
-      return addYears(this.localValue, this.yearsPerView);
+    getNextYearGroup(): Date | undefined {
+      const nextYear = addYears(this.localValue, this.yearsPerView);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(nextYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return nextYear;
+      }
+
+      let validDate;
+      let dateToTry = nextYear;
+      const year = nextYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, -this.yearsPerView);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, this.yearsPerView);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
   },
 
