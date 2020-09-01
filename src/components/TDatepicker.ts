@@ -85,6 +85,10 @@ const TDatepicker = HtmlInput.extend({
       type: Boolean,
       default: false,
     },
+    inline: {
+      type: Boolean,
+      default: false,
+    },
     initialView: {
       type: String,
       default: CalendarView.Day,
@@ -138,7 +142,7 @@ const TDatepicker = HtmlInput.extend({
         // Dropdown related classes
         wrapper: 'inline-flex flex-col',
         dropdownWrapper: 'relative z-10',
-        dropdown: 'origin-top-left absolute rounded-md shadow-lg bg-white',
+        dropdown: 'origin-top-left absolute rounded-md shadow-lg',
         enterClass: '',
         enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',
         enterToClass: 'transform opacity-100 scale-100',
@@ -148,10 +152,10 @@ const TDatepicker = HtmlInput.extend({
 
         // Text input related classes
         inputWrapper: '',
-        input: 'form-input',
+        input: 'form-input w-full',
 
         // Picker views
-        viewGroup: '',
+        viewGroup: 'bg-white border',
         view: '',
 
         // Navigator
@@ -217,7 +221,7 @@ const TDatepicker = HtmlInput.extend({
         navigatorNextButtonIcon: 'h-6 w-6 inline-flex',
 
         inputWrapper: 'relative',
-        viewGroup: 'flex',
+        viewGroup: 'inline-flex',
         view: 'w-64',
         calendarDaysWrapper: 'grid grid-cols-7',
         calendarHeaderWrapper: 'grid grid-cols-7',
@@ -433,7 +437,7 @@ const TDatepicker = HtmlInput.extend({
 
       this.showActiveDate = true;
 
-      if (!this.shown) {
+      if (!this.inline && !this.shown) {
         this.doShow();
         return;
       }
@@ -515,7 +519,7 @@ const TDatepicker = HtmlInput.extend({
         this.localValue = range;
 
         // Range is complete
-        if (this.localValue.length === 2 && this.closeOnSelect) {
+        if (!this.inline && this.localValue.length === 2 && this.closeOnSelect) {
           this.doHide();
         }
       } else if (Array.isArray(this.localValue)) {
@@ -530,7 +534,7 @@ const TDatepicker = HtmlInput.extend({
         this.localValue = date;
       }
 
-      if (this.closeOnSelect && !Array.isArray(this.localValue)) {
+      if (!this.inline && this.closeOnSelect && !Array.isArray(this.localValue)) {
         this.doHide();
       }
     },
@@ -554,7 +558,7 @@ const TDatepicker = HtmlInput.extend({
     enterHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
-      if (!this.shown) {
+      if (!this.inline && !this.shown) {
         this.doShow();
       } else if (this.showActiveDate) {
         if (this.currentView === CalendarView.Day) {
@@ -604,6 +608,98 @@ const TDatepicker = HtmlInput.extend({
   },
 
   render(createElement: CreateElement): VNode {
+    const views = createElement(
+      TDatepickerViews,
+      {
+        ref: 'views',
+        props: {
+          value: this.localValue,
+          activeDate: this.activeDate,
+          weekStart: this.weekStart,
+          monthsPerView: this.monthsPerView,
+          lang: this.lang,
+          locale: this.currentLocale,
+          getElementCssClass: this.getElementCssClass,
+          parse: this.parse,
+          format: this.format,
+          formatNative: this.formatNative,
+          dateFormat: this.dateFormat,
+          userFormat: this.userFormat,
+          initialView: this.initialView,
+          currentView: this.currentView,
+          yearsPerView: this.yearsPerView,
+          showActiveDate: this.showActiveDate,
+          disabledDates: this.disabledDates,
+          highlightDates: this.highlightDates,
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          range: this.range,
+          showDaysForOtherMonth: this.showDaysForOtherMonth,
+        },
+        on: {
+          input: this.inputHandler,
+          inputActiveDate: this.inputActiveDateHandler,
+          updateView: this.setView,
+          resetView: this.resetView,
+        },
+      },
+    );
+
+    const triggerSettings = {
+      ref: 'trigger',
+      props: {
+        id: this.id,
+        name: this.name,
+        inputName: this.inputName,
+        disabled: this.disabled,
+        readonly: this.readonly,
+        autofocus: this.autofocus,
+        required: this.required,
+        placeholder: this.placeholder,
+        tabindex: this.tabindex,
+        userFormatedDate: this.userFormatedDate,
+        formatedDate: this.formatedDate,
+        conjuntion: this.conjuntion,
+        multiple: this.multiple,
+        range: this.range,
+        clearable: this.clearable,
+        locale: this.currentLocale,
+        hasValue: this.hasValue,
+        getElementCssClass: this.getElementCssClass,
+      },
+      on: {
+        clear: this.clearHandler,
+        focus: this.focusHandler,
+        blur: this.blurHandler,
+        keydown: (e: KeyboardEvent) => {
+          if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
+            this.arrowKeyHandler(e);
+          } else if (e.keyCode === Key.ENTER) {
+            this.enterHandler(e);
+          } else if (e.keyCode === Key.ESC) {
+            this.escapeHandler(e);
+          } else if (e.keyCode === Key.SPACE) {
+            this.spaceHandler(e);
+          }
+
+          this.$emit('keydown', e);
+        },
+      },
+    };
+    if (this.inline) {
+      return createElement('div',
+        {
+          class: '',
+        },
+        [
+          createElement(
+            TDatepickerTrigger,
+            triggerSettings,
+          ),
+          views,
+        ]);
+    }
+
     return createElement(
       TDropdown,
       {
@@ -634,93 +730,25 @@ const TDatepicker = HtmlInput.extend({
           },
         },
         scopedSlots: {
-          trigger: (props) => [
-            createElement(
-              TDatepickerTrigger,
-              {
-                ref: 'trigger',
-                props: {
-                  id: this.id,
-                  name: this.name,
-                  inputName: this.inputName,
-                  disabled: this.disabled,
-                  readonly: this.readonly,
-                  autofocus: this.autofocus,
-                  required: this.required,
-                  placeholder: this.placeholder,
-                  tabindex: this.tabindex,
-                  userFormatedDate: this.userFormatedDate,
-                  formatedDate: this.formatedDate,
-                  show: props.show,
-                  hideIfFocusOutside: props.hideIfFocusOutside,
-                  conjuntion: this.conjuntion,
-                  multiple: this.multiple,
-                  range: this.range,
-                  clearable: this.clearable,
-                  locale: this.currentLocale,
-                  hasValue: this.hasValue,
-                  getElementCssClass: this.getElementCssClass,
-                },
-                on: {
-                  clear: this.clearHandler,
-                  focus: this.focusHandler,
-                  blur: this.blurHandler,
-                  keydown: (e: KeyboardEvent) => {
-                    if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
-                      this.arrowKeyHandler(e);
-                    } else if (e.keyCode === Key.ENTER) {
-                      this.enterHandler(e);
-                    } else if (e.keyCode === Key.ESC) {
-                      this.escapeHandler(e);
-                    } else if (e.keyCode === Key.SPACE) {
-                      this.spaceHandler(e);
-                    }
-
-                    this.$emit('keydown', e);
-                  },
-                },
+          trigger: (props) => {
+            triggerSettings.props = {
+              ...triggerSettings.props,
+              ...{
+                hideIfFocusOutside: props.hideIfFocusOutside,
+                show: props.show,
               },
-            ),
-          ],
+            };
+            return [
+              createElement(
+                TDatepickerTrigger,
+                triggerSettings,
+              ),
+            ];
+          },
         },
       },
       [
-        createElement(
-          TDatepickerViews,
-          {
-            ref: 'views',
-            props: {
-              value: this.localValue,
-              activeDate: this.activeDate,
-              weekStart: this.weekStart,
-              monthsPerView: this.monthsPerView,
-              lang: this.lang,
-              locale: this.currentLocale,
-              getElementCssClass: this.getElementCssClass,
-              parse: this.parse,
-              format: this.format,
-              formatNative: this.formatNative,
-              dateFormat: this.dateFormat,
-              userFormat: this.userFormat,
-              initialView: this.initialView,
-              currentView: this.currentView,
-              yearsPerView: this.yearsPerView,
-              showActiveDate: this.showActiveDate,
-              disabledDates: this.disabledDates,
-              highlightDates: this.highlightDates,
-              minDate: this.minDate,
-              maxDate: this.maxDate,
-              range: this.range,
-              showDaysForOtherMonth: this.showDaysForOtherMonth,
-            },
-            on: {
-              input: this.inputHandler,
-              inputActiveDate: this.inputActiveDateHandler,
-              updateView: this.setView,
-              resetView: this.resetView,
-            },
-          },
-        ),
+        views,
       ],
     );
   },
