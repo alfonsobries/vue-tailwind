@@ -235,11 +235,67 @@ const TDatepickerNavigator = Vue.extend({
 
       return validDate;
     },
-    getPrevYear(): Date {
-      return addYears(this.localValue, -1);
+    getPrevYear(): Date | undefined {
+      const prevYear = addYears(this.localValue, -1);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(prevYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return prevYear;
+      }
+
+      let validDate;
+      let dateToTry = prevYear;
+      const year = prevYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, 1);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, -1);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
-    getNextYear(): Date {
-      return addYears(this.localValue, 1);
+    getNextYear(): Date | undefined {
+      const nextYear = addYears(this.localValue, 1);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(nextYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return nextYear;
+      }
+
+      let validDate;
+      let dateToTry = nextYear;
+      const year = nextYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, -1);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, 1);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
     getPrevYearGroup(): Date {
       return addYears(this.localValue, -this.yearsPerView);
