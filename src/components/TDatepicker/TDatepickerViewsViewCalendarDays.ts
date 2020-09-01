@@ -1,5 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
-
+import { lastDayOfMonth } from '@/utils/dates';
 import TDatepickerViewsViewCalendarDaysDay from './TDatepickerViewsViewCalendarDaysDay';
 
 const TDatepickerViewsViewCalendarDays = Vue.extend({
@@ -88,7 +88,7 @@ const TDatepickerViewsViewCalendarDays = Vue.extend({
       return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth(), 1);
     },
     lastDayOfMonth(): Date {
-      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth() + 1, 0);
+      return lastDayOfMonth(this.localActiveMonth);
     },
     firstDayOfPrevMonth(): Date {
       return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth() - 1, 1);

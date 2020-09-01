@@ -310,3 +310,7 @@ export function addYears(date: Date, amount = 1): Date {
 
   return newDate;
 }
+
+export function lastDayOfMonth(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
