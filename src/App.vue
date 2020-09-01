@@ -10,6 +10,7 @@
       v-model="date"
       name="date"
       input-name="date2"
+      date-format="Y-m-d H:i:S"
     />
 
     {{ date }}
@@ -987,7 +988,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      date: '2020-02-29',
+      date: null,
       wrappedRadioValue: '2',
       wrappedCheckboxValue: ['2'],
       repositories: [] as string[],
