@@ -21,7 +21,7 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
 
 
   entries.forEach(([componentName, component]) => {
-    const customPropsValues: ComponentSettings = options ? options[componentName] : {};
+    const customPropsValues: ComponentSettings = options && options[componentName] ? options[componentName] : {};
 
     const customProps: CustomProps = extractPropsFromComponentSettings(customPropsValues, component);
 
