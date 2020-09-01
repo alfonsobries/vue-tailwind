@@ -14,6 +14,10 @@ export interface ImportedComponent extends VueConstructor {
 }
 
 const extractPropsFromComponentSettings = function extractPropsFromComponentSettings(customPropsValues: ComponentSettings, component: ImportedComponent): CustomProps {
+  if (!customPropsValues) {
+    return undefined;
+  }
+
   const componentProps = component?.options?.props;
   const customProps: CustomProps = {};
 
