@@ -22,16 +22,14 @@ const extractPropsFromComponentSettings = function extractPropsFromComponentSett
   const customProps: CustomProps = {};
 
   Object.keys(customPropsValues).forEach((propName: string) => {
-    if (componentProps && componentProps.propName) {
-      const defaultProp = componentProps.propName;
-      const newDefaultValue = customPropsValues[propName];
-      customProps[propName] = {
-        type: defaultProp.type,
-        default: ['object', 'function'].includes(typeof newDefaultValue)
-          ? () => newDefaultValue
-          : newDefaultValue,
-      };
-    }
+    const defaultProp = componentProps ? componentProps[propName] : undefined;
+    const newDefaultValue = customPropsValues[propName];
+    customProps[propName] = {
+      type: defaultProp?.type,
+      default: ['object', 'function'].includes(typeof newDefaultValue)
+        ? () => newDefaultValue
+        : newDefaultValue,
+    };
   });
 
   if (Object.keys(customProps).length) {
