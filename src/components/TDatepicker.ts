@@ -150,6 +150,9 @@ const TDatepicker = HtmlInput.extend({
         leaveActiveClass: '',
         leaveToClass: 'transform opacity-0 scale-95 duration-75',
 
+        // Wrapper for inline calendar
+        inlineWrapper: '',
+
         // Text input related classes
         inputWrapper: '',
         input: 'form-input w-full',
@@ -689,7 +692,7 @@ const TDatepicker = HtmlInput.extend({
     if (this.inline) {
       return createElement('div',
         {
-          class: '',
+          class: this.getElementCssClass('inlineWrapper'),
         },
         [
           createElement(
