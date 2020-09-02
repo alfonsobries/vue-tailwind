@@ -115,8 +115,11 @@ const TRadioGroup = InputWithOptions.extend({
             blur: this.blurHandler,
             focus: this.focusHandler,
             input: (value: string | number) => {
-              if (value === option.value) {
-                this.inputHandler(value);
+              if (
+                (typeof option.value === 'number' && Number(value) === option.value)
+                || value === option.value
+              ) {
+                this.inputHandler(option.value);
               }
             },
           },
@@ -143,7 +146,7 @@ const TRadioGroup = InputWithOptions.extend({
     },
 
     inputHandler(value: string | number) {
-      this.localValue = value;
+      this.$emit('input', value);
     },
 
     blurHandler(e: FocusEvent) {
