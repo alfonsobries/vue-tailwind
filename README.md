@@ -38,11 +38,11 @@ yarn add vue-tailwind
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
-const theme = {
+const settings = {
   //...
 }
 
-Vue.use(VueTailwind, theme)
+Vue.use(VueTailwind, settings)
 ```
 
 #### Apply your own theme:
@@ -71,12 +71,12 @@ const TButton = {
   // fixedClasses: 'transform ease-in-out duration-100',
 }
 
-const MyOwnTheme = {
+const settings = {
   TInput,
   TButton,
 }
 
-export default MyOwnTheme
+export default settings
 ```
 
 Then you can import your theme and add it as a parameter when you install VueTailwind:
@@ -84,9 +84,9 @@ Then you can import your theme and add it as a parameter when you install VueTai
 ```js {3,6}
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import MyOwnTheme from './myOwnTheme.js'
+import settings from './settings.js'
 
-Vue.use(VueTailwind, MyOwnTheme)
+Vue.use(VueTailwind, settings)
 ```
 
 Or just define the settings directly:
@@ -112,6 +112,60 @@ Vue.use(VueTailwind, {
 })
 ```
 
+#### Override the default settings (1.2.0+)
+
+Let's say that some default values of the component are not the best for your specific project needs and you see yourself setting the props over and over every time you use the component.
+
+With this library, you can override the default settings when installing the library.
+
+For example, maybe you want:
+
+- That all the button components have the `type="button"` attribute (I do myself change that).
+- Change the default localization settings for a DatePicker.
+- Make all the alert not `dismissible` by default.
+- Don't allow the Modal to be closed by pressing `ESC` as default.
+
+You can also override the default values of the props for every component using the same syntax you use for the classes:
+
+So let's try the goal explained above:
+
+```js
+// Locale to eventually replace the default datepicker locale
+import Spanish from 'vue-tailwind/dist/l10n/es'
+
+const settings = {
+  TButton: {
+    // classes: '...',
+    // ...
+    // Originally it defaults to `undefined` that means is considered a submit
+    // button if the button is inside a form.
+    type: 'button',
+  },
+  TDatepicker: {
+    // classes: '...',
+    // ...
+    // Originally a locale object with English values
+    locale: Spanish,
+  },
+  TAlert: {
+    // classes: '...',
+    // ...
+    // Originally `true`
+    dismissible: false,
+  },
+  TModal: {
+    // classes: '...',
+    // ...
+    // Originally `true`
+    escToClose: false,
+  },
+  
+}
+
+Vue.use(VueTailwind, settings)
+```
+
+
 ## Quick start
 
 Here is a small example of how the classes and variants are defined when you import this library:
@@ -120,7 +174,7 @@ Here is a small example of how the classes and variants are defined when you imp
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
-const theme = {
+const settings = {
   TInput: {
     classes: 'form-input border-2 text-gray-700',
     variants: {
@@ -147,7 +201,7 @@ const theme = {
   // ... The rest of the components
 }
 
-Vue.use(VueTailwind, theme)
+Vue.use(VueTailwind, settings)
 ```
 
 The default classes and variants can also be defined in the component props:
@@ -184,14 +238,13 @@ The variant prop also accepts an object that takes the first attribute with a _t
 - Rebuilt from scratch in Typescript
 - Small bundle size and less dependencies
 - A better way to import only selected components
-- Unlimited variants and a easy way to configure them
+- Unlimited variants and an easy way to configure them
 
 ## What's next?
 
-- Im working in a datepicker that is the most requested component, after that im planning to create a swal like dialog component.
-- Already started to work in a react version of this package called react-tailwind.
-- Im making some final changes to the Community themes features that should be released soon.
-- Vue 3 compatibility
+- I'm working in a time picker feature for the Datepicker component
+- Also working in a Dialog component inspired in the [Sweetalert library](https://sweetalert2.github.io/) 
+- Vue 3 compatibility and more plans for v2.x. [Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
 
 ## Contribute
 

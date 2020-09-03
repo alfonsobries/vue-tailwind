@@ -1,15 +1,7 @@
-import ComponentVariants from './ComponentVariants';
-import CssClasses from './CssClasses';
-import { Locales, LocaleName, Locale } from './locale';
+import { PropOptions } from 'vue';
 
 type ComponentSettings = {
-  variants?: ComponentVariants;
-  classes?: CssClasses;
-  fixedClasses?: CssClasses;
-  wrapped?: boolean;
-  locales?: Locales
-  locale?: Locale
-  lang?: LocaleName
+  [key: string]: PropOptions;
 } | undefined
 
 export default ComponentSettings;

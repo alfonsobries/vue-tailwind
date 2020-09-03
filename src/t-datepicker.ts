@@ -22,9 +22,9 @@ const install: InstallFunction = function installComponent(Vue: typeof _Vue, arg
   if (install.installed) return;
   install.installed = true;
 
-  const customProps: CustomProps = extractPropsFromComponentSettings(args);
+  const customProps: CustomProps = extractPropsFromComponentSettings(args, component);
   if (customProps) {
-    const componentWithCustomVariants = (component as VueConstructor).extend({
+    const componentWithCustomVariants = component.extend({
       props: customProps,
     });
 

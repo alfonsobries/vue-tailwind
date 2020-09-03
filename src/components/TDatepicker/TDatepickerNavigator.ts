@@ -2,6 +2,8 @@ import Vue, { CreateElement, VNode } from 'vue';
 import {
   addMonths, addYears, dateIsOutOfRange,
   DateParser,
+  addDays,
+  lastDayOfMonth,
 } from '@/utils/dates';
 
 export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
@@ -86,15 +88,17 @@ const TDatepickerNavigator = Vue.extend({
     isMonthView() {
       return this.currentView === CalendarView.Month;
     },
+    nextDate(): Date | undefined {
+      return this.getNextDate();
+    },
+    prevDate(): Date | undefined {
+      return this.getPrevDate();
+    },
     prevButtonIsDisabled(): boolean {
-      const dateParser = this.parse as DateParser;
-      const prevDate = this.getPrevDate();
-      return !prevDate || dateIsOutOfRange(prevDate, this.minDate, this.maxDate, dateParser, this.dateFormat);
+      return !this.prevDate;
     },
     nextButtonIsDisabled(): boolean {
-      const nextDate = this.getNextDate();
-      const dateParser = this.parse as DateParser;
-      return !nextDate || dateIsOutOfRange(nextDate, this.minDate, this.maxDate, dateParser, this.dateFormat);
+      return !this.nextDate;
     },
     nextButtonAriaLabel(): string {
       if (this.isDayView) {
@@ -152,34 +156,208 @@ const TDatepickerNavigator = Vue.extend({
       }
     },
     next(): void {
-      const nextDate = this.getNextDate();
-      if (nextDate) {
-        this.inputHandler(nextDate);
+      if (this.nextDate) {
+        this.inputHandler(this.nextDate);
       }
     },
     prev(): void {
-      const prevDate = this.getPrevDate();
-      if (prevDate) {
-        this.inputHandler(prevDate);
+      if (this.prevDate) {
+        this.inputHandler(this.prevDate);
       }
     },
-    getPrevMonth(): Date {
-      return addMonths(this.localValue, -1);
+    getPrevMonth(): Date | undefined {
+      const prevMonth = addMonths(this.localValue, -1);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(prevMonth, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return prevMonth;
+      }
+
+      let day = prevMonth.getDate();
+      let dateToTry = prevMonth;
+      let validDate;
+
+      day = prevMonth.getDate();
+      const lastDay = lastDayOfMonth(prevMonth).getDate();
+      do {
+        dateToTry = addDays(dateToTry, 1);
+        day += 1;
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (day <= lastDay && !validDate);
+
+
+      if (!validDate) {
+        day = prevMonth.getDate();
+        do {
+          dateToTry = addDays(dateToTry, -1);
+          day -= 1;
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (day >= 1 && !validDate);
+      }
+
+      return validDate;
     },
-    getNextMonth(): Date {
-      return addMonths(this.localValue, 1);
+    getNextMonth(): Date | undefined {
+      const nextMonth = addMonths(this.localValue, 1);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(nextMonth, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return nextMonth;
+      }
+
+      let day = nextMonth.getDate();
+      let dateToTry = nextMonth;
+      let validDate;
+
+      do {
+        dateToTry = addDays(dateToTry, -1);
+        day -= 1;
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (day >= 1 && !validDate);
+
+      if (!validDate) {
+        day = nextMonth.getDate();
+        const lastDay = lastDayOfMonth(nextMonth).getDate();
+        do {
+          dateToTry = addDays(dateToTry, 1);
+          day += 1;
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (day <= lastDay && !validDate);
+      }
+
+      return validDate;
     },
-    getPrevYear(): Date {
-      return addYears(this.localValue, -1);
+    getPrevYear(): Date | undefined {
+      const prevYear = addYears(this.localValue, -1);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(prevYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return prevYear;
+      }
+
+      let validDate;
+      let dateToTry = prevYear;
+      const year = prevYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, 1);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, -1);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
-    getNextYear(): Date {
-      return addYears(this.localValue, 1);
+    getNextYear(): Date | undefined {
+      const nextYear = addYears(this.localValue, 1);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(nextYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return nextYear;
+      }
+
+      let validDate;
+      let dateToTry = nextYear;
+      const year = nextYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, -1);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, 1);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
-    getPrevYearGroup(): Date {
-      return addYears(this.localValue, -this.yearsPerView);
+    getPrevYearGroup(): Date | undefined {
+      const prevYear = addYears(this.localValue, -this.yearsPerView);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(prevYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return prevYear;
+      }
+
+      let validDate;
+      let dateToTry = prevYear;
+      const year = prevYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, this.yearsPerView);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, -this.yearsPerView);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
-    getNextYearGroup(): Date {
-      return addYears(this.localValue, this.yearsPerView);
+    getNextYearGroup(): Date | undefined {
+      const nextYear = addYears(this.localValue, this.yearsPerView);
+      const dateParser = this.parse as DateParser;
+
+      if (!dateIsOutOfRange(nextYear, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+        return nextYear;
+      }
+
+      let validDate;
+      let dateToTry = nextYear;
+      const year = nextYear.getFullYear();
+
+      do {
+        dateToTry = addDays(dateToTry, -this.yearsPerView);
+        if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+          validDate = dateToTry;
+        }
+      } while (dateToTry.getFullYear() === year && !validDate);
+
+
+      if (!validDate) {
+        do {
+          dateToTry = addDays(dateToTry, this.yearsPerView);
+          if (!dateIsOutOfRange(dateToTry, this.minDate, this.maxDate, dateParser, this.dateFormat)) {
+            validDate = dateToTry;
+          }
+        } while (dateToTry.getFullYear() === year && !validDate);
+      }
+
+      return validDate;
     },
   },
 

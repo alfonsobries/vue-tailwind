@@ -1,11 +1,13 @@
-import _Vue, { PluginFunction, VueConstructor } from 'vue';
+import _Vue, { PluginFunction } from 'vue';
 import LibrarySettings from '@/types/LibrarySettings';
-import CustomProps from '@/types/CustomProps';
-import { extractPropsFromLibrarySettings } from '@/utils/extractPropsFromSettings';
-
-// Import vue components
+import ComponentName from '@/types/ComponentName';
+import { extractPropsFromComponentSettings, ImportedComponent } from '@/utils/extractPropsFromSettings';
 import * as components from './components';
-import ComponentName from './types/ComponentName';
+import ComponentSettings from './types/ComponentSettings';
+import CustomProps from './types/CustomProps';
+
+
+const entries = Object.entries(components) as [ComponentName, ImportedComponent][];
 
 export interface InstallFunction extends PluginFunction<LibrarySettings> {
   installed?: boolean;
@@ -17,11 +19,14 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
   if (install.installed) return;
   install.installed = true;
 
-  Object.entries(components).forEach(([componentName, component]) => {
-    const customProps: CustomProps = extractPropsFromLibrarySettings(options, componentName as ComponentName);
+
+  entries.forEach(([componentName, component]) => {
+    const customPropsValues: ComponentSettings = options && options[componentName] ? options[componentName] : {};
+
+    const customProps: CustomProps = extractPropsFromComponentSettings(customPropsValues, component);
 
     if (customProps) {
-      const componentWithCustomVariants = (component as VueConstructor).extend({
+      const componentWithCustomVariants = component.extend({
         props: customProps,
       });
 

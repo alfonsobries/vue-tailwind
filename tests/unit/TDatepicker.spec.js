@@ -2,7 +2,9 @@ import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '@/components/TDatepicker';
 import TDatepickerViewsViewCalendarDaysDay from '@/components/TDatepicker/TDatepickerViewsViewCalendarDaysDay';
 import TDatepickerNavigator from '@/components/TDatepicker/TDatepickerNavigator';
-import { isSameDay, isSameMonth, parseDate } from '@/utils/dates';
+import {
+  isSameDay, isSameMonth, parseDate, addMonths,
+} from '@/utils/dates';
 
 const getCalendarView = (wrapper) => wrapper.vm.$refs.views.$refs.view;
 const getCalendarNavigator = (wrapper) => getCalendarView(wrapper).$refs.navigator;
@@ -799,7 +801,7 @@ describe('TDatepickerNavigator', () => {
       propsData: {
         ...navProps,
         ...{
-          maxDate: new Date(1987, 2, 17),
+          maxDate: new Date(1987, 1, 24),
         },
       },
     });
@@ -813,7 +815,7 @@ describe('TDatepickerNavigator', () => {
       propsData: {
         ...navProps,
         ...{
-          minDate: new Date(1987, 0, 20),
+          minDate: new Date(1987, 1, 2),
         },
       },
     });
@@ -834,5 +836,21 @@ describe('TDatepickerNavigator', () => {
 
     expect(wrapper.vm.prevButtonIsDisabled).toBe(false);
     expect(wrapper.vm.nextButtonIsDisabled).toBe(false);
+  });
+
+  it('not disables the next button if next date is disabled but has another date in the next month', () => {
+    const maxDate = new Date(1987, 2, 4);
+    const wrapper = shallowMount(TDatepickerNavigator, {
+      propsData: {
+        ...navProps,
+        ...{
+          maxDate,
+        },
+      },
+    });
+
+    expect(wrapper.vm.prevButtonIsDisabled).toBe(false);
+    expect(wrapper.vm.nextButtonIsDisabled).toBe(false);
+    expect(wrapper.vm.getNextDate()).toEqual(maxDate);
   });
 });

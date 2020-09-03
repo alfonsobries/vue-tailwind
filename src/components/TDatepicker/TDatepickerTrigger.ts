@@ -42,11 +42,11 @@ const TDatepickerTrigger = Vue.extend({
     },
     show: {
       type: Function,
-      required: true,
+      default: undefined,
     },
     hideIfFocusOutside: {
       type: Function,
-      required: true,
+      default: undefined,
     },
     conjuntion: {
       type: String,
@@ -116,7 +116,9 @@ const TDatepickerTrigger = Vue.extend({
           },
           on: {
             click: (e: MouseEvent) => {
-              this.show();
+              if (this.show) {
+                this.show();
+              }
 
               this.$emit('click', e);
             },
@@ -127,12 +129,16 @@ const TDatepickerTrigger = Vue.extend({
               this.$emit('keydown', e);
             },
             blur: (e: KeyboardEvent) => {
-              this.hideIfFocusOutside(e);
+              if (this.hideIfFocusOutside) {
+                this.hideIfFocusOutside(e);
+              }
 
               this.$emit('blur', e);
             },
             focus: (e: KeyboardEvent) => {
-              this.show();
+              if (this.show) {
+                this.show();
+              }
 
               this.$emit('focus', e);
             },
