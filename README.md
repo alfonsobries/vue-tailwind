@@ -112,98 +112,6 @@ Vue.use(VueTailwind, {
 })
 ```
 
-#### Override the default settings (1.2.0+)
-
-Let's say that some default values of the component are not the best for your specific project needs and you see yourself setting the props over and over every time you use the component.
-
-With this library, you can override the default settings when installing the library.
-
-For example, maybe you want:
-
-- That all the button components have the `type="button"` attribute (I do myself change that).
-- Change the default localization settings for a DatePicker.
-- Make all the alert not `dismissible` by default.
-- Don't allow the Modal to be closed by pressing `ESC` as default.
-
-You can also override the default values of the props for every component using the same syntax you use for the classes:
-
-So let's try the goal explained above:
-
-```js
-// Locale to eventually replace the default datepicker locale
-import Spanish from 'vue-tailwind/dist/l10n/es'
-
-const settings = {
-  TButton: {
-    // classes: '...',
-    // ...
-    // Originally it defaults to `undefined` that means is considered a submit
-    // button if the button is inside a form.
-    type: 'button',
-  },
-  TDatepicker: {
-    // classes: '...',
-    // ...
-    // Originally a locale object with English values
-    locale: Spanish,
-  },
-  TAlert: {
-    // classes: '...',
-    // ...
-    // Originally `true`
-    dismissible: false,
-  },
-  TModal: {
-    // classes: '...',
-    // ...
-    // Originally `true`
-    escToClose: false,
-  },
-  
-}
-
-Vue.use(VueTailwind, settings)
-```
-
-
-## Quick start
-
-Here is a small example of how the classes and variants are defined when you import this library:
-
-```js
-import Vue from 'vue'
-import VueTailwind from 'vue-tailwind'
-
-const settings = {
-  TInput: {
-    classes: 'form-input border-2 text-gray-700',
-    variants: {
-      error: 'form-input border-2 border-red-300 bg-red-100',
-      // ... Infinite variants
-    }
-  },
-  TAlert: {
-    classes: {
-      wrapper: 'rounded bg-blue-100 p-4 flex text-sm border-l-4 border-blue-500',
-      body: 'flex-grow text-blue-700',
-      close: 'text-blue-700 hover:text-blue-500 hover:bg-blue-200 ml-4 rounded',
-      closeIcon: 'h-5 w-5 fill-current'
-    },
-    variants: {
-      danger: {
-        wrapper: 'rounded bg-red-100 p-4 flex text-sm border-l-4 border-red-500',
-        body: 'flex-grow text-red-700',
-        close: 'text-red-700 hover:text-red-500 hover:bg-red-200 ml-4 rounded'
-      },
-      // ... Infinite variants
-    }
-  },
-  // ... The rest of the components
-}
-
-Vue.use(VueTailwind, settings)
-```
-
 The default classes and variants can also be defined in the component props:
 
 ```html
@@ -216,7 +124,9 @@ The default classes and variants can also be defined in the component props:
 />
 ```
 
-To apply an specific variant you just need to use the `variant` prop:
+## Workflow
+
+Once your different variants were defined you can use the `variant` prop to define which variant should be applied:
 
 ```html
 <t-input variant="error" />
@@ -254,7 +164,7 @@ Of course, any other kind help is welcome, even if you notice some grammar mista
 
 ### Changelog
 
-Please see [CHANGELOG](https://github.com/alfonsobries/vue-tailwind/blob/master/CHANGELOG.md) for more information what has changed recently.
+Please see [Release notes](https://vue-tailwind.com/docs/release-notes) for more information about what was changed recently.
 
 ### Security
 
