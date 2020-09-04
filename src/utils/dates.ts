@@ -3,6 +3,7 @@ import {
 } from '@/types/locale';
 import { English } from '@/l10n/default';
 import merge from 'lodash/merge';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   tokenRegex,
   RevFormatFn,
@@ -172,7 +173,7 @@ export const extractLocaleFromProps = (localeName: string, locales: Locales, def
   const availableLocales: LocaleName[] = Object.keys(locales) as LocaleName[];
   const find: LocaleName | undefined = availableLocales.find((l: LocaleName) => l === localeName);
   const locale = find && locales[find] ? locales[find] : defaultLocale;
-  return merge<Locale, CustomLocale>(English, locale);
+  return merge<Locale, CustomLocale>(cloneDeep(English), locale);
 };
 
 export const buildDateParser = (locale: Locale, customDateParser?: DateParser) : DateParser => (date: DateValue, format = 'Y-m-d H:i:S', timeless?: boolean) => {

@@ -48,7 +48,7 @@ const TDatepickerTrigger = Vue.extend({
       type: Function,
       default: undefined,
     },
-    conjuntion: {
+    conjunction: {
       type: String,
       required: true,
     },
@@ -109,6 +109,14 @@ const TDatepickerTrigger = Vue.extend({
   render(createElement: CreateElement): VNode {
     const formattedDate = this.formatedDate as string[] | string;
 
+    let formText = '';
+    if (Array.isArray(this.userFormatedDate)) {
+      const conjunction = this.range ? this.locale.rangeSeparator : this.conjunction;
+      formText = this.userFormatedDate.join(conjunction);
+    } else {
+      formText = this.userFormatedDate;
+    }
+
     const subElements = [
       createElement(
         'input',
@@ -126,7 +134,7 @@ const TDatepickerTrigger = Vue.extend({
             required: this.required,
             placeholder: this.placeholder,
             tabindex: this.tabindex,
-            value: Array.isArray(this.userFormatedDate) ? this.userFormatedDate.join(this.conjuntion) : this.userFormatedDate,
+            value: formText,
           },
           on: {
             click: (e: MouseEvent) => {
@@ -233,7 +241,7 @@ const TDatepickerTrigger = Vue.extend({
           {
             attrs: {
               type: 'hidden',
-              value: Array.isArray(formattedDate) ? formattedDate.join(this.conjuntion) : formattedDate,
+              value: Array.isArray(formattedDate) ? formattedDate.join(this.conjunction) : formattedDate,
               name: this.name,
               disabled: this.disabled,
               readonly: this.readonly,

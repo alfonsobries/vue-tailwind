@@ -8,15 +8,9 @@
   >
     <t-datepicker
       v-model="date"
-      initial-view="year"
+      multiple
       inline
-    >
-      <template
-        slot="clearButton"
-      >
-        😵
-      </template>
-    </t-datepicker>
+    />
 
     {{ date }}
 
@@ -993,7 +987,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      date: '1987-03-18',
+      date: ['1987-03-18'],
       wrappedRadioValue: '2',
       wrappedCheckboxValue: ['2'],
       repositories: [] as string[],

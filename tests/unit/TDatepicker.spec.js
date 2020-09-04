@@ -347,14 +347,14 @@ describe('TDatepicker', () => {
     expect(wrapper.vm.formatedDate).toEqual([expectedFormattedDate[0]]);
   });
 
-  it('format array values separated by the conjuntion', () => {
+  it('format array values separated by the conjunction', () => {
     const inputValue = ['2019-10-16', '2019-10-30'];
-    const conjuntion = ':';
+    const conjunction = ':';
 
     const wrapper = mount(TDatepicker, {
       propsData: {
         userFormat: 'Ymd',
-        conjuntion,
+        conjunction,
         value: inputValue,
       },
     });
@@ -363,7 +363,7 @@ describe('TDatepicker', () => {
     expect(wrapper.vm.localValue[0]).toEqual(new Date(2019, 9, 16));
     expect(wrapper.vm.localValue[1]).toEqual(new Date(2019, 9, 30));
 
-    expect(wrapper.vm.$el.querySelector('input[type=hidden]').value).toBe(inputValue.join(conjuntion));
+    expect(wrapper.vm.$el.querySelector('input[type=hidden]').value).toBe(inputValue.join(conjunction));
     expect(wrapper.vm.$el.querySelector('input[type=text]').value).toBe('20191016:20191030');
   });
 
