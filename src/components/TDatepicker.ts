@@ -223,7 +223,7 @@ const TDatepicker = HtmlInput.extend({
         navigatorNextButtonIcon: 'h-6 w-6 inline-flex',
 
         inputWrapper: 'relative',
-        viewGroup: 'inline-flex',
+        viewGroup: 'inline-flex flex-wrap',
         view: 'w-64',
         calendarDaysWrapper: 'grid grid-cols-7',
         calendarHeaderWrapper: 'grid grid-cols-7',
