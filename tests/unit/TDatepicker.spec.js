@@ -577,6 +577,28 @@ describe('TDatepicker', () => {
     expect(wrapper.vm.activeDate).toEqual(monthToLook);
     expect(wrapper.vm.currentView).toBe('day');
   });
+
+
+  it('select the last day for the active date when array values', async () => {
+    const dates = [
+      '2020-02-18',
+      '2020-02-21',
+    ];
+
+    const wrapper = mount(TDatepicker, {
+      propsData: {
+        value: dates,
+      },
+    });
+
+    wrapper.setProps({
+      value: dates.concat(['2020-03-12']),
+    });
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.activeDate).toEqual(new Date(2020, 2, 12));
+  });
 });
 
 describe('TDatepickerViewsViewCalendarDaysDay', () => {
