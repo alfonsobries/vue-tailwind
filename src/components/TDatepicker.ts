@@ -339,7 +339,7 @@ const TDatepicker = HtmlInput.extend({
     localValue(localValue: Date | null | Date[]) {
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
         if (Array.isArray(localValue) && localValue.length) {
-          [this.activeDate] = localValue;
+          this.activeDate = localValue[localValue.length - 1];
         } else {
           this.activeDate = localValue instanceof Date ? localValue : new Date();
         }
