@@ -120,7 +120,7 @@ const TDatepicker = HtmlInput.extend({
       type: [Date, String],
       default: undefined,
     },
-    conjuntion: {
+    conjunction: {
       type: String,
       default: ',',
     },
@@ -332,6 +332,9 @@ const TDatepicker = HtmlInput.extend({
     formatedDate(formatedDate) {
       this.$emit('input', formatedDate);
       this.$emit('change', formatedDate);
+    },
+    userFormatedDate(userFormatedDate) {
+      this.$emit('userDateChanged', userFormatedDate);
     },
     localValue(localValue: Date | null | Date[]) {
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
@@ -656,7 +659,7 @@ const TDatepicker = HtmlInput.extend({
         tabindex: this.tabindex,
         userFormatedDate: this.userFormatedDate,
         formatedDate: this.formatedDate,
-        conjuntion: this.conjuntion,
+        conjunction: this.conjunction,
         multiple: this.multiple,
         range: this.range,
         clearable: this.clearable,
