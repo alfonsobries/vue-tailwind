@@ -228,6 +228,22 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
       );
     }
 
+    const daySlot = this.$scopedSlots.day
+      ? this.$scopedSlots.day({
+        dayFormatted: this.dayFormatted,
+        isForAnotherMonth: this.isForAnotherMonth,
+        isFirstDayOfRange: this.isFirstDayOfRange,
+        isLastDayOfRange: this.isLastDayOfRange,
+        isInRange: this.isInRange,
+        isSelected: this.isSelected,
+        isActive: this.isActive,
+        isHighlighted: this.isHighlighted,
+        isToday: this.isToday,
+        day: this.getDay(),
+        activeDate: this.activeDate,
+        value: this.value,
+      }) : this.dayFormatted;
+
     return createElement(
       'button',
       {
@@ -244,7 +260,7 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
           click: (e: MouseEvent) => this.$emit('click', e),
         },
       },
-      this.dayFormatted,
+      daySlot,
     );
   },
 });

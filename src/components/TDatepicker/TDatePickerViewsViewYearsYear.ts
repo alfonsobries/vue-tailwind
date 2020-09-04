@@ -86,6 +86,16 @@ const TDatepickerViewsViewYearsYear = Vue.extend({
   },
 
   render(createElement: CreateElement): VNode {
+    const yearSlot = this.$scopedSlots.year
+      ? this.$scopedSlots.year({
+        yearFormatted: this.yearFormatted,
+        isSelected: this.isSelected,
+        isActive: this.isActive,
+        year: this.getYear(),
+        activeDate: this.activeDate,
+        value: this.value,
+      }) : this.yearFormatted;
+
     return createElement(
       'button',
       {
@@ -100,7 +110,7 @@ const TDatepickerViewsViewYearsYear = Vue.extend({
           click: (e: MouseEvent) => this.$emit('click', e),
         },
       },
-      this.yearFormatted,
+      yearSlot,
     );
   },
 });

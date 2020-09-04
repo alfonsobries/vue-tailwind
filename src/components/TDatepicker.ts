@@ -156,6 +156,8 @@ const TDatepicker = HtmlInput.extend({
         // Text input related classes
         inputWrapper: '',
         input: 'form-input w-full',
+        clearButton: 'hover:bg-gray-200 text-gray-500 rounded',
+        clearButtonIcon: '',
 
         // Picker views
         viewGroup: 'bg-white border',
@@ -207,9 +209,6 @@ const TDatepicker = HtmlInput.extend({
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
-
-        clearButton: 'hover:bg-gray-200 text-gray-500 rounded',
-        clearButtonIcon: '',
       }),
     },
     fixedClasses: {
@@ -292,13 +291,7 @@ const TDatepicker = HtmlInput.extend({
   },
 
   computed: {
-    hasValue(): boolean {
-      if (Array.isArray(this.localValue)) {
-        return this.localValue.length > 0;
-      }
 
-      return !!this.localValue;
-    },
     visibleRange(): [Date, Date] {
       const start = new Date(this.activeDate.valueOf());
       const end = new Date(this.activeDate.valueOf());
@@ -639,6 +632,7 @@ const TDatepicker = HtmlInput.extend({
           range: this.range,
           showDaysForOtherMonth: this.showDaysForOtherMonth,
         },
+        scopedSlots: this.$scopedSlots,
         on: {
           input: this.inputHandler,
           inputActiveDate: this.inputActiveDateHandler,
@@ -667,9 +661,11 @@ const TDatepicker = HtmlInput.extend({
         range: this.range,
         clearable: this.clearable,
         locale: this.currentLocale,
-        hasValue: this.hasValue,
+        value: this.localValue,
+        activeDate: this.activeDate,
         getElementCssClass: this.getElementCssClass,
       },
+      scopedSlots: this.$scopedSlots,
       on: {
         clear: this.clearHandler,
         focus: this.focusHandler,
