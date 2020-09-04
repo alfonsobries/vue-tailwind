@@ -154,6 +154,7 @@ The variant prop also accepts an object that takes the first attribute with a _t
 
 - I'm working in a time picker feature for the Datepicker component
 - Also working in a Dialog component inspired in the [Sweetalert library](https://sweetalert2.github.io/) 
+- Toast notifications, autocomplete, and more...
 - Vue 3 compatibility and more plans for v2.x. [Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
 
 ## Contribute
