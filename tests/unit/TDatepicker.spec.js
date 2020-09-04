@@ -599,6 +599,7 @@ describe('TDatepickerViewsViewCalendarDaysDay', () => {
     showDaysForOtherMonth: false,
     showActiveDate: true,
     range: false,
+    slots: datePicker.vm.$scopedSlots,
   };
 
   it('usually not disables a date ', () => {

@@ -68,10 +68,6 @@ const TDatepickerTrigger = Vue.extend({
       type: Object,
       required: true,
     },
-    hasValue: {
-      type: Boolean,
-      required: true,
-    },
     userFormatedDate: {
       type: [String, Array],
       required: true,
@@ -80,9 +76,27 @@ const TDatepickerTrigger = Vue.extend({
       type: [String, Array],
       required: true,
     },
+    value: {
+      type: [Date, Array],
+      default: null,
+    },
+    activeDate: {
+      type: Date,
+      required: true,
+    },
     getElementCssClass: {
       type: Function,
       required: true,
+    },
+  },
+
+  computed: {
+    hasValue(): boolean {
+      if (Array.isArray(this.value)) {
+        return this.value.length > 0;
+      }
+
+      return !!this.value;
     },
   },
 
@@ -148,6 +162,34 @@ const TDatepickerTrigger = Vue.extend({
     ];
 
     if (this.clearable && this.hasValue) {
+      const clearButtonSlot = this.$scopedSlots.clearButton
+        ? this.$scopedSlots.clearButton({
+          className: this.getElementCssClass('clearButtonIcon'),
+          formatedDate: this.formatedDate,
+          userFormatedDate: this.userFormatedDate,
+          value: this.value,
+          activeDate: this.activeDate,
+        }) : [
+          createElement(
+            'svg',
+            {
+              attrs: {
+                fill: 'currentColor',
+                xmlns: 'http://www.w3.org/2000/svg',
+                viewBox: '0 0 20 20',
+              },
+              class: this.getElementCssClass('clearButtonIcon'),
+            },
+            [
+              createElement('polygon', {
+                attrs: {
+                  points: '10 8.58578644 2.92893219 1.51471863 1.51471863 2.92893219 8.58578644 10 1.51471863 17.0710678 2.92893219 18.4852814 10 11.4142136 17.0710678 18.4852814 18.4852814 17.0710678 11.4142136 10 18.4852814 2.92893219 17.0710678 1.51471863 10 8.58578644',
+                },
+              }),
+            ],
+          ),
+        ];
+
       subElements.push(
         createElement(
           'button',
@@ -162,26 +204,7 @@ const TDatepickerTrigger = Vue.extend({
               click: this.clearButtonClickHandler,
             },
           },
-          [
-            createElement(
-              'svg',
-              {
-                attrs: {
-                  fill: 'currentColor',
-                  xmlns: 'http://www.w3.org/2000/svg',
-                  viewBox: '0 0 20 20',
-                },
-                class: this.getElementCssClass('clearButtonIcon'),
-              },
-              [
-                createElement('polygon', {
-                  attrs: {
-                    points: '10 8.58578644 2.92893219 1.51471863 1.51471863 2.92893219 8.58578644 10 1.51471863 17.0710678 2.92893219 18.4852814 10 11.4142136 17.0710678 18.4852814 18.4852814 17.0710678 11.4142136 10 18.4852814 2.92893219 17.0710678 1.51471863 10 8.58578644',
-                  },
-                }),
-              ],
-            ),
-          ],
+          clearButtonSlot,
         ),
       );
     }

@@ -143,6 +143,7 @@ const TDatepickerViewsViewCalendar = Vue.extend({
               maxDate: this.maxDate,
               range: this.range,
             },
+            scopedSlots: this.$scopedSlots,
             on: {
               input: this.inputHandler,
             },

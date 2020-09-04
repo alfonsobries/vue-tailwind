@@ -208,6 +208,7 @@ const TDatepickerViewsView = Vue.extend({
               maxDate: this.maxDate,
               range: this.range,
             },
+            scopedSlots: this.$scopedSlots,
             on: {
               input: this.inputHandler,
             },
@@ -227,6 +228,7 @@ const TDatepickerViewsView = Vue.extend({
               showActiveDate: this.showActiveDate,
               formatNative: this.formatNative,
             },
+            scopedSlots: this.$scopedSlots,
             on: {
               input: this.viewInputActiveDateHandler,
             },
@@ -247,6 +249,7 @@ const TDatepickerViewsView = Vue.extend({
               showActiveDate: this.showActiveDate,
               formatNative: this.formatNative,
             },
+            scopedSlots: this.$scopedSlots,
             on: {
               input: this.viewInputActiveDateHandler,
             },

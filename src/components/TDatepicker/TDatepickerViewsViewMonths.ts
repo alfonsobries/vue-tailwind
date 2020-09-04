@@ -81,6 +81,7 @@ const TDatepickerViewsViewMonths = Vue.extend({
             showActiveDate: this.showActiveDate,
             formatNative: this.formatNative,
           },
+          scopedSlots: this.$scopedSlots,
           on: {
             click: () => this.$emit('input', month),
           },

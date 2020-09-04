@@ -153,6 +153,7 @@ const TDatepickerViews = Vue.extend({
             showDaysForOtherMonth: this.showDaysForOtherMonth,
             locale: this.locale,
           },
+          scopedSlots: this.$scopedSlots,
           on: {
             input: (date: Date) => {
               this.$emit('input', date);

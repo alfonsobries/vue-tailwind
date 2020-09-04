@@ -75,6 +75,16 @@ const TDatepickerViewsViewMonthsMonth = Vue.extend({
   },
 
   render(createElement: CreateElement): VNode {
+    const monthSlot = this.$scopedSlots.month
+      ? this.$scopedSlots.month({
+        monthFormatted: this.monthFormatted,
+        isSelected: this.isSelected,
+        isActive: this.isActive,
+        month: this.getMonth(),
+        activeDate: this.activeDate,
+        value: this.value,
+      }) : this.monthFormatted;
+
     return createElement(
       'button',
       {
@@ -89,7 +99,7 @@ const TDatepickerViewsViewMonthsMonth = Vue.extend({
           click: (e: MouseEvent) => this.$emit('click', e),
         },
       },
-      this.monthFormatted,
+      monthSlot,
     );
   },
 });
