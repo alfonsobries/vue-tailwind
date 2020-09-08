@@ -155,41 +155,68 @@ The variant prop also accepts an object that takes the first attribute with a _t
 - I'm working in a time picker feature for the Datepicker component
 - Also working in a Dialog component inspired in the [Sweetalert library](https://sweetalert2.github.io/) 
 - Toast notifications, autocomplete, and more...
-- Plans for **v2.x**:
-  - Install only the components you need for smaller bundle size
-  - Custom name for components
-  - Install the same component multiple times with different name and different default settings [Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
-  Example:
-  
-  Example coming up config file (syntax still to be defined):
-   ```
-   {
-     t-h1: {
-       TTag,
-       {
-        tagName: h1
-        class: 'font-5xl font-semibold'
-       }
-     },
-     t-h2: {
-       TTag,
-       {
-        tagName: h2
-        class: 'font-3xl font-semibold'
-       }
+
+#### Plans for the upcoming v2.x
+
+- Install only the components you need for smaller bundle size
+- Custom name for components
+- And my favorite so far: the ability to install the same component multiple times with different default settings and name
+ 
+Example of the coming up config file _(the syntax probably will change for the final version)_:
+
+```js
+{
+  //...
+  't-title': {
+    component: TTag,
+     props: {
+       tagName: 'h1',
+       classes: 'font-5xl font-semibold'
      }
-   }
-    
-   ```
+   },
+  't-subtitle': {
+    component: TTag,
+    props: {
+      tagName: 'h2',
+      classes: 'font-3xl font-semibold'
+    }
+  },
+  't-timepicker': {
+    component: TDatepicker,
+    props: {
+      time: true,
+      format: 'H:i:S',
+      userFormat: 'H:i:S',
+    }
+  },
+  //...
+}
+```
    
-   Use your custom tag
-   ```html
-   <!-- <t-tag tagName="h1">Title</t-h1> -->
-   <!-- <t-tag tagName="h2">Subtitle</t-h1> -->
-   <t-h1>Title</t-h1>
-   <t-h2>Subtitle</t-h2>
-   ```
-- Rebuild with Vue 3 and more plans for v3.x. [Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
+Use your custom tag:
+
+```html
+<!-- After: <t-tag tagName="h1">Title</t-h1> -->
+<t-title>Title</t-title>
+
+<!-- After: <t-tag tagName="h2">Subtitle</t-h1> -->
+<t-subtitle>Subtitle</t-subtitle>
+
+<!-- After: <t-datepicker :time="true" format="H:i:S" userFormat="H:i:S" /> -->
+<t-timepicker  />
+```
+
+[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
+
+#### Plans for v3.x
+
+- Rebuild with Vue 3
+- Multiple typescript improvements
+- Stronger test coverage
+- Accesibility first
+- New Branding and logo
+
+[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
 
 ## Contribute
 
