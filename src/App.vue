@@ -6,6 +6,22 @@
     header="VueTailwind"
     footer="Made with love by @alfonsobries"
   >
+    <t-dialog :variant="variant">
+      <p
+        v-for="(i, index) in [1,2,3,4,5,6,7,8,9,0,0,2,35,6,8,8,978,96789,8,9,4,36,4]"
+        :key="index"
+      >
+        Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet
+        consectetur adipisicing elit.
+      </p>
+    </t-dialog>
+    <t-button @click.prevent="$dialog.alert()">
+      Alert
+    </t-button>
+    <t-button @click.prevent="$alert()">
+      Alert directly
+    </t-button>
+
     <t-datepicker
       v-model="date"
       multiple
@@ -737,6 +753,7 @@ import '../css/tailwind.css';
 /* eslint-disable max-len */
 
 import Vue from 'vue';
+import TDialog from './components/TDialog';
 import VueTailwind from './index';
 
 // import TInput from './t-input';
@@ -1024,6 +1041,7 @@ export default Vue.extend({
     };
   },
   methods: {
+
     addOption(repository: string): void {
       this.repositories.push(repository);
       this.repository = repository;

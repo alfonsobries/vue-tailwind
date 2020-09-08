@@ -17,5 +17,6 @@ type ComponentName = 'TInput'
 | 'TTable'
 | 'TDatepicker'
 | 'TToggle'
+| 'TDialog'
 
 export default ComponentName;

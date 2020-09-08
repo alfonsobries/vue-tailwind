@@ -4,6 +4,8 @@ import { InstallFunction } from './src';
 declare module 'vue/types/vue' {
   interface Vue {
     $modal: _Vue;
+    $dialog: _Vue;
+    $alert: (params?: string) => void;
   }
 }
 

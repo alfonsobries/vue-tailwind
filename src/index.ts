@@ -47,6 +47,20 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
           },
         },
       });
+    } else if (componentName === 'TDialog') {
+      // eslint-disable-next-line no-param-reassign
+      Vue.prototype.$dialog = new Vue({
+        methods: {
+          alert(params = undefined) {
+            this.$emit('dialog-alert', params);
+          },
+        },
+      });
+
+      // eslint-disable-next-line no-param-reassign
+      Vue.prototype.$alert = function alert(params = undefined) {
+        this.$dialog.alert(params);
+      };
     }
   });
 };
