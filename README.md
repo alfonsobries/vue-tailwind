@@ -206,7 +206,7 @@ Use your custom tag:
 <t-timepicker  />
 ```
 
-[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
+[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes#plans-for-the-upcoming-v2x)
 
 #### Plans for v3.x
 
@@ -214,9 +214,9 @@ Use your custom tag:
 - Multiple typescript improvements
 - Stronger test coverage
 - Accesibility first
-- New Branding and logo
+- New Branding
 
-[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
+[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes#plans-for-version-3x)
 
 ## Contribute
 
