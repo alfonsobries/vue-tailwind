@@ -155,7 +155,41 @@ The variant prop also accepts an object that takes the first attribute with a _t
 - I'm working in a time picker feature for the Datepicker component
 - Also working in a Dialog component inspired in the [Sweetalert library](https://sweetalert2.github.io/) 
 - Toast notifications, autocomplete, and more...
-- Vue 3 compatibility and more plans for v2.x. [Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
+- Plans for **v2.x**:
+  - Install only the components you need for smaller bundle size
+  - Custom name for components
+  - Install the same component multiple times with different name and different default settings [Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
+  Example:
+  
+  Example coming up config file (syntax still to be defined):
+   ```
+   {
+     t-h1: {
+       TTag,
+       {
+        tagName: h1
+        class: 'font-5xl font-semibold'
+       }
+     },
+     t-h2: {
+       TTag,
+       {
+        tagName: h2
+        class: 'font-3xl font-semibold'
+       }
+     }
+   }
+    
+   ```
+   
+   Use your custom tag
+   ```html
+   <!-- <t-tag tagName="h1">Title</t-h1> -->
+   <!-- <t-tag tagName="h2">Subtitle</t-h1> -->
+   <t-h1>Title</t-h1>
+   <t-h2>Subtitle</t-h2>
+   ```
+- Rebuild with Vue 3 and more plans for v3.x. [Read more →](https://www.vue-tailwind.com/docs/upcoming-changes)
 
 ## Contribute
 
