@@ -19,6 +19,8 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
   if (install.installed) return;
   install.installed = true;
 
+  // eslint-disable-next-line no-param-reassign
+  Vue.prototype.$vueTailwind = true;
 
   entries.forEach(([componentName, component]) => {
     const customPropsValues: ComponentSettings = options && options[componentName] ? options[componentName] : {};
