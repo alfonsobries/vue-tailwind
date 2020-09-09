@@ -3,10 +3,12 @@
   <t-card
     id="app"
     :variant="variant === 'error' ? variant : undefined"
-    header="VueTailwind"
-    footer="Made with love by @alfonsobries"
   >
-    <t-dialog :variant="variant">
+    <t-dialog
+      title="Deactivate account"
+      text="Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
+      html-text="<p><strong>gasdgdasgdsg</strong></p>"
+    >
       <p
         v-for="(i, index) in [1,2,3,4,5,6,7,8,9,0,0,2,35,6,8,8,978,96789,8,9,4,36,4]"
         :key="index"
@@ -753,7 +755,6 @@ import '../css/tailwind.css';
 /* eslint-disable max-len */
 
 import Vue from 'vue';
-import TDialog from './components/TDialog';
 import VueTailwind from './index';
 
 // import TInput from './t-input';

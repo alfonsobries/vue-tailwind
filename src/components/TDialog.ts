@@ -2,24 +2,33 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import Component from '@/base/Component';
 import Vue, { CreateElement, VNode } from 'vue';
 import Key from '@/types/Key';
+import TDialogOverlay from './TDialog/TDialogOverlay';
 
 const TDialog = Component.extend({
   name: 'TDialog',
 
   props: {
-    name: {
+    title: {
       type: String,
       default: undefined,
     },
-    value: {
-      type: Boolean,
-      default: false,
-    },
-    header: {
+    htmlTitle: {
       type: String,
       default: undefined,
     },
-    footer: {
+    icon: {
+      type: String,
+      default: undefined,
+    },
+    htmlIcon: {
+      type: String,
+      default: undefined,
+    },
+    text: {
+      type: String,
+      default: undefined,
+    },
+    htmlText: {
       type: String,
       default: undefined,
     },
@@ -31,13 +40,37 @@ const TDialog = Component.extend({
       type: Boolean,
       default: true,
     },
-    noBody: {
+    showAltButton: {
       type: Boolean,
       default: false,
     },
-    hideCloseButton: {
+    altButtonText: {
+      type: String,
+      default: 'Cancel',
+    },
+    altButtonAriaLabel: {
+      type: String,
+      default: undefined,
+    },
+    showPrimaryButton: {
       type: Boolean,
-      default: false,
+      default: true,
+    },
+    primaryButtonText: {
+      type: String,
+      default: 'OK',
+    },
+    primaryButtonAriaLabel: {
+      type: String,
+      default: undefined,
+    },
+    showCloseButton: {
+      type: Boolean,
+      default: true,
+    },
+    closeButtonHtml: {
+      type: String,
+      default: '@TODO',
     },
     disableBodyScroll: {
       type: Boolean,
@@ -47,18 +80,25 @@ const TDialog = Component.extend({
       type: Boolean,
       default: true,
     },
+    target: {
+      type: String,
+      default: 'body',
+    },
+
     fixedClasses: {
       type: Object,
       default() {
         return {
           overlay: 'overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed',
           wrapper: 'relative mx-auto ',
-          modal: 'overflow-hidden relative',
+          dialog: 'overflow-hidden relative',
+
           body: '',
           header: '',
           footer: '',
           close: '',
           closeIcon: '',
+
           overlayEnterClass: '',
           overlayEnterActiveClass: '',
           overlayEnterToClass: '',
@@ -78,20 +118,25 @@ const TDialog = Component.extend({
       type: Object,
       default() {
         return {
-          overlay: 'z-40 bg-black bg-opacity-50',
-          wrapper: 'z-50 max-w-lg',
-          modal: 'bg-white shadow',
+
           body: '',
           header: '',
           footer: '',
+
           close: 'absolute right-0 top-0',
           closeIcon: 'h-5 w-5 fill-current',
+
+          overlay: 'z-40 bg-black bg-opacity-50',
+          wrapper: 'z-50 max-w-lg',
+          dialog: 'bg-white shadow',
+
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
           overlayEnterToClass: 'opacity-100',
           overlayLeaveClass: 'transition ease-in opacity-100',
           overlayLeaveActiveClass: '',
           overlayLeaveToClass: 'opacity-0 duration-75',
+
           enterClass: '',
           enterActiveClass: '',
           enterToClass: '',
@@ -105,31 +150,14 @@ const TDialog = Component.extend({
 
   data() {
     return {
-      overlayShow: this.value,
-      modalShow: this.value,
+      overlayShow: false,
+      dialogShow: false,
       params: undefined,
       preventAction: false,
     };
   },
 
-  computed: {
-    hasHeaderSlot() {
-      return !!this.$slots.header;
-    },
-    hasFooterSlot() {
-      return !!this.$slots.footer;
-    },
-  },
-
   watch: {
-
-    value(value) {
-      if (value) {
-        this.show();
-      } else {
-        this.hide();
-      }
-    },
     async overlayShow(shown) {
       this.$emit('input', shown);
       this.$emit('change', shown);
@@ -137,12 +165,12 @@ const TDialog = Component.extend({
       await this.$nextTick();
 
       if (shown) {
-        this.modalShow = true;
+        this.dialogShow = true;
       } else {
         this.closed();
       }
     },
-    async modalShow(shown) {
+    async dialogShow(shown) {
       await this.$nextTick();
 
       if (!shown) {
@@ -215,179 +243,61 @@ const TDialog = Component.extend({
     });
   },
 
-  mounted() {
-    if (this.overlayShow) {
-      this.prepareDomForModal();
-    }
-  },
-
   beforeDestroy() {
     if (this.disableBodyScroll) {
       enableBodyScroll(this.$refs.modal as HTMLDivElement);
     }
   },
 
-  render(createElement) {
-    const renderFun: (createElement: CreateElement) => VNode = this.render;
-    return renderFun(createElement);
+  render(createElement: CreateElement): VNode {
+    return createElement(
+      'transition',
+      {
+        props: {
+          enterClass: this.getElementCssClass('overlayEnterClass'),
+          enterActiveClass: this.getElementCssClass('overlayEnterActiveClass'),
+          enterToClass: this.getElementCssClass('overlayEnterToClass'),
+          leaveClass: this.getElementCssClass('overlayLeaveClass'),
+          leaveActiveClass: this.getElementCssClass('overlayLeaveActiveClass'),
+          leaveToClass: this.getElementCssClass('overlayLeaveToClass'),
+        },
+      },
+      [
+        createElement(
+          TDialogOverlay,
+          {
+            ref: 'overlay',
+            props: {
+              overlayShow: this.overlayShow,
+              dialogShow: this.dialogShow,
+              title: this.title,
+              htmlTitle: this.htmlTitle,
+              icon: this.icon,
+              htmlIcon: this.htmlIcon,
+              text: this.text,
+              htmlText: this.htmlText,
+              showAltButton: this.showAltButton,
+              altButtonText: this.altButtonText,
+              altButtonAriaLabel: this.altButtonAriaLabel,
+              showPrimaryButton: this.showPrimaryButton,
+              primaryButtonText: this.primaryButtonText,
+              primaryButtonAriaLabel: this.primaryButtonAriaLabel,
+              showCloseButton: this.showCloseButton,
+              closeButtonHtml: this.closeButtonHtml,
+              getElementCssClass: this.getElementCssClass,
+            },
+            on: {
+              outsideClick: this.outsideClick,
+              keyup: this.keyupHandler,
+              hide: this.hide,
+            },
+          },
+        ),
+      ],
+    );
   },
 
   methods: {
-    render(createElement: CreateElement) {
-      return createElement(
-        'transition',
-        {
-          props: {
-            enterClass: this.getElementCssClass('overlayEnterClass'),
-            enterActiveClass: this.getElementCssClass('overlayEnterActiveClass'),
-            enterToClass: this.getElementCssClass('overlayEnterToClass'),
-            leaveClass: this.getElementCssClass('overlayLeaveClass'),
-            leaveActiveClass: this.getElementCssClass('overlayLeaveActiveClass'),
-            leaveToClass: this.getElementCssClass('overlayLeaveToClass'),
-          },
-        },
-        this.overlayShow ? [
-          createElement(
-            'div',
-            {
-              ref: 'overlay',
-              attrs: {
-                tabindex: 0,
-              },
-              class: this.getElementCssClass('overlay'),
-              on: {
-                keyup: this.keyupHandler,
-                click: this.clickHandler,
-              },
-            },
-            [
-              this.renderWrapper(createElement),
-            ],
-          ),
-        ] : undefined,
-      );
-    },
-    renderWrapper(createElement: CreateElement) {
-      return createElement(
-        'div',
-        {
-          ref: 'wrapper',
-          class: this.getElementCssClass('wrapper'),
-        },
-        [
-          this.renderModal(createElement),
-        ],
-      );
-    },
-    renderModal(createElement: CreateElement) {
-      return createElement(
-        'transition',
-        {
-          props: {
-            enterClass: this.getElementCssClass('enterClass'),
-            enterActiveClass: this.getElementCssClass('enterActiveClass'),
-            enterToClass: this.getElementCssClass('enterToClass'),
-            leaveClass: this.getElementCssClass('leaveClass'),
-            leaveActiveClass: this.getElementCssClass('leaveActiveClass'),
-            leaveToClass: this.getElementCssClass('leaveToClass'),
-          },
-        },
-        this.modalShow ? [
-          createElement(
-            'div',
-            {
-              ref: 'modal',
-              class: this.getElementCssClass('modal'),
-            },
-            this.renderChilds(createElement),
-          ),
-        ] : undefined,
-      );
-    },
-    renderChilds(createElement: CreateElement) {
-      if (this.noBody) {
-        return this.$slots.default;
-      }
-
-      const childs = [];
-
-      if (!this.hideCloseButton) {
-        childs.push(createElement(
-          'button',
-          {
-            ref: 'close',
-            class: this.getElementCssClass('close'),
-            attrs: {
-              type: 'button',
-            },
-            on: {
-              click: this.hide,
-            },
-          },
-          this.$slots.button
-          || [
-            createElement(
-              'svg',
-              {
-                attrs: {
-                  fill: 'currentColor',
-                  xmlns: 'http://www.w3.org/2000/svg',
-                  viewBox: '0 0 20 20',
-                },
-                class: this.getElementCssClass('closeIcon'),
-              },
-              [
-                createElement('path', {
-                  attrs: {
-                    'clip-rule': 'evenodd',
-                    'fill-rule': 'evenodd',
-                    d: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
-                  },
-                }),
-              ],
-            ),
-          ],
-        ));
-      }
-
-      if (!!this.$slots.header || this.header !== undefined) {
-        childs.push(createElement(
-          'div',
-          {
-            ref: 'header',
-            class: this.getElementCssClass('header'),
-          },
-          this.$slots.header || this.header,
-        ));
-      }
-
-      childs.push(createElement(
-        'div',
-        {
-          ref: 'body',
-          class: this.getElementCssClass('body'),
-        },
-        this.$slots.default,
-      ));
-
-      if (!!this.$slots.footer || this.footer !== undefined) {
-        childs.push(createElement(
-          'div',
-          {
-            ref: 'footer',
-            class: this.getElementCssClass('footer'),
-          },
-          this.$slots.footer || this.footer,
-        ));
-      }
-
-      return childs;
-    },
-    clickHandler(e: MouseEvent) {
-      if (e.target === this.$refs.overlay) {
-        this.outsideClick();
-      }
-    },
     keyupHandler(e: KeyboardEvent) {
       if (e.keyCode === Key.ESC && this.escToClose) {
         this.hide();
@@ -398,7 +308,7 @@ const TDialog = Component.extend({
     },
     opened() {
       this.$emit('opened', { params: this.params });
-      this.prepareDomForModal();
+      this.prepareDomForDialog();
     },
     beforeClose() {
       if (this.disableBodyScroll) {
@@ -412,9 +322,9 @@ const TDialog = Component.extend({
     closed() {
       this.$emit('closed');
     },
-    prepareDomForModal() {
+    prepareDomForDialog() {
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.modal as HTMLDivElement | undefined;
+        const mdl = this.$refs.dialog as HTMLDivElement | undefined;
         if (mdl) {
           disableBodyScroll(mdl, {
             reserveScrollBarGap: true,
@@ -433,7 +343,7 @@ const TDialog = Component.extend({
       this.beforeClose();
 
       if (!this.preventAction) {
-        this.modalShow = false;
+        this.dialogShow = false;
       } else {
         this.preventAction = false;
       }
