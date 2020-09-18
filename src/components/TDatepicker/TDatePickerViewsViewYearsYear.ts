@@ -1,5 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import CssClass from '@/types/CssClass';
+import CssClass from '../../types/CssClass';
 
 const TDatepickerViewsViewYearsYear = Vue.extend({
   name: 'TDatepickerViewsViewYearsYear',

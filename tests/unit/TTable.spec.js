@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import TTable from '@/components/TTable';
+import TTable from '../../src/components/TTable';
 
 describe('TTable', () => {
   it('renders the table', () => {

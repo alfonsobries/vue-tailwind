@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import TextInput from '@/base/TextInput';
+import TextInput from '../base/TextInput';
 
 const TInput = TextInput.extend({
   name: 'TInput',

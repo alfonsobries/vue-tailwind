@@ -1,8 +1,8 @@
 import isEqual from 'lodash/isEqual';
 import { CreateElement, VNode } from 'vue';
-import HtmlInput from '@/base/HtmlInput';
-import CssClass from '@/types/CssClass';
-import Key from '@/types/Key';
+import HtmlInput from '../base/HtmlInput';
+import CssClass from '../types/CssClass';
+import Key from '../types/Key';
 
 const checkIfTagShouldBeChecked = (
   model: string | Record<string, unknown> | number | boolean | undefined,

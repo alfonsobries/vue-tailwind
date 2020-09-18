@@ -1,6 +1,6 @@
-import Component from '@/base/Component';
 import { CreateElement, VNode } from 'vue';
-import Key from '@/types/Key';
+import Component from '../base/Component';
+import Key from '../types/Key';
 
 const TDropdown = Component.extend({
   name: 'TDropdown',

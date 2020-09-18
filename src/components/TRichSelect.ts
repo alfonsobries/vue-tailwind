@@ -1,8 +1,8 @@
-import TRichSelectType from '@/types/TRichSelect';
 import { CreateElement, VNode } from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
-import InputWithOptions from '@/base/InputWithOptions';
-import InputOptions from '@/types/InputOptions';
+import TRichSelectType from '../types/TRichSelect';
+import InputWithOptions from '../base/InputWithOptions';
+import InputOptions from '../types/InputOptions';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 import TRichSelectRenderer from '../renderers/TRichSelectRenderer';

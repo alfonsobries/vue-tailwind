@@ -1,5 +1,5 @@
 import { CreateElement, VNode, VNodeChildren } from 'vue';
-import MultipleInput from '@/base/MultipleInput';
+import MultipleInput from '../base/MultipleInput';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
 

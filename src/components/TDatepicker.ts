@@ -1,13 +1,13 @@
 import { CreateElement, VNode } from 'vue';
-import TDropdown from '@/components/TDropdown';
+import isEqual from 'lodash/isEqual';
+import TDropdown from './TDropdown';
 import {
   buildDateParser, buildDateFormatter, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
   DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, extractLocaleFromProps,
-} from '@/utils/dates';
-import HtmlInput from '@/base/HtmlInput';
-import Key from '@/types/Key';
-import isEqual from 'lodash/isEqual';
-import { English } from '@/l10n/default';
+} from '../utils/dates';
+import HtmlInput from '../base/HtmlInput';
+import Key from '../types/Key';
+import { English } from '../l10n/default';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTrigger';
 import TDatepickerViews from './TDatepicker/TDatepickerViews';

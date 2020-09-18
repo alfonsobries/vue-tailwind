@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import mapValues from 'lodash/mapValues';
-import TRadio from '@/inputs/TRadio';
+import TRadio from '../../src/inputs/TRadio';
 
 describe('TRadio', () => {
   it('it renders the input', () => {

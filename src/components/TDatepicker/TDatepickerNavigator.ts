@@ -4,7 +4,7 @@ import {
   DateParser,
   addDays,
   lastDayOfMonth,
-} from '@/utils/dates';
+} from '../../utils/dates';
 
 export const getYearsRange = (date: Date, yearsPerView: number): [number, number] => {
   const currentYear = date.getFullYear();

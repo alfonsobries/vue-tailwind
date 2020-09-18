@@ -1,9 +1,9 @@
-import {
-  Locale, Locales, LocaleName, CustomLocale,
-} from '@/types/locale';
-import { English } from '@/l10n/default';
 import merge from 'lodash/merge';
 import cloneDeep from 'lodash/cloneDeep';
+import {
+  Locale, Locales, LocaleName, CustomLocale,
+} from '../types/locale';
+import { English } from '../l10n/default';
 import {
   tokenRegex,
   RevFormatFn,

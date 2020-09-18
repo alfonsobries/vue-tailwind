@@ -1,7 +1,7 @@
 import pick from 'lodash/pick';
-import Component from '@/base/Component';
 import { CreateElement, VNode } from 'vue';
-import CssClass from '@/types/CssClass';
+import Component from '../base/Component';
+import CssClass from '../types/CssClass';
 
 type ColumnSettings = {
   id?: string;

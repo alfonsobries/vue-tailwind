@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import TPagination from '@/components/TPagination';
+import TPagination from '../../src/components/TPagination';
 
 describe('TPagination', () => {
   it('renders the component', () => {

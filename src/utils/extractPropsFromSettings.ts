@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
-import LibrarySettings from '@/types/LibrarySettings';
-import CustomProps from '@/types/CustomProps';
-import ComponentSettings from '@/types/ComponentSettings';
-import ComponentName from '@/types/ComponentName';
 import { PropOptions, VueConstructor } from 'vue';
+import LibrarySettings from '../types/LibrarySettings';
+import CustomProps from '../types/CustomProps';
+import ComponentSettings from '../types/ComponentSettings';
+import ComponentName from '../types/ComponentName';
 
 export interface ImportedComponent extends VueConstructor {
   options?: {

@@ -1,5 +1,5 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
-import { extractPropsFromComponentSettings } from '@/utils/extractPropsFromSettings';
+import { extractPropsFromComponentSettings } from './utils/extractPropsFromSettings';
 import component from './components/TTable';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';

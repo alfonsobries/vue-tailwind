@@ -1,5 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils';
-import TCheckboxGroup from '@/components/TCheckboxGroup';
+import TCheckboxGroup from '../../src/components/TCheckboxGroup';
 
 describe('TCheckboxGroup', () => {
   it('it renders the checkbox options', () => {
