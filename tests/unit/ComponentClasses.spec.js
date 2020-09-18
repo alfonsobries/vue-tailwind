@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 
-import TInput from '@/inputs/TInput';
-import TAlert from '@/components/TAlert';
+import TInput from '../../src/inputs/TInput';
+import TAlert from '../../src/components/TAlert';
 
 describe('ComponentClasses', () => {
   it('usually will return the default classes', () => {

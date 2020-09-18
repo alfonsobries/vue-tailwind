@@ -1,4 +1,4 @@
-import { formatDate, parseDate } from '@/utils/dates';
+import { formatDate, parseDate } from '../../../src/utils/dates';
 
 // import flatpickr from '../index';
 // import { Russian } from '../l10n/ru';

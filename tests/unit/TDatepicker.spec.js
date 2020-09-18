@@ -1,10 +1,10 @@
 import { mount, shallowMount } from '@vue/test-utils';
-import TDatepicker from '@/components/TDatepicker';
-import TDatepickerViewsViewCalendarDaysDay from '@/components/TDatepicker/TDatepickerViewsViewCalendarDaysDay';
-import TDatepickerNavigator from '@/components/TDatepicker/TDatepickerNavigator';
+import TDatepicker from '../../src/components/TDatepicker';
+import TDatepickerViewsViewCalendarDaysDay from '../../src/components/TDatepicker/TDatepickerViewsViewCalendarDaysDay';
+import TDatepickerNavigator from '../../src/components/TDatepicker/TDatepickerNavigator';
 import {
   isSameDay, isSameMonth, parseDate, addMonths,
-} from '@/utils/dates';
+} from '../../src/utils/dates';
 
 const getCalendarView = (wrapper) => wrapper.vm.$refs.views.$refs.view;
 const getCalendarNavigator = (wrapper) => getCalendarView(wrapper).$refs.navigator;

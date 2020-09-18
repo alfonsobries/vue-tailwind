@@ -1,5 +1,5 @@
 import { shallowMount, mount } from '@vue/test-utils';
-import TRadioGroup from '@/components/TRadioGroup';
+import TRadioGroup from '../../src/components/TRadioGroup';
 
 describe('TRadioGroup', () => {
   it('it renders the radio options', () => {

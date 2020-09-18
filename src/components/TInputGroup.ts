@@ -1,6 +1,6 @@
-import Component from '@/base/Component';
 import intersection from 'lodash/intersection';
 import { CreateElement, VNode } from 'vue';
+import Component from '../base/Component';
 
 const TInputGroup = Component.extend({
   name: 'TInputGroup',

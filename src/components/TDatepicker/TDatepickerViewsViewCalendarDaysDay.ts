@@ -1,8 +1,8 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import CssClass from '@/types/CssClass';
+import CssClass from '../../types/CssClass';
 import {
   DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
-} from '@/utils/dates';
+} from '../../utils/dates';
 
 const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
   name: 'TDatepickerViewsViewCalendarDaysDay',

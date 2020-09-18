@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import HtmlInput from '@/base/HtmlInput';
+import HtmlInput from '../base/HtmlInput';
 
 const TButton = HtmlInput.extend({
   name: 'TButton',

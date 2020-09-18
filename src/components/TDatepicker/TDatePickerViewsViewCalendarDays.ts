@@ -1,5 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { lastDayOfMonth } from '@/utils/dates';
+import { lastDayOfMonth } from '../../utils/dates';
 import TDatepickerViewsViewCalendarDaysDay from './TDatepickerViewsViewCalendarDaysDay';
 
 const TDatepickerViewsViewCalendarDays = Vue.extend({

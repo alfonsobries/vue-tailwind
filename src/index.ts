@@ -1,7 +1,7 @@
 import _Vue, { PluginFunction } from 'vue';
-import LibrarySettings from '@/types/LibrarySettings';
-import ComponentName from '@/types/ComponentName';
-import { extractPropsFromComponentSettings, ImportedComponent } from '@/utils/extractPropsFromSettings';
+import LibrarySettings from './types/LibrarySettings';
+import ComponentName from './types/ComponentName';
+import { extractPropsFromComponentSettings, ImportedComponent } from './utils/extractPropsFromSettings';
 import * as components from './components';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';

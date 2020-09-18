@@ -1,6 +1,6 @@
 import { shallowMount, mount } from '@vue/test-utils';
 
-import TInputGroup from '@/components/TInputGroup.ts';
+import TInputGroup from '../../src/components/TInputGroup';
 
 describe('TInputGroup', () => {
   it('it renders the input group', () => {

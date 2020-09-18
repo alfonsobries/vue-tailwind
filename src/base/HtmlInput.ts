@@ -1,4 +1,4 @@
-import Component from '@/base/Component';
+import Component from './Component';
 
 const HtmlInput = Component.extend({
   props: {
