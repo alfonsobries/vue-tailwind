@@ -1,5 +1,5 @@
-import Component from '@/base/Component';
 import { CreateElement, VNode } from 'vue';
+import Component from '../base/Component';
 
 const TTag = Component.extend({
   name: 'TTag',

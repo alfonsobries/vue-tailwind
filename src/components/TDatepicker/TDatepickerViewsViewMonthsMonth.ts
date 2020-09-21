@@ -1,6 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import CssClass from '@/types/CssClass';
-import { isSameMonth } from '@/utils/dates';
+import CssClass from '../../types/CssClass';
+import { isSameMonth } from '../../utils/dates';
 
 const TDatepickerViewsViewMonthsMonth = Vue.extend({
   name: 'TDatepickerViewsViewMonthsMonth',

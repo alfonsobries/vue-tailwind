@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import TRichSelect from '@/components/TRichSelect';
 import mapValues from 'lodash/mapValues';
+import TRichSelect from '../../src/components/TRichSelect';
 
 describe('TRichSelect', () => {
   it('renders the select', () => {

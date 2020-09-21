@@ -1,7 +1,7 @@
 
 import { shallowMount } from '@vue/test-utils';
 
-import TTag from '@/components/TTag';
+import TTag from '../../src/components/TTag';
 
 describe('TTag', () => {
   it('renders the tag', () => {

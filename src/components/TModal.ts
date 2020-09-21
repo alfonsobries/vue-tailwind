@@ -1,7 +1,7 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import Component from '@/base/Component';
 import Vue, { CreateElement, VNode } from 'vue';
-import Key from '@/types/Key';
+import Component from '../base/Component';
+import Key from '../types/Key';
 
 const TModal = Component.extend({
   name: 'TModal',

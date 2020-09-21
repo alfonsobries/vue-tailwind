@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 
-import TModal from '@/components/TModal';
+import TModal from '../../src/components/TModal';
 
 describe('TModal', () => {
   it('it not renders the modal by default', () => {

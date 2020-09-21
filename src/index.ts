@@ -1,7 +1,7 @@
 import _Vue, { PluginFunction } from 'vue';
-import LibrarySettings from '@/types/LibrarySettings';
-import ComponentName from '@/types/ComponentName';
-import { extractPropsFromComponentSettings, ImportedComponent } from '@/utils/extractPropsFromSettings';
+import LibrarySettings from './types/LibrarySettings';
+import ComponentName from './types/ComponentName';
+import { extractPropsFromComponentSettings, ImportedComponent } from './utils/extractPropsFromSettings';
 import * as components from './components';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';
@@ -19,6 +19,8 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
   if (install.installed) return;
   install.installed = true;
 
+  // eslint-disable-next-line no-param-reassign
+  Vue.prototype.$vueTailwind = true;
 
   entries.forEach(([componentName, component]) => {
     const customPropsValues: ComponentSettings = options && options[componentName] ? options[componentName] : {};

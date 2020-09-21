@@ -1,6 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 
-import { addMonths } from '@/utils/dates';
+import { addMonths } from '../../utils/dates';
 import TDatepickerViewsView from './TDatepickerViewsView';
 import { CalendarView } from './TDatepickerNavigator';
 
