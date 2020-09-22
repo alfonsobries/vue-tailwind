@@ -13,6 +13,10 @@ const TDialogOverlayWrapperTransition = Vue.extend({
       type: Boolean,
       required: true,
     },
+    titleTag: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       default: undefined,
@@ -29,11 +33,15 @@ const TDialogOverlayWrapperTransition = Vue.extend({
       type: String,
       default: undefined,
     },
-    text: {
+    bodyTag: {
+      type: String,
+      required: true,
+    },
+    body: {
       type: String,
       default: undefined,
     },
-    htmlText: {
+    htmlBody: {
       type: String,
       default: undefined,
     },
@@ -91,12 +99,14 @@ const TDialogOverlayWrapperTransition = Vue.extend({
             props: {
               getElementCssClass: this.getElementCssClass,
               dialogShow: this.dialogShow,
+              titleTag: this.titleTag,
               title: this.title,
               htmlTitle: this.htmlTitle,
               icon: this.icon,
               htmlIcon: this.htmlIcon,
-              text: this.text,
-              htmlText: this.htmlText,
+              bodyTag: this.bodyTag,
+              body: this.body,
+              htmlBody: this.htmlBody,
               showAltButton: this.showAltButton,
               altButtonText: this.altButtonText,
               altButtonAriaLabel: this.altButtonAriaLabel,

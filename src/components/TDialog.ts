@@ -1,13 +1,17 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import Component from '@/base/Component';
 import Vue, { CreateElement, VNode } from 'vue';
-import Key from '@/types/Key';
+import Component from '../base/Component';
+import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
 
 const TDialog = Component.extend({
   name: 'TDialog',
 
   props: {
+    titleTag: {
+      type: String,
+      default: 'h3',
+    },
     title: {
       type: String,
       default: undefined,
@@ -24,7 +28,11 @@ const TDialog = Component.extend({
       type: String,
       default: undefined,
     },
-    text: {
+    bodyTag: {
+      type: String,
+      default: 'p',
+    },
+    body: {
       type: String,
       default: undefined,
     },
@@ -93,9 +101,6 @@ const TDialog = Component.extend({
           wrapper: 'relative mx-auto ',
           dialog: 'overflow-hidden relative',
 
-          body: '',
-          header: '',
-          footer: '',
           close: '',
           closeIcon: '',
 
@@ -119,16 +124,19 @@ const TDialog = Component.extend({
       default() {
         return {
 
-          body: '',
-          header: '',
-          footer: '',
 
           close: 'absolute right-0 top-0',
           closeIcon: 'h-5 w-5 fill-current',
 
           overlay: 'z-40 bg-black bg-opacity-50',
           wrapper: 'z-50 max-w-lg',
-          dialog: 'bg-white shadow',
+          dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow',
+
+          titleWrapper: '',
+          title: 'text-lg leading-6 font-medium text-gray-900 text-center',
+
+          bodyWrapper: '',
+          body: '',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
@@ -270,11 +278,13 @@ const TDialog = Component.extend({
             props: {
               overlayShow: this.overlayShow,
               dialogShow: this.dialogShow,
+              titleTag: this.titleTag,
               title: this.title,
               htmlTitle: this.htmlTitle,
               icon: this.icon,
               htmlIcon: this.htmlIcon,
-              text: this.text,
+              bodyTag: this.bodyTag,
+              body: this.body,
               htmlText: this.htmlText,
               showAltButton: this.showAltButton,
               altButtonText: this.altButtonText,

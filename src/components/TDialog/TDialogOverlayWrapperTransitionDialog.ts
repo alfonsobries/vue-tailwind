@@ -12,6 +12,10 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       type: Boolean,
       required: true,
     },
+    titleTag: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       default: undefined,
@@ -27,6 +31,10 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
     htmlIcon: {
       type: String,
       default: undefined,
+    },
+    textTag: {
+      type: String,
+      required: true,
     },
     text: {
       type: String,
@@ -117,41 +125,45 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
     }
 
 
-    if (this.htmlTitle) {
+    if (this.title || this.htmlTitle) {
       subElements.push(createElement(
         'div',
         {
+          class: this.getElementCssClass('titleWrapper'),
           domProps: {
             innerHTML: this.htmlTitle,
           },
         },
-      ));
-    } else if (this.title) {
-      subElements.push(createElement(
-        'h3',
-        {
-
-        },
-        this.title,
+        this.title ? [
+          createElement(
+            this.titleTag,
+            {
+              class: this.getElementCssClass('title'),
+            },
+            this.title,
+          ),
+        ] : undefined,
       ));
     }
 
-    if (this.htmlText) {
+    if (this.text || this.htmlText) {
       subElements.push(createElement(
         'div',
         {
+          class: this.getElementCssClass('textWrapper'),
           domProps: {
             innerHTML: this.htmlText,
           },
         },
-      ));
-    } else if (this.title) {
-      subElements.push(createElement(
-        'p',
-        {
-
-        },
-        this.text,
+        this.text ? [
+          createElement(
+            this.textTag,
+            {
+              class: this.getElementCssClass('text'),
+            },
+            this.text,
+          ),
+        ] : undefined,
       ));
     }
 

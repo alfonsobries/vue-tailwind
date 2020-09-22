@@ -17,6 +17,10 @@ const TDialogOverlay = Vue.extend({
       type: Boolean,
       required: true,
     },
+    titleTag: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       default: undefined,
@@ -33,11 +37,15 @@ const TDialogOverlay = Vue.extend({
       type: String,
       default: undefined,
     },
-    text: {
+    bodyTag: {
+      type: String,
+      required: true,
+    },
+    body: {
       type: String,
       default: undefined,
     },
-    htmlText: {
+    textBody: {
       type: String,
       default: undefined,
     },
@@ -111,12 +119,14 @@ const TDialogOverlay = Vue.extend({
             props: {
               getElementCssClass: this.getElementCssClass,
               dialogShow: this.dialogShow,
+              titleTag: this.titleTag,
               title: this.title,
               htmlTitle: this.htmlTitle,
               icon: this.icon,
               htmlIcon: this.htmlIcon,
-              text: this.text,
-              htmlText: this.htmlText,
+              bodyTag: this.bodyTag,
+              body: this.body,
+              textBody: this.textBody,
               showAltButton: this.showAltButton,
               altButtonText: this.altButtonText,
               altButtonAriaLabel: this.altButtonAriaLabel,
