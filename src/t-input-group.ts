@@ -1,5 +1,5 @@
 import _Vue, { PluginFunction, VueConstructor } from 'vue';
-import { extractPropsFromComponentSettings } from '@/utils/extractPropsFromSettings';
+import { extractPropsFromComponentSettings } from './utils/extractPropsFromSettings';
 import component from './components/TInputGroup';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';
@@ -22,9 +22,9 @@ const install: InstallFunction = function installComponent(Vue: typeof _Vue, arg
   if (install.installed) return;
   install.installed = true;
 
-  const customProps: CustomProps = extractPropsFromComponentSettings(args);
+  const customProps: CustomProps = extractPropsFromComponentSettings(args, component);
   if (customProps) {
-    const componentWithCustomVariants = (component as VueConstructor).extend({
+    const componentWithCustomVariants = component.extend({
       props: customProps,
     });
 

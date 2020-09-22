@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import TCheckbox from '@/inputs/TCheckbox';
 import mapValues from 'lodash/mapValues';
+import TCheckbox from '../../src/inputs/TCheckbox';
 
 describe('TCheckbox', () => {
   it('it renders the input', () => {

@@ -1,7 +1,8 @@
 import ComponentSettings from './ComponentSettings';
+import ComponentName from './ComponentName';
 
 type LibrarySettings = {
-  [k: string]: ComponentSettings;
+  [key in ComponentName]: ComponentSettings;
 } | undefined;
 
 export default LibrarySettings;

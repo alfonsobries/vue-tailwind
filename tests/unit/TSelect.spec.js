@@ -1,7 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import TSelect from '@/inputs/TSelect';
-// import { wrap } from 'module';
 import mapValues from 'lodash/mapValues';
+import TSelect from '../../src/inputs/TSelect';
 
 describe('TSelect', () => {
   it('it renders the select', () => {

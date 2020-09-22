@@ -1,6 +1,6 @@
 # Vue-Tailwind 
 
-![Node CI](https://github.com/alfonsobries/vue-tailwind/workflows/Node%20CI/badge.svg)
+![CI](https://github.com/alfonsobries/vue-tailwind/workflows/CI/badge.svg)
 
 For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
 
@@ -38,11 +38,11 @@ yarn add vue-tailwind
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
-const theme = {
+const settings = {
   //...
 }
 
-Vue.use(VueTailwind, theme)
+Vue.use(VueTailwind, settings)
 ```
 
 #### Apply your own theme:
@@ -71,12 +71,12 @@ const TButton = {
   // fixedClasses: 'transform ease-in-out duration-100',
 }
 
-const MyOwnTheme = {
+const settings = {
   TInput,
   TButton,
 }
 
-export default MyOwnTheme
+export default settings
 ```
 
 Then you can import your theme and add it as a parameter when you install VueTailwind:
@@ -84,9 +84,9 @@ Then you can import your theme and add it as a parameter when you install VueTai
 ```js {3,6}
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import MyOwnTheme from './myOwnTheme.js'
+import settings from './settings.js'
 
-Vue.use(VueTailwind, MyOwnTheme)
+Vue.use(VueTailwind, settings)
 ```
 
 Or just define the settings directly:
@@ -112,44 +112,6 @@ Vue.use(VueTailwind, {
 })
 ```
 
-## Quick start
-
-Here is a small example of how the classes and variants are defined when you import this library:
-
-```js
-import Vue from 'vue'
-import VueTailwind from 'vue-tailwind'
-
-const theme = {
-  TInput: {
-    classes: 'form-input border-2 text-gray-700',
-    variants: {
-      error: 'form-input border-2 border-red-300 bg-red-100',
-      // ... Infinite variants
-    }
-  },
-  TAlert: {
-    classes: {
-      wrapper: 'rounded bg-blue-100 p-4 flex text-sm border-l-4 border-blue-500',
-      body: 'flex-grow text-blue-700',
-      close: 'text-blue-700 hover:text-blue-500 hover:bg-blue-200 ml-4 rounded',
-      closeIcon: 'h-5 w-5 fill-current'
-    },
-    variants: {
-      danger: {
-        wrapper: 'rounded bg-red-100 p-4 flex text-sm border-l-4 border-red-500',
-        body: 'flex-grow text-red-700',
-        close: 'text-red-700 hover:text-red-500 hover:bg-red-200 ml-4 rounded'
-      },
-      // ... Infinite variants
-    }
-  },
-  // ... The rest of the components
-}
-
-Vue.use(VueTailwind, theme)
-```
-
 The default classes and variants can also be defined in the component props:
 
 ```html
@@ -162,7 +124,9 @@ The default classes and variants can also be defined in the component props:
 />
 ```
 
-To apply an specific variant you just need to use the `variant` prop:
+## Workflow
+
+Once your different variants were defined you can use the `variant` prop to define which variant should be applied:
 
 ```html
 <t-input variant="error" />
@@ -184,14 +148,75 @@ The variant prop also accepts an object that takes the first attribute with a _t
 - Rebuilt from scratch in Typescript
 - Small bundle size and less dependencies
 - A better way to import only selected components
-- Unlimited variants and a easy way to configure them
+- Unlimited variants and an easy way to configure them
 
 ## What's next?
 
-- Im working in a datepicker that is the most requested component, after that im planning to create a swal like dialog component.
-- Already started to work in a react version of this package called react-tailwind.
-- Im making some final changes to the Community themes features that should be released soon.
-- Vue 3 compatibility
+- I'm working in a time picker feature for the Datepicker component
+- Also working in a Dialog component inspired in the [Sweetalert library](https://sweetalert2.github.io/) 
+- Toast notifications, autocomplete, and more...
+
+#### Plans for the upcoming v2.x
+
+- Install only the components you need for smaller bundle size
+- Custom name for components
+- And my favorite so far: the ability to install the same component multiple times with different default settings and name
+ 
+Example of the coming up config file _(the syntax probably will change for the final version)_:
+
+```js
+{
+  //...
+  't-title': {
+    component: TTag,
+     props: {
+       tagName: 'h1',
+       classes: 'font-5xl font-semibold'
+     }
+   },
+  't-subtitle': {
+    component: TTag,
+    props: {
+      tagName: 'h2',
+      classes: 'font-3xl font-semibold'
+    }
+  },
+  't-timepicker': {
+    component: TDatepicker,
+    props: {
+      time: true,
+      format: 'H:i:S',
+      userFormat: 'H:i:S',
+    }
+  },
+  //...
+}
+```
+   
+Use your custom tag:
+
+```html
+<!-- After: <t-tag tagName="h1">Title</t-h1> -->
+<t-title>Title</t-title>
+
+<!-- After: <t-tag tagName="h2">Subtitle</t-h1> -->
+<t-subtitle>Subtitle</t-subtitle>
+
+<!-- After: <t-datepicker :time="true" format="H:i:S" userFormat="H:i:S" /> -->
+<t-timepicker  />
+```
+
+[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes#plans-for-the-upcoming-v2x)
+
+#### Plans for v3.x
+
+- Rebuild with Vue 3
+- Multiple typescript improvements
+- Stronger test coverage
+- Accesibility first
+- New Branding
+
+[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes#plans-for-version-3x)
 
 ## Contribute
 
@@ -201,7 +226,7 @@ Of course, any other kind help is welcome, even if you notice some grammar mista
 
 ### Changelog
 
-Please see [CHANGELOG](https://github.com/alfonsobries/vue-tailwind/blob/master/CHANGELOG.md) for more information what has changed recently.
+Please see [Release notes](https://vue-tailwind.com/docs/release-notes) for more information about what was changed recently.
 
 ### Security
 

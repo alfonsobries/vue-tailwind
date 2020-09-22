@@ -1,7 +1,7 @@
 import { VNode, CreateElement } from 'vue';
-import HtmlInput from '@/base/HtmlInput';
-import CheckboxValue from '@/types/CheckboxValues';
-import Key from '@/types/Key';
+import HtmlInput from '../base/HtmlInput';
+import CheckboxValue from '../types/CheckboxValues';
+import Key from '../types/Key';
 
 const isChecked = (model: CheckboxValue, value: CheckboxValue): boolean => {
   if (Array.isArray(model)) {

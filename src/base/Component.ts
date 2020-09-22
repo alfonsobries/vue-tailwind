@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import CssClass from '@/types/CssClass';
 import get from 'lodash/get';
+import CssClass from '../types/CssClass';
 
 const mergeClasses = (classesA: CssClass, classesB: CssClass): CssClass => {
   let a = classesA;

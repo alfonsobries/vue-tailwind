@@ -1,8 +1,8 @@
 
 import range from 'lodash/range';
-import Component from '@/base/Component';
 import { CreateElement, VNode, VNodeChildren } from 'vue';
-import CssClass from '@/types/CssClass';
+import Component from '../base/Component';
+import CssClass from '../types/CssClass';
 
 type ClickHandler = () => void
 const TPagination = Component.extend({

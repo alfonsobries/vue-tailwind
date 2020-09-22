@@ -1,5 +1,5 @@
 import { shallowMount, mount } from '@vue/test-utils';
-import TRadioGroup from '@/components/TRadioGroup';
+import TRadioGroup from '../../src/components/TRadioGroup';
 
 describe('TRadioGroup', () => {
   it('it renders the radio options', () => {
@@ -244,5 +244,46 @@ describe('TRadioGroup', () => {
 
     // assert event count
     expect(wrapper.emitted('focus').length).toBe(1);
+  });
+
+  it('emits an input event when clicking string values', async () => {
+    const options = ['1', '2', '3'];
+    const wrapper = mount(TRadioGroup, {
+      propsData: { options },
+    });
+
+    const radio = wrapper.vm.$children[1];
+    radio.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted('input')[0]).toEqual(['2']);
+  });
+
+  it('emits an input event when clicking numeric values', async () => {
+    const options = [1, 2, 2];
+    const wrapper = mount(TRadioGroup, {
+      propsData: { options },
+    });
+
+
+    const radio = wrapper.vm.$children[1];
+    radio.click();
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted('input')[0]).toEqual([2]);
   });
 });

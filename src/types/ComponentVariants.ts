@@ -1,7 +1,8 @@
 import CssClasses from './CssClasses';
+import ComponentName from './ComponentName';
 
 type ComponentVariants = {
-  [k: string]: CssClasses;
+  [key in ComponentName]: CssClasses;
 }
 
 export default ComponentVariants;

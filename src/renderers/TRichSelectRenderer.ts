@@ -1,8 +1,8 @@
 import { CreateElement, VNode, VNodeChildren } from 'vue';
-import TRichSelectInterface from '@/types/TRichSelect';
-import NormalizedOptions from '@/types/NormalizedOptions';
-import NormalizedOption from '@/types/NormalizedOption';
-import Key from '@/types/Key';
+import TRichSelectInterface from '../types/TRichSelect';
+import NormalizedOptions from '../types/NormalizedOptions';
+import NormalizedOption from '../types/NormalizedOption';
+import Key from '../types/Key';
 
 export default class TRichSelectRenderer {
   createElement: CreateElement
@@ -174,6 +174,7 @@ export default class TRichSelectRenderer {
         ref: 'selectButtonClearButton',
         class: this.component.getElementCssClass('selectButtonClearButton'),
         attrs: {
+          type: 'button',
           tabindex: -1,
         },
         on: {

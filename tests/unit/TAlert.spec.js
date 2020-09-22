@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 
-import TAlert from '@/components/TAlert';
+import TAlert from '../../src/components/TAlert';
 
 describe('TAlert', () => {
   it('it renders the alert', () => {

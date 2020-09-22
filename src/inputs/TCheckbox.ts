@@ -1,7 +1,7 @@
 import { CreateElement, VNode } from 'vue';
-import HtmlInput from '@/base/HtmlInput';
-import CssClass from '@/types/CssClass';
-import Key from '@/types/Key';
+import HtmlInput from '../base/HtmlInput';
+import CssClass from '../types/CssClass';
+import Key from '../types/Key';
 
 const TCheckbox = HtmlInput.extend({
   name: 'TCheckbox',

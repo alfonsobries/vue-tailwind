@@ -1,5 +1,5 @@
 import { shallowMount, mount } from '@vue/test-utils';
-import TCard from '@/components/TCard';
+import TCard from '../../src/components/TCard';
 
 describe('TCard', () => {
   it('it renders the card', () => {

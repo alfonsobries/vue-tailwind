@@ -1,28 +1,34 @@
-import _Vue, { PluginFunction, VueConstructor } from 'vue';
-import LibrarySettings from '@/types/LibrarySettings';
-import CustomProps from '@/types/CustomProps';
-import { extractPropsFromLibrarySettings } from '@/utils/extractPropsFromSettings';
-
-// Import vue components
+import _Vue, { PluginFunction } from 'vue';
+import LibrarySettings from './types/LibrarySettings';
+import ComponentName from './types/ComponentName';
+import { extractPropsFromComponentSettings, ImportedComponent } from './utils/extractPropsFromSettings';
 import * as components from './components';
+import ComponentSettings from './types/ComponentSettings';
+import CustomProps from './types/CustomProps';
 
-// Define typescript interfaces for autoinstaller
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface InstallFunction extends PluginFunction<any> {
+
+const entries = Object.entries(components) as [ComponentName, ImportedComponent][];
+
+export interface InstallFunction extends PluginFunction<LibrarySettings> {
   installed?: boolean;
 }
 
 // install function executed by Vue.use()
 // eslint-disable-next-line max-len
-const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, args: LibrarySettings = {}) {
+const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, options?: LibrarySettings) {
   if (install.installed) return;
   install.installed = true;
 
-  Object.entries(components).forEach(([componentName, component]) => {
-    const customProps: CustomProps = extractPropsFromLibrarySettings(args, componentName);
+  // eslint-disable-next-line no-param-reassign
+  Vue.prototype.$vueTailwind = true;
+
+  entries.forEach(([componentName, component]) => {
+    const customPropsValues: ComponentSettings = options && options[componentName] ? options[componentName] : {};
+
+    const customProps: CustomProps = extractPropsFromComponentSettings(customPropsValues, component);
 
     if (customProps) {
-      const componentWithCustomVariants = (component as VueConstructor).extend({
+      const componentWithCustomVariants = component.extend({
         props: customProps,
       });
 

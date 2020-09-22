@@ -1,8 +1,7 @@
+import { PropOptions } from 'vue';
+
 type CustomProps = {
-  variants?: object;
-  classes?: object;
-  fixedClasses?: object;
-  wrapped?: object;
+  [key: string]: PropOptions
 } | undefined
 
 export default CustomProps;

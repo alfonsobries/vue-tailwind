@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import TToggle from '@/components/TToggle';
 import mapValues from 'lodash/mapValues';
+import TToggle from '../../src/components/TToggle';
 
 describe('TToggle', () => {
   it('it renders the toggle with an input', () => {

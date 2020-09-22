@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import TButton from '@/inputs/TButton';
 import mapValues from 'lodash/mapValues';
+import TButton from '../../src/inputs/TButton';
 
 describe('TButton', () => {
   it('it renders the button', () => {

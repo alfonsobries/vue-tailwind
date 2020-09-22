@@ -1,11 +1,7 @@
-import ComponentVariants from './ComponentVariants';
-import CssClasses from './CssClasses';
+import { PropOptions } from 'vue';
 
 type ComponentSettings = {
-  variants?: ComponentVariants;
-  classes?: CssClasses;
-  fixedClasses?: CssClasses;
-  wrapped?: boolean;
+  [key: string]: PropOptions;
 } | undefined
 
 export default ComponentSettings;
