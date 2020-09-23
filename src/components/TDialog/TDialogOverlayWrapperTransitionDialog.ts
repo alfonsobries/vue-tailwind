@@ -93,6 +93,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
         class: this.getElementCssClass('dialog'),
       },
       [
+
         createElement(
           TDialogOverlayWrapperTransitionDialogClose,
           {
@@ -103,29 +104,39 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
           },
         ),
         createElement(
-          TDialogOverlayWrapperTransitionDialogIcon,
+          'div',
           {
-            props: {
-              getElementCssClass: this.getElementCssClass,
-              htmlIcon: this.htmlIcon,
-              icon: this.icon,
-            },
+            ref: 'body',
+            class: this.getElementCssClass('body'),
           },
+          [
+            createElement(
+              TDialogOverlayWrapperTransitionDialogIcon,
+              {
+                props: {
+                  getElementCssClass: this.getElementCssClass,
+                  htmlIcon: this.htmlIcon,
+                  icon: this.icon,
+                },
+              },
+            ),
+            createElement(
+              TDialogOverlayWrapperTransitionDialogContent,
+              {
+                props: {
+                  getElementCssClass: this.getElementCssClass,
+                  titleTag: this.titleTag,
+                  title: this.title,
+                  htmlTitle: this.htmlTitle,
+                  textTag: this.textTag,
+                  text: this.text,
+                  htmlText: this.htmlText,
+                },
+              },
+            ),
+          ],
         ),
-        createElement(
-          TDialogOverlayWrapperTransitionDialogContent,
-          {
-            props: {
-              getElementCssClass: this.getElementCssClass,
-              titleTag: this.titleTag,
-              title: this.title,
-              htmlTitle: this.htmlTitle,
-              textTag: this.textTag,
-              text: this.text,
-              htmlText: this.htmlText,
-            },
-          },
-        ),
+
       ],
     );
   },

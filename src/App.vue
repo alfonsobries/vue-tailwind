@@ -5,9 +5,14 @@
     :variant="variant === 'error' ? variant : undefined"
   >
     <t-dialog
-      icon="warning"
+      :icon="icon"
       title="Deactivate account"
       text="Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
+    />
+
+    <t-select
+      v-model="icon"
+      :options="iconOptions"
     />
 
     <t-button @click.prevent="$dialog.alert()">
@@ -1032,6 +1037,14 @@ export default Vue.extend({
           ],
         },
       ],
+      icon: 'warning',
+      iconOptions: {
+        warning: 'Warning',
+        success: 'Success',
+        error: 'Error',
+        info: 'Info',
+        question: 'Question',
+      },
     };
   },
   methods: {
