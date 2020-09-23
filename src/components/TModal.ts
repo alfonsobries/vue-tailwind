@@ -51,9 +51,9 @@ const TModal = Component.extend({
       type: Object,
       default() {
         return {
-          overlay: 'overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed',
+          overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
           wrapper: 'relative mx-auto ',
-          modal: 'overflow-hidden relative',
+          modal: 'overflow-hidden relative ',
           body: '',
           header: '',
           footer: '',
@@ -187,7 +187,7 @@ const TModal = Component.extend({
 
   beforeDestroy() {
     if (this.disableBodyScroll) {
-      enableBodyScroll(this.$refs.modal as HTMLDivElement);
+      enableBodyScroll(this.$refs.overlay as HTMLDivElement);
     }
   },
 
@@ -366,7 +366,7 @@ const TModal = Component.extend({
     },
     beforeClose() {
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.modal as HTMLDivElement | undefined;
+        const mdl = this.$refs.overlay as HTMLDivElement | undefined;
         if (mdl) {
           enableBodyScroll(mdl);
         }
@@ -378,7 +378,7 @@ const TModal = Component.extend({
     },
     prepareDomForModal() {
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.modal as HTMLDivElement | undefined;
+        const mdl = this.$refs.overlay as HTMLDivElement | undefined;
         if (mdl) {
           disableBodyScroll(mdl, {
             reserveScrollBarGap: true,
