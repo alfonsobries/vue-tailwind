@@ -1,4 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import TDialogOverlayWrapperTransitionDialogContent from './TDialogOverlayWrapperTransitionDialogContent';
+import TDialogOverlayWrapperTransitionDialogIcon from './TDialogOverlayWrapperTransitionDialogIcon';
+import TDialogOverlayWrapperTransitionDialogClose from './TDialogOverlayWrapperTransitionDialogClose';
 
 const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialog',
@@ -83,98 +86,47 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       return createElement();
     }
 
-    const subElements: VNode[] = [];
-
-    if (this.showCloseButton) {
-      subElements.push(createElement(
-        'button',
-        {
-          ref: 'close',
-          class: this.getElementCssClass('close'),
-          attrs: {
-            type: 'button',
-          },
-          on: {
-            click: () => this.$emit('hide'),
-          },
-        },
-        this.$slots.button
-        || [
-          createElement(
-            'svg',
-            {
-              attrs: {
-                fill: 'currentColor',
-                xmlns: 'http://www.w3.org/2000/svg',
-                viewBox: '0 0 20 20',
-              },
-              class: this.getElementCssClass('closeIcon'),
-            },
-            [
-              createElement('path', {
-                attrs: {
-                  'clip-rule': 'evenodd',
-                  'fill-rule': 'evenodd',
-                  d: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
-                },
-              }),
-            ],
-          ),
-        ],
-      ));
-    }
-
-
-    if (this.title || this.htmlTitle) {
-      subElements.push(createElement(
-        'div',
-        {
-          class: this.getElementCssClass('titleWrapper'),
-          domProps: {
-            innerHTML: this.htmlTitle,
-          },
-        },
-        this.title ? [
-          createElement(
-            this.titleTag,
-            {
-              class: this.getElementCssClass('title'),
-            },
-            this.title,
-          ),
-        ] : undefined,
-      ));
-    }
-
-    if (this.text || this.htmlText) {
-      subElements.push(createElement(
-        'div',
-        {
-          class: this.getElementCssClass('textWrapper'),
-          domProps: {
-            innerHTML: this.htmlText,
-          },
-        },
-        this.text ? [
-          createElement(
-            this.textTag,
-            {
-              class: this.getElementCssClass('text'),
-            },
-            this.text,
-          ),
-        ] : undefined,
-      ));
-    }
-
-
     return createElement(
       'div',
       {
         ref: 'dialog',
         class: this.getElementCssClass('dialog'),
       },
-      subElements,
+      [
+        createElement(
+          TDialogOverlayWrapperTransitionDialogClose,
+          {
+            props: {
+              getElementCssClass: this.getElementCssClass,
+              showCloseButton: this.showCloseButton,
+            },
+          },
+        ),
+        createElement(
+          TDialogOverlayWrapperTransitionDialogIcon,
+          {
+            props: {
+              getElementCssClass: this.getElementCssClass,
+              htmlIcon: this.htmlIcon,
+              icon: this.icon,
+            },
+          },
+        ),
+        createElement(
+          TDialogOverlayWrapperTransitionDialogContent,
+          {
+            props: {
+              getElementCssClass: this.getElementCssClass,
+              titleTag: this.titleTag,
+              title: this.title,
+              htmlTitle: this.htmlTitle,
+              textTag: this.textTag,
+              text: this.text,
+              htmlText: this.htmlText,
+            },
+          },
+        ),
+      ],
     );
   },
 });

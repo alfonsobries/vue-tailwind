@@ -5,18 +5,10 @@
     :variant="variant === 'error' ? variant : undefined"
   >
     <t-dialog
+      icon="warning"
       title="Deactivate account"
-      body="Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
-      html-body="<p class='text-sm leading-5 text-gray-500'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.</p>"
-    >
-      <p
-        v-for="(i, index) in [1,2,3,4,5,6,7,8,9,0,0,2,35,6,8,8,978,96789,8,9,4,36,4]"
-        :key="index"
-      >
-        Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet
-        consectetur adipisicing elit.
-      </p>
-    </t-dialog>
+      text="Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
+    />
 
     <t-button @click.prevent="$dialog.alert()">
       Alert

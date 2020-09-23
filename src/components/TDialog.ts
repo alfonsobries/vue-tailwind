@@ -28,11 +28,11 @@ const TDialog = Component.extend({
       type: String,
       default: undefined,
     },
-    bodyTag: {
+    textTag: {
       type: String,
       default: 'p',
     },
-    body: {
+    text: {
       type: String,
       default: undefined,
     },
@@ -101,8 +101,18 @@ const TDialog = Component.extend({
           wrapper: 'relative mx-auto ',
           dialog: 'overflow-hidden relative',
 
-          close: '',
+          close: 'absolute right-0 top-0',
           closeIcon: '',
+          content: 'mt-3',
+
+          titleWrapper: '',
+          title: 'text-lg leading-6 font-medium text-gray-900 text-center',
+
+          textWrapper: 'mt-2 text-gray-600',
+          text: '',
+
+          iconWrapper: 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100',
+          icon: 'w-6 h-6 text-gray-700',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: '',
@@ -123,20 +133,22 @@ const TDialog = Component.extend({
       type: Object,
       default() {
         return {
-
-
-          close: 'absolute right-0 top-0',
+          close: 'bg-gray-100 flex h-8 items-center justify-center m-1 rounded-full text-gray-700 w-8 hover:bg-gray-200',
           closeIcon: 'h-5 w-5 fill-current',
 
           overlay: 'z-40 bg-black bg-opacity-50',
           wrapper: 'z-50 max-w-lg',
           dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow',
 
-          titleWrapper: '',
-          title: 'text-lg leading-6 font-medium text-gray-900 text-center',
+          iconWrapper: '',
+          icon: '',
+          content: '',
 
-          bodyWrapper: '',
-          body: '',
+          titleWrapper: '',
+          title: '',
+
+          textWrapper: '',
+          text: '',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
@@ -283,8 +295,8 @@ const TDialog = Component.extend({
               htmlTitle: this.htmlTitle,
               icon: this.icon,
               htmlIcon: this.htmlIcon,
-              bodyTag: this.bodyTag,
-              body: this.body,
+              textTag: this.textTag,
+              text: this.text,
               htmlText: this.htmlText,
               showAltButton: this.showAltButton,
               altButtonText: this.altButtonText,

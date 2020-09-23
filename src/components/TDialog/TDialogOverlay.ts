@@ -29,23 +29,23 @@ const TDialogOverlay = Vue.extend({
       type: String,
       default: undefined,
     },
+    textTag: {
+      type: String,
+      required: true,
+    },
+    text: {
+      type: String,
+      default: undefined,
+    },
+    htmlText: {
+      type: String,
+      default: undefined,
+    },
     icon: {
       type: String,
       default: undefined,
     },
     htmlIcon: {
-      type: String,
-      default: undefined,
-    },
-    bodyTag: {
-      type: String,
-      required: true,
-    },
-    body: {
-      type: String,
-      default: undefined,
-    },
-    textBody: {
       type: String,
       default: undefined,
     },
@@ -124,9 +124,9 @@ const TDialogOverlay = Vue.extend({
               htmlTitle: this.htmlTitle,
               icon: this.icon,
               htmlIcon: this.htmlIcon,
-              bodyTag: this.bodyTag,
-              body: this.body,
-              textBody: this.textBody,
+              textTag: this.textTag,
+              text: this.text,
+              htmlText: this.htmlText,
               showAltButton: this.showAltButton,
               altButtonText: this.altButtonText,
               altButtonAriaLabel: this.altButtonAriaLabel,
