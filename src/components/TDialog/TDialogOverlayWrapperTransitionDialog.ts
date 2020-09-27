@@ -2,6 +2,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 import TDialogOverlayWrapperTransitionDialogContent from './TDialogOverlayWrapperTransitionDialogContent';
 import TDialogOverlayWrapperTransitionDialogIcon from './TDialogOverlayWrapperTransitionDialogIcon';
 import TDialogOverlayWrapperTransitionDialogClose from './TDialogOverlayWrapperTransitionDialogClose';
+import TDialogOverlayWrapperTransitionDialogButtons from './TDialogOverlayWrapperTransitionDialogButtons';
 
 const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialog',
@@ -47,21 +48,13 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       type: String,
       default: undefined,
     },
-    showAltButton: {
-      type: Boolean,
-      required: true,
-    },
-    altButtonText: {
+    dismissButtonText: {
       type: String,
       required: true,
     },
-    altButtonAriaLabel: {
+    dismissButtonAriaLabel: {
       type: String,
       default: undefined,
-    },
-    showPrimaryButton: {
-      type: Boolean,
-      required: true,
     },
     primaryButtonText: {
       type: String,
@@ -76,6 +69,10 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       required: true,
     },
     closeButtonHtml: {
+      type: String,
+      required: true,
+    },
+    type: {
       type: String,
       required: true,
     },
@@ -100,6 +97,9 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
             props: {
               getElementCssClass: this.getElementCssClass,
               showCloseButton: this.showCloseButton,
+            },
+            on: {
+              hide: (e: MouseEvent) => this.$emit('hide', e),
             },
           },
         ),
@@ -136,7 +136,18 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
             ),
           ],
         ),
-
+        createElement(
+          TDialogOverlayWrapperTransitionDialogButtons,
+          {
+            props: {
+              getElementCssClass: this.getElementCssClass,
+              dismissButtonText: this.dismissButtonText,
+              dismissButtonAriaLabel: this.dismissButtonAriaLabel,
+              primaryButtonText: this.primaryButtonText,
+              primaryButtonAriaLabel: this.primaryButtonAriaLabel,
+            },
+          },
+        ),
       ],
     );
   },

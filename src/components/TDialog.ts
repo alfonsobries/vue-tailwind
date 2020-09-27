@@ -4,6 +4,12 @@ import Component from '../base/Component';
 import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
 
+enum DialogType {
+  Alert = 'alert',
+  Confirm = 'confirm',
+  Dialog = 'dialog',
+}
+
 const TDialog = Component.extend({
   name: 'TDialog',
 
@@ -48,21 +54,13 @@ const TDialog = Component.extend({
       type: Boolean,
       default: true,
     },
-    showAltButton: {
-      type: Boolean,
-      default: false,
-    },
-    altButtonText: {
+    dismissButtonText: {
       type: String,
       default: 'Cancel',
     },
-    altButtonAriaLabel: {
+    dismissButtonAriaLabel: {
       type: String,
       default: undefined,
-    },
-    showPrimaryButton: {
-      type: Boolean,
-      default: true,
     },
     primaryButtonText: {
       type: String,
@@ -140,6 +138,7 @@ const TDialog = Component.extend({
           wrapper: 'z-50 max-w-lg',
           dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow',
           body: '',
+          buttons: 'mt-4 flex space-x-4',
 
           iconWrapper: '',
           icon: '',
@@ -150,6 +149,9 @@ const TDialog = Component.extend({
 
           textWrapper: '',
           text: '',
+
+          secondaryButton: 'inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5',
+          primaryButton: 'inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
@@ -175,6 +177,7 @@ const TDialog = Component.extend({
       dialogShow: false,
       params: undefined,
       preventAction: false,
+      type: null as null | DialogType,
     };
   },
 
@@ -260,7 +263,7 @@ const TDialog = Component.extend({
     // }
 
     this.$dialog.$on('dialog-alert', (params = undefined) => {
-      this.show(params);
+      this.show(DialogType.Alert, params);
     });
   },
 
@@ -289,6 +292,7 @@ const TDialog = Component.extend({
           {
             ref: 'overlay',
             props: {
+              type: this.type,
               overlayShow: this.overlayShow,
               dialogShow: this.dialogShow,
               titleTag: this.titleTag,
@@ -299,10 +303,8 @@ const TDialog = Component.extend({
               textTag: this.textTag,
               text: this.text,
               htmlText: this.htmlText,
-              showAltButton: this.showAltButton,
-              altButtonText: this.altButtonText,
-              altButtonAriaLabel: this.altButtonAriaLabel,
-              showPrimaryButton: this.showPrimaryButton,
+              dismissButtonText: this.dismissButtonText,
+              dismissButtonAriaLabel: this.dismissButtonAriaLabel,
               primaryButtonText: this.primaryButtonText,
               primaryButtonAriaLabel: this.primaryButtonAriaLabel,
               showCloseButton: this.showCloseButton,
@@ -371,7 +373,12 @@ const TDialog = Component.extend({
         this.preventAction = false;
       }
     },
-    show(params = undefined) {
+    show(type: DialogType, params = undefined) {
+      if (!Object.values(DialogType).includes(type)) {
+        throw new Error('Invalid dialog type!');
+      }
+
+      this.type = type;
       this.params = params;
 
       this.beforeOpen();

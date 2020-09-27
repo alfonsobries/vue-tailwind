@@ -28,7 +28,7 @@ const TDialogOverlayWrapperTransitionDialogClose = Vue.extend({
           type: 'button',
         },
         on: {
-          click: () => this.$emit('hide'),
+          click: (e: MouseEvent) => this.$emit('hide', e),
         },
       },
       [

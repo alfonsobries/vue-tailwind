@@ -45,21 +45,13 @@ const TDialogOverlayWrapper = Vue.extend({
       type: String,
       default: undefined,
     },
-    showAltButton: {
-      type: Boolean,
-      required: true,
-    },
-    altButtonText: {
+    dismissButtonText: {
       type: String,
       required: true,
     },
-    altButtonAriaLabel: {
+    dismissButtonAriaLabel: {
       type: String,
       default: undefined,
-    },
-    showPrimaryButton: {
-      type: Boolean,
-      required: true,
     },
     primaryButtonText: {
       type: String,
@@ -77,6 +69,10 @@ const TDialogOverlayWrapper = Vue.extend({
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -91,6 +87,7 @@ const TDialogOverlayWrapper = Vue.extend({
           TDialogOverlayWrapperTransition,
           {
             props: {
+              type: this.type,
               dialogShow: this.dialogShow,
               getElementCssClass: this.getElementCssClass,
               titleTag: this.titleTag,
@@ -101,17 +98,15 @@ const TDialogOverlayWrapper = Vue.extend({
               textTag: this.textTag,
               text: this.text,
               htmlText: this.htmlText,
-              showAltButton: this.showAltButton,
-              altButtonText: this.altButtonText,
-              altButtonAriaLabel: this.altButtonAriaLabel,
-              showPrimaryButton: this.showPrimaryButton,
+              dismissButtonText: this.dismissButtonText,
+              dismissButtonAriaLabel: this.dismissButtonAriaLabel,
               primaryButtonText: this.primaryButtonText,
               primaryButtonAriaLabel: this.primaryButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
             },
             on: {
-              hide: () => this.$emit('hide'),
+              hide: (e: MouseEvent) => this.$emit('hide', e),
             },
           },
         ),
