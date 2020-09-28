@@ -10,6 +10,16 @@ enum DialogType {
   Dialog = 'dialog',
 }
 
+const getInitialData = () => ({
+  overlayShow: false,
+  dialogShow: false,
+  params: undefined,
+  preventAction: false,
+  type: null as null | DialogType,
+  resolve: null as null | ((value?: unknown) => void),
+  reject: null as null | ((reason?: unknown) => void),
+});
+
 const TDialog = Component.extend({
   name: 'TDialog',
 
@@ -109,7 +119,7 @@ const TDialog = Component.extend({
           textWrapper: 'mt-2 text-gray-600',
           text: '',
 
-          iconWrapper: 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100',
+          iconWrapper: 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200',
           icon: 'w-6 h-6 text-gray-700',
 
           overlayEnterClass: '',
@@ -151,7 +161,7 @@ const TDialog = Component.extend({
           text: '',
 
           secondaryButton: 'inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5',
-          primaryButton: 'inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5',
+          primaryButton: 'inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
@@ -172,13 +182,7 @@ const TDialog = Component.extend({
   },
 
   data() {
-    return {
-      overlayShow: false,
-      dialogShow: false,
-      params: undefined,
-      preventAction: false,
-      type: null as null | DialogType,
-    };
+    return getInitialData();
   },
 
   watch: {
@@ -208,11 +212,12 @@ const TDialog = Component.extend({
   created() {
     if (!Vue.prototype.$dialog) {
       // eslint-disable-next-line no-param-reassign
-      // eslint-disable-next-line no-param-reassign
       Vue.prototype.$dialog = new Vue({
         methods: {
           alert(params = undefined) {
-            this.$emit('dialog-alert', params);
+            return new Promise((resolve, reject) => {
+              this.$emit('dialog-alert', resolve, reject, params);
+            });
           },
         },
       });
@@ -221,7 +226,7 @@ const TDialog = Component.extend({
     if (!Vue.prototype.$alert) {
       // eslint-disable-next-line no-param-reassign
       Vue.prototype.$alert = function alert(params = undefined) {
-        this.$dialog.alert(params);
+        return this.$dialog.alert(params);
       };
     }
 
@@ -262,7 +267,9 @@ const TDialog = Component.extend({
     //   });
     // }
 
-    this.$dialog.$on('dialog-alert', (params = undefined) => {
+    this.$dialog.$on('dialog-alert', (resolve: ((value?: unknown) => void), reject: ((value?: unknown) => void), params = undefined) => {
+      this.resolve = resolve;
+      this.reject = reject;
       this.show(DialogType.Alert, params);
     });
   },
@@ -346,6 +353,12 @@ const TDialog = Component.extend({
     },
     closed() {
       this.$emit('closed');
+
+      if (this.resolve) {
+        this.resolve(':D');
+      }
+
+      this.reset();
     },
     prepareDomForDialog() {
       if (this.disableBodyScroll) {
@@ -391,6 +404,9 @@ const TDialog = Component.extend({
     },
     cancel() {
       this.preventAction = true;
+    },
+    reset() {
+      Object.assign(this.$data, getInitialData());
     },
     outsideClick() {
       if (this.clickToClose) {

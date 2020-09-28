@@ -54,14 +54,16 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
       Vue.prototype.$dialog = new Vue({
         methods: {
           alert(params = undefined) {
-            this.$emit('dialog-alert', params);
+            return new Promise((resolve, reject) => {
+              this.$emit('dialog-alert', resolve, reject, params);
+            });
           },
         },
       });
 
       // eslint-disable-next-line no-param-reassign
       Vue.prototype.$alert = function alert(params = undefined) {
-        this.$dialog.alert(params);
+        return this.$dialog.alert(params);
       };
     }
   });

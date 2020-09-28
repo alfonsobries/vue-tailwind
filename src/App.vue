@@ -6,8 +6,8 @@
   >
     <t-dialog
       :icon="icon"
-      title="Deactivate account"
-      text="Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
+      title="Remove user?"
+      text="Are you sure you want to remove this user? This action cannot be undone."
     />
 
     <t-select
@@ -1037,7 +1037,7 @@ export default Vue.extend({
           ],
         },
       ],
-      icon: 'warning',
+      icon: 'question',
       iconOptions: {
         warning: 'Warning',
         success: 'Success',
