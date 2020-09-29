@@ -5,8 +5,7 @@ import { extractPropsFromComponentSettings, ImportedComponent } from './utils/ex
 import * as components from './components';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';
-import TDialog, { buildDialog } from './components/TDialog';
-import { DialogOptions, DialogType } from './types/Dialog';
+import configureDialogGlobals from './utils/configureDialogGlobals';
 
 
 const entries = Object.entries(components) as [ComponentName, ImportedComponent][];
@@ -52,19 +51,7 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
         },
       });
     } else if (componentName === 'TDialog') {
-      // eslint-disable-next-line no-param-reassign
-      Vue.prototype.$dialog = new Vue({
-        methods: {
-          alert(dialogOptions: DialogOptions = undefined) {
-            buildDialog(DialogType.Alert, dialogOptions);
-          },
-        },
-      });
-
-      // eslint-disable-next-line no-param-reassign
-      Vue.prototype.$alert = function alert(params = undefined) {
-        return this.$dialog.alert(params);
-      };
+      configureDialogGlobals(Vue);
     }
   });
 };

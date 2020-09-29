@@ -1,12 +1,10 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import Vue, { CreateElement, VNode } from 'vue';
-import get from 'lodash/get';
-import CssClasses from '../types/CssClasses';
+import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
 import {
-  DialogOptions, DialogProps, DialogType, DismissReason,
+  DismissReason, DialogType,
 } from '../types/Dialog';
 
 const getInitialData = () => ({
@@ -18,6 +16,7 @@ const getInitialData = () => ({
   resolve: null as null | ((value?: unknown) => void),
   reject: null as null | ((reason?: unknown) => void),
 });
+
 
 const TDialog = Component.extend({
   name: 'TDialog',
@@ -99,7 +98,6 @@ const TDialog = Component.extend({
       type: String,
       default: DialogType.Alert,
     },
-
     fixedClasses: {
       type: Object,
       default() {
@@ -208,70 +206,13 @@ const TDialog = Component.extend({
     },
   },
 
-  created() {
-    if (!Vue.prototype.$dialog) {
-      // eslint-disable-next-line no-param-reassign
-      Vue.prototype.$dialog = new Vue({
-        methods: {
-          alert(params = undefined) {
-            return new Promise((resolve, reject) => {
-              this.$emit('dialog-alert', resolve, reject, params);
-            });
-          },
-        },
-      });
-    }
-
-    if (!Vue.prototype.$alert) {
-      // eslint-disable-next-line no-param-reassign
-      Vue.prototype.$alert = function alert(params = undefined) {
-        return this.$dialog.alert(params);
-      };
-    }
-
-    // if (!Vue.prototype.$confirm) {
-    //   // eslint-disable-next-line no-param-reassign
-    //   Vue.prototype.$confirm = new Vue({
-    //     methods: {
-    //       show(name: string, params = undefined) {
-    //         this.$emit(`show-${name}`, params);
-    //       },
-    //       hide(name: string) {
-    //         this.$emit(`hide-${name}`);
-    //       },
-    //     },
-    //   });
-    // }
-    // if (!Vue.prototype.$prompt) {
-    //   // eslint-disable-next-line no-param-reassign
-    //   Vue.prototype.$prompt = new Vue({
-    //     methods: {
-    //       show(name: string, params = undefined) {
-    //         this.$emit(`show-${name}`, params);
-    //       },
-    //       hide(name: string) {
-    //         this.$emit(`hide-${name}`);
-    //       },
-    //     },
-    //   });
-    // }
-
-    // if (this.name) {
-    //   this.$alert.$on(`show-${this.name}`, (params = undefined) => {
-    //     this.show(params);
-    //   });
-
-    //   this.$alert.$on(`hide-${this.name}`, () => {
-    //     this.hide();
-    //   });
-    // }
-
-    this.$dialog.$on('dialog-alert', (resolve: ((value?: unknown) => void), reject: ((value?: unknown) => void), params = undefined) => {
-      this.resolve = resolve;
-      this.reject = reject;
-      this.show(DialogType.Alert, params);
-    });
-  },
+  // created() {
+  //   // this.$dialog.$on('dialog-alert', (resolve: ((value?: unknown) => void), reject: ((value?: unknown) => void), params = undefined) => {
+  //   //   this.resolve = resolve;
+  //   //   this.reject = reject;
+  //   //   this.show(DialogType.Alert, params);
+  //   // });
+  // },
 
   beforeDestroy() {
     if (this.disableBodyScroll) {
@@ -425,57 +366,3 @@ const TDialog = Component.extend({
 });
 
 export default TDialog;
-
-const parseDialogOptions = (type: DialogType, options: DialogOptions = undefined) => {
-  type DialogComponent = typeof TDialog & {
-    options: {
-      props: {
-        [key in keyof DialogProps]: {
-          default: {
-            default: string | boolean | undefined | null | CssClasses
-          };
-        };
-      }
-    }
-  }
-
-  const { props } = (TDialog as DialogComponent).options;
-
-  const propsData: Partial<DialogProps> = {
-    type,
-  };
-
-  Object.keys(props).forEach((propName) => {
-    if (options && propName in options) {
-      const defaultValue = get(props, `${propName}.default`);
-      propsData[propName as keyof DialogProps] = get(options, propName, defaultValue);
-    }
-  });
-
-  const target = options && options.target ? options.target : 'body';
-
-  return {
-    propsData,
-    target,
-  };
-};
-
-export const buildDialog = (type: DialogType, options: DialogOptions = undefined): void => {
-  const { propsData, target } = parseDialogOptions(type, options);
-
-  const domTarget = document.querySelector(target);
-
-  if (!domTarget) {
-    throw new Error('Target not found!');
-  }
-
-  const instance = new TDialog({
-    propsData,
-  });
-
-  instance.$mount();
-
-  domTarget.appendChild(instance.$el);
-
-  instance.show();
-};
