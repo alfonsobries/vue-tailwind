@@ -78,7 +78,7 @@ const TModal = Component.extend({
       type: Object,
       default() {
         return {
-          overlay: 'z-40 bg-black bg-opacity-50 flex items-center justify-center',
+          overlay: 'z-40 bg-black bg-opacity-50',
           wrapper: 'z-50 max-w-lg',
           modal: 'bg-white shadow',
           body: '',
