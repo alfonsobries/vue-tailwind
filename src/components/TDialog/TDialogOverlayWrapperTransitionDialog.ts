@@ -3,7 +3,7 @@ import TDialogOverlayWrapperTransitionDialogContent from './TDialogOverlayWrappe
 import TDialogOverlayWrapperTransitionDialogIcon from './TDialogOverlayWrapperTransitionDialogIcon';
 import TDialogOverlayWrapperTransitionDialogClose from './TDialogOverlayWrapperTransitionDialogClose';
 import TDialogOverlayWrapperTransitionDialogButtons from './TDialogOverlayWrapperTransitionDialogButtons';
-import { DismissReason } from '../../types/Dialog';
+import { HideReason } from '../../types/Dialog';
 
 const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialog',
@@ -49,19 +49,19 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       type: String,
       default: undefined,
     },
-    dismissButtonText: {
+    cancelButtonText: {
       type: String,
       required: true,
     },
-    dismissButtonAriaLabel: {
+    cancelButtonAriaLabel: {
       type: String,
       default: undefined,
     },
-    primaryButtonText: {
+    okButtonText: {
       type: String,
       required: true,
     },
-    primaryButtonAriaLabel: {
+    okButtonAriaLabel: {
       type: String,
       default: undefined,
     },
@@ -100,7 +100,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
               showCloseButton: this.showCloseButton,
             },
             on: {
-              hide: (e: MouseEvent) => this.$emit('hide', e, DismissReason.Close),
+              dismiss: (e: MouseEvent) => this.$emit('dismiss', e, HideReason.Close),
             },
           },
         ),
@@ -142,10 +142,15 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
           {
             props: {
               getElementCssClass: this.getElementCssClass,
-              dismissButtonText: this.dismissButtonText,
-              dismissButtonAriaLabel: this.dismissButtonAriaLabel,
-              primaryButtonText: this.primaryButtonText,
-              primaryButtonAriaLabel: this.primaryButtonAriaLabel,
+              type: this.type,
+              cancelButtonText: this.cancelButtonText,
+              cancelButtonAriaLabel: this.cancelButtonAriaLabel,
+              okButtonText: this.okButtonText,
+              okButtonAriaLabel: this.okButtonAriaLabel,
+            },
+            on: {
+              cancel: (e: MouseEvent) => this.$emit('cancel', e, HideReason.Cancel),
+              submit: (e: MouseEvent) => this.$emit('submit', e, HideReason.Ok),
             },
           },
         ),

@@ -15,10 +15,13 @@
       :options="iconOptions"
     />
 
-    <t-button @click.prevent="$dialog.alert()">
+    <t-button
+      disabled
+      @click.prevent="$dialog.alert()"
+    >
       Alert
     </t-button>
-    <t-button @click.prevent="$alert()">
+    <t-button @click.prevent="$alert('Remove user?', 'Are you sure you want to remove this user? This action cannot be undone', 'warning')">
       Alert directly
     </t-button>
 

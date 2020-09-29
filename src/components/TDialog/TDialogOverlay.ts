@@ -1,5 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { DismissReason } from '../../types/Dialog';
+import { HideReason } from '../../types/Dialog';
 import TDialogOverlayWrapper from './TDialogOverlayWrapper';
 
 const TDialogOverlay = Vue.extend({
@@ -50,19 +50,19 @@ const TDialogOverlay = Vue.extend({
       type: String,
       default: undefined,
     },
-    dismissButtonText: {
+    cancelButtonText: {
       type: String,
       required: true,
     },
-    dismissButtonAriaLabel: {
+    cancelButtonAriaLabel: {
       type: String,
       default: undefined,
     },
-    primaryButtonText: {
+    okButtonText: {
       type: String,
       required: true,
     },
-    primaryButtonAriaLabel: {
+    okButtonAriaLabel: {
       type: String,
       default: undefined,
     },
@@ -129,15 +129,17 @@ const TDialogOverlay = Vue.extend({
               textTag: this.textTag,
               text: this.text,
               htmlText: this.htmlText,
-              dismissButtonText: this.dismissButtonText,
-              dismissButtonAriaLabel: this.dismissButtonAriaLabel,
-              primaryButtonText: this.primaryButtonText,
-              primaryButtonAriaLabel: this.primaryButtonAriaLabel,
+              cancelButtonText: this.cancelButtonText,
+              cancelButtonAriaLabel: this.cancelButtonAriaLabel,
+              okButtonText: this.okButtonText,
+              okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
             },
             on: {
-              hide: (e: MouseEvent, reason: DismissReason) => this.$emit('hide', e, reason),
+              dismiss: (e: MouseEvent, reason: HideReason) => this.$emit('dismiss', e, reason),
+              cancel: (e: MouseEvent, reason: HideReason) => this.$emit('cancel', e, reason),
+              submit: (e: MouseEvent, reason: HideReason) => this.$emit('submit', e, reason),
             },
           },
         ),

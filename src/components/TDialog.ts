@@ -4,7 +4,7 @@ import Component from '../base/Component';
 import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
 import {
-  DismissReason, DialogType,
+  HideReason, DialogType,
 } from '../types/Dialog';
 
 const getInitialData = () => ({
@@ -12,7 +12,7 @@ const getInitialData = () => ({
   dialogShow: false,
   params: undefined,
   preventAction: false,
-  reasonToClose: null as DismissReason | null,
+  hideReason: null as HideReason | null,
   resolve: null as null | ((value?: unknown) => void),
   reject: null as null | ((reason?: unknown) => void),
 });
@@ -61,25 +61,25 @@ const TDialog = Component.extend({
       type: Boolean,
       default: true,
     },
-    dismissButtonText: {
+    cancelButtonText: {
       type: String,
       default: 'Cancel',
     },
-    dismissButtonAriaLabel: {
+    cancelButtonAriaLabel: {
       type: String,
       default: undefined,
     },
-    primaryButtonText: {
+    okButtonText: {
       type: String,
       default: 'OK',
     },
-    primaryButtonAriaLabel: {
+    okButtonAriaLabel: {
       type: String,
       default: undefined,
     },
     showCloseButton: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     closeButtonHtml: {
       type: String,
@@ -141,10 +141,10 @@ const TDialog = Component.extend({
           closeIcon: 'h-5 w-5 fill-current',
 
           overlay: 'z-40 bg-black bg-opacity-50',
-          wrapper: 'z-50 max-w-lg',
+          wrapper: 'z-50 max-w-md',
           dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow',
           body: '',
-          buttons: 'mt-4 flex space-x-4',
+          buttons: 'mt-4 flex space-x-4 justify-center',
 
           iconWrapper: '',
           icon: '',
@@ -156,8 +156,8 @@ const TDialog = Component.extend({
           textWrapper: '',
           text: '',
 
-          secondaryButton: 'inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5',
-          primaryButton: 'inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5',
+          cancelButton: 'inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
+          okButton: 'inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
@@ -249,10 +249,10 @@ const TDialog = Component.extend({
               textTag: this.textTag,
               text: this.text,
               htmlText: this.htmlText,
-              dismissButtonText: this.dismissButtonText,
-              dismissButtonAriaLabel: this.dismissButtonAriaLabel,
-              primaryButtonText: this.primaryButtonText,
-              primaryButtonAriaLabel: this.primaryButtonAriaLabel,
+              cancelButtonText: this.cancelButtonText,
+              cancelButtonAriaLabel: this.cancelButtonAriaLabel,
+              okButtonText: this.okButtonText,
+              okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
               getElementCssClass: this.getElementCssClass,
@@ -260,7 +260,9 @@ const TDialog = Component.extend({
             on: {
               outsideClick: this.outsideClick,
               keyup: this.keyupHandler,
-              hide: (e: MouseEvent, reason: DismissReason) => this.hide(e, reason),
+              dismiss: (e: MouseEvent, reason: HideReason) => this.dismiss(e, reason),
+              cancel: (e: MouseEvent, reason: HideReason) => this.cancel(e, reason),
+              submit: (e: MouseEvent, reason: HideReason) => this.submit(e, reason),
             },
           },
         ),
@@ -271,17 +273,17 @@ const TDialog = Component.extend({
   methods: {
     keyupHandler(e: KeyboardEvent) {
       if (e.keyCode === Key.ESC && this.escToClose) {
-        this.hide(e, DismissReason.Esc);
+        this.dismiss(e, HideReason.Esc);
       }
     },
     beforeOpen() {
-      this.$emit('before-open', { params: this.params, cancel: this.cancel });
+      this.$emit('before-open', { params: this.params, cancel: this.closeCancel });
     },
     opened() {
       this.$emit('opened', { params: this.params });
       this.prepareDomForDialog();
     },
-    beforeClose(event: Event, reason: DismissReason) {
+    beforeClose(event: Event, reason: HideReason) {
       if (this.disableBodyScroll) {
         const mdl = this.$refs.modal as HTMLDivElement | undefined;
         if (mdl) {
@@ -290,24 +292,23 @@ const TDialog = Component.extend({
       }
 
       this.$emit('before-close', {
-        cancel: this.cancel,
+        cancel: this.closeCancel,
         event,
         reason,
       });
     },
     closed() {
-      this.$emit('closed');
+      const response = {
+        hideReason: this.hideReason,
+        isOk: this.hideReason === HideReason.Ok,
+        isCancel: this.hideReason === HideReason.Cancel,
+        isDismissed: this.hideReason && [HideReason.Close, HideReason.Esc, HideReason.Outside].includes(this.hideReason),
+      };
+
+      this.$emit('closed', response);
 
       if (this.resolve) {
-        this.resolve({
-          meta: {
-            reason: this.reasonToClose,
-            // @TODO
-            isConfirmed: true,
-            isDenied: false,
-            isDismissed: false,
-          },
-        });
+        this.resolve(response);
       }
 
       this.reset();
@@ -329,11 +330,21 @@ const TDialog = Component.extend({
         }
       }
     },
-    hide(e: Event, reason: DismissReason) {
+    dismiss(e: Event, reason: HideReason) {
+      this.close(e, reason);
+    },
+    cancel(e: Event, reason: HideReason) {
+      this.close(e, reason);
+    },
+    submit(e: Event, reason: HideReason) {
+      this.close(e, reason);
+    },
+    close(e: Event, reason: HideReason) {
       this.beforeClose(e, reason);
 
+      this.hideReason = reason;
+
       if (!this.preventAction) {
-        this.reasonToClose = reason;
         this.dialogShow = false;
       } else {
         this.preventAction = false;
@@ -350,7 +361,7 @@ const TDialog = Component.extend({
         this.preventAction = false;
       }
     },
-    cancel() {
+    closeCancel() {
       this.preventAction = true;
     },
     reset() {
@@ -358,7 +369,7 @@ const TDialog = Component.extend({
     },
     outsideClick(e: Event) {
       if (this.clickToClose) {
-        this.hide(e, DismissReason.Outside);
+        this.dismiss(e, HideReason.Outside);
       }
     },
   },
