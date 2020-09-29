@@ -7,5 +7,5 @@ export enum DismissReason {
 export enum DialogType {
   Alert = 'alert',
   Confirm = 'confirm',
-  Dialog = 'dialog',
+  Prompt = 'prompt',
 }

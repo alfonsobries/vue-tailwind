@@ -104,9 +104,7 @@ const parseDialogOptions = (type: DialogType, titleOrDialogOptions: DialogOption
   };
 };
 
-
-const buildDialog = (type: DialogType, titleOrDialogOptions: DialogOptions, text: string | undefined, icon: string | undefined): void => {
-  console.log(text);
+const buildDialog = (type: DialogType, titleOrDialogOptions: DialogOptions, text: string | undefined, icon: string | undefined) => {
   const { propsData, target } = parseDialogOptions(type, titleOrDialogOptions, text, icon);
 
   const domTarget = document.querySelector(target);
@@ -124,6 +122,11 @@ const buildDialog = (type: DialogType, titleOrDialogOptions: DialogOptions, text
   domTarget.appendChild(instance.$el);
 
   instance.show();
+
+  return new Promise((resolve, reject) => {
+    instance.resolve = resolve;
+    instance.reject = reject;
+  });
 };
 
 const configureDialogGlobals = (Vue: typeof _Vue): void => {
@@ -132,7 +135,13 @@ const configureDialogGlobals = (Vue: typeof _Vue): void => {
     Vue.prototype.$dialog = new Vue({
       methods: {
         alert(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
-          buildDialog(DialogType.Alert, titleOrDialogOptions, text, icon);
+          return buildDialog(DialogType.Alert, titleOrDialogOptions, text, icon);
+        },
+        confirm(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
+          return buildDialog(DialogType.Confirm, titleOrDialogOptions, text, icon);
+        },
+        prompt(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
+          return buildDialog(DialogType.Prompt, titleOrDialogOptions, text, icon);
         },
       },
     });
@@ -140,9 +149,11 @@ const configureDialogGlobals = (Vue: typeof _Vue): void => {
 
   if (!Vue.prototype.$alert) {
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$alert = function alert(params = undefined, text: string | undefined, icon: string | undefined) {
-      return this.$dialog.alert(params, text, icon);
-    };
+    Vue.prototype.$alert = Vue.prototype.$dialog.alert;
+    // eslint-disable-next-line no-param-reassign
+    Vue.prototype.$confirm = Vue.prototype.$dialog.confirm;
+    // eslint-disable-next-line no-param-reassign
+    Vue.prototype.$prompt = Vue.prototype.$dialog.prompt;
   }
 };
 

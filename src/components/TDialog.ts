@@ -17,7 +17,6 @@ const getInitialData = () => ({
   reject: null as null | ((reason?: unknown) => void),
 });
 
-
 const TDialog = Component.extend({
   name: 'TDialog',
 
