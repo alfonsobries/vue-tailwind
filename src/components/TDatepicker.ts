@@ -423,13 +423,22 @@ const TDatepicker = HtmlInput.extend({
       input.focus(options);
     },
     doHide(): void {
-      this.getDropdown().doHide();
+      const dropdown = this.getDropdown();
+      if (dropdown) {
+        dropdown.doHide();
+      }
     },
     doShow(): void {
-      this.getDropdown().doShow();
+      const dropdown = this.getDropdown();
+      if (dropdown) {
+        dropdown.doShow();
+      }
     },
     toggle(): void {
-      this.getDropdown().doToggle();
+      const dropdown = this.getDropdown();
+      if (dropdown) {
+        dropdown.doToggle();
+      }
     },
     arrowKeyHandler(e: KeyboardEvent): void {
       e.preventDefault();
@@ -570,14 +579,17 @@ const TDatepicker = HtmlInput.extend({
     escapeHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
-      this.getDropdown().escapeHandler(e);
+      const dropdown = this.getDropdown();
+      if (dropdown) {
+        dropdown.escapeHandler(e);
+      }
     },
     spaceHandler(e: KeyboardEvent): void {
       e.preventDefault();
 
       this.toggle();
     },
-    getDropdown(): Dropdown {
+    getDropdown(): Dropdown | undefined {
       return this.$refs.dropdown as Dropdown;
     },
     resetInitialState() {
