@@ -1,4 +1,6 @@
+
 import Vue, { CreateElement, VNode } from 'vue';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { HideReason } from '../../types/Dialog';
 import TDialogOverlayWrapper from './TDialogOverlayWrapper';
 
@@ -93,6 +95,16 @@ const TDialogOverlay = Vue.extend({
     },
     focus() {
       (this.$el as HTMLDivElement).focus();
+    },
+    enableBodyScroll() {
+      const mdl = this.$el as HTMLDivElement;
+      enableBodyScroll(mdl);
+    },
+    disableBodyScroll() {
+      const mdl = this.$el as HTMLDivElement;
+      disableBodyScroll(mdl, {
+        reserveScrollBarGap: true,
+      });
     },
   },
 

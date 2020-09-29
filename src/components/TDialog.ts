@@ -1,4 +1,3 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 import Key from '../types/Key';
@@ -101,7 +100,7 @@ const TDialog = Component.extend({
       type: Object,
       default() {
         return {
-          overlay: 'overflow-auto left-0 top-0 bottom-0 right-0 w-full h-full fixed',
+          overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
           wrapper: 'relative mx-auto ',
           dialog: 'overflow-hidden relative',
 
@@ -143,6 +142,7 @@ const TDialog = Component.extend({
           overlay: 'z-40 bg-black bg-opacity-50',
           wrapper: 'z-50 max-w-md',
           dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow',
+
           body: '',
           buttons: 'mt-4 flex space-x-4 justify-center',
 
@@ -214,8 +214,10 @@ const TDialog = Component.extend({
   // },
 
   beforeDestroy() {
-    if (this.disableBodyScroll) {
-      enableBodyScroll(this.$refs.modal as HTMLDivElement);
+    const overlay = this.getOverlay();
+    if (this.disableBodyScroll && overlay) {
+      overlay.focus();
+      overlay.enableBodyScroll();
     }
   },
 
@@ -271,6 +273,13 @@ const TDialog = Component.extend({
   },
 
   methods: {
+    getOverlay() {
+      return this.$refs.overlay as unknown as {
+        focus: () => void,
+        enableBodyScroll: () => void,
+        disableBodyScroll: () => void,
+      } | undefined;
+    },
     keyupHandler(e: KeyboardEvent) {
       if (e.keyCode === Key.ESC && this.escToClose) {
         this.dismiss(e, HideReason.Esc);
@@ -285,9 +294,10 @@ const TDialog = Component.extend({
     },
     beforeClose(event: Event, reason: HideReason) {
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.modal as HTMLDivElement | undefined;
-        if (mdl) {
-          enableBodyScroll(mdl);
+        const overlay = this.getOverlay();
+        if (overlay) {
+          overlay.focus();
+          overlay.enableBodyScroll();
         }
       }
 
@@ -314,20 +324,17 @@ const TDialog = Component.extend({
       this.reset();
     },
     prepareDomForDialog() {
+      const overlay = this.getOverlay();
+      if (!overlay) {
+        return;
+      }
+
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.dialog as HTMLDivElement | undefined;
-        if (mdl) {
-          disableBodyScroll(mdl, {
-            reserveScrollBarGap: true,
-          });
-        }
+        overlay.disableBodyScroll();
       }
 
       if (this.focusOnOpen) {
-        const ovr = this.$refs.overlay as HTMLDivElement | undefined;
-        if (ovr) {
-          ovr.focus();
-        }
+        overlay.focus();
       }
     },
     dismiss(e: Event, reason: HideReason) {
