@@ -5,6 +5,8 @@ import { extractPropsFromComponentSettings, ImportedComponent } from './utils/ex
 import * as components from './components';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';
+import TDialog, { buildDialog } from './components/TDialog';
+import { DialogOptions, DialogType } from './types/Dialog';
 
 
 const entries = Object.entries(components) as [ComponentName, ImportedComponent][];
@@ -53,10 +55,8 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
       // eslint-disable-next-line no-param-reassign
       Vue.prototype.$dialog = new Vue({
         methods: {
-          alert(params = undefined) {
-            return new Promise((resolve, reject) => {
-              this.$emit('dialog-alert', resolve, reject, params);
-            });
+          alert(dialogOptions: DialogOptions = undefined) {
+            buildDialog(DialogType.Alert, dialogOptions);
           },
         },
       });

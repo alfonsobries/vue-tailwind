@@ -1,4 +1,3 @@
-import { create } from 'lodash';
 import Vue, { CreateElement, VNode } from 'vue';
 
 const TDialogOverlayWrapperTransitionDialogClose = Vue.extend({

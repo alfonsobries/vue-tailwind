@@ -1,4 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import { DismissReason } from '../../types/Dialog';
 import TDialogOverlayWrapper from './TDialogOverlayWrapper';
 
 const TDialogOverlay = Vue.extend({
@@ -136,7 +137,7 @@ const TDialogOverlay = Vue.extend({
               closeButtonHtml: this.closeButtonHtml,
             },
             on: {
-              hide: (e: MouseEvent) => this.$emit('hide', e),
+              hide: (e: MouseEvent, reason: DismissReason) => this.$emit('hide', e, reason),
             },
           },
         ),

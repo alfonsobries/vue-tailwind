@@ -1,4 +1,5 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import { DismissReason } from '../../types/Dialog';
 import TDialogOverlayWrapperTransitionDialog from './TDialogOverlayWrapperTransitionDialog';
 
 const TDialogOverlayWrapperTransition = Vue.extend({
@@ -112,7 +113,7 @@ const TDialogOverlayWrapperTransition = Vue.extend({
               type: this.type,
             },
             on: {
-              hide: (e: MouseEvent) => this.$emit('hide', e),
+              hide: (e: MouseEvent, reason: DismissReason) => this.$emit('hide', e, reason),
             },
           },
         ),

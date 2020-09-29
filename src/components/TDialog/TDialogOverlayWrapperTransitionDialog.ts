@@ -3,6 +3,7 @@ import TDialogOverlayWrapperTransitionDialogContent from './TDialogOverlayWrappe
 import TDialogOverlayWrapperTransitionDialogIcon from './TDialogOverlayWrapperTransitionDialogIcon';
 import TDialogOverlayWrapperTransitionDialogClose from './TDialogOverlayWrapperTransitionDialogClose';
 import TDialogOverlayWrapperTransitionDialogButtons from './TDialogOverlayWrapperTransitionDialogButtons';
+import { DismissReason } from '../../types/Dialog';
 
 const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialog',
@@ -99,7 +100,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
               showCloseButton: this.showCloseButton,
             },
             on: {
-              hide: (e: MouseEvent) => this.$emit('hide', e),
+              hide: (e: MouseEvent) => this.$emit('hide', e, DismissReason.Close),
             },
           },
         ),

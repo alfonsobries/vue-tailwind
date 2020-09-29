@@ -1,21 +1,20 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import Vue, { CreateElement, VNode } from 'vue';
+import get from 'lodash/get';
+import CssClasses from '../types/CssClasses';
 import Component from '../base/Component';
 import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
-
-enum DialogType {
-  Alert = 'alert',
-  Confirm = 'confirm',
-  Dialog = 'dialog',
-}
+import {
+  DialogOptions, DialogProps, DialogType, DismissReason,
+} from '../types/Dialog';
 
 const getInitialData = () => ({
   overlayShow: false,
   dialogShow: false,
   params: undefined,
   preventAction: false,
-  type: null as null | DialogType,
+  reasonToClose: null as DismissReason | null,
   resolve: null as null | ((value?: unknown) => void),
   reject: null as null | ((reason?: unknown) => void),
 });
@@ -96,9 +95,9 @@ const TDialog = Component.extend({
       type: Boolean,
       default: true,
     },
-    target: {
+    type: {
       type: String,
-      default: 'body',
+      default: DialogType.Alert,
     },
 
     fixedClasses: {
@@ -321,7 +320,7 @@ const TDialog = Component.extend({
             on: {
               outsideClick: this.outsideClick,
               keyup: this.keyupHandler,
-              hide: this.hide,
+              hide: (e: MouseEvent, reason: DismissReason) => this.hide(e, reason),
             },
           },
         ),
@@ -332,7 +331,7 @@ const TDialog = Component.extend({
   methods: {
     keyupHandler(e: KeyboardEvent) {
       if (e.keyCode === Key.ESC && this.escToClose) {
-        this.hide();
+        this.hide(e, DismissReason.Esc);
       }
     },
     beforeOpen() {
@@ -342,20 +341,33 @@ const TDialog = Component.extend({
       this.$emit('opened', { params: this.params });
       this.prepareDomForDialog();
     },
-    beforeClose() {
+    beforeClose(event: Event, reason: DismissReason) {
       if (this.disableBodyScroll) {
         const mdl = this.$refs.modal as HTMLDivElement | undefined;
         if (mdl) {
           enableBodyScroll(mdl);
         }
       }
-      this.$emit('before-close', { cancel: this.cancel });
+
+      this.$emit('before-close', {
+        cancel: this.cancel,
+        event,
+        reason,
+      });
     },
     closed() {
       this.$emit('closed');
 
       if (this.resolve) {
-        this.resolve(':D');
+        this.resolve({
+          meta: {
+            reason: this.reasonToClose,
+            // @TODO
+            isConfirmed: true,
+            isDenied: false,
+            isDismissed: false,
+          },
+        });
       }
 
       this.reset();
@@ -377,21 +389,17 @@ const TDialog = Component.extend({
         }
       }
     },
-    hide() {
-      this.beforeClose();
+    hide(e: Event, reason: DismissReason) {
+      this.beforeClose(e, reason);
 
       if (!this.preventAction) {
+        this.reasonToClose = reason;
         this.dialogShow = false;
       } else {
         this.preventAction = false;
       }
     },
-    show(type: DialogType, params = undefined) {
-      if (!Object.values(DialogType).includes(type)) {
-        throw new Error('Invalid dialog type!');
-      }
-
-      this.type = type;
+    show(params = undefined) {
       this.params = params;
 
       this.beforeOpen();
@@ -408,12 +416,66 @@ const TDialog = Component.extend({
     reset() {
       Object.assign(this.$data, getInitialData());
     },
-    outsideClick() {
+    outsideClick(e: Event) {
       if (this.clickToClose) {
-        this.hide();
+        this.hide(e, DismissReason.Outside);
       }
     },
   },
 });
 
 export default TDialog;
+
+const parseDialogOptions = (type: DialogType, options: DialogOptions = undefined) => {
+  type DialogComponent = typeof TDialog & {
+    options: {
+      props: {
+        [key in keyof DialogProps]: {
+          default: {
+            default: string | boolean | undefined | null | CssClasses
+          };
+        };
+      }
+    }
+  }
+
+  const { props } = (TDialog as DialogComponent).options;
+
+  const propsData: Partial<DialogProps> = {
+    type,
+  };
+
+  Object.keys(props).forEach((propName) => {
+    if (options && propName in options) {
+      const defaultValue = get(props, `${propName}.default`);
+      propsData[propName as keyof DialogProps] = get(options, propName, defaultValue);
+    }
+  });
+
+  const target = options && options.target ? options.target : 'body';
+
+  return {
+    propsData,
+    target,
+  };
+};
+
+export const buildDialog = (type: DialogType, options: DialogOptions = undefined): void => {
+  const { propsData, target } = parseDialogOptions(type, options);
+
+  const domTarget = document.querySelector(target);
+
+  if (!domTarget) {
+    throw new Error('Target not found!');
+  }
+
+  const instance = new TDialog({
+    propsData,
+  });
+
+  instance.$mount();
+
+  domTarget.appendChild(instance.$el);
+
+  instance.show();
+};
