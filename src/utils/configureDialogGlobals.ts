@@ -26,7 +26,8 @@ export type DialogOptions = {
   target?: string;
   fixedClasses?: CssClasses;
   classes?: CssClasses;
-  variant?: string
+  variant?: string;
+  inputAttributes?: { [key: string]: string; };
 } | undefined | string
 
 export type DialogProps = {
@@ -51,6 +52,7 @@ export type DialogProps = {
   fixedClasses?: CssClasses;
   classes?: CssClasses;
   variant?: string
+  inputAttributes?: { [key: string]: string; };
   type: DialogType
 }
 

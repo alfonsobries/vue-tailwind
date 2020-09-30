@@ -70,6 +70,10 @@ const TDialogOverlayWrapperTransition = Vue.extend({
       type: String,
       required: true,
     },
+    inputAttributes: {
+      type: Object,
+      default: undefined,
+    },
     type: {
       type: String,
       required: true,
@@ -110,12 +114,14 @@ const TDialogOverlayWrapperTransition = Vue.extend({
               okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
+              inputAttributes: this.inputAttributes,
               type: this.type,
             },
             on: {
               dismiss: (e: MouseEvent, reason: HideReason) => this.$emit('dismiss', e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.$emit('cancel', e, reason),
               submit: (e: MouseEvent, reason: HideReason) => this.$emit('submit', e, reason),
+              input: (e: InputEvent) => this.$emit('input', e),
             },
           },
         ),

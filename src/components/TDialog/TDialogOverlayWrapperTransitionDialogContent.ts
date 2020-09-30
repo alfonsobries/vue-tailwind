@@ -1,4 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
+import { DialogType } from '../../types/Dialog';
+import TDialogOverlayWrapperTransitionDialogContentInput from './TDialogOverlayWrapperTransitionDialogContentInput';
 
 const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialogContent',
@@ -30,6 +32,14 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
     },
     htmlText: {
       type: String,
+      default: undefined,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    inputAttributes: {
+      type: Object,
       default: undefined,
     },
   },
@@ -79,6 +89,22 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
       ));
     }
 
+    if (this.type === DialogType.Prompt) {
+      subElements.push(
+        createElement(
+          TDialogOverlayWrapperTransitionDialogContentInput,
+          {
+            props: {
+              getElementCssClass: this.getElementCssClass,
+              inputAttributes: this.inputAttributes,
+            },
+            on: {
+              input: (e: InputEvent) => this.$emit('input', e),
+            },
+          },
+        ),
+      );
+    }
 
     return createElement(
       'div',

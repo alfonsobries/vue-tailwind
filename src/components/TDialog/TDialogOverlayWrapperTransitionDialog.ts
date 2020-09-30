@@ -73,6 +73,10 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       type: String,
       required: true,
     },
+    inputAttributes: {
+      type: Object,
+      default: undefined,
+    },
     type: {
       type: String,
       required: true,
@@ -91,7 +95,6 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
         class: this.getElementCssClass('dialog'),
       },
       [
-
         createElement(
           TDialogOverlayWrapperTransitionDialogClose,
           {
@@ -132,6 +135,11 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
                   textTag: this.textTag,
                   text: this.text,
                   htmlText: this.htmlText,
+                  type: this.type,
+                  inputAttributes: this.inputAttributes,
+                },
+                on: {
+                  input: (e: InputEvent) => this.$emit('input', e),
                 },
               },
             ),

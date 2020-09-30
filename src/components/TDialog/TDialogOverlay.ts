@@ -76,6 +76,10 @@ const TDialogOverlay = Vue.extend({
       type: String,
       required: true,
     },
+    inputAttributes: {
+      type: Object,
+      default: undefined,
+    },
     type: {
       type: String,
       default: null,
@@ -147,11 +151,13 @@ const TDialogOverlay = Vue.extend({
               okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
+              inputAttributes: this.inputAttributes,
             },
             on: {
               dismiss: (e: MouseEvent, reason: HideReason) => this.$emit('dismiss', e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.$emit('cancel', e, reason),
               submit: (e: MouseEvent, reason: HideReason) => this.$emit('submit', e, reason),
+              input: (e: InputEvent) => this.$emit('input', e),
             },
           },
         ),

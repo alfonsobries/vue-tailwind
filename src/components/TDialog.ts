@@ -6,14 +6,34 @@ import {
   HideReason, DialogType,
 } from '../types/Dialog';
 
-const getInitialData = () => ({
+type InitialData = {
+  overlayShow: boolean;
+  dialogShow: boolean;
+  params: undefined;
+  preventAction: boolean;
+  hideReason: HideReason | null;
+  input?: null | string;
+  resolve: null | ((value?: unknown) => void);
+  reject: null | ((reason?: unknown) => void);
+}
+
+type DialogResponse = {
+  hideReason: HideReason | null;
+  isOk: boolean;
+  isCancel: boolean;
+  isDismissed: boolean;
+  input?: string | null | { [key: string]: string};
+}
+
+const getInitialData = (): InitialData => ({
   overlayShow: false,
   dialogShow: false,
   params: undefined,
   preventAction: false,
-  hideReason: null as HideReason | null,
-  resolve: null as null | ((value?: unknown) => void),
-  reject: null as null | ((reason?: unknown) => void),
+  hideReason: null,
+  input: null,
+  resolve: null,
+  reject: null,
 });
 
 const TDialog = Component.extend({
@@ -92,6 +112,10 @@ const TDialog = Component.extend({
       type: Boolean,
       default: true,
     },
+    inputAttributes: {
+      type: Object,
+      default: undefined,
+    },
     type: {
       type: String,
       default: DialogType.Alert,
@@ -158,6 +182,9 @@ const TDialog = Component.extend({
 
           cancelButton: 'inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
           okButton: 'inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
+
+          inputWrapper: 'mt-3',
+          input: 'form-input w-full',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
@@ -257,6 +284,7 @@ const TDialog = Component.extend({
               okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
+              inputAttributes: this.inputAttributes,
               getElementCssClass: this.getElementCssClass,
             },
             on: {
@@ -265,6 +293,7 @@ const TDialog = Component.extend({
               dismiss: (e: MouseEvent, reason: HideReason) => this.dismiss(e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.cancel(e, reason),
               submit: (e: MouseEvent, reason: HideReason) => this.submit(e, reason),
+              input: this.inputHandler,
             },
           },
         ),
@@ -284,6 +313,10 @@ const TDialog = Component.extend({
       if (e.keyCode === Key.ESC && this.escToClose) {
         this.dismiss(e, HideReason.Esc);
       }
+    },
+    inputHandler(e: InputEvent) {
+      const target = (e.target as HTMLInputElement);
+      this.input = target.value;
     },
     beforeOpen() {
       this.$emit('before-open', { params: this.params, cancel: this.closeCancel });
@@ -308,12 +341,16 @@ const TDialog = Component.extend({
       });
     },
     closed() {
-      const response = {
+      const response: Partial<DialogResponse> = {
         hideReason: this.hideReason,
         isOk: this.hideReason === HideReason.Ok,
         isCancel: this.hideReason === HideReason.Cancel,
-        isDismissed: this.hideReason && [HideReason.Close, HideReason.Esc, HideReason.Outside].includes(this.hideReason),
+        isDismissed: typeof this.hideReason === 'string' && [HideReason.Close, HideReason.Esc, HideReason.Outside].includes(this.hideReason),
       };
+
+      if (this.type === DialogType.Prompt && this.hideReason === HideReason.Ok) {
+        response.input = this.input;
+      }
 
       this.$emit('closed', response);
 
