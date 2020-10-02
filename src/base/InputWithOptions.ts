@@ -1,10 +1,7 @@
-import get from 'lodash/get';
-import map from 'lodash/map';
 import HtmlInput from './HtmlInput';
-import InputOption from '../types/InputOption';
 import InputOptions from '../types/InputOptions';
-import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
+import { normalizeOptions } from '../utils/inputOptions';
 
 const InputWithOptions = HtmlInput.extend({
   props: {
@@ -46,62 +43,8 @@ const InputWithOptions = HtmlInput.extend({
     },
   },
   methods: {
-    guessOptionValue(option: InputOption) {
-      if (this.valueAttribute) {
-        return get(option, this.valueAttribute);
-      }
-      return get(option, 'value', get(option, 'id', get(option, 'text')));
-    },
-
-    guessOptionText(option: InputOption) {
-      if (this.textAttribute) {
-        return get(option, this.textAttribute);
-      }
-      return get(option, 'text', get(option, 'label'));
-    },
-
     normalizeOptions(options: InputOptions) {
-      if (!options) {
-        return [];
-      }
-
-      if (Array.isArray(options)) {
-        return options.map((option) => this.normalizeOption(option));
-      }
-
-      return map(options, (option, key) => ({
-        value: key,
-        text: option,
-      })) as NormalizedOptions;
-    },
-
-    normalizeOption(option: InputOption): NormalizedOption {
-      if (
-        typeof option === 'string'
-        || typeof option === 'number'
-        || typeof option === 'boolean'
-      ) {
-        return {
-          value: option,
-          text: option,
-          raw: option,
-        };
-      }
-
-      if (option.children) {
-        const children = option.children.map((childOption) => this.normalizeOption(childOption));
-        return {
-          value: this.guessOptionValue(option),
-          text: this.guessOptionText(option),
-          children,
-        };
-      }
-
-      return {
-        value: this.guessOptionValue(option),
-        text: this.guessOptionText(option),
-        raw: option,
-      };
+      return normalizeOptions(options, this.textAttribute, this.valueAttribute);
     },
   },
 });

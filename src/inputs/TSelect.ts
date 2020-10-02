@@ -1,4 +1,5 @@
 import { CreateElement, VNode, VNodeChildren } from 'vue';
+import { guessOptionText } from '../utils/inputOptions';
 import MultipleInput from '../base/MultipleInput';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
@@ -183,7 +184,7 @@ const TSelect = MultipleInput.extend({
         'optgroup',
         {
           domProps: {
-            label: this.guessOptionText(option),
+            label: guessOptionText(option, this.textAttribute),
           },
         },
         option.children?.map((opt) => this.createOption(createElement, opt, value)),

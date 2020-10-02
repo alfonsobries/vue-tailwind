@@ -1,4 +1,5 @@
 import { CreateElement, VNode, VNodeChildren } from 'vue';
+import { guessOptionText } from '../utils/inputOptions';
 import TRichSelectInterface from '../types/TRichSelect';
 import NormalizedOptions from '../types/NormalizedOptions';
 import NormalizedOption from '../types/NormalizedOption';
@@ -452,7 +453,7 @@ export default class TRichSelectRenderer {
         },
         class: this.component.getElementCssClass('optgroup'),
       },
-      this.component.guessOptionText(optgroup),
+      guessOptionText(optgroup, this.component.textAttribute),
     );
   }
 
