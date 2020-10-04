@@ -200,7 +200,9 @@ describe('TDialog', () => {
 
   it('when a prompt is closed the input is in the response', async () => {
     const wrapper = mount(TDialog, {
-      type: 'prompt',
+      propsData: {
+        type: 'prompt',
+      },
     });
 
     wrapper.vm.show();
@@ -209,8 +211,9 @@ describe('TDialog', () => {
 
     wrapper.vm.input = 'Hey you!';
 
-    const promise = new Promise((resolve) => {
+    const promise = new Promise((resolve, reject) => {
       wrapper.vm.resolve = resolve;
+      wrapper.vm.reject = reject;
     });
 
     promise.then((response) => {
