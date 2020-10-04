@@ -160,7 +160,7 @@ const TDialogOverlayWrapperTransitionDialogContentInput = Vue.extend({
                   ...this.inputAttributes,
                 },
                 on: {
-                  input: this.inputHandler,
+                  change: this.inputHandler,
                 },
               }),
               createElement('span', {

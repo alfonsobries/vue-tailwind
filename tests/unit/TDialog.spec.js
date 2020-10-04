@@ -294,7 +294,6 @@ describe('TDialogOverlayWrapperTransitionDialogContentInput', () => {
     expect(wrapper.emitted().input[1]).toEqual(['B']);
   });
 
-
   it('render a single checkbox inputs if the type is checkbox', () => {
     const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
       propsData: {
@@ -351,5 +350,92 @@ describe('TDialogOverlayWrapperTransitionDialogContentInput', () => {
 
     // assert event payload
     expect(wrapper.emitted().input[1]).toEqual(['A']);
+  });
+
+
+  it('render multiple checkbox inputs if the type is checkbox and has options', () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
+      propsData: {
+        ...defaultProps,
+        inputType: 'checkbox',
+        inputOptions: ['A', 'B', 'C'],
+      },
+    });
+
+    const chexkboxes = wrapper.findAll('input[type="checkbox"]');
+    expect(chexkboxes.length).toBe(3);
+    expect(chexkboxes.at(0).element.value).toBe('A');
+    expect(chexkboxes.at(1).element.value).toBe('B');
+    expect(chexkboxes.at(2).element.value).toBe('C');
+  });
+
+  it('emits an input value with the initial value of the multiple checkboxs', () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
+      propsData: {
+        ...defaultProps,
+        inputType: 'checkbox',
+        inputOptions: ['A', 'B', 'C'],
+      },
+    });
+
+    // assert event has been emitted
+    expect(wrapper.emitted().input).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().input.length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted().input[0]).toEqual([[]]);
+  });
+
+  it('emits an input value with the all the selected checkboxes', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
+      propsData: {
+        ...defaultProps,
+        inputType: 'checkbox',
+        inputOptions: ['A', 'B', 'C'],
+      },
+    });
+
+    const checkboxes = wrapper.findAll('input[type="checkbox"]');
+
+    const a = checkboxes.at(0);
+    a.setChecked();
+
+    const b = checkboxes.at(2);
+    b.setChecked();
+
+    // await checkboxes.at(2).setChecked();
+
+    // assert event has been emitted
+    expect(wrapper.emitted().input).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().input.length).toBe(3);
+
+    // assert event payload
+    expect(wrapper.emitted().input[1]).toEqual([['A']]);
+    expect(wrapper.emitted().input[2]).toEqual([['A', 'C']]);
+  });
+
+  it('select the checboxes according to the input value', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
+      propsData: {
+        ...defaultProps,
+        inputType: 'checkbox',
+        inputOptions: ['A', 'B', 'C'],
+        inputValue: ['B', 'C'],
+      },
+    });
+
+    const checkboxes = wrapper.findAll('input[type="checkbox"]');
+
+    expect(checkboxes.length).toBe(3);
+    expect(checkboxes.at(0).element.value).toBe('A');
+    expect(checkboxes.at(0).element.checked).toBe(false);
+    expect(checkboxes.at(1).element.value).toBe('B');
+    expect(checkboxes.at(1).element.checked).toBe(true);
+    expect(checkboxes.at(2).element.value).toBe('C');
+    expect(checkboxes.at(2).element.checked).toBe(true);
   });
 });
