@@ -247,32 +247,22 @@ const TDialog = Component.extend({
       this.$emit('input', shown);
       this.$emit('change', shown);
 
-      await this.$nextTick();
-
       if (shown) {
+        await this.$nextTick();
         this.dialogShow = true;
       } else {
         this.closed();
       }
     },
     async dialogShow(shown) {
-      await this.$nextTick();
-
       if (!shown) {
+        await this.$nextTick();
         this.overlayShow = false;
       } else {
         this.opened();
       }
     },
   },
-
-  // created() {
-  //   // this.$dialog.$on('dialog-alert', (resolve: ((value?: unknown) => void), reject: ((value?: unknown) => void), params = undefined) => {
-  //   //   this.resolve = resolve;
-  //   //   this.reject = reject;
-  //   //   this.show(DialogType.Alert, params);
-  //   // });
-  // },
 
   beforeDestroy() {
     const overlay = this.getOverlay();

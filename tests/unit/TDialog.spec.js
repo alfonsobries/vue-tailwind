@@ -1,7 +1,240 @@
 
-import { shallowMount } from '@vue/test-utils';
-
+import Vue from 'vue';
+import { shallowMount, mount } from '@vue/test-utils';
+import configureDialogGlobals from '../../src/utils/configureDialogGlobals';
+import TDialog from '../../src/components/TDialog';
 import TDialogOverlayWrapperTransitionDialogContentInput from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogContentInput';
+import TDialogOverlayWrapperTransitionDialogButtons from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogButtons';
+import TDialogOverlayWrapperTransitionDialogClose from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogClose';
+
+describe('configureDialogGlobals', () => {
+  configureDialogGlobals(Vue);
+
+  it('opens the the dialog with the global method', () => {
+    jest.spyOn(document.body, 'appendChild');
+
+    Vue.prototype.$dialog.alert();
+
+    expect(document.body.appendChild).toBeCalled();
+  });
+
+  it('opens the the dialog with the alert method', () => {
+    jest.spyOn(document.body, 'appendChild');
+
+    Vue.prototype.$alert();
+
+    expect(document.body.appendChild).toBeCalled();
+  });
+
+  it('opens the the dialog with the prompt method', () => {
+    jest.spyOn(document.body, 'appendChild');
+
+    Vue.prototype.$prompt();
+
+    expect(document.body.appendChild).toBeCalled();
+  });
+
+  it('opens the the dialog with the confirm method', () => {
+    jest.spyOn(document.body, 'appendChild');
+
+    Vue.prototype.$confirm();
+
+    expect(document.body.appendChild).toBeCalled();
+  });
+});
+
+describe('TDialog', () => {
+  it('show the modal with his respective events', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+
+    expect(wrapper.emitted()['before-open']).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted()['before-open'].length).toBe(1);
+
+    // Show the overlay
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted().input).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().input.length).toBe(1);
+
+    // Show the modal
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted().opened).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().opened.length).toBe(1);
+  });
+
+  it('hides the modal with his respective events', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+
+    // Show the overlay
+    await wrapper.vm.$nextTick();
+    // Show the modal
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.close();
+
+    expect(wrapper.emitted()['before-close']).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted()['before-close'].length).toBe(1);
+
+
+    expect(wrapper.emitted().input).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().input.length).toBe(1);
+
+    // hide the overlay & then the modal
+    await wrapper.vm.$nextTick();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted().closed).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().closed.length).toBe(1);
+  });
+});
+
+describe('TDialogOverlayWrapperTransitionDialogButtons', () => {
+  const defaultProps = {
+    getElementCssClass: () => '',
+    cancelButtonText: 'Cancel',
+    okButtonText: 'Ok',
+    type: 'alert',
+  };
+
+  it('for the alert dialog only shows the ok button', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogButtons, {
+      propsData: defaultProps,
+    });
+
+    const buttons = wrapper.findAll('button');
+    expect(buttons.length).toBe(1);
+    expect(buttons.at(0).text()).toBe('Ok');
+  });
+
+  it('for the confirm dialog only shows the ok and cancel button', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogButtons, {
+      propsData: {
+        ...defaultProps,
+        type: 'confirm',
+      },
+    });
+
+    const buttons = wrapper.findAll('button');
+    expect(buttons.length).toBe(2);
+    expect(buttons.at(0).text()).toBe('Cancel');
+    expect(buttons.at(1).text()).toBe('Ok');
+  });
+
+  it('for the prompt dialog only shows the ok and cancel button', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogButtons, {
+      propsData: {
+        ...defaultProps,
+        type: 'confirm',
+      },
+    });
+
+    const buttons = wrapper.findAll('button');
+    expect(buttons.length).toBe(2);
+    expect(buttons.at(0).text()).toBe('Cancel');
+    expect(buttons.at(1).text()).toBe('Ok');
+  });
+
+  it('the ok button creates a submit event ', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogButtons, {
+      propsData: {
+        ...defaultProps,
+        type: 'alert',
+      },
+    });
+
+    const button = wrapper.find('button');
+    button.trigger('click');
+
+    expect(wrapper.emitted().submit).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().submit.length).toBe(1);
+  });
+
+  it('the ok button creates a submit event ', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogButtons, {
+      propsData: {
+        ...defaultProps,
+        type: 'confirm',
+      },
+    });
+
+    const button = wrapper.find('button');
+    button.trigger('click');
+
+    expect(wrapper.emitted().cancel).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().cancel.length).toBe(1);
+  });
+});
+
+
+describe('TDialogOverlayWrapperTransitionDialogClose', () => {
+  const defaultProps = {
+    getElementCssClass: () => '',
+    showCloseButton: true,
+  };
+
+  it('shows the close button if showCloseButton set', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogClose, {
+      propsData: {
+        ...defaultProps,
+        showCloseButton: true,
+      },
+    });
+
+    const button = wrapper.find('button');
+    expect(button.exists()).toBe(true);
+  });
+
+  it('doesnt shows the close button if showCloseButton set', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogClose, {
+      propsData: {
+        ...defaultProps,
+        showCloseButton: false,
+      },
+    });
+
+    const button = wrapper.find('button');
+    expect(button.exists()).toBe(false);
+  });
+
+  it('the close button emits a hide event', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogClose, {
+      propsData: {
+        ...defaultProps,
+        showCloseButton: true,
+      },
+    });
+
+    const button = wrapper.find('button');
+
+    button.trigger('click');
+
+    expect(wrapper.emitted().hide).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().hide.length).toBe(1);
+  });
+});
 
 describe('TDialogOverlayWrapperTransitionDialogContentInput', () => {
   const defaultProps = {
