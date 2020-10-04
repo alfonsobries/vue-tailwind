@@ -226,7 +226,6 @@ describe('TDialogOverlayWrapperTransitionDialogContentInput', () => {
     expect(radios.at(2).element.value).toBe('C');
   });
 
-
   it('emits an input value with the default value of the radio', () => {
     const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
       propsData: {
@@ -293,5 +292,64 @@ describe('TDialogOverlayWrapperTransitionDialogContentInput', () => {
 
     // assert event payload
     expect(wrapper.emitted().input[1]).toEqual(['B']);
+  });
+
+
+  it('render a single checkbox inputs if the type is checkbox', () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
+      propsData: {
+        ...defaultProps,
+        inputType: 'checkbox',
+        inputPlaceholder: 'Accept terms and conditions',
+      },
+    });
+
+    const input = wrapper.find('input[type="checkbox"]');
+    const label = wrapper.find('label');
+    expect(input.element.name).toBe('input');
+    expect(input.element.value).toBe('on');
+    expect(label.text()).toBe('Accept terms and conditions');
+  });
+
+  it('emits an input value with the initial value of the checkbox', () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
+      propsData: {
+        ...defaultProps,
+        inputType: 'checkbox',
+        inputValue: 'A',
+      },
+    });
+
+    // assert event has been emitted
+    expect(wrapper.emitted().input).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().input.length).toBe(1);
+
+    // assert event payload
+    expect(wrapper.emitted().input[0]).toEqual([null]);
+  });
+
+  it('emits an input value with the checkbox value when is chexkec', () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContentInput, {
+      propsData: {
+        ...defaultProps,
+        inputType: 'checkbox',
+        inputValue: 'A',
+      },
+    });
+
+    const input = wrapper.find('input[type="checkbox"]');
+
+    input.setChecked();
+
+    // assert event has been emitted
+    expect(wrapper.emitted().input).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted().input.length).toBe(2);
+
+    // assert event payload
+    expect(wrapper.emitted().input[1]).toEqual(['A']);
   });
 });
