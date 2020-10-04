@@ -2,6 +2,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 import TDialogOverlayWrapperTransitionDialogContent from './TDialogOverlayWrapperTransitionDialogContent';
 import TDialogOverlayWrapperTransitionDialogIcon from './TDialogOverlayWrapperTransitionDialogIcon';
 import TDialogOverlayWrapperTransitionDialogClose from './TDialogOverlayWrapperTransitionDialogClose';
+import TDialogOverlayWrapperTransitionDialogLoader from './TDialogOverlayWrapperTransitionDialogLoader';
 import TDialogOverlayWrapperTransitionDialogButtons from './TDialogOverlayWrapperTransitionDialogButtons';
 import { HideReason } from '../../types/Dialog';
 
@@ -119,6 +120,15 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
         class: this.getElementCssClass('dialog'),
       },
       [
+        createElement(
+          TDialogOverlayWrapperTransitionDialogLoader,
+          {
+            props: {
+              getElementCssClass: this.getElementCssClass,
+              busy: false,
+            },
+          },
+        ),
         createElement(
           TDialogOverlayWrapperTransitionDialogClose,
           {

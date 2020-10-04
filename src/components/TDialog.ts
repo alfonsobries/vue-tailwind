@@ -189,7 +189,7 @@ const TDialog = Component.extend({
 
           overlay: 'z-40 bg-black bg-opacity-50',
           wrapper: 'z-50 max-w-md',
-          dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow',
+          dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow ',
 
           body: '',
           buttons: 'mt-4 flex space-x-4 justify-center',
@@ -219,6 +219,9 @@ const TDialog = Component.extend({
           checkboxWrapper: 'flex items-center space-x-2',
           checkbox: 'form-checkbox',
           checkboxText: '',
+
+          busyWrapper: 'absolute bg-opacity-50 bg-white flex h-full items-center justify-center left-0 top-0 w-full',
+          busyIcon: 'animate-spin h-6 w-6 fill-current text-gray-500',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
