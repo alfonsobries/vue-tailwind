@@ -103,6 +103,128 @@ describe('TDialog', () => {
     // assert event count
     expect(wrapper.emitted().closed.length).toBe(1);
   });
+
+  it('the before close event includes the reason of closing', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+
+    // Show the overlay
+    await wrapper.vm.$nextTick();
+    // Show the modal
+    await wrapper.vm.$nextTick();
+
+    const event = new MouseEvent({});
+    wrapper.vm.close(event, 'cancel');
+
+    expect(wrapper.emitted()['before-close']).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted()['before-close'].length).toBe(1);
+
+    expect(wrapper.emitted('before-close')[0]).toEqual([{
+      cancel: wrapper.vm.closeCancel,
+      event,
+      reason: 'cancel',
+    }]);
+  });
+
+  it('when closed method is called it resolve the promise', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+
+    wrapper.vm.hideReason = 'close';
+
+    const promise = new Promise((resolve) => {
+      wrapper.vm.resolve = resolve;
+    });
+
+    promise.then((response) => {
+      expect(response).toEqual({
+        hideReason: 'close',
+        isCancel: false,
+        isDismissed: true,
+        isOk: false,
+      });
+    });
+
+    wrapper.vm.closed();
+  });
+
+  it('when closed and reason is ok is ok then is true', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+
+    wrapper.vm.hideReason = 'ok';
+
+    const promise = new Promise((resolve) => {
+      wrapper.vm.resolve = resolve;
+    });
+
+    promise.then((response) => {
+      expect(response).toEqual({
+        hideReason: 'ok',
+        isCancel: false,
+        isDismissed: false,
+        isOk: true,
+      });
+    });
+
+    wrapper.vm.closed();
+  });
+
+  it('when closed and reason is cancel isCancel then is true', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+
+    wrapper.vm.hideReason = 'cancel';
+
+    const promise = new Promise((resolve) => {
+      wrapper.vm.resolve = resolve;
+    });
+
+    promise.then((response) => {
+      expect(response).toEqual({
+        hideReason: 'cancel',
+        isCancel: true,
+        isDismissed: false,
+        isOk: false,
+      });
+    });
+
+    wrapper.vm.closed();
+  });
+
+  it('when a prompt is closed the input is in the response', async () => {
+    const wrapper = mount(TDialog, {
+      type: 'prompt',
+    });
+
+    wrapper.vm.show();
+
+    wrapper.vm.hideReason = 'ok';
+
+    wrapper.vm.input = 'Hey you!';
+
+    const promise = new Promise((resolve) => {
+      wrapper.vm.resolve = resolve;
+    });
+
+    promise.then((response) => {
+      expect(response).toEqual({
+        hideReason: 'ok',
+        isCancel: false,
+        isDismissed: false,
+        isOk: true,
+        input: 'Hey you!',
+      });
+    });
+
+    wrapper.vm.closed();
+  });
 });
 
 describe('TDialogOverlayWrapperTransitionDialogButtons', () => {
