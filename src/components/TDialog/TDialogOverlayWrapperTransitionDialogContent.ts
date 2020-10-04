@@ -42,6 +42,30 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
       type: Object,
       default: undefined,
     },
+    inputType: {
+      type: String,
+      required: true,
+    },
+    inputValidator: {
+      type: Object,
+      default: undefined,
+    },
+    inputParser: {
+      type: Object,
+      default: undefined,
+    },
+    inputValue: {
+      type: [String, Array],
+      default: undefined,
+    },
+    inputPlaceholder: {
+      type: String,
+      default: undefined,
+    },
+    inputOptions: {
+      type: [Array, Object],
+      default: undefined,
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -97,9 +121,15 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
             props: {
               getElementCssClass: this.getElementCssClass,
               inputAttributes: this.inputAttributes,
+              inputType: this.inputType,
+              inputValidator: this.inputValidator,
+              inputParser: this.inputParser,
+              inputValue: this.inputValue,
+              inputOptions: this.inputOptions,
+              inputPlaceholder: this.inputPlaceholder,
             },
             on: {
-              input: (e: InputEvent) => this.$emit('input', e),
+              input: (val: string) => this.$emit('input', val),
             },
           },
         ),

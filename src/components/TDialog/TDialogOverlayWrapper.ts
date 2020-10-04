@@ -74,6 +74,30 @@ const TDialogOverlayWrapper = Vue.extend({
       type: Object,
       default: undefined,
     },
+    inputType: {
+      type: String,
+      required: true,
+    },
+    inputValidator: {
+      type: Object,
+      default: undefined,
+    },
+    inputParser: {
+      type: Object,
+      default: undefined,
+    },
+    inputValue: {
+      type: [String, Array],
+      default: undefined,
+    },
+    inputOptions: {
+      type: [Array, Object],
+      default: undefined,
+    },
+    inputPlaceholder: {
+      type: String,
+      default: undefined,
+    },
     type: {
       type: String,
       required: true,
@@ -110,12 +134,18 @@ const TDialogOverlayWrapper = Vue.extend({
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
               inputAttributes: this.inputAttributes,
+              inputType: this.inputType,
+              inputValidator: this.inputValidator,
+              inputParser: this.inputParser,
+              inputValue: this.inputValue,
+              inputOptions: this.inputOptions,
+              inputPlaceholder: this.inputPlaceholder,
             },
             on: {
               dismiss: (e: MouseEvent, reason: HideReason) => this.$emit('dismiss', e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.$emit('cancel', e, reason),
               submit: (e: MouseEvent, reason: HideReason) => this.$emit('submit', e, reason),
-              input: (e: InputEvent) => this.$emit('input', e),
+              input: (val: string) => this.$emit('input', val),
             },
           },
         ),

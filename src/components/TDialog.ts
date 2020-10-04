@@ -116,6 +116,30 @@ const TDialog = Component.extend({
       type: Object,
       default: undefined,
     },
+    inputType: {
+      type: String,
+      default: 'text',
+    },
+    inputValidator: {
+      type: Object,
+      default: undefined,
+    },
+    inputParser: {
+      type: Object,
+      default: undefined,
+    },
+    inputValue: {
+      type: [String, Array],
+      default: undefined,
+    },
+    inputOptions: {
+      type: [Array, Object],
+      default: undefined,
+    },
+    inputPlaceholder: {
+      type: String,
+      default: undefined,
+    },
     type: {
       type: String,
       default: DialogType.Alert,
@@ -183,8 +207,18 @@ const TDialog = Component.extend({
           cancelButton: 'inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
           okButton: 'inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
 
-          inputWrapper: 'mt-3',
+          inputWrapper: 'mt-3 flex items-center space-x-4 justify-center',
+
           input: 'form-input w-full',
+          select: 'form-select w-full',
+
+          radioWrapper: 'flex items-center space-x-2',
+          radio: 'form-radio',
+          radioText: '',
+
+          checkboxWrapper: 'flex items-center space-x-2',
+          checkbox: 'form-checkbox',
+          checkboxText: '',
 
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
@@ -285,6 +319,12 @@ const TDialog = Component.extend({
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
               inputAttributes: this.inputAttributes,
+              inputType: this.inputType,
+              inputValidator: this.inputValidator,
+              inputParser: this.inputParser,
+              inputValue: this.inputValue,
+              inputOptions: this.inputOptions,
+              inputPlaceholder: this.inputPlaceholder,
               getElementCssClass: this.getElementCssClass,
             },
             on: {
@@ -314,9 +354,8 @@ const TDialog = Component.extend({
         this.dismiss(e, HideReason.Esc);
       }
     },
-    inputHandler(e: InputEvent) {
-      const target = (e.target as HTMLInputElement);
-      this.input = target.value;
+    inputHandler(value: string) {
+      this.input = value;
     },
     beforeOpen() {
       this.$emit('before-open', { params: this.params, cancel: this.closeCancel });
