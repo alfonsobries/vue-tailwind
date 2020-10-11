@@ -8,6 +8,8 @@ import { HideReason } from '../../types/Dialog';
 
 export type DialogInput = string | string[] | null;
 
+type InputValidator = undefined | ((val: DialogInput) => string | null | (Promise<string | null>));
+
 const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialog',
 
@@ -120,23 +122,42 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
 
   methods: {
     submitHandler(e: MouseEvent) {
-      if (typeof this.inputValidator === 'function') {
-        const result = this.inputValidator(this.currentValue);
+      return this.validateInput(this.currentValue)
+        .then(() => {
+          this.$emit('submit', e, HideReason.Ok, this.currentValue);
+        }).catch((errorMessage) => {
+          this.errorMessage = String(errorMessage);
+        });
+    },
+    inputHandler(input: DialogInput) {
+      this.errorMessage = '';
+      this.currentValue = input;
+    },
+    validateInput(input: DialogInput): Promise<string | null> {
+      const inputValidator = this.inputValidator as InputValidator;
 
-        if (result) {
-          this.errorMessage = String(result);
-          return;
+      if (typeof inputValidator === 'function') {
+        const result = inputValidator(input);
+
+        if (result
+            && typeof result === 'object'
+            && result.then
+            && typeof result.then === 'function') {
+          return result;
         }
+
+        return new Promise((resolve, reject) => {
+          if (result) {
+            reject(result);
+          } else {
+            resolve();
+          }
+        });
       }
 
-      this.$emit('submit', e, HideReason.Ok, this.currentValue);
-    },
-    inputHandler(val: DialogInput) {
-      this.errorMessage = '';
-      this.currentValue = val;
+      return new Promise((resolve) => resolve);
     },
   },
-
   render(createElement: CreateElement): VNode {
     if (!this.dialogShow) {
       return createElement();
@@ -204,6 +225,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
                   inputValue: this.inputValue,
                   inputOptions: this.inputOptions,
                   inputPlaceholder: this.inputPlaceholder,
+                  errorMessage: this.errorMessage,
                 },
                 on: {
                   input: this.inputHandler,

@@ -246,7 +246,7 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
     showCloseButton: false,
   };
 
-  it('creates the error message if has an input validator an is invalid', () => {
+  it('creates the error message if has an input validator an is invalid', async () => {
     const inputValidator = (value) => {
       if (value === 'invalid value') {
         return 'invalid!';
@@ -262,7 +262,7 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
 
     wrapper.vm.inputHandler('invalid value');
 
-    wrapper.vm.submitHandler(new MouseEvent({}));
+    await wrapper.vm.submitHandler(new MouseEvent({}));
 
     expect(wrapper.vm.errorMessage).toBe('invalid!');
 
@@ -271,7 +271,7 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
   });
 
 
-  it('if has an input validator an the value is valid it emits the submit event', () => {
+  it('if has an input validator an the value is valid it emits the submit event', async () => {
     const inputValidator = (value) => {
       if (value !== 'valid value') {
         return 'invalid!';
@@ -287,7 +287,7 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
 
     wrapper.vm.inputHandler('valid value');
 
-    wrapper.vm.submitHandler(new MouseEvent({}));
+    await wrapper.vm.submitHandler(new MouseEvent({}));
 
     expect(wrapper.vm.errorMessage).toBe('');
 
@@ -314,6 +314,52 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
     wrapper.vm.inputHandler('wharever');
 
     expect(wrapper.vm.errorMessage).toBe('');
+  });
+
+  it('handle input validator that returns a rejected promise', async () => {
+    const inputValidator = () => new Promise((_resolve, reject) => {
+      reject('invalid!');
+    });
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        inputValidator,
+      },
+    });
+
+    await wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('invalid!');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeFalsy();
+  });
+
+  it('handle input validator that returns a resolved promise', async () => {
+    const inputValidator = (value) => new Promise((resolve, reject) => {
+      if (value === 'invalid value') {
+        reject('invalid!');
+      }
+
+      resolve();
+    });
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        inputValidator,
+      },
+    });
+
+    wrapper.vm.inputHandler('valid value');
+
+    await wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeTruthy();
   });
 });
 
