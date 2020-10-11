@@ -2,6 +2,7 @@ import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
+import { DialogInput } from './TDialog/TDialogOverlayWrapperTransitionDialog';
 import {
   HideReason, DialogType,
 } from '../types/Dialog';
@@ -12,7 +13,7 @@ type InitialData = {
   params: undefined;
   preventAction: boolean;
   hideReason: HideReason | null;
-  input?: null | string;
+  input?: DialogInput;
   resolve: null | ((value?: unknown) => void);
   reject: null | ((reason?: unknown) => void);
 }
@@ -22,7 +23,14 @@ type DialogResponse = {
   isOk: boolean;
   isCancel: boolean;
   isDismissed: boolean;
-  input?: string | null | { [key: string]: string};
+  input?: DialogInput;
+}
+
+type BeforeCloseParams = {
+  cancel: () => void;
+  event: Event;
+  reason: HideReason;
+  input: DialogInput;
 }
 
 const getInitialData = (): InitialData => ({
@@ -31,7 +39,7 @@ const getInitialData = (): InitialData => ({
   params: undefined,
   preventAction: false,
   hideReason: null,
-  input: null,
+  input: undefined,
   resolve: null,
   reject: null,
 });
@@ -121,11 +129,11 @@ const TDialog = Component.extend({
       default: 'text',
     },
     inputValidator: {
-      type: Object,
+      type: Function,
       default: undefined,
     },
     inputParser: {
-      type: Object,
+      type: Function,
       default: undefined,
     },
     inputValue: {
@@ -325,8 +333,7 @@ const TDialog = Component.extend({
               keyup: this.keyupHandler,
               dismiss: (e: MouseEvent, reason: HideReason) => this.dismiss(e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.cancel(e, reason),
-              submit: (e: MouseEvent, reason: HideReason) => this.submit(e, reason),
-              input: this.inputHandler,
+              submit: (e: MouseEvent, reason: HideReason, input: DialogInput) => this.submit(e, reason, input),
             },
           },
         ),
@@ -347,9 +354,6 @@ const TDialog = Component.extend({
         this.dismiss(e, HideReason.Esc);
       }
     },
-    inputHandler(value: string) {
-      this.input = value;
-    },
     beforeOpen() {
       this.$emit('before-open', { params: this.params, cancel: this.closeCancel });
     },
@@ -357,7 +361,7 @@ const TDialog = Component.extend({
       this.$emit('opened', { params: this.params });
       this.prepareDomForDialog();
     },
-    beforeClose(event: Event, reason: HideReason) {
+    beforeClose(event: Event, reason: HideReason, input?: DialogInput) {
       if (this.disableBodyScroll) {
         const overlay = this.getOverlay();
         if (overlay) {
@@ -366,11 +370,17 @@ const TDialog = Component.extend({
         }
       }
 
-      this.$emit('before-close', {
+      const beforeCloseParams: Partial<BeforeCloseParams> = {
         cancel: this.closeCancel,
         event,
         reason,
-      });
+      };
+
+      if (input !== undefined) {
+        beforeCloseParams.input = input;
+      }
+
+      this.$emit('before-close', beforeCloseParams);
     },
     closed() {
       const response: Partial<DialogResponse> = {
@@ -380,7 +390,7 @@ const TDialog = Component.extend({
         isDismissed: typeof this.hideReason === 'string' && [HideReason.Close, HideReason.Esc, HideReason.Outside].includes(this.hideReason),
       };
 
-      if (this.type === DialogType.Prompt && this.hideReason === HideReason.Ok) {
+      if (this.type === DialogType.Prompt && this.hideReason === HideReason.Ok && this.input !== undefined) {
         response.input = this.input;
       }
 
@@ -412,13 +422,14 @@ const TDialog = Component.extend({
     cancel(e: Event, reason: HideReason) {
       this.close(e, reason);
     },
-    submit(e: Event, reason: HideReason) {
-      this.close(e, reason);
+    submit(e: Event, reason: HideReason, input: DialogInput) {
+      this.close(e, reason, input);
     },
-    close(e: Event, reason: HideReason) {
-      this.beforeClose(e, reason);
+    close(e: Event, reason: HideReason, input?: DialogInput) {
+      this.beforeClose(e, reason, input);
 
       this.hideReason = reason;
+      this.input = input;
 
       if (!this.preventAction) {
         this.dialogShow = false;

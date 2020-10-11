@@ -1,6 +1,7 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import { HideReason } from '../../types/Dialog';
 import TDialogOverlayWrapperTransition from './TDialogOverlayWrapperTransition';
+import { DialogInput } from './TDialogOverlayWrapperTransitionDialog';
 
 const TDialogOverlayWrapper = Vue.extend({
   name: 'TDialogOverlayWrapper',
@@ -79,11 +80,11 @@ const TDialogOverlayWrapper = Vue.extend({
       required: true,
     },
     inputValidator: {
-      type: Object,
+      type: Function,
       default: undefined,
     },
     inputParser: {
-      type: Object,
+      type: Function,
       default: undefined,
     },
     inputValue: {
@@ -144,8 +145,7 @@ const TDialogOverlayWrapper = Vue.extend({
             on: {
               dismiss: (e: MouseEvent, reason: HideReason) => this.$emit('dismiss', e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.$emit('cancel', e, reason),
-              submit: (e: MouseEvent, reason: HideReason) => this.$emit('submit', e, reason),
-              input: (val: string) => this.$emit('input', val),
+              submit: (e: MouseEvent, reason: HideReason, input: DialogInput) => this.$emit('submit', e, reason, input),
             },
           },
         ),

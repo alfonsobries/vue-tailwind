@@ -18,14 +18,6 @@ const TDialogOverlayWrapperTransitionDialogContentInput = Vue.extend({
       type: String,
       required: true,
     },
-    inputValidator: {
-      type: Object,
-      default: undefined,
-    },
-    inputParser: {
-      type: Object,
-      default: undefined,
-    },
     inputValue: {
       type: [String, Array],
       default: undefined,
@@ -40,37 +32,51 @@ const TDialogOverlayWrapperTransitionDialogContentInput = Vue.extend({
     },
   },
 
+  data() {
+    return {
+      errorMessage: null as string | null,
+    };
+  },
+
   mounted() {
     this.inputHandler();
   },
 
   methods: {
-    inputHandler() {
+    getInputValue() {
       const input = this.$refs.input as HTMLInputElement | undefined;
 
       if (!input) {
-        return;
+        return undefined;
       }
 
       const inputName = input.name;
+
       if (input.type === 'radio') {
         const checkedRadio = (this.$refs.inputWrapper as HTMLDivElement)
           .querySelector(`input[name="${inputName}"]:checked`) as HTMLInputElement;
-        this.$emit('input', checkedRadio ? checkedRadio.value : null);
-      } else if (input.type === 'checkbox') {
+
+        return checkedRadio ? checkedRadio.value : null;
+      } if (input.type === 'checkbox') {
         if (this.inputOptions) {
           const checkedCheckboxes = (this.$refs.inputWrapper as HTMLDivElement)
             .querySelectorAll(`input[name="${inputName}"]:checked`);
 
           const inititalValue = Array.from(checkedCheckboxes).map((checkbox) => (checkbox as HTMLInputElement).value);
 
-          this.$emit('input', inititalValue);
-        } else {
-          this.$emit('input', input.checked ? input.value : null);
+          return inititalValue;
         }
-      } else {
-        this.$emit('input', input.value);
+        return input.checked ? input.value : null;
       }
+
+      return input.value;
+    },
+    inputHandler() {
+      this.errorMessage = null;
+
+      const inputValue = this.getInputValue();
+
+      this.$emit('input', inputValue);
     },
   },
 

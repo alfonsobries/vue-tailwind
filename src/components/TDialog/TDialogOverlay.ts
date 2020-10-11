@@ -3,6 +3,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { HideReason } from '../../types/Dialog';
 import TDialogOverlayWrapper from './TDialogOverlayWrapper';
+import { DialogInput } from './TDialogOverlayWrapperTransitionDialog';
 
 const TDialogOverlay = Vue.extend({
   name: 'TDialogOverlay',
@@ -85,11 +86,11 @@ const TDialogOverlay = Vue.extend({
       required: true,
     },
     inputValidator: {
-      type: Object,
+      type: Function,
       default: undefined,
     },
     inputParser: {
-      type: Object,
+      type: Function,
       default: undefined,
     },
     inputValue: {
@@ -186,8 +187,7 @@ const TDialogOverlay = Vue.extend({
             on: {
               dismiss: (e: MouseEvent, reason: HideReason) => this.$emit('dismiss', e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.$emit('cancel', e, reason),
-              submit: (e: MouseEvent, reason: HideReason) => this.$emit('submit', e, reason),
-              input: (val: string) => this.$emit('input', val),
+              submit: (e: MouseEvent, reason: HideReason, input: DialogInput) => this.$emit('submit', e, reason, input),
             },
           },
         ),

@@ -46,14 +46,6 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
       type: String,
       required: true,
     },
-    inputValidator: {
-      type: Object,
-      default: undefined,
-    },
-    inputParser: {
-      type: Object,
-      default: undefined,
-    },
     inputValue: {
       type: [String, Array],
       default: undefined,
@@ -122,8 +114,6 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
               getElementCssClass: this.getElementCssClass,
               inputAttributes: this.inputAttributes,
               inputType: this.inputType,
-              inputValidator: this.inputValidator,
-              inputParser: this.inputParser,
               inputValue: this.inputValue,
               inputOptions: this.inputOptions,
               inputPlaceholder: this.inputPlaceholder,

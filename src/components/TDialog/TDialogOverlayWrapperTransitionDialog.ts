@@ -6,6 +6,8 @@ import TDialogOverlayWrapperTransitionDialogLoader from './TDialogOverlayWrapper
 import TDialogOverlayWrapperTransitionDialogButtons from './TDialogOverlayWrapperTransitionDialogButtons';
 import { HideReason } from '../../types/Dialog';
 
+export type DialogInput = string | string[] | null;
+
 const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialog',
 
@@ -83,7 +85,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       required: true,
     },
     inputValidator: {
-      type: Object,
+      type: Function,
       default: undefined,
     },
     inputParser: {
@@ -105,6 +107,33 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
     type: {
       type: String,
       required: true,
+    },
+  },
+
+
+  data() {
+    return {
+      currentValue: null as DialogInput,
+      errorMessage: '',
+    };
+  },
+
+  methods: {
+    submitHandler(e: MouseEvent) {
+      if (typeof this.inputValidator === 'function') {
+        const result = this.inputValidator(this.currentValue);
+
+        if (result) {
+          this.errorMessage = String(result);
+          return;
+        }
+      }
+
+      this.$emit('submit', e, HideReason.Ok, this.currentValue);
+    },
+    inputHandler(val: DialogInput) {
+      this.errorMessage = '';
+      this.currentValue = val;
     },
   },
 
@@ -172,14 +201,12 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
                   type: this.type,
                   inputAttributes: this.inputAttributes,
                   inputType: this.inputType,
-                  inputValidator: this.inputValidator,
-                  inputParser: this.inputParser,
                   inputValue: this.inputValue,
                   inputOptions: this.inputOptions,
                   inputPlaceholder: this.inputPlaceholder,
                 },
                 on: {
-                  input: (val: string) => this.$emit('input', val),
+                  input: this.inputHandler,
                 },
               },
             ),
@@ -198,7 +225,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
             },
             on: {
               cancel: (e: MouseEvent) => this.$emit('cancel', e, HideReason.Cancel),
-              submit: (e: MouseEvent) => this.$emit('submit', e, HideReason.Ok),
+              submit: this.submitHandler,
             },
           },
         ),

@@ -6,6 +6,8 @@ import TDialog from '../../src/components/TDialog';
 import TDialogOverlayWrapperTransitionDialogContentInput from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogContentInput';
 import TDialogOverlayWrapperTransitionDialogButtons from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogButtons';
 import TDialogOverlayWrapperTransitionDialogClose from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogClose';
+import TDialogOverlayWrapperTransitionDialog from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialog';
+import { DialogType } from '../../src/types/Dialog';
 
 describe('configureDialogGlobals', () => {
   configureDialogGlobals(Vue);
@@ -229,6 +231,64 @@ describe('TDialog', () => {
     wrapper.vm.closed();
   });
 });
+
+describe('TDialogOverlayWrapperTransitionDialog', () => {
+  const defaultProps = {
+    getElementCssClass: () => '',
+    dialogShow: true,
+    titleTag: 'h3',
+    textTag: 'p',
+    type: DialogType.Alert,
+    inputType: 'text',
+    cancelButtonText: 'Cancel',
+    okButtonText: 'Ok',
+    closeButtonHtml: '',
+    showCloseButton: false,
+  };
+
+  it('creates the error message if has an input validator an is invalid', () => {
+    const inputValidator = (value) => {
+      if (value === 'invalid value') {
+        return 'invalid!';
+      }
+    };
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        inputValidator,
+      },
+    });
+
+    wrapper.vm.inputHandler('invalid value');
+
+    wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('invalid!');
+  });
+
+  it('clears the error message on input', () => {
+    const inputValidator = (value) => {
+      if (value === 'invalid value') {
+        return 'invalid!';
+      }
+    };
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        inputValidator,
+      },
+    });
+
+    wrapper.vm.errorMessage = 'invalid!';
+
+    wrapper.vm.inputHandler('wharever');
+
+    expect(wrapper.vm.errorMessage).toBe('');
+  });
+});
+
 
 describe('TDialogOverlayWrapperTransitionDialogButtons', () => {
   const defaultProps = {
