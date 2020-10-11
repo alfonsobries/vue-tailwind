@@ -265,6 +265,34 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
     wrapper.vm.submitHandler(new MouseEvent({}));
 
     expect(wrapper.vm.errorMessage).toBe('invalid!');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeFalsy();
+  });
+
+
+  it('if has an input validator an the value is valid it emits the submit event', () => {
+    const inputValidator = (value) => {
+      if (value !== 'valid value') {
+        return 'invalid!';
+      }
+    };
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        inputValidator,
+      },
+    });
+
+    wrapper.vm.inputHandler('valid value');
+
+    wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeTruthy();
   });
 
   it('clears the error message on input', () => {
