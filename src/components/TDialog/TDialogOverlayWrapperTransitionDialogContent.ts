@@ -58,6 +58,10 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
       type: [Array, Object],
       default: undefined,
     },
+    errorMessage: {
+      type: String,
+      required: true,
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -124,6 +128,16 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
           },
         ),
       );
+    }
+
+    if (this.errorMessage && typeof this.errorMessage === 'string') {
+      subElements.push(createElement(
+        'div',
+        {
+          class: this.getElementCssClass('errorMessage'),
+        },
+        this.errorMessage,
+      ));
     }
 
     return createElement(

@@ -228,6 +228,8 @@ const TDialog = Component.extend({
           checkbox: 'form-checkbox',
           checkboxText: '',
 
+          errorMessage: 'text-red-500 block text-sm',
+
           busyWrapper: 'absolute bg-opacity-50 bg-white flex h-full items-center justify-center left-0 top-0 w-full',
           busyIcon: 'animate-spin h-6 w-6 fill-current text-gray-500',
 

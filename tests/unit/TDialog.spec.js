@@ -3,6 +3,7 @@ import Vue from 'vue';
 import { shallowMount, mount } from '@vue/test-utils';
 import configureDialogGlobals from '../../src/utils/configureDialogGlobals';
 import TDialog from '../../src/components/TDialog';
+import TDialogOverlayWrapperTransitionDialogContent from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogContent';
 import TDialogOverlayWrapperTransitionDialogContentInput from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogContentInput';
 import TDialogOverlayWrapperTransitionDialogButtons from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogButtons';
 import TDialogOverlayWrapperTransitionDialogClose from '../../src/components/TDialog/TDialogOverlayWrapperTransitionDialogClose';
@@ -336,6 +337,26 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
     expect(wrapper.emitted().submit).toBeFalsy();
   });
 
+  it('handle input validator that returns a resolved promise with an string', async () => {
+    const inputValidator = () => new Promise((resolve) => {
+      resolve('invalid!');
+    });
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        inputValidator,
+      },
+    });
+
+    await wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('invalid!');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeFalsy();
+  });
+
   it('handle input validator that returns a resolved promise', async () => {
     const inputValidator = (value) => new Promise((resolve, reject) => {
       if (value === 'invalid value') {
@@ -353,6 +374,22 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
     });
 
     wrapper.vm.inputHandler('valid value');
+
+    await wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeTruthy();
+  });
+
+
+  it('just emits the submit event if no input validator', async () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: defaultProps,
+    });
+
+    wrapper.vm.inputHandler('xs value');
 
     await wrapper.vm.submitHandler(new MouseEvent({}));
 
@@ -492,6 +529,36 @@ describe('TDialogOverlayWrapperTransitionDialogClose', () => {
 
     // assert event count
     expect(wrapper.emitted().hide.length).toBe(1);
+  });
+});
+
+describe('TDialogOverlayWrapperTransitionDialogContent', () => {
+  const defaultProps = {
+    getElementCssClass: () => '',
+    titleTag: 'h3',
+    textTag: 'p',
+    type: 'prompt',
+    inputType: 'text',
+    errorMessage: '',
+  };
+
+  it('renders without errors', () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContent, {
+      propsData: defaultProps,
+    });
+
+    expect(wrapper.html()).toBeTruthy();
+  });
+
+  it('shows an error message if has error message', () => {
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogContent, {
+      propsData: {
+        ...defaultProps,
+        errorMessage: 'Something goes wrong!',
+      },
+    });
+
+    expect(wrapper.html()).toContain('Something goes wrong!');
   });
 });
 

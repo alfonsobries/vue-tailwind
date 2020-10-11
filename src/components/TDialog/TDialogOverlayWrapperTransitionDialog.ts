@@ -123,7 +123,12 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   methods: {
     submitHandler(e: MouseEvent) {
       return this.validateInput(this.currentValue)
-        .then(() => {
+        .then((errorMessage) => {
+          if (errorMessage && typeof errorMessage === 'string') {
+            this.errorMessage = String(errorMessage);
+            return;
+          }
+
           this.$emit('submit', e, HideReason.Ok, this.currentValue);
         }).catch((errorMessage) => {
           this.errorMessage = String(errorMessage);
@@ -155,7 +160,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
         });
       }
 
-      return new Promise((resolve) => resolve);
+      return new Promise((resolve) => resolve());
     },
   },
   render(createElement: CreateElement): VNode {
