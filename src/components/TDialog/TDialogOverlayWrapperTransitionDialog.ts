@@ -147,10 +147,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       if (typeof inputValidator === 'function') {
         const result = inputValidator(input);
 
-        if (result
-            && typeof result === 'object'
-            && result.then
-            && typeof result.then === 'function') {
+        if (result instanceof Promise) {
           this.busy = true;
           return result;
         }
