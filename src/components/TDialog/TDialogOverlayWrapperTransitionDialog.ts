@@ -117,6 +117,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
     return {
       currentValue: null as DialogInput,
       errorMessage: '',
+      busy: false,
     };
   },
 
@@ -132,6 +133,8 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
           this.$emit('submit', e, HideReason.Ok, this.currentValue);
         }).catch((errorMessage) => {
           this.errorMessage = String(errorMessage);
+        }).then(() => {
+          this.busy = false;
         });
     },
     inputHandler(input: DialogInput) {
@@ -148,6 +151,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
             && typeof result === 'object'
             && result.then
             && typeof result.then === 'function') {
+          this.busy = true;
           return result;
         }
 
@@ -180,7 +184,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
           {
             props: {
               getElementCssClass: this.getElementCssClass,
-              busy: false,
+              busy: this.busy,
             },
           },
         ),
