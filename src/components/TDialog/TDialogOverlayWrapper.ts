@@ -83,10 +83,6 @@ const TDialogOverlayWrapper = Vue.extend({
       type: Function,
       default: undefined,
     },
-    inputParser: {
-      type: Function,
-      default: undefined,
-    },
     inputValue: {
       type: [String, Array],
       default: undefined,
@@ -137,7 +133,6 @@ const TDialogOverlayWrapper = Vue.extend({
               inputAttributes: this.inputAttributes,
               inputType: this.inputType,
               inputValidator: this.inputValidator,
-              inputParser: this.inputParser,
               inputValue: this.inputValue,
               inputOptions: this.inputOptions,
               inputPlaceholder: this.inputPlaceholder,

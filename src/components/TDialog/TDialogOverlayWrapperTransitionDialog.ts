@@ -90,10 +90,6 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       type: Function,
       default: undefined,
     },
-    inputParser: {
-      type: Object,
-      default: undefined,
-    },
     inputValue: {
       type: [String, Array],
       default: undefined,
