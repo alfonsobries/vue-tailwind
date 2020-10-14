@@ -26,8 +26,7 @@
   },
   "dependencies": {
     "body-scroll-lock": "^3.0.3",
-    "lodash": "^4.17.20",
-    "vue": "^2.6.11"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@tailwindcss/custom-forms": "^0.2.1",
@@ -52,6 +51,7 @@
     "release-it": "^13.6.6",
     "tailwindcss": "^1.7.5",
     "typescript": "~3.9.7",
+    "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11"
   },
   "homepage": "https://vue-tailwind.com",
