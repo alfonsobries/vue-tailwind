@@ -77,6 +77,10 @@ const TDialogOverlay = Vue.extend({
       type: String,
       required: true,
     },
+    preConfirm: {
+      type: Function,
+      default: undefined,
+    },
     inputAttributes: {
       type: Object,
       default: undefined,
@@ -172,6 +176,7 @@ const TDialogOverlay = Vue.extend({
               okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
+              preConfirm: this.preConfirm,
               inputAttributes: this.inputAttributes,
               inputType: this.inputType,
               inputValidator: this.inputValidator,

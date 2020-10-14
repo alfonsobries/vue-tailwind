@@ -120,6 +120,10 @@ const TDialog = Component.extend({
       type: Boolean,
       default: true,
     },
+    preConfirm: {
+      type: Function,
+      default: undefined,
+    },
     inputAttributes: {
       type: Object,
       default: undefined,
@@ -317,6 +321,7 @@ const TDialog = Component.extend({
               okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
               closeButtonHtml: this.closeButtonHtml,
+              preConfirm: this.preConfirm,
               inputAttributes: this.inputAttributes,
               inputType: this.inputType,
               inputValidator: this.inputValidator,

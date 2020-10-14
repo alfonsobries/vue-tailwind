@@ -383,13 +383,75 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
     expect(wrapper.emitted().submit).toBeTruthy();
   });
 
-
   it('just emits the submit event if no input validator', async () => {
     const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
       propsData: defaultProps,
     });
 
     wrapper.vm.inputHandler('xs value');
+
+    await wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeTruthy();
+  });
+
+  it('handle preconfirm function before submit', async () => {
+    const preConfirm = () => new Promise((resolve, reject) => {
+      resolve();
+    });
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        preConfirm,
+      },
+    });
+
+    await wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeTruthy();
+  });
+
+  it('handle a rejected promise in preconfirm', async () => {
+    const preConfirm = () => new Promise((resolve, reject) => {
+      reject(new Error('Something goes wrong!'));
+    });
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        preConfirm,
+      },
+    });
+
+    await wrapper.vm.submitHandler(new MouseEvent({}));
+
+    expect(wrapper.vm.errorMessage).toBe('Error: Something goes wrong!');
+
+    // assert event has been emitted
+    expect(wrapper.emitted().submit).toBeFalsy();
+  });
+
+
+  it('handle a resolved promise in preconfirm', async () => {
+    const preConfirm = () => new Promise((resolve) => {
+      resolve({
+        data: ['a', 'b', 'c'],
+      });
+    });
+
+    const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
+      propsData: {
+        ...defaultProps,
+        preConfirm,
+      },
+    });
 
     await wrapper.vm.submitHandler(new MouseEvent({}));
 

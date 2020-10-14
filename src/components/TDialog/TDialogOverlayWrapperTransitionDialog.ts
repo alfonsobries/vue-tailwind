@@ -8,7 +8,7 @@ import { HideReason } from '../../types/Dialog';
 
 export type DialogInput = string | string[] | null;
 
-type InputValidator = undefined | ((val: DialogInput) => string | null | (Promise<string | null>));
+type ResolvableParam = undefined | ((val: DialogInput) => string | null | (Promise<string | null>));
 
 const TDialogOverlayWrapperTransitionDialog = Vue.extend({
   name: 'TDialogOverlayWrapperTransitionDialog',
@@ -78,6 +78,10 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       type: String,
       required: true,
     },
+    preConfirm: {
+      type: Function,
+      default: undefined,
+    },
     inputAttributes: {
       type: Object,
       default: undefined,
@@ -119,29 +123,33 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
 
   methods: {
     submitHandler(e: MouseEvent) {
-      return this.validateInput(this.currentValue)
+      return this.resolveParam(this.inputValidator as ResolvableParam, this.currentValue)
         .then((errorMessage) => {
           if (errorMessage && typeof errorMessage === 'string') {
             this.errorMessage = String(errorMessage);
             return;
           }
 
-          this.$emit('submit', e, HideReason.Ok, this.currentValue);
+          this.resolveParam(this.preConfirm as ResolvableParam, this.currentValue)
+            .then((response) => {
+              console.log(response);
+              this.$emit('submit', e, HideReason.Ok, this.currentValue);
+            }).catch((errorMessage2) => {
+              this.errorMessage = String(errorMessage2);
+            }).then(() => {
+              this.busy = false;
+            });
         }).catch((errorMessage) => {
           this.errorMessage = String(errorMessage);
-        }).then(() => {
-          this.busy = false;
         });
     },
     inputHandler(input: DialogInput) {
       this.errorMessage = '';
       this.currentValue = input;
     },
-    validateInput(input: DialogInput): Promise<string | null> {
-      const inputValidator = this.inputValidator as InputValidator;
-
-      if (typeof inputValidator === 'function') {
-        const result = inputValidator(input);
+    resolveParam(resolvable: ResolvableParam, input: DialogInput): Promise<string | null> {
+      if (typeof resolvable === 'function') {
+        const result = resolvable(input);
 
         if (result instanceof Promise) {
           this.busy = true;
