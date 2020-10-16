@@ -58,7 +58,6 @@ const TDialogOverlayWrapperTransitionDialogIcon = Vue.extend({
       );
     }
 
-
     const htmlSvgPath = getHtmlSvgPath(this.icon as IconName | undefined);
 
     if (!htmlSvgPath && !this.htmlIcon) {

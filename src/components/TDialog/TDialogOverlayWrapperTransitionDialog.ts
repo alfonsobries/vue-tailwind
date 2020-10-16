@@ -180,6 +180,9 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
               getElementCssClass: this.getElementCssClass,
               busy: this.busy,
             },
+            scopedSlots: {
+              loader: this.$scopedSlots.loader,
+            },
           },
         ),
         createElement(
@@ -191,6 +194,9 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
             },
             on: {
               dismiss: (e: MouseEvent) => this.$emit('dismiss', e),
+            },
+            scopedSlots: {
+              closeButton: this.$scopedSlots.closeButton,
             },
           },
         ),

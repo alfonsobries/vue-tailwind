@@ -19,6 +19,24 @@ const TDialogOverlayWrapperTransitionDialogClose = Vue.extend({
       return createElement();
     }
 
+    if (this.$scopedSlots.closeButton) {
+      return createElement(
+        'button',
+        {
+          class: this.getElementCssClass('close'),
+          attrs: {
+            type: 'button',
+          },
+          on: {
+            click: (e: MouseEvent) => this.$emit('hide', e),
+          },
+        },
+        [
+          this.$scopedSlots.closeButton({}),
+        ],
+      );
+    }
+
     return createElement(
       'button',
       {

@@ -19,13 +19,24 @@ const TDialogOverlayWrapperTransitionDialogLoader = Vue.extend({
       return createElement();
     }
 
+    if (this.$scopedSlots.loader) {
+      return createElement(
+        'div',
+        {
+          class: this.getElementCssClass('busyWrapper'),
+        },
+        [
+          this.$scopedSlots.loader({}),
+        ],
+      );
+    }
+
     return createElement(
       'div',
       {
         class: this.getElementCssClass('busyWrapper'),
       },
       [
-
         createElement(
           'svg',
           {
