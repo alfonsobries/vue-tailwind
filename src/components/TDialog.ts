@@ -12,18 +12,24 @@ type InitialData = {
   dialogShow: boolean;
   params: undefined;
   preventAction: boolean;
-  hideReason: HideReason | null;
+  hideReason: HideReason | undefined;
   input?: DialogInput;
   resolve: null | ((value?: unknown) => void);
   reject: null | ((reason?: unknown) => void);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  preConfirmResponse: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  preConfirmError: any,
 }
 
 type DialogResponse = {
-  hideReason: HideReason | null;
+  hideReason: HideReason;
   isOk: boolean;
   isCancel: boolean;
   isDismissed: boolean;
   input?: DialogInput;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response: any;
 }
 
 type BeforeCloseParams = {
@@ -31,6 +37,8 @@ type BeforeCloseParams = {
   event: Event;
   reason: HideReason;
   input: DialogInput;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response: any;
 }
 
 const getInitialData = (): InitialData => ({
@@ -38,10 +46,12 @@ const getInitialData = (): InitialData => ({
   dialogShow: false,
   params: undefined,
   preventAction: false,
-  hideReason: null,
+  hideReason: undefined,
   input: undefined,
   resolve: null,
   reject: null,
+  preConfirmResponse: undefined,
+  preConfirmError: undefined,
 });
 
 const TDialog = Component.extend({
@@ -335,7 +345,10 @@ const TDialog = Component.extend({
               keyup: this.keyupHandler,
               dismiss: (e: MouseEvent, reason: HideReason) => this.dismiss(e, reason),
               cancel: (e: MouseEvent, reason: HideReason) => this.cancel(e, reason),
-              submit: (e: MouseEvent, reason: HideReason, input: DialogInput) => this.submit(e, reason, input),
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              submit: (e: MouseEvent, reason: HideReason, input: DialogInput, response?: any) => this.submit(e, reason, input, response),
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              submitError: (e: MouseEvent, reason: HideReason, input: DialogInput, error?: any) => this.submitError(e, reason, input, error),
             },
           },
         ),
@@ -363,7 +376,7 @@ const TDialog = Component.extend({
       this.$emit('opened', { params: this.params });
       this.prepareDomForDialog();
     },
-    beforeClose(event: Event, reason: HideReason, input?: DialogInput) {
+    beforeClose(event: Event) {
       if (this.disableBodyScroll) {
         const overlay = this.getOverlay();
         if (overlay) {
@@ -375,11 +388,15 @@ const TDialog = Component.extend({
       const beforeCloseParams: Partial<BeforeCloseParams> = {
         cancel: this.closeCancel,
         event,
-        reason,
+        reason: this.hideReason,
       };
 
-      if (input !== undefined) {
-        beforeCloseParams.input = input;
+      if (this.input !== undefined) {
+        beforeCloseParams.input = this.input;
+      }
+
+      if (this.preConfirmResponse !== undefined) {
+        beforeCloseParams.response = this.preConfirmResponse;
       }
 
       this.$emit('before-close', beforeCloseParams);
@@ -396,9 +413,17 @@ const TDialog = Component.extend({
         response.input = this.input;
       }
 
+      if (this.preConfirmResponse !== undefined) {
+        response.response = this.preConfirmResponse;
+      } else if (this.preConfirmError !== undefined) {
+        response.response = this.preConfirmError;
+      }
+
       this.$emit('closed', response);
 
-      if (this.resolve) {
+      if (this.reject && this.preConfirmError !== undefined) {
+        this.reject(this.preConfirmError);
+      } else if (this.resolve) {
         this.resolve(response);
       }
 
@@ -419,19 +444,32 @@ const TDialog = Component.extend({
       }
     },
     dismiss(e: Event, reason: HideReason) {
-      this.close(e, reason);
+      this.hideReason = reason;
+      this.close(e);
     },
     cancel(e: Event, reason: HideReason) {
-      this.close(e, reason);
-    },
-    submit(e: Event, reason: HideReason, input: DialogInput) {
-      this.close(e, reason, input);
-    },
-    close(e: Event, reason: HideReason, input?: DialogInput) {
-      this.beforeClose(e, reason, input);
+      this.hideReason = reason;
 
+      this.close(e);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    submit(e: Event, reason: HideReason, input: DialogInput, response?: any) {
       this.hideReason = reason;
       this.input = input;
+      this.preConfirmResponse = response;
+
+      this.close(e);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    submitError(e: Event, reason: HideReason, input: DialogInput, error?: any) {
+      this.hideReason = reason;
+      this.input = input;
+      this.preConfirmError = error;
+
+      this.close(e);
+    },
+    close(e: Event) {
+      this.beforeClose(e);
 
       if (!this.preventAction) {
         this.dialogShow = false;

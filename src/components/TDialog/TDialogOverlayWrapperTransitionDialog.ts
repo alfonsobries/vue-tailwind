@@ -132,10 +132,9 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
 
           this.resolveParam(this.preConfirm as ResolvableParam, this.currentValue)
             .then((response) => {
-              console.log(response);
-              this.$emit('submit', e, HideReason.Ok, this.currentValue);
-            }).catch((errorMessage2) => {
-              this.errorMessage = String(errorMessage2);
+              this.$emit('submit', e, HideReason.Ok, this.currentValue, response);
+            }).catch((error) => {
+              this.$emit('submitError', e, HideReason.Ok, this.currentValue, error);
             }).then(() => {
               this.busy = false;
             });
@@ -156,12 +155,8 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
           return result;
         }
 
-        return new Promise((resolve, reject) => {
-          if (result) {
-            reject(result);
-          } else {
-            resolve();
-          }
+        return new Promise((resolve) => {
+          resolve(result);
         });
       }
 
