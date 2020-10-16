@@ -31,8 +31,39 @@ const TDialogOverlayWrapperTransitionDialogButtons = Vue.extend({
     },
   },
 
+  methods: {
+    cancel(e?: MouseEvent) {
+      this.$emit('cancel', e);
+    },
+    ok(e?: MouseEvent) {
+      this.$emit('submit', e);
+    },
+  },
+
   render(createElement: CreateElement): VNode {
     const type: DialogType = this.type as DialogType;
+
+    if (this.$scopedSlots.buttons) {
+      return createElement(
+        'div',
+        {
+          class: this.getElementCssClass('buttons'),
+        },
+        [
+          this.$scopedSlots.buttons({
+            cancelButtonAriaLabel: this.cancelButtonAriaLabel,
+            okButtonAriaLabel: this.okButtonAriaLabel,
+            cancelButtonText: this.cancelButtonText,
+            okButtonText: this.okButtonText,
+            okButtonClass: this.getElementCssClass('okButton'),
+            cancelButtonClass: this.getElementCssClass('cancelButton'),
+            dialogType: type,
+            cancel: this.cancel,
+            ok: this.ok,
+          }),
+        ],
+      );
+    }
 
     const subElements = [];
 
@@ -46,7 +77,7 @@ const TDialogOverlayWrapperTransitionDialogButtons = Vue.extend({
           },
           class: this.getElementCssClass('cancelButton'),
           on: {
-            click: (e: MouseEvent) => this.$emit('cancel', e),
+            click: this.cancel,
           },
         },
         this.cancelButtonText,
@@ -60,7 +91,7 @@ const TDialogOverlayWrapperTransitionDialogButtons = Vue.extend({
           },
           class: this.getElementCssClass('okButton'),
           on: {
-            click: (e: MouseEvent) => this.$emit('submit', e),
+            click: this.ok,
           },
         },
         this.okButtonText,

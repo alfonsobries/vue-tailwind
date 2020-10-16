@@ -30,6 +30,20 @@
         /></svg>
       </template>
 
+      <template
+        slot="buttons"
+        slot-scope="{ ok, cancel }"
+      >
+        <a
+          href="#"
+          @click.prevent="ok"
+        >Ok do it</a>
+        <a
+          href="#"
+          @click.prevent="cancel"
+        >Cancel</a>
+      </template>
+
       <template slot="title">
         <h1 class="text-3xl text-red-500">
           yeah yeah
