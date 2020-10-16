@@ -67,7 +67,7 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
   render(createElement: CreateElement): VNode {
     const subElements = [];
 
-    if (this.title || this.htmlTitle) {
+    if (this.title || this.htmlTitle || this.$scopedSlots.title) {
       subElements.push(createElement(
         'div',
         {
@@ -82,7 +82,7 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
             {
               class: this.getElementCssClass('title'),
             },
-            this.title,
+            this.$scopedSlots.title ? this.$scopedSlots.title({}) : this.title,
           ),
         ] : undefined,
       ));

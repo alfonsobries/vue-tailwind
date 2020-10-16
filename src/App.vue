@@ -8,8 +8,13 @@
       name="named-dialog"
       :icon="icon"
       title="Remove user?"
-      @opened="dialogOpened"
     >
+      <template slot="title">
+        <h1 class="text-3xl text-red-500">
+          yeah yeah
+        </h1>
+      </template>
+
       <p>This is the content of the dialog.</p>
       <p>Should allow HTML since is an slot</p>
     </t-dialog>
@@ -1055,11 +1060,6 @@ export default Vue.extend({
     };
   },
   methods: {
-    dialogOpened() {
-      setTimeout(() => {
-        this.$dialog.hide('named-dialog');
-      }, 1500);
-    },
 
     addOption(repository: string): void {
       this.repositories.push(repository);

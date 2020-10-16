@@ -294,7 +294,7 @@ const TDialog = Component.extend({
   beforeDestroy() {
     const overlay = this.getOverlay();
     if (this.disableBodyScroll && overlay) {
-      overlay.focus();
+      // overlay.focus();
       overlay.enableBodyScroll();
     }
   },
@@ -357,6 +357,7 @@ const TDialog = Component.extend({
               inputPlaceholder: this.inputPlaceholder,
               getElementCssClass: this.getElementCssClass,
             },
+            scopedSlots: this.$scopedSlots,
             on: {
               outsideClick: this.outsideClick,
               keyup: this.keyupHandler,

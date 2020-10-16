@@ -122,7 +122,10 @@ const TDialogOverlay = Vue.extend({
       this.$emit('keyup', e);
     },
     focus() {
-      (this.$el as HTMLDivElement).focus();
+      const overlay = this.$el as HTMLDivElement | undefined;
+      if (overlay && overlay.focus) {
+        overlay.focus();
+      }
     },
     enableBodyScroll() {
       const mdl = this.$el as HTMLDivElement;
@@ -183,6 +186,7 @@ const TDialogOverlay = Vue.extend({
               inputOptions: this.inputOptions,
               inputPlaceholder: this.inputPlaceholder,
             },
+            scopedSlots: this.$scopedSlots,
             on: {
               dismiss: (e: MouseEvent) => this.$emit('dismiss', e),
               cancel: (e: MouseEvent) => this.$emit('cancel', e),

@@ -111,7 +111,6 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
     },
   },
 
-
   data() {
     return {
       currentValue: null as DialogInput,
@@ -233,6 +232,9 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
                 },
                 on: {
                   input: this.inputHandler,
+                },
+                scopedSlots: {
+                  title: this.$scopedSlots.title,
                 },
               },
               this.$slots.default,

@@ -146,6 +146,7 @@ const TDialogOverlayWrapperTransition = Vue.extend({
               inputPlaceholder: this.inputPlaceholder,
               type: this.type,
             },
+            scopedSlots: this.$scopedSlots,
             on: {
               dismiss: (e: MouseEvent) => this.$emit('dismiss', e),
               cancel: (e: MouseEvent) => this.$emit('cancel', e),
