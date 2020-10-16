@@ -58,6 +58,10 @@ const TDialog = Component.extend({
   name: 'TDialog',
 
   props: {
+    name: {
+      type: String,
+      default: undefined,
+    },
     titleTag: {
       type: String,
       default: 'h3',
@@ -295,6 +299,19 @@ const TDialog = Component.extend({
     }
   },
 
+  created() {
+    if (this.name) {
+      this.$dialog.$on(`show-${this.name}`, () => {
+        this.show();
+      });
+
+      this.$dialog.$on(`hide-${this.name}`, () => {
+        this.hideReason = HideReason.Method;
+        this.close();
+      });
+    }
+  },
+
   render(createElement: CreateElement): VNode {
     return createElement(
       'transition',
@@ -376,7 +393,7 @@ const TDialog = Component.extend({
       this.$emit('opened', { params: this.params });
       this.prepareDomForDialog();
     },
-    beforeClose(event: Event) {
+    beforeClose(event?: Event) {
       if (this.disableBodyScroll) {
         const overlay = this.getOverlay();
         if (overlay) {
@@ -474,7 +491,7 @@ const TDialog = Component.extend({
 
       this.close(e);
     },
-    close(e: Event) {
+    close(e?: Event) {
       this.beforeClose(e);
 
       if (!this.preventAction) {

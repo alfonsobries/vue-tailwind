@@ -4,6 +4,7 @@ export enum HideReason {
   Esc = 'esc',
   Cancel = 'cancel',
   Ok = 'ok',
+  Method = 'method',
 }
 
 export enum DialogType {

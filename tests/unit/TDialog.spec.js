@@ -285,6 +285,33 @@ describe('TDialog', () => {
 
     wrapper.vm.closed();
   });
+
+  it('the dialog can be opened by name', async () => {
+    const wrapper = mount(TDialog, {
+      propsData: { name: 'dialog-name' },
+    });
+
+    // called from the bus but can be called from every
+    wrapper.vm.$dialog.show('dialog-name');
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.get('div')).toBeTruthy();
+  });
+
+  it('the dialog can be closed by name', async () => {
+    const wrapper = mount(TDialog, {
+      propsData: { name: 'modal-name', initShow: true },
+    });
+
+    wrapper.vm.$dialog.show('modal-name');
+
+    await wrapper.vm.$nextTick();
+
+    // // called from the modal but can be called from everywhere
+    wrapper.vm.$dialog.hide('modal-name');
+    expect(wrapper.vm.dialogShow).toBe(false);
+  });
 });
 
 describe('TDialogOverlayWrapperTransitionDialog', () => {

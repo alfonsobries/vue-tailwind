@@ -5,9 +5,11 @@
     :variant="variant === 'error' ? variant : undefined"
   >
     <t-dialog
+      name="named-dialog"
       :icon="icon"
       title="Remove user?"
       text="Are you sure you want to remove this user? This action cannot be undone."
+      @opened="dialogOpened"
     />
 
     <t-select
@@ -16,11 +18,11 @@
     />
 
     <t-button
-      disabled
-      @click.prevent="$dialog.alert()"
+      @click.prevent="$dialog.show('named-dialog')"
     >
-      Alert
+      Alert by dialog name
     </t-button>
+
     <t-button @click.prevent="$alert('Remove user?', 'Are you sure you want to remove this user? This action cannot be undone', 'warning')">
       Alert directly
     </t-button>
@@ -1051,6 +1053,11 @@ export default Vue.extend({
     };
   },
   methods: {
+    dialogOpened() {
+      setTimeout(() => {
+        this.$dialog.hide('named-dialog');
+      }, 1500);
+    },
 
     addOption(repository: string): void {
       this.repositories.push(repository);

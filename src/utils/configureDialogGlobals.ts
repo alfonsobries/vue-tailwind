@@ -145,6 +145,12 @@ const configureDialogGlobals = (Vue: typeof _Vue): void => {
         prompt(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
           return buildDialog(DialogType.Prompt, titleOrDialogOptions, text, icon);
         },
+        show(name: string) {
+          this.$emit(`show-${name}`);
+        },
+        hide(name: string) {
+          this.$emit(`hide-${name}`);
+        },
       },
     });
   }
