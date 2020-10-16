@@ -107,6 +107,60 @@ describe('TDialog', () => {
     expect(wrapper.emitted().closed.length).toBe(1);
   });
 
+  it('the submit method set hideReason as ok', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+    // Show the overlay
+    await wrapper.vm.$nextTick();
+    // Show the modal
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.submit(new MouseEvent({}));
+
+    expect(wrapper.vm.hideReason).toBe('ok');
+  });
+  it('the cancel method set hideReason as cancel', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+    // Show the overlay
+    await wrapper.vm.$nextTick();
+    // Show the modal
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.cancel(new MouseEvent({}));
+
+    expect(wrapper.vm.hideReason).toBe('cancel');
+  });
+  it('the outsideClick method set hideReason as outside', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+    // Show the overlay
+    await wrapper.vm.$nextTick();
+    // Show the modal
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.outsideClick(new MouseEvent({}));
+
+    expect(wrapper.vm.hideReason).toBe('outside');
+  });
+
+  it('the esc method set hideReason as esc', async () => {
+    const wrapper = mount(TDialog);
+
+    wrapper.vm.show();
+    // Show the overlay
+    await wrapper.vm.$nextTick();
+    // Show the modal
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.esc(new MouseEvent({}));
+
+    expect(wrapper.vm.hideReason).toBe('esc');
+  });
+
   it('the before close event includes the reason of closing', async () => {
     const wrapper = mount(TDialog);
 
@@ -118,7 +172,7 @@ describe('TDialog', () => {
     await wrapper.vm.$nextTick();
 
     const event = new MouseEvent({});
-    wrapper.vm.close(event, 'cancel');
+    wrapper.vm.cancel(event);
 
     expect(wrapper.emitted()['before-close']).toBeTruthy();
 
@@ -399,7 +453,7 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
   });
 
   it('handle preconfirm function before submit', async () => {
-    const preConfirm = () => new Promise((resolve, reject) => {
+    const preConfirm = () => new Promise((resolve) => {
       resolve();
     });
 
@@ -419,8 +473,9 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
   });
 
   it('handle a rejected promise in preconfirm', async () => {
+    const error = new Error('Something goes wrong!');
     const preConfirm = () => new Promise((resolve, reject) => {
-      reject(new Error('Something goes wrong!'));
+      reject(error);
     });
 
     const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialog, {
@@ -430,16 +485,18 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
       },
     });
 
-    await wrapper.vm.submitHandler(new MouseEvent({}));
-
-    expect(wrapper.vm.errorMessage).toBe('Error: Something goes wrong!');
+    try {
+      await wrapper.vm.submitHandler(new MouseEvent({}));
+    } catch (e) {
+      expect(e).toEqual(error);
+    }
 
     // assert event has been emitted
     expect(wrapper.emitted().submit).toBeFalsy();
   });
 
 
-  it('handle a resolved promise in preconfirm', async () => {
+  it('handle a resolved promise data in preconfirm', async () => {
     const preConfirm = () => new Promise((resolve) => {
       resolve({
         data: ['a', 'b', 'c'],
@@ -459,6 +516,10 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
 
     // assert event has been emitted
     expect(wrapper.emitted().submit).toBeTruthy();
+
+    expect(wrapper.emitted().submit[0][2]).toEqual({
+      data: ['a', 'b', 'c'],
+    });
   });
 });
 
@@ -543,7 +604,6 @@ describe('TDialogOverlayWrapperTransitionDialogButtons', () => {
     expect(wrapper.emitted().cancel.length).toBe(1);
   });
 });
-
 
 describe('TDialogOverlayWrapperTransitionDialogClose', () => {
   const defaultProps = {
