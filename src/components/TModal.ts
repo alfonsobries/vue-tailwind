@@ -112,17 +112,7 @@ const TModal = Component.extend({
     };
   },
 
-  computed: {
-    hasHeaderSlot() {
-      return !!this.$slots.header;
-    },
-    hasFooterSlot() {
-      return !!this.$slots.footer;
-    },
-  },
-
   watch: {
-
     value(value) {
       if (value) {
         this.show();
