@@ -1,5 +1,4 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import { HideReason } from '../../types/Dialog';
 import TDialogOverlayWrapperTransition from './TDialogOverlayWrapperTransition';
 import { DialogInput } from './TDialogOverlayWrapperTransitionDialog';
 
@@ -143,12 +142,12 @@ const TDialogOverlayWrapper = Vue.extend({
               inputPlaceholder: this.inputPlaceholder,
             },
             on: {
-              dismiss: (e: MouseEvent, reason: HideReason) => this.$emit('dismiss', e, reason),
-              cancel: (e: MouseEvent, reason: HideReason) => this.$emit('cancel', e, reason),
+              dismiss: (e: MouseEvent) => this.$emit('dismiss', e),
+              cancel: (e: MouseEvent) => this.$emit('cancel', e),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submit: (e: MouseEvent, reason: HideReason, input: DialogInput, response?: any) => this.$emit('submit', e, reason, input, response),
+              submit: (e: MouseEvent, input: DialogInput, response?: any) => this.$emit('submit', e, input, response),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submitError: (e: MouseEvent, reason: HideReason, input: DialogInput, error?: any) => this.$emit('submitError', e, reason, input, error),
+              submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.$emit('submitError', e, input, error),
             },
           },
         ),

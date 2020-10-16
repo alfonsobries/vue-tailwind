@@ -343,12 +343,12 @@ const TDialog = Component.extend({
             on: {
               outsideClick: this.outsideClick,
               keyup: this.keyupHandler,
-              dismiss: (e: MouseEvent, reason: HideReason) => this.dismiss(e, reason),
-              cancel: (e: MouseEvent, reason: HideReason) => this.cancel(e, reason),
+              dismiss: (e: MouseEvent) => this.dismiss(e),
+              cancel: (e: MouseEvent) => this.cancel(e),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submit: (e: MouseEvent, reason: HideReason, input: DialogInput, response?: any) => this.submit(e, reason, input, response),
+              submit: (e: MouseEvent, input: DialogInput, response?: any) => this.submit(e, input, response),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submitError: (e: MouseEvent, reason: HideReason, input: DialogInput, error?: any) => this.submitError(e, reason, input, error),
+              submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.submitError(e, input, error),
             },
           },
         ),
@@ -366,7 +366,7 @@ const TDialog = Component.extend({
     },
     keyupHandler(e: KeyboardEvent) {
       if (e.keyCode === Key.ESC && this.escToClose) {
-        this.dismiss(e, HideReason.Esc);
+        this.esc(e);
       }
     },
     beforeOpen() {
@@ -443,26 +443,32 @@ const TDialog = Component.extend({
         overlay.focus();
       }
     },
-    dismiss(e: Event, reason: HideReason) {
-      this.hideReason = reason;
+    dismiss(e: Event) {
+      this.hideReason = HideReason.Close;
+
       this.close(e);
     },
-    cancel(e: Event, reason: HideReason) {
-      this.hideReason = reason;
+    esc(e: Event) {
+      this.hideReason = HideReason.Esc;
+
+      this.close(e);
+    },
+    cancel(e: Event) {
+      this.hideReason = HideReason.Cancel;
 
       this.close(e);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    submit(e: Event, reason: HideReason, input: DialogInput, response?: any) {
-      this.hideReason = reason;
+    submit(e: Event, input: DialogInput, response?: any) {
+      this.hideReason = HideReason.Ok;
       this.input = input;
       this.preConfirmResponse = response;
 
       this.close(e);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    submitError(e: Event, reason: HideReason, input: DialogInput, error?: any) {
-      this.hideReason = reason;
+    submitError(e: Event, input: DialogInput, error?: any) {
+      this.hideReason = HideReason.Ok;
       this.input = input;
       this.preConfirmError = error;
 
@@ -496,7 +502,8 @@ const TDialog = Component.extend({
     },
     outsideClick(e: Event) {
       if (this.clickToClose) {
-        this.dismiss(e, HideReason.Outside);
+        this.hideReason = HideReason.Outside;
+        this.close(e);
       }
     },
   },

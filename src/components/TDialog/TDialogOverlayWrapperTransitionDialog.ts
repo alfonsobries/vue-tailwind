@@ -4,7 +4,6 @@ import TDialogOverlayWrapperTransitionDialogIcon from './TDialogOverlayWrapperTr
 import TDialogOverlayWrapperTransitionDialogClose from './TDialogOverlayWrapperTransitionDialogClose';
 import TDialogOverlayWrapperTransitionDialogLoader from './TDialogOverlayWrapperTransitionDialogLoader';
 import TDialogOverlayWrapperTransitionDialogButtons from './TDialogOverlayWrapperTransitionDialogButtons';
-import { HideReason } from '../../types/Dialog';
 
 export type DialogInput = string | string[] | null;
 
@@ -132,9 +131,9 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
 
           this.resolveParam(this.preConfirm as ResolvableParam, this.currentValue)
             .then((response) => {
-              this.$emit('submit', e, HideReason.Ok, this.currentValue, response);
+              this.$emit('submit', e, this.currentValue, response);
             }).catch((error) => {
-              this.$emit('submitError', e, HideReason.Ok, this.currentValue, error);
+              this.$emit('submitError', e, this.currentValue, error);
             }).then(() => {
               this.busy = false;
             });
@@ -192,7 +191,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
               showCloseButton: this.showCloseButton,
             },
             on: {
-              dismiss: (e: MouseEvent) => this.$emit('dismiss', e, HideReason.Close),
+              dismiss: (e: MouseEvent) => this.$emit('dismiss', e),
             },
           },
         ),
@@ -251,7 +250,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
               okButtonAriaLabel: this.okButtonAriaLabel,
             },
             on: {
-              cancel: (e: MouseEvent) => this.$emit('cancel', e, HideReason.Cancel),
+              cancel: (e: MouseEvent) => this.$emit('cancel', e),
               submit: this.submitHandler,
             },
           },
