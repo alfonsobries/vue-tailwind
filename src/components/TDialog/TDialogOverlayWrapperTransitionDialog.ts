@@ -209,6 +209,9 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
                   htmlIcon: this.htmlIcon,
                   icon: this.icon,
                 },
+                scopedSlots: {
+                  icon: this.$scopedSlots.icon,
+                },
               },
             ),
             createElement(
