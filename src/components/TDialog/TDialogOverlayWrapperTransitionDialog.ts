@@ -235,6 +235,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
                   input: this.inputHandler,
                 },
               },
+              this.$slots.default,
             ),
           ],
         ),

@@ -368,6 +368,7 @@ const TDialog = Component.extend({
               submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.submitError(e, input, error),
             },
           },
+          this.$slots.default,
         ),
       ],
     );

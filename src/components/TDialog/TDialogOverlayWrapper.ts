@@ -150,6 +150,7 @@ const TDialogOverlayWrapper = Vue.extend({
               submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.$emit('submitError', e, input, error),
             },
           },
+          this.$slots.default,
         ),
       ],
     );

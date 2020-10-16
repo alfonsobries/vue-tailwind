@@ -88,7 +88,15 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
       ));
     }
 
-    if (this.text || this.htmlText) {
+    if (this.$slots.default) {
+      subElements.push(createElement(
+        'div',
+        {
+          class: this.getElementCssClass('textWrapper'),
+        },
+        this.$slots.default,
+      ));
+    } else if (this.text || this.htmlText) {
       subElements.push(createElement(
         'div',
         {

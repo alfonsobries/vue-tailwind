@@ -8,9 +8,11 @@
       name="named-dialog"
       :icon="icon"
       title="Remove user?"
-      text="Are you sure you want to remove this user? This action cannot be undone."
       @opened="dialogOpened"
-    />
+    >
+      <p>This is the content of the dialog.</p>
+      <p>Should allow HTML since is an slot</p>
+    </t-dialog>
 
     <t-select
       v-model="icon"
