@@ -3,9 +3,28 @@
   <t-card
     id="app"
     :variant="variant === 'error' ? variant : undefined"
-    header="VueTailwind"
-    footer="Made with love by @alfonsobries"
   >
+    <t-dialog
+      :icon="icon"
+      title="Remove user?"
+      text="Are you sure you want to remove this user? This action cannot be undone."
+    />
+
+    <t-select
+      v-model="icon"
+      :options="iconOptions"
+    />
+
+    <t-button
+      disabled
+      @click.prevent="$dialog.alert()"
+    >
+      Alert
+    </t-button>
+    <t-button @click.prevent="$alert('Remove user?', 'Are you sure you want to remove this user? This action cannot be undone', 'warning')">
+      Alert directly
+    </t-button>
+
     <t-datepicker
       v-model="date"
       multiple
@@ -1021,9 +1040,18 @@ export default Vue.extend({
           ],
         },
       ],
+      icon: 'question',
+      iconOptions: {
+        warning: 'Warning',
+        success: 'Success',
+        error: 'Error',
+        info: 'Info',
+        question: 'Question',
+      },
     };
   },
   methods: {
+
     addOption(repository: string): void {
       this.repositories.push(repository);
       this.repository = repository;

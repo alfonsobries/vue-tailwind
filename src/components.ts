@@ -17,6 +17,7 @@ import TCheckboxGroup from './components/TCheckboxGroup';
 import TTable from './components/TTable';
 import TDatepicker from './components/TDatepicker';
 import TToggle from './components/TToggle';
+import TDialog from './components/TDialog';
 
 export {
   TInput,
@@ -38,4 +39,5 @@ export {
   TTable,
   TDatepicker,
   TToggle,
+  TDialog,
 };

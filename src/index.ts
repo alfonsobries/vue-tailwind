@@ -5,6 +5,7 @@ import { extractPropsFromComponentSettings, ImportedComponent } from './utils/ex
 import * as components from './components';
 import ComponentSettings from './types/ComponentSettings';
 import CustomProps from './types/CustomProps';
+import configureDialogGlobals from './utils/configureDialogGlobals';
 
 
 const entries = Object.entries(components) as [ComponentName, ImportedComponent][];
@@ -49,6 +50,8 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
           },
         },
       });
+    } else if (componentName === 'TDialog') {
+      configureDialogGlobals(Vue);
     }
   });
 };
