@@ -294,14 +294,16 @@ const TDialog = Component.extend({
   beforeDestroy() {
     const overlay = this.getOverlay();
     if (this.disableBodyScroll && overlay) {
-      // overlay.focus();
+      overlay.focus();
       overlay.enableBodyScroll();
     }
   },
 
   created() {
     if (this.name) {
-      this.$dialog.$on(`show-${this.name}`, () => {
+      this.$dialog.$on(`show-${this.name}`, (resolve: ((value?: unknown) => void), reject: ((value?: unknown) => void)) => {
+        this.resolve = resolve;
+        this.reject = reject;
         this.show();
       });
 

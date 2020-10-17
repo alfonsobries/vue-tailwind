@@ -146,7 +146,9 @@ const configureDialogGlobals = (Vue: typeof _Vue): void => {
           return buildDialog(DialogType.Prompt, titleOrDialogOptions, text, icon);
         },
         show(name: string) {
-          this.$emit(`show-${name}`);
+          return new Promise((resolve, reject) => {
+            this.$emit(`show-${name}`, resolve, reject);
+          });
         },
         hide(name: string) {
           this.$emit(`hide-${name}`);

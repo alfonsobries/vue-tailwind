@@ -60,7 +60,7 @@
     />
 
     <t-button
-      @click.prevent="$dialog.show('named-dialog')"
+      @click.prevent="openDialogProgramatically"
     >
       Alert by dialog name
     </t-button>
@@ -1095,7 +1095,15 @@ export default Vue.extend({
     };
   },
   methods: {
-
+    openDialogProgramatically() {
+      this.$dialog.show('named-dialog')
+        .then((response) => {
+          console.log('response', response);
+        })
+        .catch((error) => {
+          console.log('error', error);
+        });
+    },
     addOption(repository: string): void {
       this.repositories.push(repository);
       this.repository = repository;
