@@ -22,7 +22,6 @@ declare module 'vue/types/vue' {
   }
 }
 
-
 declare const VueTailwind: { install: InstallFunction };
 
 export default VueTailwind;

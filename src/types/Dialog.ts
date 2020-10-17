@@ -5,6 +5,7 @@ export enum HideReason {
   Cancel = 'cancel',
   Ok = 'ok',
   Method = 'method',
+  Value = 'value',
 }
 
 export enum DialogType {

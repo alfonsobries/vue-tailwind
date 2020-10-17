@@ -41,9 +41,9 @@ type BeforeCloseParams = {
   response: any;
 }
 
-const getInitialData = (): InitialData => ({
-  overlayShow: false,
-  dialogShow: false,
+const getInitialData = (vm: { value: boolean }): InitialData => ({
+  overlayShow: vm.value,
+  dialogShow: vm.value,
   params: undefined,
   preventAction: false,
   hideReason: undefined,
@@ -58,6 +58,10 @@ const TDialog = Component.extend({
   name: 'TDialog',
 
   props: {
+    value: {
+      type: Boolean,
+      default: false,
+    },
     name: {
       type: String,
       default: undefined,
@@ -266,14 +270,19 @@ const TDialog = Component.extend({
   },
 
   data() {
-    return getInitialData();
+    return getInitialData(this);
   },
 
   watch: {
+    value(value) {
+      if (value) {
+        this.show();
+      } else {
+        this.hideReason = HideReason.Value;
+        this.close();
+      }
+    },
     async overlayShow(shown) {
-      this.$emit('input', shown);
-      this.$emit('change', shown);
-
       if (shown) {
         await this.$nextTick();
         this.dialogShow = true;
@@ -282,6 +291,9 @@ const TDialog = Component.extend({
       }
     },
     async dialogShow(shown) {
+      this.$emit('input', shown);
+      this.$emit('change', shown);
+
       if (!shown) {
         await this.$nextTick();
         this.overlayShow = false;
@@ -519,7 +531,7 @@ const TDialog = Component.extend({
       this.preventAction = true;
     },
     reset() {
-      Object.assign(this.$data, getInitialData());
+      Object.assign(this.$data, getInitialData(this));
     },
     outsideClick(e: Event) {
       if (this.clickToClose) {
