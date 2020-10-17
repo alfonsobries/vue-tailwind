@@ -22,7 +22,7 @@ type InitialData = {
   preConfirmError: any,
 }
 
-type DialogResponse = {
+export type DialogResponse = {
   hideReason: HideReason;
   isOk: boolean;
   isCancel: boolean;
