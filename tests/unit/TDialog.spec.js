@@ -47,7 +47,7 @@ describe('configureDialogGlobals', () => {
 });
 
 describe('TDialog', () => {
-  it('show the modal with his respective events', async () => {
+  it('show the dialog with his respective events', async () => {
     const wrapper = mount(TDialog);
 
     wrapper.vm.show();
@@ -65,7 +65,7 @@ describe('TDialog', () => {
     // assert event count
     expect(wrapper.emitted().input.length).toBe(1);
 
-    // Show the modal
+    // Show the dialog
     await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted().opened).toBeTruthy();
@@ -74,14 +74,14 @@ describe('TDialog', () => {
     expect(wrapper.emitted().opened.length).toBe(1);
   });
 
-  it('hides the modal with his respective events', async () => {
+  it('hides the dialog with his respective events', async () => {
     const wrapper = mount(TDialog);
 
     wrapper.vm.show();
 
     // Show the overlay
     await wrapper.vm.$nextTick();
-    // Show the modal
+    // Show the dialog
     await wrapper.vm.$nextTick();
 
     wrapper.vm.close();
@@ -97,7 +97,7 @@ describe('TDialog', () => {
     // assert event count
     expect(wrapper.emitted().input.length).toBe(1);
 
-    // hide the overlay & then the modal
+    // hide the overlay & then the dialog
     await wrapper.vm.$nextTick();
     await wrapper.vm.$nextTick();
 
@@ -113,7 +113,7 @@ describe('TDialog', () => {
     wrapper.vm.show();
     // Show the overlay
     await wrapper.vm.$nextTick();
-    // Show the modal
+    // Show the dialog
     await wrapper.vm.$nextTick();
 
     wrapper.vm.submit(new MouseEvent({}));
@@ -126,7 +126,7 @@ describe('TDialog', () => {
     wrapper.vm.show();
     // Show the overlay
     await wrapper.vm.$nextTick();
-    // Show the modal
+    // Show the dialog
     await wrapper.vm.$nextTick();
 
     wrapper.vm.cancel(new MouseEvent({}));
@@ -139,7 +139,7 @@ describe('TDialog', () => {
     wrapper.vm.show();
     // Show the overlay
     await wrapper.vm.$nextTick();
-    // Show the modal
+    // Show the dialog
     await wrapper.vm.$nextTick();
 
     wrapper.vm.outsideClick(new MouseEvent({}));
@@ -153,7 +153,7 @@ describe('TDialog', () => {
     wrapper.vm.show();
     // Show the overlay
     await wrapper.vm.$nextTick();
-    // Show the modal
+    // Show the dialog
     await wrapper.vm.$nextTick();
 
     wrapper.vm.esc(new MouseEvent({}));
@@ -168,7 +168,7 @@ describe('TDialog', () => {
 
     // Show the overlay
     await wrapper.vm.$nextTick();
-    // Show the modal
+    // Show the dialog
     await wrapper.vm.$nextTick();
 
     const event = new MouseEvent({});
@@ -301,15 +301,15 @@ describe('TDialog', () => {
 
   it('the dialog can be closed by name', async () => {
     const wrapper = mount(TDialog, {
-      propsData: { name: 'modal-name', initShow: true },
+      propsData: { name: 'dialog-name', initShow: true },
     });
 
-    wrapper.vm.$dialog.show('modal-name');
+    wrapper.vm.$dialog.show('dialog-name');
 
     await wrapper.vm.$nextTick();
 
-    // // called from the modal but can be called from everywhere
-    wrapper.vm.$dialog.hide('modal-name');
+    // // called from the dialog but can be called from everywhere
+    wrapper.vm.$dialog.hide('dialog-name');
     expect(wrapper.vm.dialogShow).toBe(false);
   });
 });

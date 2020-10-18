@@ -284,6 +284,8 @@ const TDialog = Component.extend({
     },
     async overlayShow(shown) {
       if (shown) {
+        this.$emit('input', shown);
+        this.$emit('change', shown);
         await this.$nextTick();
         this.dialogShow = true;
       } else {
@@ -291,10 +293,9 @@ const TDialog = Component.extend({
       }
     },
     async dialogShow(shown) {
-      this.$emit('input', shown);
-      this.$emit('change', shown);
-
       if (!shown) {
+        this.$emit('input', shown);
+        this.$emit('change', shown);
         await this.$nextTick();
         this.overlayShow = false;
       } else {
