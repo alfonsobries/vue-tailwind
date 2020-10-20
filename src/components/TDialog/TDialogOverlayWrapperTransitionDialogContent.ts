@@ -76,7 +76,7 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
             innerHTML: this.htmlTitle,
           },
         },
-        this.title ? [
+        [
           createElement(
             this.titleTag,
             {
@@ -84,7 +84,7 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
             },
             this.$scopedSlots.title ? this.$scopedSlots.title({}) : this.title,
           ),
-        ] : undefined,
+        ],
       ));
     }
 

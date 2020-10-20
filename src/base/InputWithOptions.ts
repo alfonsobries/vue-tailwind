@@ -6,7 +6,7 @@ import { normalizeOptions } from '../utils/inputOptions';
 const InputWithOptions = HtmlInput.extend({
   props: {
     value: {
-      type: [String, Number],
+      type: [String, Object, Number, Boolean],
       default: null,
     },
     valueAttribute: {

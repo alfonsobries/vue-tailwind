@@ -177,32 +177,12 @@ const TDialog = Component.extend({
           overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
           wrapper: 'relative mx-auto ',
           dialog: 'overflow-hidden relative',
-
           close: 'absolute right-0 top-0',
-          closeIcon: '',
           content: 'mt-3',
-
-          titleWrapper: '',
           title: 'text-lg leading-6 font-medium text-gray-900 text-center',
-
           textWrapper: 'mt-2 text-gray-600',
-          text: '',
-
           iconWrapper: 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200',
           icon: 'w-6 h-6 text-gray-700',
-
-          overlayEnterClass: '',
-          overlayEnterActiveClass: '',
-          overlayEnterToClass: '',
-          overlayLeaveClass: '',
-          overlayLeaveActiveClass: '',
-          overlayLeaveToClass: '',
-          enterClass: '',
-          enterActiveClass: '',
-          enterToClass: '',
-          leaveClass: '',
-          leaveActiveClass: '',
-          leaveToClass: '',
         };
       },
     },
