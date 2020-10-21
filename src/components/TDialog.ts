@@ -178,11 +178,6 @@ const TDialog = Component.extend({
           wrapper: 'relative mx-auto ',
           dialog: 'overflow-hidden relative',
           close: 'absolute right-0 top-0',
-          content: 'mt-3',
-          title: 'text-lg leading-6 font-medium text-gray-900 text-center',
-          textWrapper: 'mt-2 text-gray-600',
-          iconWrapper: 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200',
-          icon: 'w-6 h-6 text-gray-700',
         };
       },
     },
@@ -200,18 +195,18 @@ const TDialog = Component.extend({
           body: '',
           buttons: 'mt-4 flex space-x-4 justify-center',
 
-          iconWrapper: '',
-          icon: '',
-          content: '',
+          iconWrapper: 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 flex-shrink-0',
+          icon: 'w-6 h-6 text-gray-700',
+          content: 'mt-3',
 
           titleWrapper: '',
-          title: '',
+          title: 'text-lg leading-6 font-medium text-gray-900 text-center',
 
-          textWrapper: '',
+          textWrapper: 'mt-2 text-gray-600',
           text: '',
 
-          cancelButton: 'inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
-          okButton: 'inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full',
+          cancelButton: 'inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full max-w-xs',
+          okButton: 'inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full max-w-xs',
 
           inputWrapper: 'mt-3 flex items-center space-x-4 justify-center',
 
