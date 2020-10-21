@@ -21,15 +21,7 @@ const TDialogOverlayWrapperTransition = Vue.extend({
       type: String,
       default: undefined,
     },
-    htmlTitle: {
-      type: String,
-      default: undefined,
-    },
     icon: {
-      type: String,
-      default: undefined,
-    },
-    htmlIcon: {
       type: String,
       default: undefined,
     },
@@ -38,10 +30,6 @@ const TDialogOverlayWrapperTransition = Vue.extend({
       required: true,
     },
     text: {
-      type: String,
-      default: undefined,
-    },
-    htmlText: {
       type: String,
       default: undefined,
     },
@@ -63,10 +51,6 @@ const TDialogOverlayWrapperTransition = Vue.extend({
     },
     showCloseButton: {
       type: Boolean,
-      required: true,
-    },
-    closeButtonHtml: {
-      type: String,
       required: true,
     },
     preConfirm: {
@@ -125,18 +109,14 @@ const TDialogOverlayWrapperTransition = Vue.extend({
               dialogShow: this.dialogShow,
               titleTag: this.titleTag,
               title: this.title,
-              htmlTitle: this.htmlTitle,
               icon: this.icon,
-              htmlIcon: this.htmlIcon,
               textTag: this.textTag,
               text: this.text,
-              htmlText: this.htmlText,
               cancelButtonText: this.cancelButtonText,
               cancelButtonAriaLabel: this.cancelButtonAriaLabel,
               okButtonText: this.okButtonText,
               okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
-              closeButtonHtml: this.closeButtonHtml,
               preConfirm: this.preConfirm,
               inputAttributes: this.inputAttributes,
               inputType: this.inputType,

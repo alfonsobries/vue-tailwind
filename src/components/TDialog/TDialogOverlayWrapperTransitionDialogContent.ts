@@ -18,19 +18,11 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
       type: String,
       default: undefined,
     },
-    htmlTitle: {
-      type: String,
-      default: undefined,
-    },
     textTag: {
       type: String,
       required: true,
     },
     text: {
-      type: String,
-      default: undefined,
-    },
-    htmlText: {
       type: String,
       default: undefined,
     },
@@ -67,25 +59,34 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
   render(createElement: CreateElement): VNode {
     const subElements = [];
 
-    if (this.title || this.htmlTitle || this.$scopedSlots.title) {
-      subElements.push(createElement(
-        'div',
-        {
-          class: this.getElementCssClass('titleWrapper'),
-          domProps: this.htmlTitle ? {
-            innerHTML: this.htmlTitle,
-          } : undefined,
-        },
-        [
-          createElement(
-            this.titleTag,
-            {
-              class: this.getElementCssClass('title'),
-            },
-            this.$scopedSlots.title ? [this.$scopedSlots.title({})] : this.title,
-          ),
-        ],
-      ));
+    if (this.title || this.$scopedSlots.title) {
+      if (this.$scopedSlots.title) {
+        subElements.push(createElement(
+          'div',
+          {
+            class: this.getElementCssClass('titleWrapper'),
+          },
+          [
+            this.$scopedSlots.title({ class: this.getElementCssClass('title') }),
+          ],
+        ));
+      } else {
+        subElements.push(createElement(
+          'div',
+          {
+            class: this.getElementCssClass('titleWrapper'),
+          },
+          [
+            createElement(
+              this.titleTag,
+              {
+                class: this.getElementCssClass('title'),
+              },
+              this.title || '',
+            ),
+          ],
+        ));
+      }
     }
 
     if (this.$slots.default) {
@@ -96,14 +97,11 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
         },
         this.$slots.default,
       ));
-    } else if (this.text || this.htmlText) {
+    } else if (this.text) {
       subElements.push(createElement(
         'div',
         {
           class: this.getElementCssClass('textWrapper'),
-          domProps: this.htmlText ? {
-            innerHTML: this.htmlText,
-          } : undefined,
         },
         this.text ? [
           createElement(

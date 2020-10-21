@@ -29,15 +29,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       type: String,
       default: undefined,
     },
-    htmlTitle: {
-      type: String,
-      default: undefined,
-    },
     icon: {
-      type: String,
-      default: undefined,
-    },
-    htmlIcon: {
       type: String,
       default: undefined,
     },
@@ -46,10 +38,6 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
       required: true,
     },
     text: {
-      type: String,
-      default: undefined,
-    },
-    htmlText: {
       type: String,
       default: undefined,
     },
@@ -71,10 +59,6 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
     },
     showCloseButton: {
       type: Boolean,
-      required: true,
-    },
-    closeButtonHtml: {
-      type: String,
       required: true,
     },
     preConfirm: {
@@ -212,7 +196,6 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
               {
                 props: {
                   getElementCssClass: this.getElementCssClass,
-                  htmlIcon: this.htmlIcon,
                   icon: this.icon,
                 },
                 scopedSlots: {
@@ -227,10 +210,8 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
                   getElementCssClass: this.getElementCssClass,
                   titleTag: this.titleTag,
                   title: this.title,
-                  htmlTitle: this.htmlTitle,
                   textTag: this.textTag,
                   text: this.text,
-                  htmlText: this.htmlText,
                   type: this.type,
                   inputAttributes: this.inputAttributes,
                   inputType: this.inputType,

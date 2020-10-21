@@ -7,12 +7,9 @@ import TDialog from '../components/TDialog';
 export type DialogOptions = {
   titleTag?: string;
   title?: string;
-  htmlTitle?: string;
   icon?: string;
-  htmlIcon?: string;
   textTag?: string;
   text?: string;
-  htmlText?: string;
   clickToClose?: boolean;
   escToClose?: boolean;
   cancelButtonText?: string;
@@ -20,7 +17,6 @@ export type DialogOptions = {
   okButtonText?: string;
   okButtonAriaLabel?: string;
   showCloseButton?: boolean;
-  closeButtonHtml?: string;
   disableBodyScroll?: boolean;
   focusOnOpen?: boolean;
   target?: string;
@@ -33,12 +29,9 @@ export type DialogOptions = {
 export type DialogProps = {
   titleTag: string;
   title?: string;
-  htmlTitle?: string;
   icon?: string;
-  htmlIcon?: string;
   textTag: string;
   text?: string;
-  htmlText?: string;
   clickToClose: boolean;
   escToClose: boolean;
   cancelButtonText: string;
@@ -46,7 +39,6 @@ export type DialogProps = {
   okButtonText: string;
   okButtonAriaLabel?: string;
   showCloseButton: boolean;
-  closeButtonHtml: string;
   disableBodyScroll: boolean;
   focusOnOpen: boolean;
   fixedClasses?: CssClasses;
@@ -145,9 +137,9 @@ const configureDialogGlobals = (Vue: typeof _Vue): void => {
         prompt(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
           return buildDialog(DialogType.Prompt, titleOrDialogOptions, text, icon);
         },
-        show(name: string) {
+        show(name: string, params = undefined) {
           return new Promise((resolve, reject) => {
-            this.$emit(`show-${name}`, resolve, reject);
+            this.$emit(`show-${name}`, resolve, reject, params);
           });
         },
         hide(name: string) {

@@ -7,7 +7,6 @@
     <t-dialog
       name="named-dialog"
       :icon="icon"
-      :value="true"
       title="Remove user?"
     >
       <template slot="title">

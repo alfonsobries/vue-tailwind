@@ -324,7 +324,6 @@ describe('TDialogOverlayWrapperTransitionDialog', () => {
     inputType: 'text',
     cancelButtonText: 'Cancel',
     okButtonText: 'Ok',
-    closeButtonHtml: '',
     showCloseButton: false,
   };
 

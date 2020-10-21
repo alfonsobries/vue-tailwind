@@ -74,15 +74,7 @@ const TDialog = Component.extend({
       type: String,
       default: undefined,
     },
-    htmlTitle: {
-      type: String,
-      default: undefined,
-    },
     icon: {
-      type: String,
-      default: undefined,
-    },
-    htmlIcon: {
       type: String,
       default: undefined,
     },
@@ -91,10 +83,6 @@ const TDialog = Component.extend({
       default: 'p',
     },
     text: {
-      type: String,
-      default: undefined,
-    },
-    htmlText: {
       type: String,
       default: undefined,
     },
@@ -125,10 +113,6 @@ const TDialog = Component.extend({
     showCloseButton: {
       type: Boolean,
       default: false,
-    },
-    closeButtonHtml: {
-      type: String,
-      default: '@TODO',
     },
     disableBodyScroll: {
       type: Boolean,
@@ -289,10 +273,10 @@ const TDialog = Component.extend({
 
   created() {
     if (this.name) {
-      this.$dialog.$on(`show-${this.name}`, (resolve: ((value?: unknown) => void), reject: ((value?: unknown) => void)) => {
+      this.$dialog.$on(`show-${this.name}`, (resolve: ((value?: unknown) => void), reject: ((value?: unknown) => void), params = undefined) => {
         this.resolve = resolve;
         this.reject = reject;
-        this.show();
+        this.show(params);
       });
 
       this.$dialog.$on(`hide-${this.name}`, () => {
@@ -326,18 +310,14 @@ const TDialog = Component.extend({
               dialogShow: this.dialogShow,
               titleTag: this.titleTag,
               title: this.title,
-              htmlTitle: this.htmlTitle,
               icon: this.icon,
-              htmlIcon: this.htmlIcon,
               textTag: this.textTag,
               text: this.text,
-              htmlText: this.htmlText,
               cancelButtonText: this.cancelButtonText,
               cancelButtonAriaLabel: this.cancelButtonAriaLabel,
               okButtonText: this.okButtonText,
               okButtonAriaLabel: this.okButtonAriaLabel,
               showCloseButton: this.showCloseButton,
-              closeButtonHtml: this.closeButtonHtml,
               preConfirm: this.preConfirm,
               inputAttributes: this.inputAttributes,
               inputType: this.inputType,

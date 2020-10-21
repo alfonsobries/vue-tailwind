@@ -38,12 +38,7 @@ const TDialogOverlayWrapperTransitionDialogIcon = Vue.extend({
       type: String,
       default: undefined,
     },
-    htmlIcon: {
-      type: String,
-      default: undefined,
-    },
   },
-
 
   render(createElement: CreateElement): VNode {
     if (this.$scopedSlots.icon) {
@@ -60,44 +55,32 @@ const TDialogOverlayWrapperTransitionDialogIcon = Vue.extend({
 
     const htmlSvgPath = getHtmlSvgPath(this.icon as IconName | undefined);
 
-    if (!htmlSvgPath && !this.htmlIcon) {
+    if (!htmlSvgPath) {
       return createElement();
-    }
-
-    if (htmlSvgPath) {
-      return createElement(
-        'div',
-        {
-          class: this.getElementCssClass('iconWrapper'),
-        },
-        [
-          createElement(
-            'svg',
-            {
-              class: this.getElementCssClass('icon'),
-              attrs: {
-                fill: 'none',
-                stroke: 'currentColor',
-                viewBox: '0 0 24 24',
-                xmlns: 'http://www.w3.org/2000/svg',
-              },
-              domProps: {
-                innerHTML: htmlSvgPath,
-              },
-            },
-          ),
-        ],
-      );
     }
 
     return createElement(
       'div',
       {
         class: this.getElementCssClass('iconWrapper'),
-        domProps: {
-          innerHTML: this.htmlIcon,
-        },
       },
+      [
+        createElement(
+          'svg',
+          {
+            class: this.getElementCssClass('icon'),
+            attrs: {
+              fill: 'none',
+              stroke: 'currentColor',
+              viewBox: '0 0 24 24',
+              xmlns: 'http://www.w3.org/2000/svg',
+            },
+            domProps: {
+              innerHTML: htmlSvgPath,
+            },
+          },
+        ),
+      ],
     );
   },
 });
