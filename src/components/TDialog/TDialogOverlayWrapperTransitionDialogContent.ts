@@ -68,39 +68,24 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
     const subElements = [];
 
     if (this.title || this.htmlTitle || this.$scopedSlots.title) {
-      if (this.$scopedSlots.title) {
-        subElements.push(createElement(
-          'div',
-          {
-            class: this.getElementCssClass('titleWrapper'),
-            domProps: {
-              innerHTML: this.htmlTitle,
+      subElements.push(createElement(
+        'div',
+        {
+          class: this.getElementCssClass('titleWrapper'),
+          domProps: this.htmlTitle ? {
+            innerHTML: this.htmlTitle,
+          } : undefined,
+        },
+        [
+          createElement(
+            this.titleTag,
+            {
+              class: this.getElementCssClass('title'),
             },
-          },
-          [
-            this.$scopedSlots.title({}),
-          ],
-        ));
-      } else {
-        subElements.push(createElement(
-          'div',
-          {
-            class: this.getElementCssClass('titleWrapper'),
-            domProps: {
-              innerHTML: this.htmlTitle,
-            },
-          },
-          [
-            createElement(
-              this.titleTag,
-              {
-                class: this.getElementCssClass('title'),
-              },
-              this.title || '',
-            ),
-          ],
-        ));
-      }
+            this.$scopedSlots.title ? [this.$scopedSlots.title({})] : this.title,
+          ),
+        ],
+      ));
     }
 
     if (this.$slots.default) {
@@ -116,9 +101,9 @@ const TDialogOverlayWrapperTransitionDialogContent = Vue.extend({
         'div',
         {
           class: this.getElementCssClass('textWrapper'),
-          domProps: {
+          domProps: this.htmlText ? {
             innerHTML: this.htmlText,
-          },
+          } : undefined,
         },
         this.text ? [
           createElement(
