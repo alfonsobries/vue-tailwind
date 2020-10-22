@@ -153,7 +153,6 @@ The variant prop also accepts an object that takes the first attribute with a _t
 ## What's next?
 
 - I'm working in a time picker feature for the Datepicker component
-- Also working in a Dialog component inspired in the [Sweetalert library](https://sweetalert2.github.io/) 
 - Toast notifications, autocomplete, and more...
 
 #### Plans for the upcoming v2.x
