@@ -447,6 +447,11 @@ const TDialog = Component.extend({
 
       this.close(e);
     },
+    hide(e: Event) {
+      this.hideReason = HideReason.Method;
+
+      this.close(e);
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     submit(e: Event, input: DialogInput, response?: any) {
       this.hideReason = HideReason.Ok;
