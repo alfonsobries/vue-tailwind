@@ -1,5 +1,5 @@
-import merge from 'lodash/merge';
-import cloneDeep from 'lodash/cloneDeep';
+import merge from 'lodash.merge';
+import cloneDeep from 'lodash.clonedeep';
 import {
   Locale, Locales, LocaleName, CustomLocale,
 } from '../types/locale';

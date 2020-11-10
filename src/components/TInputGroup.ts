@@ -1,4 +1,4 @@
-import intersection from 'lodash/intersection';
+import intersection from 'lodash.intersection';
 import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 

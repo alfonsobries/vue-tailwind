@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash.clonedeep';
 import TRichSelectType from '../types/TRichSelect';
 import InputWithOptions from '../base/InputWithOptions';
 import InputOptions from '../types/InputOptions';

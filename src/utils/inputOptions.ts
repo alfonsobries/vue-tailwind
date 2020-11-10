@@ -1,5 +1,5 @@
-import get from 'lodash/get';
-import map from 'lodash/map';
+import get from 'lodash.get';
+import map from 'lodash.map';
 import NormalizedOption from '../types/NormalizedOption';
 import InputOptions from '../types/InputOptions';
 import NormalizedOptions from '../types/NormalizedOptions';

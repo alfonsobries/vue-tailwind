@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import kebabCase from 'lodash/kebabCase';
+import kebabCase from 'lodash.kebabcase';
 import InputWithOptions from '../base/InputWithOptions';
 import TCheckbox from '../inputs/TCheckbox';
 import NormalizedOption from '../types/NormalizedOption';

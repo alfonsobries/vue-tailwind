@@ -1,5 +1,5 @@
 import { CreateElement, VNode } from 'vue';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash.isequal';
 import TDropdown from './TDropdown';
 import {
   buildDateParser, buildDateFormatter, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,

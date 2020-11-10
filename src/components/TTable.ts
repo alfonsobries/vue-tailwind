@@ -1,4 +1,4 @@
-import pick from 'lodash/pick';
+import pick from 'lodash.pick';
 import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 import CssClass from '../types/CssClass';

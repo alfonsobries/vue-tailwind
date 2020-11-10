@@ -1,4 +1,4 @@
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash.isequal';
 import { CreateElement, VNode } from 'vue';
 import HtmlInput from '../base/HtmlInput';
 import CssClass from '../types/CssClass';
