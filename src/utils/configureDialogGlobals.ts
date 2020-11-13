@@ -1,5 +1,6 @@
 import _Vue from 'vue';
 import get from 'lodash/get';
+import ComponentSettings from '../types/ComponentSettings';
 import { DialogType } from '../types/Dialog';
 import CssClasses from '../types/CssClasses';
 import TDialog from '../components/TDialog';
@@ -24,7 +25,7 @@ export type DialogOptions = {
   classes?: CssClasses;
   variant?: string;
   inputAttributes?: { [key: string]: string; };
-} | undefined | string
+}
 
 export type DialogProps = {
   titleTag: string;
@@ -48,7 +49,7 @@ export type DialogProps = {
   type: DialogType
 }
 
-const parseDialogOptions = (type: DialogType, titleOrDialogOptions: DialogOptions, text: string | undefined, icon: string | undefined) => {
+const parseDialogOptions = (type: DialogType, settings?: ComponentSettings, titleOrDialogOptions?: DialogOptions | string, text?: string, icon?: string) => {
   type DialogComponent = typeof TDialog & {
     options: {
       props: {
@@ -65,6 +66,7 @@ const parseDialogOptions = (type: DialogType, titleOrDialogOptions: DialogOption
 
   const propsData: Partial<DialogProps> = {
     type,
+    ...settings,
   };
 
   let target = 'body';
@@ -98,9 +100,7 @@ const parseDialogOptions = (type: DialogType, titleOrDialogOptions: DialogOption
   };
 };
 
-const buildDialog = (type: DialogType, titleOrDialogOptions: DialogOptions, text: string | undefined, icon: string | undefined) => {
-  const { propsData, target } = parseDialogOptions(type, titleOrDialogOptions, text, icon);
-
+const buildDialog = (target: string, propsData: Partial<DialogProps>) => {
   const domTarget = document.querySelector(target);
 
   if (!domTarget) {
@@ -123,19 +123,43 @@ const buildDialog = (type: DialogType, titleOrDialogOptions: DialogOptions, text
   });
 };
 
-const configureDialogGlobals = (Vue: typeof _Vue): void => {
+const configureDialogGlobals = (Vue: typeof _Vue, settings: ComponentSettings): void => {
   if (!Vue.prototype.$dialog) {
     // eslint-disable-next-line no-param-reassign
     Vue.prototype.$dialog = new Vue({
       methods: {
-        alert(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
-          return buildDialog(DialogType.Alert, titleOrDialogOptions, text, icon);
+        alert(titleOrDialogOptions?: DialogOptions | string, text?: string | undefined, icon?: string | undefined) {
+          const { propsData, target } = parseDialogOptions(
+            DialogType.Alert,
+            settings,
+            titleOrDialogOptions,
+            text,
+            icon,
+          );
+
+          return buildDialog(target, propsData);
         },
-        confirm(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
-          return buildDialog(DialogType.Confirm, titleOrDialogOptions, text, icon);
+        confirm(titleOrDialogOptions?: DialogOptions | string, text?: string | undefined, icon?: string | undefined) {
+          const { propsData, target } = parseDialogOptions(
+            DialogType.Confirm,
+            settings,
+            titleOrDialogOptions,
+            text,
+            icon,
+          );
+
+          return buildDialog(target, propsData);
         },
-        prompt(titleOrDialogOptions: DialogOptions = undefined, text: string | undefined, icon: string | undefined) {
-          return buildDialog(DialogType.Prompt, titleOrDialogOptions, text, icon);
+        prompt(titleOrDialogOptions?: DialogOptions | string, text?: string | undefined, icon?: string | undefined) {
+          const { propsData, target } = parseDialogOptions(
+            DialogType.Prompt,
+            settings,
+            titleOrDialogOptions,
+            text,
+            icon,
+          );
+
+          return buildDialog(target, propsData);
         },
         show(name: string, params = undefined) {
           return new Promise((resolve, reject) => {
