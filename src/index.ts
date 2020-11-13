@@ -24,9 +24,9 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
   Vue.prototype.$vueTailwind = true;
 
   entries.forEach(([componentName, component]) => {
-    const customPropsValues: ComponentSettings = options && options[componentName] ? options[componentName] : {};
+    const settings: ComponentSettings = options && options[componentName] ? options[componentName] : {};
 
-    const customProps: CustomProps = extractPropsFromComponentSettings(customPropsValues, component);
+    const customProps: CustomProps = extractPropsFromComponentSettings(settings, component);
 
     if (customProps) {
       const componentWithCustomVariants = component.extend({
@@ -51,7 +51,7 @@ const install: InstallFunction = function installVueTailwind(Vue: typeof _Vue, o
         },
       });
     } else if (componentName === 'TDialog') {
-      configureDialogGlobals(Vue);
+      configureDialogGlobals(Vue, settings);
     }
   });
 };

@@ -18,11 +18,11 @@ interface InstallableComponent extends VueConstructor<_Vue> {
 
 // install function executed by Vue.use()
 // eslint-disable-next-line max-len
-const install: InstallFunction = function installComponent(Vue: typeof _Vue, args: ComponentSettings = {}) {
+const install: InstallFunction = function installComponent(Vue: typeof _Vue, settings: ComponentSettings = {}) {
   if (install.installed) return;
   install.installed = true;
 
-  const customProps: CustomProps = extractPropsFromComponentSettings(args, component);
+  const customProps: CustomProps = extractPropsFromComponentSettings(settings, component);
   if (customProps) {
     const componentWithCustomVariants = component.extend({
       props: customProps,
@@ -33,7 +33,7 @@ const install: InstallFunction = function installComponent(Vue: typeof _Vue, arg
     Vue.component(componentName, component);
   }
 
-  configureDialogGlobals(Vue);
+  configureDialogGlobals(Vue, settings);
 };
 
 // Create module definition for Vue.use()
