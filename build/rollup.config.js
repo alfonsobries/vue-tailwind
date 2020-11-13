@@ -2,20 +2,20 @@ import vue from 'rollup-plugin-vue';
 import typescript from '@rollup/plugin-typescript';
 import del from 'rollup-plugin-delete';
 
-const external = [
-  'body-scroll-lock',
-  'lodash.clonedeep',
-  'lodash.get',
-  'lodash.intersection',
-  'lodash.isequal',
-  'lodash.kebabcase',
-  'lodash.map',
-  'lodash.mapvalues',
-  'lodash.merge',
-  'lodash.pick',
-  'lodash.range',
-  'vue',
-];
+const globals = {
+  'body-scroll-lock': 'bodyScrollLock',
+  'lodash.clonedeep': 'cloneDeep',
+  'lodash.get': 'get',
+  'lodash.intersection': 'intersection',
+  'lodash.isequal': 'isEqual',
+  'lodash.kebabcase': 'kebabCase',
+  'lodash.map': 'map',
+  'lodash.mapvalues': 'mapValues',
+  'lodash.merge': 'merge',
+  'lodash.pick': 'pick',
+  'lodash.range': 'range',
+  vue: 'Vue',
+};
 
 const config = [{
   input: 'src/index.ts', // Path relative to package.json
@@ -26,12 +26,9 @@ const config = [{
     format: 'umd',
     name: 'VueTailwind',
     exports: 'named',
-    globals: {
-      vue: 'Vue',
-      'lodash.get': 'get',
-    },
+    globals,
   },
-  external,
+  external: Object.keys(globals),
   plugins: [
     del({ targets: 'dist/*' }),
     typescript({
@@ -50,6 +47,21 @@ const components = {
   't-radio': 'TRadio',
   't-select': 'TSelect',
   't-textarea': 'TTextarea',
+
+  't-rich-select': 'TRichSelect',
+  't-input-group': 'TInputGroup',
+  't-card': 'TCard',
+  't-alert': 'TAlert',
+  't-modal': 'TModal',
+  't-dropdown': 'TDropdown',
+  't-pagination': 'TPagination',
+  't-tag': 'TTag',
+  't-radio-group': 'TRadioGroup',
+  't-checkbox-group': 'TCheckboxGroup',
+  't-table': 'TTable',
+  't-datepicker': 'TDatepicker',
+  't-toggle': 'TToggle',
+  't-dialog': 'TDialog',
 };
 
 const componentsConfig = Object.keys(components).map((component) => {
@@ -64,14 +76,9 @@ const componentsConfig = Object.keys(components).map((component) => {
       format: 'umd',
       name: componentName,
       exports: 'named',
-      globals: {
-        vue: 'Vue',
-        'lodash.get': 'get',
-        'lodash.isEqual': 'isEqual',
-        'lodash.map': 'map',
-      },
+      globals,
     },
-    external,
+    external: Object.keys(globals),
     plugins: [
       typescript({
         declaration: true,
@@ -92,7 +99,9 @@ const helpers = [{
     format: 'umd',
     name: 'configure',
     exports: 'named',
+    globals,
   },
+  external: Object.keys(globals),
   plugins: [
     typescript({
       declaration: true,

@@ -1,5 +1,5 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import Vue, { CreateElement, VNode } from 'vue';
+import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 import Key from '../types/Key';
 
@@ -127,19 +127,19 @@ const TModal = Component.extend({
   },
 
   created() {
-    if (!Vue.prototype.$modal) {
-      // eslint-disable-next-line no-param-reassign
-      Vue.prototype.$modal = new Vue({
-        methods: {
-          show(name: string, params = undefined) {
-            this.$emit(`show-${name}`, params);
-          },
-          hide(name: string) {
-            this.$emit(`hide-${name}`);
-          },
-        },
-      });
-    }
+    // if (!Vue.prototype.$modal) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   Vue.prototype.$modal = new Vue({
+    //     methods: {
+    //       show(name: string, params = undefined) {
+    //         this.$emit(`show-${name}`, params);
+    //       },
+    //       hide(name: string) {
+    //         this.$emit(`hide-${name}`);
+    //       },
+    //     },
+    //   });
+    // }
 
     if (this.name) {
       this.$modal.$on(`show-${this.name}`, (params = undefined) => {
