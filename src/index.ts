@@ -1,6 +1,7 @@
 import Vue, { PluginFunction } from 'vue';
-import CustomProps from './types/CustomProps';
+import ComponentSettings from './types/ComponentSettings';
 import LibrarySettings from './types/LibrarySettings';
+import configure from './configure';
 // import ComponentName from './types/ComponentName';
 // import { extractPropsFromComponentSettings, ImportedComponent } from './utils/extractPropsFromSettings';
 // import * as components from './components';
@@ -31,35 +32,15 @@ const install: InstallFunction = function installVueTailwind(vueInstance: typeof
 
   Object.keys(settings).forEach((componentName) => {
     const componentSettings = settings[componentName];
-    const { component, props: customPropsValues } = componentSettings;
-    const componentProps = component?.options?.props;
 
-    if (!customPropsValues || !componentProps) {
-      vueInstance.component(componentName, component);
+    if (typeof componentSettings === 'function' && typeof componentSettings.extend !== undefined) {
+      vueInstance.component(componentName, componentSettings);
       return;
     }
 
-    const customProps: CustomProps = {};
+    const { component, props } = componentSettings as ComponentSettings;
 
-    Object.keys(customPropsValues).forEach((customPropName: string) => {
-      const defaultProp = componentProps[customPropName];
-
-      if (!defaultProp) {
-        return;
-      }
-      const newDefaultValue = customPropsValues[customPropName];
-
-      customProps[customPropName] = {
-        type: defaultProp?.type,
-        default: ['object', 'function'].includes(typeof newDefaultValue)
-          ? () => newDefaultValue
-          : newDefaultValue,
-      };
-    });
-
-    vueInstance.component(componentName, component.extend({
-      props: customProps,
-    }));
+    vueInstance.component(componentName, configure(component, props));
   });
 
   // if (options) { Object.keys(options); }

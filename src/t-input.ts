@@ -1,6 +1,5 @@
-// import Vue, { PluginFunction, VueConstructor } from 'vue';
-// import { extractPropsFromComponentSettings } from './utils/extractPropsFromSettings';
-import component from './inputs/TInput';
+export { default } from './inputs/TInput';
+
 // import ComponentSettings from './types/ComponentSettings';
 // import CustomProps from './types/CustomProps';
 
@@ -60,5 +59,5 @@ import component from './inputs/TInput';
 // // eslint-disable-next-line @typescript-eslint/no-explicit-any
 // (component as any as InstallableComponent).install = install;
 
-// // Export component by default
-export default component;
+// Export component by default
+// export default component;

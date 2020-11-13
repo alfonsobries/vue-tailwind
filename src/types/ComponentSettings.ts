@@ -1,17 +1,19 @@
 import Vue, { PropOptions } from 'vue';
 
-type CustomProp = {
+export type CustomProp = {
   [key: string]: undefined | string | number | boolean | Array<CustomProp> | (() => CustomProp) | CustomProp
 }
 
-type ComponentSettings = {
-  component: typeof Vue & {
-    options?: {
-      props?: {
-        [key: string]: PropOptions
-      }
+export type VTComponent = typeof Vue & {
+  options?: {
+    props?: {
+      [key: string]: PropOptions
     }
-  },
+  }
+}
+
+type ComponentSettings = {
+  component: VTComponent,
   props: CustomProp
 }
 

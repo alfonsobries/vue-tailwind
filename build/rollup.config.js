@@ -1,8 +1,6 @@
-import path from 'path';
 import vue from 'rollup-plugin-vue';
 import typescript from '@rollup/plugin-typescript';
 import del from 'rollup-plugin-delete';
-import autoExternal from 'rollup-plugin-auto-external';
 
 const external = [
   'body-scroll-lock',
@@ -36,12 +34,6 @@ const config = [{
   external,
   plugins: [
     del({ targets: 'dist/*' }),
-    autoExternal({
-      builtins: false,
-      dependencies: true,
-      packagePath: path.resolve('./package.json'),
-      peerDependencies: false,
-    }),
     typescript({
       declaration: true,
       declarationDir: 'dist',
@@ -53,6 +45,11 @@ const config = [{
 
 const components = {
   't-input': 'TInput',
+  't-button': 'TButton',
+  't-checkbox': 'TCheckbox',
+  't-radio': 'TRadio',
+  't-select': 'TSelect',
+  't-textarea': 'TTextarea',
 };
 
 const componentsConfig = Object.keys(components).map((component) => {
@@ -70,26 +67,40 @@ const componentsConfig = Object.keys(components).map((component) => {
       globals: {
         vue: 'Vue',
         'lodash.get': 'get',
+        'lodash.isEqual': 'isEqual',
+        'lodash.map': 'map',
       },
     },
     external,
     plugins: [
-      autoExternal({
-        builtins: false,
-        dependencies: true,
-        packagePath: path.resolve('./package.json'),
-        peerDependencies: false,
-      }),
       typescript({
         declaration: true,
         declarationDir: 'dist',
         rootDir: 'src/',
-
       }),
       vue(),
     ],
   };
 }).flat();
 
+const helpers = [{
+  input: 'src/configure.ts', // Path relative to package.json
+  output: {
+    sourcemap: true,
+    dir: 'dist',
+    entryFileNames: 'configure.js',
+    format: 'umd',
+    name: 'configure',
+    exports: 'named',
+  },
+  plugins: [
+    typescript({
+      declaration: true,
+      declarationDir: 'dist',
+      rootDir: 'src/',
+    }),
+  ],
+}];
+
 // Transpile/polyfill with reasonable browser support
-export default config.concat(componentsConfig);
+export default config.concat(componentsConfig, helpers);
