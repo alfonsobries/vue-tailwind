@@ -105,7 +105,10 @@ const TDatepickerViewsViewCalendarDays = Vue.extend({
         .map((day) => this.getDay(this.localActiveMonth, day));
     },
     prevMonthDays(): Date[] {
-      const prevMonthTotalDays = this.firstDayOfMonth.getDay() - this.weekStart;
+      let prevMonthTotalDays = this.firstDayOfMonth.getDay() - this.weekStart;
+      if (prevMonthTotalDays < 0) {
+        prevMonthTotalDays = 7 + prevMonthTotalDays;
+      }
       return Array.from({ length: prevMonthTotalDays }, (_x, i) => this.lastDayOfPrevMonth.getDate() - i)
         .reverse()
         .map((day) => this.getDay(this.firstDayOfPrevMonth, day));

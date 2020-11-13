@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import TDatepicker from '../../src/components/TDatepicker';
+import TDatepickerViewsViewCalendarDays from '../../src/components/TDatepicker/TDatepickerViewsViewCalendarDays';
 import TDatepickerViewsViewCalendarDaysDay from '../../src/components/TDatepicker/TDatepickerViewsViewCalendarDaysDay';
 import TDatepickerNavigator from '../../src/components/TDatepicker/TDatepickerNavigator';
 import {
@@ -598,6 +599,48 @@ describe('TDatepicker', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.activeDate).toEqual(new Date(2020, 2, 12));
+  });
+});
+
+describe('TDatepickerViewsViewCalendarDays', () => {
+  const datePicker = shallowMount(TDatepicker);
+  const currentDate = new Date(2020, 10, 9);
+
+  const props = {
+    value: currentDate,
+    activeDate: currentDate,
+    activeMonth: currentDate,
+    weekStart: 0,
+    getElementCssClass: datePicker.vm.getElementCssClass,
+    parse: datePicker.vm.parse,
+    format: datePicker.vm.format,
+    userFormat: datePicker.vm.userFormat,
+    formatNative: datePicker.vm.formatNative,
+    dateFormat: datePicker.vm.dateFormat,
+    showDaysForOtherMonth: false,
+    showActiveDate: true,
+    range: false,
+    slots: datePicker.vm.$scopedSlots,
+  };
+
+
+  it('calculates the prev month days when week start is greater that the current day', () => {
+    const wrapper = shallowMount(TDatepickerViewsViewCalendarDays, {
+      propsData: {
+        ...props,
+        weekStart: 1,
+      },
+    });
+
+    // will be the last day on the calendar
+    expect(wrapper.vm.prevMonthDays.length).toBe(6);
+
+    // will be the first day on the calendar
+    wrapper.setProps({
+      weekStart: 0,
+    });
+
+    expect(wrapper.vm.prevMonthDays.length).toBe(0);
   });
 });
 
