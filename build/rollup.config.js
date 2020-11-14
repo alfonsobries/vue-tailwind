@@ -1,6 +1,7 @@
 import vue from 'rollup-plugin-vue';
 import typescript from '@rollup/plugin-typescript';
 import del from 'rollup-plugin-delete';
+import multiInput from 'rollup-plugin-multi-input';
 
 const globals = {
   'body-scroll-lock': 'bodyScrollLock',
@@ -34,7 +35,7 @@ const config = [{
     typescript({
       declaration: true,
       declarationDir: 'dist',
-      rootDir: 'src/',
+      rootDir: 'src',
     }),
     vue(),
   ],
@@ -47,7 +48,6 @@ const components = {
   't-radio': 'TRadio',
   't-select': 'TSelect',
   't-textarea': 'TTextarea',
-
   't-rich-select': 'TRichSelect',
   't-input-group': 'TInputGroup',
   't-card': 'TCard',
@@ -83,33 +83,47 @@ const componentsConfig = Object.keys(components).map((component) => {
       typescript({
         declaration: true,
         declarationDir: 'dist',
-        rootDir: 'src/',
+        rootDir: 'src',
       }),
       vue(),
     ],
   };
 }).flat();
 
-const helpers = [{
-  input: 'src/configure.ts', // Path relative to package.json
-  output: {
-    sourcemap: true,
-    dir: 'dist',
-    entryFileNames: 'configure.js',
-    format: 'umd',
-    name: 'configure',
-    exports: 'named',
-    globals,
+const helpers = [
+  {
+    input: 'src/configure.ts', // Path relative to package.json
+    output: {
+      sourcemap: true,
+      dir: 'dist',
+      entryFileNames: 'configure.js',
+      format: 'umd',
+      name: 'configure',
+      exports: 'named',
+      globals,
+    },
+    external: Object.keys(globals),
+    plugins: [
+      typescript({
+        declaration: true,
+        declarationDir: 'dist',
+        rootDir: 'src',
+      }),
+    ],
   },
-  external: Object.keys(globals),
-  plugins: [
-    typescript({
-      declaration: true,
-      declarationDir: 'dist',
-      rootDir: 'src/',
-    }),
-  ],
-}];
+  {
+    input: 'src/l10n/*.ts',
+    output: {
+      sourcemap: true,
+      format: 'esm',
+      dir: 'dist',
+    },
+    plugins: [
+      multiInput(),
+      typescript(),
+    ],
+  },
+];
 
 // Transpile/polyfill with reasonable browser support
 export default config.concat(componentsConfig, helpers);
