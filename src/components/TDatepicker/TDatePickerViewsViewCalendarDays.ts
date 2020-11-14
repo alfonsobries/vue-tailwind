@@ -1,17 +1,11 @@
 import Vue, { CreateElement, VNode } from 'vue';
-import CssClass from '../../types/CssClass';
-import {
-  DateConditions, dayIsPartOfTheConditions, DateParser, dateIsOutOfRange, isSameDay, addDays,
-} from '../../utils/dates';
+import { lastDayOfMonth } from '../../utils/dates';
+import TDatepickerViewsViewCalendarDaysDay from './TDatepickerViewsViewCalendarDaysDay';
 
-const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
-  name: 'TDatepickerViewsViewCalendarDaysDay',
+const TDatepickerViewsViewCalendarDays = Vue.extend({
+  name: 'TDatepickerViewsViewCalendarDays',
 
   props: {
-    day: {
-      type: Date,
-      required: true,
-    },
     value: {
       type: [Date, Array],
       default: null,
@@ -22,6 +16,10 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
     },
     activeMonth: {
       type: Date,
+      required: true,
+    },
+    weekStart: {
+      type: Number,
       required: true,
     },
     getElementCssClass: {
@@ -40,11 +38,11 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
       type: Function,
       required: true,
     },
-    dateFormat: {
+    userFormat: {
       type: String,
       required: true,
     },
-    userFormat: {
+    dateFormat: {
       type: String,
       required: true,
     },
@@ -86,84 +84,48 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
   },
 
   computed: {
-    isSelected(): boolean {
-      const d1 = this.getDay();
-      const d2 = this.value as Date | Date[];
-
-      if (d2 instanceof Date) {
-        return isSameDay(d1, d2);
+    firstDayOfMonth(): Date {
+      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth(), 1);
+    },
+    lastDayOfMonth(): Date {
+      return lastDayOfMonth(this.localActiveMonth);
+    },
+    firstDayOfPrevMonth(): Date {
+      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth() - 1, 1);
+    },
+    lastDayOfPrevMonth(): Date {
+      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth(), 0);
+    },
+    firstDayOfNextMonth(): Date {
+      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth() + 1, 1);
+    },
+    monthDays(): Date[] {
+      return Array
+        .from({ length: this.lastDayOfMonth.getDate() }, (_x, i) => i + 1)
+        .map((day) => this.getDay(this.localActiveMonth, day));
+    },
+    prevMonthDays(): Date[] {
+      let prevMonthTotalDays = this.firstDayOfMonth.getDay() - this.weekStart;
+      if (prevMonthTotalDays < 0) {
+        prevMonthTotalDays = 7 + prevMonthTotalDays;
       }
-
-      if (Array.isArray(d2)) {
-        return d2.some((d) => isSameDay(d, d1));
+      return Array.from({ length: prevMonthTotalDays }, (_x, i) => this.lastDayOfPrevMonth.getDate() - i)
+        .reverse()
+        .map((day) => this.getDay(this.firstDayOfPrevMonth, day));
+    },
+    nextMonthDays(): Date[] {
+      const nextMonthTotalDays = 7 - (this.monthDays.concat(this.prevMonthDays).length % 7);
+      if (nextMonthTotalDays === 7) {
+        return [];
       }
-
-      return false;
+      return Array.from({ length: nextMonthTotalDays }, (_x, i) => i + 1)
+        .map((day) => this.getDay(this.firstDayOfNextMonth, day));
     },
-    isActive(): boolean {
-      const d1 = this.getDay();
-      const d2 = this.localActiveDate;
-      return isSameDay(d1, d2);
-    },
-    isToday(): boolean {
-      const d1 = this.getDay();
-      const d2 = new Date();
-      return isSameDay(d1, d2);
-    },
-    isDisabled(): boolean {
-      const day = this.getDay();
-      const disabledDates: DateConditions = this.disabledDates as DateConditions;
-      const dateParser: DateParser = this.parse as DateParser;
-
-      return dateIsOutOfRange(day, this.minDate, this.maxDate, dateParser, this.dateFormat)
-        || dayIsPartOfTheConditions(day, disabledDates, dateParser, this.dateFormat);
-    },
-    isHighlighted(): boolean {
-      const day = this.getDay();
-      const highlightDates: DateConditions = this.highlightDates as DateConditions;
-      const dateParser: DateParser = this.parse as DateParser;
-
-      return dayIsPartOfTheConditions(day, highlightDates, dateParser, this.dateFormat);
-    },
-    isForAnotherMonth(): boolean {
-      const d1 = this.localActiveMonth as unknown as Date;
-      const d2 = this.getDay();
-      return d1.getFullYear() !== d2.getFullYear()
-        || d1.getMonth() !== d2.getMonth();
-    },
-    isInRange(): boolean {
-      if (!this.range || !Array.isArray(this.value)) {
-        return false;
-      }
-      const [from, to] = this.value as Date[];
-      if (from && to) {
-        return !dateIsOutOfRange(this.getDay(), addDays(from, 1), addDays(to, -1));
-      }
-
-      return false;
-    },
-    isFirstDayOfRange(): boolean {
-      if (!this.range || !Array.isArray(this.value)) {
-        return false;
-      }
-      const [from] = this.value as Date[];
-      return from && isSameDay(from, this.getDay());
-    },
-    isLastDayOfRange(): boolean {
-      if (!this.range || !Array.isArray(this.value)) {
-        return false;
-      }
-      const [, to] = this.value as Date[];
-      return to && isSameDay(to, this.getDay());
-    },
-    dayFormatted(): string {
-      return this.formatNative(this.getDay(), 'j');
-    },
-    ariaLabel(): string {
-      return this.format(this.getDay(), this.userFormat);
-    },
-    dateFormatted(): string {
-      return this.format(this.getDay(), 'Y-m-d');
+    days(): Date[] {
+      const { prevMonthDays } = this;
+      const { monthDays } = this;
+      const { nextMonthDays } = this;
+      return prevMonthDays.concat(monthDays, nextMonthDays);
     },
   },
 
@@ -177,92 +139,53 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
   },
 
   methods: {
-    getClass(): CssClass {
-      if (this.isForAnotherMonth) {
-        return this.getElementCssClass('otherMonthDay');
-      }
-
-      if (this.isFirstDayOfRange) {
-        return this.getElementCssClass('inRangeFirstDay');
-      }
-
-      if (this.isLastDayOfRange) {
-        return this.getElementCssClass('inRangeLastDay');
-      }
-
-      if (this.isInRange) {
-        return this.getElementCssClass('inRangeDay');
-      }
-
-      if (this.isSelected) {
-        return this.getElementCssClass('selectedDay');
-      }
-
-      if (this.isActive && this.showActiveDate) {
-        return this.getElementCssClass('activeDay');
-      }
-
-      if (this.isHighlighted) {
-        return this.getElementCssClass('highlightedDay');
-      }
-
-      if (this.isToday) {
-        return this.getElementCssClass('today');
-      }
-
-      return this.getElementCssClass('day');
+    getDay(date: Date, day: number): Date {
+      return new Date(date.getFullYear(), date.getMonth(), day);
     },
-    getDay(): Date {
-      return this.day as unknown as Date;
-    },
-
   },
+
   render(createElement: CreateElement): VNode {
-    if (this.isForAnotherMonth && !this.showDaysForOtherMonth) {
-      return createElement(
+    return createElement(
+      'div',
+      {
+        class: this.getElementCssClass('calendarDaysWrapper'),
+      },
+      this.days.map((day: Date) => createElement(
         'span',
         {
-          class: this.getElementCssClass('emptyDay'),
-        },
-        '',
-      );
-    }
-
-    const daySlot = this.$scopedSlots.day
-      ? this.$scopedSlots.day({
-        dayFormatted: this.dayFormatted,
-        isForAnotherMonth: this.isForAnotherMonth,
-        isFirstDayOfRange: this.isFirstDayOfRange,
-        isLastDayOfRange: this.isLastDayOfRange,
-        isInRange: this.isInRange,
-        isSelected: this.isSelected,
-        isActive: this.isActive,
-        isHighlighted: this.isHighlighted,
-        isToday: this.isToday,
-        day: this.getDay(),
-        activeDate: this.activeDate,
-        value: this.value,
-      }) : this.dayFormatted;
-
-    return createElement(
-      'button',
-      {
-        class: this.getClass(),
-        attrs: {
-          'aria-label': this.ariaLabel,
-          'aria-current': this.isToday ? 'date' : undefined,
-          'data-date': this.dateFormatted,
-          type: 'button',
-          tabindex: -1,
-          disabled: this.isDisabled ? true : undefined,
-        },
-        on: {
-          click: (e: MouseEvent) => this.$emit('click', e),
-        },
-      },
-      daySlot,
+          class: this.getElementCssClass('calendarDaysDayWrapper'),
+        }, [
+          createElement(
+            TDatepickerViewsViewCalendarDaysDay,
+            {
+              props: {
+                day,
+                value: this.value,
+                activeDate: this.localActiveDate,
+                activeMonth: this.localActiveMonth,
+                getElementCssClass: this.getElementCssClass,
+                parse: this.parse,
+                format: this.format,
+                formatNative: this.formatNative,
+                dateFormat: this.dateFormat,
+                userFormat: this.userFormat,
+                showDaysForOtherMonth: this.showDaysForOtherMonth,
+                showActiveDate: this.showActiveDate,
+                disabledDates: this.disabledDates,
+                highlightDates: this.highlightDates,
+                minDate: this.minDate,
+                maxDate: this.maxDate,
+                range: this.range,
+              },
+              scopedSlots: this.$scopedSlots,
+              on: {
+                click: () => this.$emit('input', day),
+              },
+            },
+          )],
+      )),
     );
   },
 });
 
-export default TDatepickerViewsViewCalendarDaysDay;
+export default TDatepickerViewsViewCalendarDays;
