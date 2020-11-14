@@ -20,7 +20,7 @@ const configure = (component: VTComponent, props?: CustomProp): VTComponent => {
       },
     });
   } else if (componentName === 'TDialog') {
-    configureDialogGlobals(Vue);
+    configureDialogGlobals(Vue, props);
   }
 
   if (!props || !componentProps) {
