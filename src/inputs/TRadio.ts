@@ -91,6 +91,10 @@ const TRadio = HtmlInput.extend({
       }
     },
     localValue(localValue) {
+      if (isEqual(this.model, localValue)) {
+        return;
+      }
+
       this.$emit('input', localValue);
       this.$emit('change', localValue);
     },

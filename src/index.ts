@@ -2,7 +2,6 @@ import Vue, { PluginFunction } from 'vue';
 import ComponentSettings from './types/ComponentSettings';
 import LibrarySettings from './types/LibrarySettings';
 import configure from './configure';
-
 export interface InstallFunction extends PluginFunction<LibrarySettings> {
   installed?: boolean;
 }

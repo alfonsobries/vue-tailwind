@@ -11,7 +11,7 @@ import TDialogOverlayWrapperTransitionDialog from '../../src/components/TDialog/
 import { DialogType } from '../../src/types/Dialog';
 
 describe('configureDialogGlobals', () => {
-  configureDialogGlobals(Vue);
+  configureDialogGlobals(Vue, {});
 
   it('opens the the dialog with the global method', () => {
     jest.spyOn(document.body, 'appendChild');

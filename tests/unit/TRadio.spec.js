@@ -120,9 +120,7 @@ describe('TRadio', () => {
 
     const inputValue = 'Hello World';
 
-    wrapper.setProps({
-      model: inputValue,
-    });
+    wrapper.vm.localValue = inputValue;
 
     await wrapper.vm.$nextTick();
 
@@ -133,6 +131,22 @@ describe('TRadio', () => {
 
     // assert event payload
     expect(wrapper.emitted('input')[0]).toEqual([inputValue]);
+  });
+
+  it('doesnt emits an input event if the value doesnt changed', async () => {
+    const wrapper = shallowMount(TRadio, {
+      propsData: {
+        model: 'Hello World',
+      },
+    });
+
+    const inputValue = 'Hello World';
+
+    wrapper.vm.localValue = inputValue;
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeFalsy();
   });
 
   it('emits an input event using the checked attribute', async () => {
@@ -159,14 +173,12 @@ describe('TRadio', () => {
     expect(wrapper.emitted('input')[0]).toEqual([inputValue]);
   });
 
-  it('emits an change event with the input value', async () => {
+  it('emits a change event with the input value', async () => {
     const wrapper = shallowMount(TRadio);
 
     const inputValue = 'Hello World';
 
-    wrapper.setProps({
-      model: inputValue,
-    });
+    wrapper.vm.localValue = inputValue;
 
     await wrapper.vm.$nextTick();
 
