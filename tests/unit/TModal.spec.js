@@ -1,6 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
 
 import TModal from '../../src/components/TModal';
+import configure from '../../src/configure';
+
+configure(TModal);
 
 describe('TModal', () => {
   it('it not renders the modal by default', () => {
@@ -163,7 +166,7 @@ describe('TModal', () => {
     expect(wrapper.vm.$refs.close).toBeTruthy();
   });
 
-  it('the modal can be opened by name', async () => {
+  it.only('the modal can be opened by name', async () => {
     const wrapper = shallowMount(TModal, {
       propsData: { name: 'modal-name' },
     });

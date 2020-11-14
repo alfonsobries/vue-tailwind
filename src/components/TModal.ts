@@ -127,21 +127,7 @@ const TModal = Component.extend({
   },
 
   created() {
-    // if (!Vue.prototype.$modal) {
-    //   // eslint-disable-next-line no-param-reassign
-    //   Vue.prototype.$modal = new Vue({
-    //     methods: {
-    //       show(name: string, params = undefined) {
-    //         this.$emit(`show-${name}`, params);
-    //       },
-    //       hide(name: string) {
-    //         this.$emit(`hide-${name}`);
-    //       },
-    //     },
-    //   });
-    // }
-
-    if (this.name) {
+    if (this.name && this.$modal) {
       this.$modal.$on(`show-${this.name}`, (params = undefined) => {
         this.show(params);
       });
