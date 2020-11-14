@@ -123,7 +123,7 @@ const buildDialog = (target: string, propsData: Partial<DialogProps>) => {
   });
 };
 
-const configureDialogGlobals = (vueInstance: typeof Vue, settings: CustomProp): void => {
+const configureDialogGlobals = (vueInstance: typeof Vue, settings?: CustomProp): void => {
   if (!Vue.prototype.$dialog) {
     // eslint-disable-next-line no-param-reassign
     vueInstance.prototype.$dialog = new Vue({
