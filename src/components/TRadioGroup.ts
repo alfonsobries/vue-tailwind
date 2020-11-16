@@ -1,5 +1,4 @@
 import { CreateElement, VNode } from 'vue';
-import isEqual from 'lodash/isEqual';
 import kebabCase from 'lodash/kebabCase';
 import InputWithOptions from '../base/InputWithOptions';
 import TRadio from '../inputs/TRadio';
@@ -116,7 +115,10 @@ const TRadioGroup = InputWithOptions.extend({
             blur: this.blurHandler,
             focus: this.focusHandler,
             input: (value: string | number) => {
-              if (isEqual(value, option.value)) {
+              if (
+                (typeof option.value === 'number' && Number(value) === option.value)
+                || value === option.value
+              ) {
                 this.inputHandler(option.value);
               }
             },
