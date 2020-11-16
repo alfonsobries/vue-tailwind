@@ -18,28 +18,49 @@ const globals = {
   vue: 'Vue',
 };
 
-const config = [{
-  input: 'src/index.ts', // Path relative to package.json
-  output: {
-    sourcemap: true,
-    dir: 'dist',
-    entryFileNames: 'vue-tailwind.js',
-    format: 'umd',
-    name: 'VueTailwind',
-    exports: 'named',
-    globals,
+const config = [
+  {
+    input: 'src/index.ts', // Path relative to package.json
+    output: {
+      sourcemap: true,
+      dir: 'dist',
+      entryFileNames: 'vue-tailwind.js',
+      format: 'umd',
+      name: 'VueTailwind',
+      exports: 'named',
+      globals,
+    },
+    external: Object.keys(globals),
+    plugins: [
+      del({ targets: 'dist/*' }),
+      typescript({
+        declaration: true,
+        declarationDir: 'dist',
+        rootDir: 'src',
+      }),
+      vue(),
+    ],
   },
-  external: Object.keys(globals),
-  plugins: [
-    del({ targets: 'dist/*' }),
-    typescript({
-      declaration: true,
-      declarationDir: 'dist',
-      rootDir: 'src',
-    }),
-    vue(),
-  ],
-}];
+  {
+    input: 'src/full.ts', // Path relative to package.json
+    output: {
+      sourcemap: true,
+      dir: 'dist',
+      entryFileNames: 'full.js',
+      format: 'umd',
+      name: 'VueTailwind',
+      exports: 'named',
+      globals,
+    },
+    external: Object.keys(globals),
+    plugins: [
+      typescript({
+        rootDir: 'src',
+      }),
+      vue(),
+    ],
+  },
+];
 
 const components = {
   't-input': 'TInput',
