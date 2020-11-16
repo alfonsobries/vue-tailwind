@@ -222,7 +222,7 @@ const TRadio = HtmlInput.extend({
 
       // Only update the local value when the element is checked
       if (target.checked) {
-        this.localValue = target.value;
+        this.localValue = this.value;
 
         this.sendInputEventToTheNotCheckedInputs();
       }
