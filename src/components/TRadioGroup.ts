@@ -143,7 +143,7 @@ const TRadioGroup = InputWithOptions.extend({
       return parts.join('-');
     },
 
-    inputHandler(value: string | number) {
+    inputHandler(value: string | number | boolean | symbol | null) {
       this.$emit('input', value);
     },
 
