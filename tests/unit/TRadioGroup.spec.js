@@ -186,6 +186,66 @@ describe('TRadioGroup', () => {
     expect(wrapper.emitted('input')[0]).toEqual([inputValue]);
   });
 
+  it('emits an input event with the radio for booleans', async () => {
+    const options = [{ value: true, text: 'true' }, { value: false, text: 'false' }];
+    const wrapper = shallowMount(TRadioGroup, {
+      propsData: { options },
+    });
+
+    const inputValue = true;
+    const inputValue2 = false;
+
+    wrapper.setProps({
+      value: inputValue,
+    });
+
+    await wrapper.vm.$nextTick();
+
+    wrapper.setProps({
+      value: inputValue2,
+    });
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(2);
+
+    // assert event payload
+    expect(wrapper.emitted('input')).toEqual([[inputValue], [inputValue2]]);
+  });
+
+  it('emits an input event with the radio for numbers', async () => {
+    const options = [{ value: 0, text: '0' }, { value: 1, text: '1' }];
+    const wrapper = shallowMount(TRadioGroup, {
+      propsData: { options },
+    });
+
+    const inputValue = 1;
+    const inputValue2 = 0;
+
+    wrapper.setProps({
+      value: inputValue,
+    });
+
+    await wrapper.vm.$nextTick();
+
+    wrapper.setProps({
+      value: inputValue2,
+    });
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('input')).toBeTruthy();
+
+    // assert event count
+    expect(wrapper.emitted('input').length).toBe(2);
+
+    // assert event payload
+    expect(wrapper.emitted('input')).toEqual([[inputValue], [inputValue2]]);
+  });
+
   it('emits an change event with the radio value', async () => {
     const options = ['A', 'B', 'C'];
 

@@ -80,9 +80,11 @@ const TRadio = HtmlInput.extend({
 
   watch: {
     model(model) {
-      if (!isEqual(model, this.localValue)) {
-        this.localValue = model;
+      if (isEqual(model, this.localValue)) {
+        return;
       }
+
+      this.localValue = model;
     },
     checked(checked) {
       const localValue = checked ? this.value : null;
@@ -220,7 +222,7 @@ const TRadio = HtmlInput.extend({
 
       // Only update the local value when the element is checked
       if (target.checked) {
-        this.localValue = target.value;
+        this.localValue = this.value;
 
         this.sendInputEventToTheNotCheckedInputs();
       }
