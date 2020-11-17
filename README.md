@@ -20,7 +20,9 @@ The VueTailwind components are meant to be customized with custom CSS classes th
 
 Plus, most component settings are configurable, so using this library is like having your set components for your particular needs.
 
-Define your components' look and feel by defining custom default CSS classes.
+In summary, with this library you will be able:
+
+- Define your components' look and feel by defining custom default CSS classes.
 - Add unlimited variants for every specific use case.
 - Override the default value of the props according to your needs.
 - Create different versions of one component but with different default settings.
