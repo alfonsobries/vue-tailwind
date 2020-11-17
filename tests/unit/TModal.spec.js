@@ -166,7 +166,7 @@ describe('TModal', () => {
     expect(wrapper.vm.$refs.close).toBeTruthy();
   });
 
-  it.only('the modal can be opened by name', async () => {
+  it('the modal can be opened by name', async () => {
     const wrapper = shallowMount(TModal, {
       propsData: { name: 'modal-name' },
     });
