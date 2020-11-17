@@ -18,11 +18,12 @@ We can use a framework like [TailwindCss](https://tailwindcss.com) to define our
 
 The VueTailwind components are meant to be customized with custom CSS classes that you can define when you install the library.
 
-Also, most of the library settings are configurable. Imagine that you have your own set of components configured for your very specific needs.
-- Define your design by defining custom default CSS classes for every part of the components.
-- Add unlimited variants/states of every component for every single use case.
-- Override the default settings/props according to your needs.
-- Create different versions of one component but with different settings.
+Plus, most component settings are configurable, so using this library is like having your set components for your particular needs.
+
+Define your components' look and feel by defining custom default CSS classes.
+- Add unlimited variants for every specific use case.
+- Override the default value of the props according to your needs.
+- Create different versions of one component but with different default settings.
 
 ## Installation
 
