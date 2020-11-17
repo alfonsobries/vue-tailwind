@@ -5,6 +5,7 @@ type NormalizedOption = {
   text: string | number | boolean;
   children?: Array<NormalizedOption>;
   raw?: InputOption;
+  disabled?: boolean | 'disabled';
 }
 
 export default NormalizedOption;

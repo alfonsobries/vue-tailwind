@@ -151,6 +151,35 @@ describe('TSelect', () => {
     expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
   });
 
+  it('accept disabled options', () => {
+    // Accepts an array of objects with value
+    const objectsWithValue = [
+      { value: 'A', text: 'A' },
+      { value: 'B', text: 'B', disabled: true },
+      { value: 'C', text: 'C' },
+    ];
+
+    const expectedOptions = objectsWithValue.map((option) => ({
+      ...option,
+      ...{
+        raw: option,
+      },
+    }));
+
+    expectedOptions[1].disabled = true;
+    expectedOptions[1].raw.disabled = true;
+
+    const wrapper = shallowMount(TSelect, {
+      propsData: { options: objectsWithValue },
+    });
+
+    expect(wrapper.vm.normalizedOptions).toEqual(expectedOptions);
+
+    expect(wrapper.vm.$el.querySelectorAll('option[disabled]').length).toBe(1);
+
+    expect(wrapper.vm.$el.querySelector('option[disabled]').value).toBe('B');
+  });
+
   it('accept the options using id as value', () => {
     const objectsWithIds = [
       { id: 1, text: 'A' },
