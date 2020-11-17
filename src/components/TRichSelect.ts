@@ -145,6 +145,7 @@ const TRichSelect = InputWithOptions.extend({
           searchBox: 'p-2 bg-gray-200 text-sm rounded border focus:outline-none focus:shadow-outline',
           optgroup: 'text-gray-500 uppercase text-xs py-1 px-2 font-semibold',
           option: '',
+          disabledOption: '',
           highlightedOption: 'bg-gray-300',
           selectedOption: 'font-semibold bg-gray-100',
           selectedHighlightedOption: 'bg-gray-300 font-semibold',
