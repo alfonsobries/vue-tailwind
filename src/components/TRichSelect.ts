@@ -182,7 +182,9 @@ const TRichSelect = InputWithOptions.extend({
   },
 
   updated() {
-    if (typeof this.selectedOption === 'undefined' || this.selectedOption.value !== this.value) {
+    if (typeof this.selectedOption === 'undefined'
+      || (this.selectedOption.value !== this.value && this.value !== null)
+    ) {
       this.selectedOption = this.findOptionByValue(this.value);
     }
   },
