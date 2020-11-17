@@ -20,7 +20,7 @@ The VueTailwind components are meant to be customized with custom CSS classes th
 
 Plus, most component settings are configurable, so using this library is like having your set components for your particular needs.
 
-In summary, with this library you will be able:
+In summary, with this library, you will be able to:
 
 - Define your components' look and feel by defining custom default CSS classes.
 - Add unlimited variants for every specific use case.
@@ -99,7 +99,7 @@ Vue.use(VueTailwind, settings)
 
 To apply a custom theme you should use the `classes`, `fixedClasses`, and `variants` props.
 
-The `classes` and `fixedClasses` props usually expects an `string` with a CSS class for single-tag components (inputs, button, etc.) and an `object` for more complex components (modals, datepicker, etc) (see every the component docs for detais).
+The `classes` and `fixedClasses` props usually expects an `string` with a CSS class for single-tag components (inputs, button, etc.) and an `object` for more complex components (modals, datepicker, etc) (see component docs for details).
 
 The `variants` props expects an object where every key represents the variant name and every value the classes that will be used when that variant is used.
 
