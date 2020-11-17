@@ -716,7 +716,7 @@ describe('TDatepickerViewsViewCalendarDaysDay', () => {
     expect(wrapper.vm.isDisabled).toBe(true);
   });
 
-  it('disables a date by an array', () => {
+  it('disables a date by an array', async () => {
     const wrapper = shallowMount(TDatepickerViewsViewCalendarDaysDay, {
       propsData: {
         ...dayProps,
@@ -728,19 +728,19 @@ describe('TDatepickerViewsViewCalendarDaysDay', () => {
 
     expect(wrapper.vm.isDisabled).toBe(true);
 
-    wrapper.setProps({
+    await wrapper.setProps({
       disabledDates: [],
     });
 
     expect(wrapper.vm.isDisabled).toBe(false);
 
-    wrapper.setProps({
+    await wrapper.setProps({
       disabledDates: [day],
     });
 
     expect(wrapper.vm.isDisabled).toBe(true);
 
-    wrapper.setProps({
+    await wrapper.setProps({
       disabledDates: [],
     });
 
@@ -748,7 +748,7 @@ describe('TDatepickerViewsViewCalendarDaysDay', () => {
 
     const disabledFunc = (date) => isSameDay(date, day);
 
-    wrapper.setProps({
+    await wrapper.setProps({
       disabledDates: [disabledFunc],
     });
 
@@ -835,7 +835,6 @@ describe('TDatepickerViewsViewCalendarDaysDay', () => {
     expect(wrapper.vm.isDisabled).toBe(true);
   });
 });
-
 
 describe('TDatepickerNavigator', () => {
   const datePicker = shallowMount(TDatepicker);
