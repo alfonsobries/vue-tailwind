@@ -473,7 +473,9 @@ export default class TRichSelectRenderer {
 
     let className;
 
-    if (isHighlighted && isSelected) {
+    if (option.disabled) {
+      className = this.component.getElementCssClass('disabledOption');
+    } else if (isHighlighted && isSelected) {
       className = this.component.getElementCssClass('selectedHighlightedOption');
     } else if (isHighlighted) {
       className = this.component.getElementCssClass('highlightedOption');
@@ -518,6 +520,10 @@ export default class TRichSelectRenderer {
           },
           click: (e: MouseEvent) => {
             e.preventDefault();
+
+            if (option.disabled) {
+              return;
+            }
 
             this.component.selectOption(option);
           },
