@@ -41,18 +41,17 @@ const normalizeOption = (option: InputOption, textAttribute?: string, valueAttri
     };
   }
 
-  const normalizedOption = {
+  const normalizedOption: Partial<NormalizedOption> = {
     value: guessOptionValue(option, valueAttribute),
     text: guessOptionText(option, textAttribute),
     raw: option,
-    disabled: option.disabled,
   };
 
   if (option.disabled !== undefined) {
     normalizedOption.disabled = option.disabled;
   }
 
-  return normalizedOption;
+  return normalizedOption as NormalizedOption;
 };
 
 const normalizeOptions = (options: InputOptions, textAttribute?: string, valueAttribute?: string): NormalizedOptions => {
