@@ -108,10 +108,11 @@ const TRichSelect = InputWithOptions.extend({
           searchWrapper: 'inline-block w-full',
           searchBox: 'inline-block w-full',
           optgroup: '',
-          option: '',
-          highlightedOption: '',
-          selectedOption: '',
-          selectedHighlightedOption: '',
+          option: 'cursor-pointer',
+          disabledOption: 'opacity-50 cursor-not-allowed',
+          highlightedOption: 'cursor-pointer',
+          selectedOption: 'cursor-pointer',
+          selectedHighlightedOption: 'cursor-pointer',
           optionContent: '',
           optionLabel: 'truncate block',
           selectedIcon: 'fill-current h-4 w-4',
@@ -147,7 +148,7 @@ const TRichSelect = InputWithOptions.extend({
           highlightedOption: 'bg-gray-300',
           selectedOption: 'font-semibold bg-gray-100',
           selectedHighlightedOption: 'bg-gray-300 font-semibold',
-          optionContent: 'flex justify-between items-center p-2 cursor-pointer',
+          optionContent: 'flex justify-between items-center p-2',
           optionLabel: 'truncate block',
           selectedIcon: '',
           enterClass: '',
@@ -216,18 +217,28 @@ const TRichSelect = InputWithOptions.extend({
     value(value) {
       this.localValue = value;
     },
-    async show(show) {
+    async highlighted(highlighted) {
+      if (highlighted === null) {
+        return;
+      }
+
+      await this.$nextTick();
+      this.scrollToHighlightedOption();
+    },
+    show(show) {
       if (show) {
         if (this.shouldShowSearchbox) {
           this.focusSearchBox();
         }
 
-        if (!this.filteredflattenedOptions.length) {
+        if (!this.atLeastOneValidOptionExists) {
           this.highlighted = null;
           return;
         }
 
-        this.highlighted = this.selectedOptionIndex || 0;
+        this.highlighted = this.selectedOptionIndex !== undefined
+          ? this.selectedOptionIndex
+          : this.findNextOptionIndex();
       }
     },
     shouldShowSearchbox(shouldShowSearchbox) {
@@ -269,7 +280,9 @@ const TRichSelect = InputWithOptions.extend({
         return option;
       }).flat();
     },
-
+    atLeastOneValidOptionExists(): boolean {
+      return this.filteredflattenedOptions.some((option) => !option.disabled);
+    },
     normalizedHeight(): string {
       if (/^\d+$/.test(String(this.maxHeight))) {
         return `${this.maxHeight}px`;
@@ -348,8 +361,6 @@ const TRichSelect = InputWithOptions.extend({
             // special sense when using keyboard
             if (this.highlighted === currentOptionsListLength - 1) {
               this.highlighted = currentOptionsListLength;
-              await this.$nextTick();
-              this.scrollToHighlightedOption('smooth');
             }
           } else {
             this.filteredOptions = this.normalizeOptions(results);
@@ -359,8 +370,6 @@ const TRichSelect = InputWithOptions.extend({
             } else {
               this.highlighted = null;
             }
-
-            this.scrollToHighlightedOption();
           }
 
           if (hasMorePages) {
@@ -486,6 +495,46 @@ const TRichSelect = InputWithOptions.extend({
       }
       this.$emit('click', e);
     },
+    findNextOptionIndex(currentOptionIndex: null | number = null): number {
+      const endReached = currentOptionIndex !== null
+        && currentOptionIndex + 1 >= this.filteredflattenedOptions.length;
+
+      let nextOptionIndex: number;
+
+      if (currentOptionIndex === null || endReached) {
+        nextOptionIndex = 0;
+      } else {
+        nextOptionIndex = currentOptionIndex + 1;
+      }
+
+      const nextOption = this.filteredflattenedOptions[nextOptionIndex];
+
+      if (!nextOption || nextOption.disabled) {
+        return this.findNextOptionIndex(nextOptionIndex);
+      }
+
+      return nextOptionIndex;
+    },
+    findPrevOptionIndex(currentOptionIndex: null | number): number {
+      const beginningReached = currentOptionIndex === null
+        || currentOptionIndex - 1 < 0;
+
+      let prevOptionIndex: number;
+
+      if (currentOptionIndex === null || beginningReached) {
+        prevOptionIndex = this.filteredflattenedOptions.length - 1;
+      } else {
+        prevOptionIndex = currentOptionIndex - 1;
+      }
+
+      const prevOption = this.filteredflattenedOptions[prevOptionIndex];
+
+      if (!prevOption || prevOption.disabled) {
+        return this.findPrevOptionIndex(prevOptionIndex);
+      }
+
+      return prevOptionIndex;
+    },
     async arrowUpHandler(e: KeyboardEvent) {
       e.preventDefault();
 
@@ -494,15 +543,12 @@ const TRichSelect = InputWithOptions.extend({
         return;
       }
 
-      if (this.highlighted === null) {
-        this.highlighted = 0;
-      } else {
-        this.highlighted = this.highlighted - 1 < 0
-          ? this.filteredflattenedOptions.length - 1
-          : this.highlighted - 1;
+      if (!this.atLeastOneValidOptionExists) {
+        this.highlighted = null;
+        return;
       }
 
-      this.scrollToHighlightedOption();
+      this.highlighted = this.findPrevOptionIndex(this.highlighted);
     },
     arrowDownHandler(e: KeyboardEvent) {
       e.preventDefault();
@@ -512,18 +558,20 @@ const TRichSelect = InputWithOptions.extend({
         return;
       }
 
-      const endReached = this.highlighted !== null
-        && this.highlighted + 1 >= this.filteredflattenedOptions.length;
+      if (!this.atLeastOneValidOptionExists) {
+        this.highlighted = null;
+        return;
+      }
+
+      const nextOptionIndex: number = this.findNextOptionIndex(this.highlighted);
+
+      const endReached = nextOptionIndex >= this.filteredflattenedOptions.length;
 
       if (endReached && this.usesAJax && this.nextPage) {
         this.listEndReached();
-      } else if (this.highlighted === null) {
-        this.highlighted = 0;
       } else {
-        this.highlighted = endReached ? 0 : this.highlighted + 1;
+        this.highlighted = nextOptionIndex;
       }
-
-      this.scrollToHighlightedOption();
     },
     listScrollHandler(e: Event) {
       const el = e.target as HTMLUListElement;
