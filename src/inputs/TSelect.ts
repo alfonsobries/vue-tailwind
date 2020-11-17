@@ -203,6 +203,7 @@ const TSelect = MultipleInput.extend({
         domProps: {
           value: option.value,
           selected: isSelected,
+          disabled: option.disabled,
         },
       }, option.text as VNodeChildren);
     },
