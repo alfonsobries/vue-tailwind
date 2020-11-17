@@ -6,123 +6,170 @@ For more info check the official site: [https://vue-tailwind.com/](https://vue-t
 
 **VueTailwind** is a set of Vue components created to be customized to adapt to the unique design of your application.
 
+### Another UI library?
 
-### Built to be customized
+Most component libraries depend on CSS frameworks with an opinionated and limited number of styles defined by the people who maintain those libraries. Those libraries are great and make our work easy, but hey, we made a beautiful custom design, right?
 
-When you work on a real-world application, you usually need different variants for every component your app uses; you may need (besides of default style of your text input) a specific style for a search input inside a navbar and another one for the contact form, and we are not talking yet about the different states that your input could have.
+### So what are the alternatives?
 
-All **VueTailwind** components were designed to be customized with custom CSS classes and unlimited variants defined when you import the library or when you use the component.
+We can use a framework like [TailwindCss](https://tailwindcss.com) to define our style, but that will end with us writing long CSS classes repeatedly, which could quickly become unmaintainable. Also, create some components like modals, date pickers, etc., is a tricky task, and let's admit it, nobody has time for that, right? 
 
-This means that when you use this library, you are not attached to any style defined by us like it happens when you use a typical library of components like Bootstrap. Instead, you can determine your theme based on your application's needs.
+### Best of both worlds
 
-This library makes special sense when you work with utility-first frameworks like [TailwindCss](https://tailwindcss.com), which is the default framework used in this library.
+The VueTailwind components are meant to be customized with custom CSS classes that you can define when you install the library.
+
+Also, most of the library settings are configurable. Imagine that you have your own set of components configured for your very specific needs.
+- Define your design by defining custom default CSS classes for every part of the components.
+- Add unlimited variants/states of every component for every single use case.
+- Override the default settings/props according to your needs.
+- Create different versions of one component but with different settings.
 
 ## Installation
 
 ### 1. Install the dependencies 
 
 ```console
-npm install vue-tailwind --save
+npm install vue-tailwind@next --save
 ``` 
 
 Or: 
 
 ```console
-yarn add vue-tailwind
+yarn add vue-tailwind@next
 ``` 
 
 ### 2. Configure your project to use `vue-tailwind` 
 
-
 ```js
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
-const settings = {
+const components = {
   //...
 }
 
-Vue.use(VueTailwind, settings)
+Vue.use(VueTailwind, components)
 ```
 
-#### Apply your own theme:
-
-Let's say, for example, that for the specific needs of your project the text inputs should have a `blue two width border`, the buttons should have `rounded borders` and you need a secondary button that should be `purple`.
-
-Considering those needs define objects with the desired classes for every component, a good approach is to create a file where you define the template:
+## 2.1 Add the components you need with his settings
 
 ```js
-const TInput = {
-  classes: 'border-2 block w-full rounded text-gray-800',
-  // Optional variants
-  variants: {
-    // ...
-  },
-  // Optional fixedClasses
-  // fixedClasses: '',
-}
-
-const TButton = {
-  classes: 'rounded-lg border block inline-flex items-center justify-center',
-  variants: {
-    secondary: 'rounded-lg border block inline-flex items-center justify-center bg-purple-500 border-purple-500 hover:bg-purple-600 hover:border-purple-600',
-  },
-  // Optional fixedClasses
-  // fixedClasses: 'transform ease-in-out duration-100',
-}
-
-const settings = {
-  TInput,
-  TButton,
-}
-
-export default settings
-```
-
-Then you can import your theme and add it as a parameter when you install VueTailwind:
-
-```js {3,6}
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import settings from './settings.js'
+import TInput from 'vue-tailwind/dist/t-input'
+import TButton from 'vue-tailwind/dist/t-button'
+import TModal from 'vue-tailwind/dist/t-modal'
+
+const settings = {
+  't-input': {
+    component: TInput,
+    props: {
+      classes: 'border-2 block w-full rounded text-gray-800'
+      // ...More settings
+    }
+  },
+  't-button': {
+    component: TButton,
+    props: {
+      classes: 'rounded-lg border block inline-flex items-center justify-center'
+      // ...More settings
+    }
+  },
+  't-modal': {
+    component: TModal,
+    props: {
+      classes: {
+        body: 'bg-white p-3',
+        header: 'p-3',
+        footer: 'p-3 border-t'
+      }
+      // ...More settings
+    }
+  }
+
+}
 
 Vue.use(VueTailwind, settings)
 ```
 
-Or just define the settings directly:
+## Theming
 
-```js {4,5,6,11}
+To apply a custom theme you should use the `classes`, `fixedClasses`, and `variants` props.
+
+The `classes` and `fixedClasses` props usually expects an `string` with a CSS class for single-tag components (inputs, button, etc.) and an `object` for more complex components (modals, datepicker, etc) (see every the component docs for detais).
+
+The `variants` props expects an object where every key represents the variant name and every value the classes that will be used when that variant is used.
+
+Example for a single-tag compnent: 
+
+```js
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
+import TButton from 'vue-tailwind/dist/t-button'
 
-const TInput = {
-  classes: 'border-2 border-blue-500 block w-full rounded',
+const settings = {
+  't-button': {
+    component: TButton,
+    props: {
+      // The fixed classes will never change and will be merged with the `classes` value or the active variant
+      fixedClasses: 'focus:outline-none focus:shadow-outline inline-flex items-center transition ease-in-out duration-150',
+      // Classes used when any variant is active
+      classes: 'text-white bg-blue-600 hover:bg-blue-500 focus:border-blue-700 active:bg-blue-700 text-sm font-medium border border-transparent px-3 py-2 rounded-md',
+      variants: {
+        // A red variant of the button (applied when variant="error")
+        error: 'text-white bg-red-600 hover:bg-red-500 focus:border-red-700 active:bg-red-700 text-sm font-medium border border-transparent px-3 py-2 rounded-md',
+        // A green variant of the button (applied when variant="success")
+        success: 'text-white bg-green-600 hover:bg-green-500 focus:border-green-700 active:bg-green-700 text-sm font-medium border border-transparent px-3 py-2 rounded-md',
+        // ...unlimited variants
+      }
+      // ...More settings
+    }
+  },
 }
-// Or create a separate file like `src/themes/default/TInput.js` and import it
-// import TInput from './myOwnTInput'
-Vue.use(VueTailwind, {
-  TInput
-})
 
-// Or why not? define the settings inline:
-Vue.use(VueTailwind, {
-  TInput: {
-    classes: 'border-2 border-blue-500 block w-full rounded',
-  }
-})
+Vue.use(VueTailwind, settings)
 ```
 
-The default classes and variants can also be defined in the component props:
+Example for a complex compnent: 
 
-```html
-<t-input
-  :classes="form-input border-2 text-gray-700"
-  :variants="{
-    error: 'form-input border-2 border-red-300 bg-red-100',
-    success: 'form-input border-2 border-green-300 bg-green-100'
-  }"
-/>
+```js
+import Vue from 'vue'
+import VueTailwind from 'vue-tailwind'
+import TAlert from 'vue-tailwind/dist/t-alert'
+
+const settings = {
+  't-alert': {
+    component: TAlert,
+    props: {
+      // The fixed classes will never change and will be merged with the `classes` value or the active variant
+      fixedClasses: {
+        wrapper: 'rounded p-4 flex text-sm border-l-4',
+        body: 'flex-grow',
+        close: 'ml-4 rounded',
+        closeIcon: 'h-5 w-5 fill-current'
+      },
+      classes: {
+        wrapper: 'bg-blue-100 border-blue-500',
+        body: 'text-blue-700',
+        close: 'text-blue-700 hover:text-blue-500 hover:bg-blue-200',
+        closeIcon: 'h-5 w-5 fill-current'
+      },
+      variants: {
+        danger: {
+          wrapper: 'bg-red-100 border-red-500',
+          body: 'text-red-700',
+          close: 'text-red-700 hover:text-red-500 hover:bg-red-200'
+          // Notice that I am not defining the `closeIcon` classes since they dont need
+          // to change within variants.
+        },
+      }
+    }
+  },
+}
+
+Vue.use(VueTailwind, settings)
 ```
+
 
 ## Workflow
 
@@ -143,69 +190,11 @@ The variant prop also accepts an object that takes the first attribute with a _t
 />
 ```
 
-## What's new in version 1.x
-
-- Rebuilt from scratch in Typescript
-- Small bundle size and less dependencies
-- A better way to import only selected components
-- Unlimited variants and an easy way to configure them
-
-## What's next?
-
-- I'm working in a time picker feature for the Datepicker component
-- Toast notifications, autocomplete, and more...
-
-#### Plans for the upcoming v2.x
+## What's new in version 2.x
 
 - Install only the components you need for smaller bundle size
 - Custom name for components
-- And my favorite so far: the ability to install the same component multiple times with different default settings and name
- 
-Example of the coming up config file _(the syntax probably will change for the final version)_:
-
-```js
-{
-  //...
-  't-title': {
-    component: TTag,
-     props: {
-       tagName: 'h1',
-       classes: 'font-5xl font-semibold'
-     }
-   },
-  't-subtitle': {
-    component: TTag,
-    props: {
-      tagName: 'h2',
-      classes: 'font-3xl font-semibold'
-    }
-  },
-  't-timepicker': {
-    component: TDatepicker,
-    props: {
-      time: true,
-      format: 'H:i:S',
-      userFormat: 'H:i:S',
-    }
-  },
-  //...
-}
-```
-   
-Use your custom tag:
-
-```html
-<!-- After: <t-tag tagName="h1">Title</t-h1> -->
-<t-title>Title</t-title>
-
-<!-- After: <t-tag tagName="h2">Subtitle</t-h1> -->
-<t-subtitle>Subtitle</t-subtitle>
-
-<!-- After: <t-datepicker :time="true" format="H:i:S" userFormat="H:i:S" /> -->
-<t-timepicker  />
-```
-
-[Read more →](https://www.vue-tailwind.com/docs/upcoming-changes#plans-for-the-upcoming-v2x)
+- The ability to install the same component multiple times with different default settings and name
 
 #### Plans for v3.x
 
