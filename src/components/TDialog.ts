@@ -3,9 +3,7 @@ import Component from '../base/Component';
 import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
 import { DialogInput } from './TDialog/TDialogOverlayWrapperTransitionDialog';
-import {
-  HideReason, DialogType,
-} from '../types/Dialog';
+import { HideReason, DialogType } from '../types/Dialog';
 
 type InitialData = {
   overlayShow: boolean;
@@ -329,14 +327,14 @@ const TDialog = Component.extend({
             },
             scopedSlots: this.$scopedSlots,
             on: {
-              outsideClick: this.outsideClick,
+              'outside-click': this.outsideClick,
               keyup: this.keyupHandler,
               dismiss: (e: MouseEvent) => this.dismiss(e),
               cancel: (e: MouseEvent) => this.cancel(e),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               submit: (e: MouseEvent, input: DialogInput, response?: any) => this.submit(e, input, response),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.submitError(e, input, error),
+              'submit-error': (e: MouseEvent, input: DialogInput, error?: any) => this.submitError(e, input, error),
             },
           },
           this.$slots.default,

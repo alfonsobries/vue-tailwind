@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 export enum HideReason {
   Outside = 'outside',
   Close = 'close',

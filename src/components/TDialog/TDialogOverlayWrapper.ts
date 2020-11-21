@@ -128,7 +128,7 @@ const TDialogOverlayWrapper = Vue.extend({
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               submit: (e: MouseEvent, input: DialogInput, response?: any) => this.$emit('submit', e, input, response),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.$emit('submitError', e, input, error),
+              'submit-error': (e: MouseEvent, input: DialogInput, error?: any) => this.$emit('submit-error', e, input, error),
             },
           },
           this.$slots.default,

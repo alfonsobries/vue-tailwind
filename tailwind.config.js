@@ -1,15 +1,14 @@
 module.exports = {
-  purge: {
-    enabled: false,
+  purge: [],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    extend: {},
   },
-  theme: {},
   variants: {
-    textColor: ['responsive', 'hover', 'focus', 'group-hover'],
-    opacity: ['responsive', 'hover', 'focus', 'disabled'],
-    cursor: ['disabled'],
+    extend: {},
   },
   plugins: [
-    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
-    require('@tailwindcss/custom-forms'),
+    // eslint-disable-next-line global-require
+    require('@tailwindcss/forms'),
   ],
 };
