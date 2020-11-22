@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 <template>
-  <div>
-    <div class="max-w-md mx-auto my-10">
+  <div class="pb-36">
+    <div class="max-w-md mx-auto mt-10">
       <h3 class="mb-5 text-xl font-semibold text-gray-700">
         Form elements
       </h3>
@@ -73,6 +73,13 @@
             placeholder="Select something"
           />
         </label>
+
+        <label class="block">
+          <span class="text-gray-700">TDatepicker</span>
+          <t-datepicker
+            placeholder="Pick a date"
+          />
+        </label>
       </div>
     </div>
   </div>
@@ -92,6 +99,7 @@ import TCheckbox from './t-checkbox';
 import TRadio from './t-radio';
 
 import TRichSelect from './t-rich-select';
+import TDatepicker from './t-datepicker';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -101,6 +109,7 @@ Vue.use(VueTailwind, {
   't-checkbox': TCheckbox,
   't-radio': TRadio,
   't-rich-select': TRichSelect,
+  't-datepicker': TDatepicker,
 });
 
 export default Vue.extend({

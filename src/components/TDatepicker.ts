@@ -1,5 +1,6 @@
 import { CreateElement, VNode } from 'vue';
 import isEqual from 'lodash.isequal';
+import cloneDeep from 'lodash.clonedeep';
 import TDropdown from './TDropdown';
 import {
   buildDateParser, buildDateFormatter, DateFormatter, DateValue, compareDates, addDays, addMonths, addYears,
@@ -140,9 +141,9 @@ const TDatepicker = HtmlInput.extend({
       type: Object,
       default: () => ({
         // Dropdown related classes
-        wrapper: 'inline-flex flex-col',
+        wrapper: 'flex flex-col',
         dropdownWrapper: 'relative z-10',
-        dropdown: 'origin-top-left absolute rounded-md shadow-lg',
+        dropdown: 'origin-top-left absolute rounded shadow overflow-hidden',
         enterClass: '',
         enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',
         enterToClass: 'transform opacity-100 scale-100',
@@ -155,8 +156,8 @@ const TDatepicker = HtmlInput.extend({
 
         // Text input related classes
         inputWrapper: '',
-        input: 'form-input w-full',
-        clearButton: 'hover:bg-gray-200 text-gray-500 rounded',
+        input: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+        clearButton: 'hover:bg-gray-100 rounded transition duration-100 ease-in-out text-gray-600',
         clearButtonIcon: '',
 
         // Picker views
@@ -164,48 +165,48 @@ const TDatepicker = HtmlInput.extend({
         view: '',
 
         // Navigator
-        navigator: 'pt-2 px-2',
-        navigatorViewButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer rounded-full px-2 py-1 -ml-1 hover:bg-gray-200',
-        navigatorViewButtonIcon: 'fill-current text-gray-500',
-        navigatorViewButtonBackIcon: 'fill-current text-gray-500',
+        navigator: 'pt-2 px-3',
+        navigatorViewButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer rounded-full px-2 py-1 -ml-1 hover:bg-gray-100',
+        navigatorViewButtonIcon: 'fill-current text-gray-400',
+        navigatorViewButtonBackIcon: 'fill-current text-gray-400',
         navigatorViewButtonMonth: 'text-gray-700 font-semibold',
-        navigatorViewButtonYear: 'text-gray-600 ml-1',
-        navigatorViewButtonYearRange: 'text-gray-600 ml-1',
+        navigatorViewButtonYear: 'text-gray-500 ml-1',
+        navigatorViewButtonYearRange: 'text-gray-500 ml-1',
         navigatorLabel: 'py-1',
         navigatorLabelMonth: 'text-gray-700 font-semibold',
-        navigatorLabelYear: 'text-gray-600 ml-1',
-        navigatorPrevButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 ml-2 ml-auto disabled:opacity-25 disabled:cursor-not-allowed',
-        navigatorNextButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 rounded-full p-1 -mr-1 disabled:opacity-25 disabled:cursor-not-allowed',
-        navigatorPrevButtonIcon: 'text-gray-500',
-        navigatorNextButtonIcon: 'text-gray-500',
+        navigatorLabelYear: 'text-gray-500 ml-1',
+        navigatorPrevButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-100 rounded-full p-1 ml-2 ml-auto disabled:opacity-50 disabled:cursor-not-allowed',
+        navigatorNextButton: 'transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-100 rounded-full p-1 -mr-1 disabled:opacity-50 disabled:cursor-not-allowed',
+        navigatorPrevButtonIcon: 'text-gray-400',
+        navigatorNextButtonIcon: 'text-gray-400',
 
         // Calendar View
-        calendarWrapper: 'p-2',
+        calendarWrapper: 'px-3 pt-2',
         calendarHeaderWrapper: '',
-        calendarHeaderWeekDay: 'uppercase text-xs text-gray-600 w-8 h-8 flex items-center justify-center',
+        calendarHeaderWeekDay: 'uppercase text-xs text-gray-500 w-8 h-8 flex items-center justify-center',
         calendarDaysWrapper: '',
         calendarDaysDayWrapper: 'w-full h-8 flex flex-shrink-0 items-center',
 
         // Day item
-        otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400 disabled:opacity-25 disabled:cursor-not-allowed',
+        otherMonthDay: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed',
         emptyDay: '',
         inRangeFirstDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-l-full',
         inRangeLastDay: 'text-sm bg-blue-500 text-white w-full h-8 rounded-r-full',
-        inRangeDay: 'text-sm bg-blue-200 w-full h-8 disabled:opacity-25 disabled:cursor-not-allowed',
-        selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-blue-500 text-white disabled:opacity-25 disabled:cursor-not-allowed',
-        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto disabled:opacity-25 disabled:cursor-not-allowed',
-        highlightedDay: 'text-sm rounded-full bg-blue-200 w-8 h-8 mx-auto disabled:opacity-25 disabled:cursor-not-allowed',
-        day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed',
-        today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-25 disabled:cursor-not-allowed border border-blue-500',
+        inRangeDay: 'text-sm bg-blue-200 w-full h-8 disabled:opacity-50 disabled:cursor-not-allowed',
+        selectedDay: 'text-sm rounded-full w-8 h-8 mx-auto bg-blue-500 text-white disabled:opacity-50 disabled:cursor-not-allowed',
+        activeDay: 'text-sm rounded-full bg-blue-100 w-8 h-8 mx-auto disabled:opacity-50 disabled:cursor-not-allowed',
+        highlightedDay: 'text-sm rounded-full bg-blue-200 w-8 h-8 mx-auto disabled:opacity-50 disabled:cursor-not-allowed',
+        day: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed',
+        today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500',
 
         // Months View
-        monthWrapper: 'p-2',
+        monthWrapper: 'px-3 pt-2',
         selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
 
         // Years View
-        yearWrapper: 'p-2',
+        yearWrapper: 'px-3 pt-2',
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
@@ -327,14 +328,14 @@ const TDatepicker = HtmlInput.extend({
       this.$emit('update:show', shown);
     },
     activeDate(activeDate) {
-      this.$emit('activeChange', activeDate);
+      this.$emit('active-change', activeDate);
     },
     formatedDate(formatedDate) {
       this.$emit('input', formatedDate);
       this.$emit('change', formatedDate);
     },
     userFormatedDate(userFormatedDate) {
-      this.$emit('userDateChanged', userFormatedDate);
+      this.$emit('user-date-changed', userFormatedDate);
     },
     localValue(localValue: Date | null | Date[]) {
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
@@ -745,8 +746,9 @@ const TDatepicker = HtmlInput.extend({
         },
         scopedSlots: {
           trigger: (props) => {
-            triggerSettings.props = {
-              ...triggerSettings.props,
+            const settings = cloneDeep(triggerSettings);
+            settings.props = {
+              ...settings.props,
               ...{
                 hideIfFocusOutside: props.hideIfFocusOutside,
                 show: props.show,
@@ -755,7 +757,7 @@ const TDatepicker = HtmlInput.extend({
             return [
               createElement(
                 TDatepickerTrigger,
-                triggerSettings,
+                settings,
               ),
             ];
           },
