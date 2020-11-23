@@ -80,6 +80,20 @@
             placeholder="Pick a date"
           />
         </label>
+        <label class="block">
+          <span class="text-gray-700">TCheckboxGroup</span>
+          <t-checkbox-group
+            name="checkbox-group"
+            :options="options"
+          />
+        </label>
+        <label class="block">
+          <span class="text-gray-700">TRadioGroup</span>
+          <t-radio-group
+            name="radio-group"
+            :options="options"
+          />
+        </label>
       </div>
     </div>
   </div>
@@ -100,6 +114,8 @@ import TRadio from './t-radio';
 
 import TRichSelect from './t-rich-select';
 import TDatepicker from './t-datepicker';
+import TCheckboxGroup from './t-checkbox-group';
+import TRadioGroup from './t-radio-group';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -110,6 +126,8 @@ Vue.use(VueTailwind, {
   't-radio': TRadio,
   't-rich-select': TRichSelect,
   't-datepicker': TDatepicker,
+  't-checkbox-group': TCheckboxGroup,
+  't-radio-group': TRadioGroup,
 });
 
 export default Vue.extend({
