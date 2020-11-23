@@ -73,6 +73,11 @@
             :options="options"
           />
         </t-input-group>
+        <t-input-group label="TToggle">
+          <t-toggle
+            name="toggle"
+          />
+        </t-input-group>
       </div>
     </div>
   </div>
@@ -96,6 +101,7 @@ import TDatepicker from './t-datepicker';
 import TCheckboxGroup from './t-checkbox-group';
 import TRadioGroup from './t-radio-group';
 import TInputGroup from './t-input-group';
+import TToggle from './t-toggle';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -109,6 +115,7 @@ Vue.use(VueTailwind, {
   't-checkbox-group': TCheckboxGroup,
   't-radio-group': TRadioGroup,
   't-input-group': TInputGroup,
+  't-toggle': TToggle,
 });
 
 export default Vue.extend({

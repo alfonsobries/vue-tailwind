@@ -56,12 +56,14 @@ const TToggle = HtmlInput.extend({
       type: Object,
       default() {
         return {
-          wrapper: 'bg-gray-200 focus:outline-none focus:shadow-outline rounded-full border-2 border-transparent',
-          wrapperChecked: 'bg-blue-500 focus:outline-none focus:shadow-outline rounded-full border-2 border-transparent',
-          button: 'h-5 w-5 rounded-full bg-white shadow  flex items-center justify-center text-gray-400 text-xs',
-          buttonChecked: 'h-5 w-5 rounded-full bg-white shadow  flex items-center justify-center text-blue-500 text-xs',
-          checkedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-500 text-xs',
-          uncheckedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-500 text-xs',
+          wrapper: 'bg-gray-100 rounded-full border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          wrapperChecked: 'bg-blue-500 rounded-full border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          wrapperDisabled: 'bg-gray-100 rounded-full border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          wrapperCheckedDisabled: 'bg-blue-500 rounded-full border-2 border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          button: 'h-5 w-5 rounded-full bg-white shadow flex items-center justify-center text-gray-400 text-xs',
+          buttonChecked: 'h-5 w-5 rounded-full bg-white shadow flex items-center justify-center text-blue-500 text-xs',
+          checkedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-400 text-xs',
+          uncheckedPlaceholder: 'rounded-full w-5 h-5 flex items-center justify-center text-gray-400 text-xs',
         };
       },
     },
@@ -71,6 +73,8 @@ const TToggle = HtmlInput.extend({
         return {
           wrapper: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
           wrapperChecked: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
+          wrapperDisabled: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200 opacity-50 cursor-not-allowed',
+          wrapperCheckedDisabled: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200 opacity-50 cursor-not-allowed',
           button: 'inline-block absolute transform translate-x-0 transition ease-in-out duration-200',
           buttonChecked: 'inline-block absolute transform translate-x-full transition ease-in-out duration-200',
           checkedPlaceholder: 'inline-block',
@@ -174,9 +178,19 @@ const TToggle = HtmlInput.extend({
   },
 
   render(createElement: CreateElement): VNode {
-    const wrapperClass = this.isChecked
-      ? this.getElementCssClass('wrapperChecked')
-      : this.getElementCssClass('wrapper');
+    let wrapperClass;
+
+    if (this.isDisabled) {
+      if (this.isChecked) {
+        wrapperClass = this.getElementCssClass('wrapperCheckedDisabled');
+      } else {
+        wrapperClass = this.getElementCssClass('wrapperDisabled');
+      }
+    } else if (this.isChecked) {
+      wrapperClass = this.getElementCssClass('wrapperChecked');
+    } else {
+      wrapperClass = this.getElementCssClass('wrapper');
+    }
 
     let defaultSlot: VNode[] | string | null | undefined = this.$scopedSlots.default ? this.$scopedSlots.default({
       value: this.currentValue,
