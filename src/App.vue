@@ -75,17 +75,31 @@
         </t-input-group>
         <t-input-group label="TToggle">
           <t-toggle
+            checked
             name="toggle"
           />
         </t-input-group>
         <t-input-group label="TModal">
-          <t-modal name="modal">
-            <p
-              v-for="i in 100"
-              :key="i"
-            >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, minus qui modi quam possimus sint mollitia voluptates ipsum eaque nemo expedita! Dolorum necessitatibus ad repellat maxime nihil ex doloremque doloribus?
-            </p>
+          <t-modal
+            name="modal"
+            header="Modal title"
+          >
+            <div class="space-y-3">
+              <p
+                v-for="i in 3"
+                :key="i"
+              >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, minus qui modi quam possimus sint mollitia voluptates ipsum eaque nemo expedita! Dolorum necessitatibus ad repellat maxime nihil ex doloremque doloribus?
+              </p>
+            </div>
+
+            <template #footer>
+              <div class="flex justify-end">
+                <t-button @click.prevent="$modal.show('modal')">
+                  Submit
+                </t-button>
+              </div>
+            </template>
           </t-modal>
           <t-button @click.prevent="$modal.show('modal')">
             Open modal

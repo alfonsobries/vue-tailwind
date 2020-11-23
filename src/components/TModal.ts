@@ -54,6 +54,7 @@ const TModal = Component.extend({
           overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
           wrapper: 'relative mx-auto',
           modal: 'overflow-hidden relative ',
+          close: 'flex items-center justify-center absolute right-0 top-0 m-3 h-6 w-6',
         };
       },
     },
@@ -62,13 +63,13 @@ const TModal = Component.extend({
       default() {
         return {
           overlay: 'z-40 bg-black bg-opacity-50',
-          wrapper: 'z-50 max-w-lg',
-          modal: 'bg-white shadow',
-          body: '',
-          header: '',
-          footer: '',
-          close: 'absolute right-0 top-0',
-          closeIcon: 'h-5 w-5 fill-current',
+          wrapper: 'z-50 max-w-lg px-3 py-12',
+          modal: 'bg-white shadow rounded',
+          body: 'p-3',
+          header: 'border-b border-gray-100 p-3',
+          footer: 'bg-gray-100 p-3',
+          close: 'bg-gray-100 text-gray-600 rounded transition duration-100 ease-in-out hover:bg-gray-200 ',
+          closeIcon: 'fill-current h-3 w-3',
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
           overlayEnterToClass: 'opacity-100',
