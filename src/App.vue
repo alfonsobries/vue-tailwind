@@ -78,6 +78,19 @@
             name="toggle"
           />
         </t-input-group>
+        <t-input-group label="TModal">
+          <t-modal name="modal">
+            <p
+              v-for="i in 100"
+              :key="i"
+            >
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, minus qui modi quam possimus sint mollitia voluptates ipsum eaque nemo expedita! Dolorum necessitatibus ad repellat maxime nihil ex doloremque doloribus?
+            </p>
+          </t-modal>
+          <t-button @click.prevent="$modal.show('modal')">
+            Open modal
+          </t-button>
+        </t-input-group>
       </div>
     </div>
   </div>
@@ -103,6 +116,8 @@ import TRadioGroup from './t-radio-group';
 import TInputGroup from './t-input-group';
 import TToggle from './t-toggle';
 
+import TModal from './t-modal';
+
 Vue.use(VueTailwind, {
   't-input': TInput,
   't-textarea': TTextarea,
@@ -116,6 +131,7 @@ Vue.use(VueTailwind, {
   't-radio-group': TRadioGroup,
   't-input-group': TInputGroup,
   't-toggle': TToggle,
+  't-modal': TModal,
 });
 
 export default Vue.extend({

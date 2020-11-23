@@ -25,7 +25,8 @@ const install: InstallFunction = function installVueTailwind(vueInstance: typeof
     const componentSettings = settings[componentName];
 
     if (typeof componentSettings === 'function' && typeof componentSettings.extend !== undefined) {
-      vueInstance.component(componentName, componentSettings);
+      const component = componentSettings;
+      vueInstance.component(componentName, configure(component));
       return;
     }
 
