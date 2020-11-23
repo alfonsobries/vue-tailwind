@@ -112,6 +112,15 @@
             Something went wrong!
           </t-alert>
         </t-input-group>
+        <t-input-group label="TTable">
+          <t-table
+            :headers="['Name', 'Email', 'Sales']"
+            :data="[
+              ['Alfonso Bribiesca', 'alfonso@vexilo.com', '$9,999.00'],
+              ['Saida Redondo', 'saida@gmail.com', '$124.00'],
+            ]"
+          />
+        </t-input-group>
       </div>
     </div>
   </div>
@@ -139,6 +148,7 @@ import TToggle from './t-toggle';
 
 import TModal from './t-modal';
 import TAlert from './t-alert';
+import TTable from './t-table';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -155,6 +165,7 @@ Vue.use(VueTailwind, {
   't-toggle': TToggle,
   't-modal': TModal,
   't-alert': TAlert,
+  't-table': TTable,
 });
 
 export default Vue.extend({
