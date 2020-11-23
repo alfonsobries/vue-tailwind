@@ -30,9 +30,23 @@ const TInputGroup = Component.extend({
         return value.length === intersection(value, expectedValues).length;
       },
     },
+    fixedClasses: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
     classes: {
       type: Object,
-      default: undefined,
+      default() {
+        return {
+          wrapper: '',
+          label: 'block text-gray-800',
+          body: '',
+          feedback: 'text-gray-400 text-sm',
+          description: 'text-gray-400 text-sm',
+        };
+      },
     },
   },
 

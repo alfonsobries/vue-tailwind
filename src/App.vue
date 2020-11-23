@@ -6,58 +6,43 @@
         Form elements
       </h3>
       <div class="grid grid-cols-1 gap-6">
-        <label class="block">
-          <span class="text-gray-700">TInput</span>
+        <t-input-group
+          label="TInput"
+          feedback="Example feedback"
+        >
           <t-input placeholder="My placeholder" />
-        </label>
-        <label class="block">
-          <span class="text-gray-700">TTextarea</span>
+        </t-input-group>
+
+        <t-input-group label="TTextarea">
           <t-textarea placeholder="My placeholder" />
-        </label>
-        <label class="block">
-          <span class="text-gray-700">TSelect</span>
+        </t-input-group>
+        <t-input-group label="TSelect">
           <t-select :options="options" />
-        </label>
-        <div class="block">
-          <span class="text-gray-700">TCheckbox</span>
-          <div class="mt-2">
-            <div>
-              <label class="inline-flex items-center">
-                <t-checkbox checked />
+        </t-input-group>
+        <t-input-group label="TCheckbox">
+          <label class="flex items-center">
+            <t-checkbox checked />
+            <span class="ml-2">Check me</span>
+          </label>
+        </t-input-group>
+        <t-input-group label="TCheckbox">
+          <label class="flex items-center">
+            <t-radio
+              name="radio"
+              checked
+            />
 
-                <span class="ml-2">Check me</span>
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="block">
-          <span class="text-gray-700">TRadio</span>
-          <div class="mt-2">
-            <div>
-              <label class="inline-flex items-center">
-                <t-radio
-                  name="radio"
-                  checked
-                />
+            <span class="ml-2">Select this</span>
+          </label>
+          <label class="flex items-center">
+            <t-radio name="radio" />
 
-                <span class="ml-2">Select this</span>
-              </label>
-            </div>
-            <div>
-              <label class="inline-flex items-center">
-                <t-radio name="radio" />
-
-                <span class="ml-2">Or select this</span>
-              </label>
-            </div>
-          </div>
-        </div>
-        <label class="block">
-          <span class="text-gray-700">TButton</span>
-          <div>
-            <t-button>My button</t-button>
-          </div>
-        </label>
+            <span class="ml-2">Or select this</span>
+          </label>
+        </t-input-group>
+        <t-input-group label="TButton">
+          <t-button>My button</t-button>
+        </t-input-group>
       </div>
     </div>
     <div class="max-w-md mx-auto my-10">
@@ -65,35 +50,29 @@
         Form components
       </h3>
       <div class="grid grid-cols-1 gap-6">
-        <label class="block">
-          <span class="text-gray-700">TRichSelect</span>
+        <t-input-group label="TRichSelect">
           <t-rich-select
             clearable
             :options="options"
             placeholder="Select something"
           />
-        </label>
+        </t-input-group>
 
-        <label class="block">
-          <span class="text-gray-700">TDatepicker</span>
-          <t-datepicker
-            placeholder="Pick a date"
-          />
-        </label>
-        <label class="block">
-          <span class="text-gray-700">TCheckboxGroup</span>
+        <t-input-group label="TDatepicker">
+          <t-datepicker placeholder="Pick a date" />
+        </t-input-group>
+        <t-input-group label="TCheckboxGroup">
           <t-checkbox-group
             name="checkbox-group"
             :options="options"
           />
-        </label>
-        <label class="block">
-          <span class="text-gray-700">TRadioGroup</span>
+        </t-input-group>
+        <t-input-group label="TRadioGroup">
           <t-radio-group
             name="radio-group"
             :options="options"
           />
-        </label>
+        </t-input-group>
       </div>
     </div>
   </div>
@@ -116,6 +95,7 @@ import TRichSelect from './t-rich-select';
 import TDatepicker from './t-datepicker';
 import TCheckboxGroup from './t-checkbox-group';
 import TRadioGroup from './t-radio-group';
+import TInputGroup from './t-input-group';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -128,6 +108,7 @@ Vue.use(VueTailwind, {
   't-datepicker': TDatepicker,
   't-checkbox-group': TCheckboxGroup,
   't-radio-group': TRadioGroup,
+  't-input-group': TInputGroup,
 });
 
 export default Vue.extend({
