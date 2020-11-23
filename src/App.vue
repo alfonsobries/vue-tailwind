@@ -105,6 +105,13 @@
             Open modal
           </t-button>
         </t-input-group>
+        <t-input-group label="TAlert">
+          <t-alert
+            show
+          >
+            Something went wrong!
+          </t-alert>
+        </t-input-group>
       </div>
     </div>
   </div>
@@ -131,6 +138,7 @@ import TInputGroup from './t-input-group';
 import TToggle from './t-toggle';
 
 import TModal from './t-modal';
+import TAlert from './t-alert';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -146,6 +154,7 @@ Vue.use(VueTailwind, {
   't-input-group': TInputGroup,
   't-toggle': TToggle,
   't-modal': TModal,
+  't-alert': TAlert,
 });
 
 export default Vue.extend({
