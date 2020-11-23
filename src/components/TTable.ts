@@ -53,7 +53,7 @@ const TTable = Component.extend({
     classes: {
       type: Object,
       default: () => ({
-        table: 'min-w-full divide-y divide-gray-100 shadow',
+        table: 'min-w-full divide-y divide-gray-100 shadow-sm',
         thead: '',
         theadTr: '',
         theadTh: 'px-3 py-2 font-semibold text-left bg-gray-100 border-b',

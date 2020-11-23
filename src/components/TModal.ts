@@ -68,7 +68,7 @@ const TModal = Component.extend({
           body: 'p-3',
           header: 'border-b border-gray-100 p-3',
           footer: 'bg-gray-100 p-3',
-          close: 'bg-gray-100 text-gray-600 rounded transition duration-100 ease-in-out hover:bg-gray-200 ',
+          close: 'bg-gray-100 text-gray-600 rounded transition duration-100 ease-in-out hover:bg-gray-200',
           closeIcon: 'fill-current h-3 w-3',
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',

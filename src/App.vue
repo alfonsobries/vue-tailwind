@@ -105,6 +105,39 @@
             Open modal
           </t-button>
         </t-input-group>
+        <t-input-group label="TDialog">
+          <div class="flex space-x-3">
+            <t-button
+              @click.prevent="$dialog.confirm({
+                title: 'Delete user?',
+                icon: 'info',
+                showCloseButton: true,
+              })"
+            >
+              Open Dialog
+            </t-button>
+            <t-button
+              @click.prevent="$dialog.prompt({
+                title: 'Delete user?',
+                text: 'This action cannot be undone.',
+                icon: 'info',
+                inputType: 'select',
+                inputOptions: options,
+                showCloseButton: true,
+              })"
+            >
+              Open Prompt
+            </t-button>
+            <t-button
+              @click.prevent="$dialog.alert({
+                title: 'Delete user?',
+
+              })"
+            >
+              Open alert
+            </t-button>
+          </div>
+        </t-input-group>
         <t-input-group label="TAlert">
           <t-alert
             show
@@ -149,6 +182,7 @@ import TToggle from './t-toggle';
 import TModal from './t-modal';
 import TAlert from './t-alert';
 import TTable from './t-table';
+import TDialog from './t-dialog';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -166,6 +200,7 @@ Vue.use(VueTailwind, {
   't-modal': TModal,
   't-alert': TAlert,
   't-table': TTable,
+  't-dialog': TDialog,
 });
 
 export default Vue.extend({
