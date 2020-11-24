@@ -76,13 +76,14 @@ const TPagination = Component.extend({
       type: Object,
       default() {
         return {
-          wrapper: 'table border-collapse text-center bg-white mx-auto mt-2',
-          element: 'w-8 h-8 border table-cell',
-          disabledElement: 'w-8 h-8 border table-cell',
-          ellipsisElement: 'w-8 h-8 border hidden md:table-cell',
-          activeButton: 'bg-gray-300 w-full h-full',
-          disabledButton: 'opacity-25 w-full h-full cursor-not-allowed',
-          button: 'hover:bg-gray-200 w-full h-full',
+          wrapper: 'table border-collapse text-center bg-white mx-auto shadow-sm',
+          element: 'w-8 h-8 border border-gray-100 table-cell hover:border-blue-100',
+          activeElement: 'w-8 h-8 border border-gray-100 border-blue-500 table-cell hover:border-blue-600',
+          disabledElement: 'w-8 h-8 border border-gray-100 table-cell',
+          ellipsisElement: 'w-8 h-8 border border-gray-100 hidden md:table-cell',
+          activeButton: 'bg-blue-500 w-full h-full text-white hover:bg-blue-600 transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          disabledButton: 'opacity-25 w-full h-full cursor-not-allowed transition duration-100 ease-in-out',
+          button: 'hover:bg-blue-100 w-full h-full transition duration-100 ease-in-out focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
           ellipsis: '',
         };
       },
@@ -229,6 +230,8 @@ const TPagination = Component.extend({
         className = this.getElementCssClass('ellipsisElement');
       } else if (disabled) {
         className = this.getElementCssClass('disabledElement');
+      } else if (active) {
+        className = this.getElementCssClass('activeElement');
       } else {
         className = this.getElementCssClass('element');
       }
@@ -259,8 +262,10 @@ const TPagination = Component.extend({
       }
 
       let className: CssClass = '';
+      const attrs: { disabled?: boolean } = {};
       if (disabled) {
         className = this.getElementCssClass('disabledButton');
+        attrs.disabled = true;
       } else if (active) {
         className = this.getElementCssClass('activeButton');
       } else {
@@ -274,7 +279,9 @@ const TPagination = Component.extend({
           on: {
             click: clickHandler,
           },
+          attrs,
           domProps: {
+            disabled: disabled ? true : undefined,
             innerHTML: text,
           },
         },

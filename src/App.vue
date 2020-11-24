@@ -154,6 +154,13 @@
             ]"
           />
         </t-input-group>
+        <t-input-group label="TPagination">
+          <t-pagination
+            :value="2"
+            :total-items="100"
+            :per-page="10"
+          />
+        </t-input-group>
       </div>
     </div>
   </div>
@@ -183,6 +190,7 @@ import TModal from './t-modal';
 import TAlert from './t-alert';
 import TTable from './t-table';
 import TDialog from './t-dialog';
+import TPagination from './t-pagination';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -201,6 +209,7 @@ Vue.use(VueTailwind, {
   't-alert': TAlert,
   't-table': TTable,
   't-dialog': TDialog,
+  't-pagination': TPagination,
 });
 
 export default Vue.extend({
