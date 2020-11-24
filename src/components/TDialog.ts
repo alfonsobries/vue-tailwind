@@ -158,8 +158,9 @@ const TDialog = Component.extend({
         return {
           overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
           wrapper: 'relative mx-auto',
-          modal: 'overflow-hidden relative ',
-          close: 'flex items-center justify-center absolute right-0 top-0 m-3 h-6 w-6',
+          modal: 'overflow-visible relative ',
+          close: 'flex items-center justify-center',
+          dialog: 'overflow-visible relative',
         };
       },
     },
@@ -167,22 +168,22 @@ const TDialog = Component.extend({
       type: Object,
       default() {
         return {
-          close: 'bg-gray-100 text-gray-600 rounded transition duration-100 ease-in-out hover:bg-gray-200',
-          closeIcon: 'fill-current h-3 w-3',
+          close: 'bg-gray-100 text-gray-600 rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out hover:bg-gray-200 ',
+          closeIcon: 'fill-current h-4 w-4',
 
           overlay: 'z-40 bg-black bg-opacity-50',
           wrapper: 'z-50 max-w-lg px-3 py-12',
-          dialog: 'bg-white shadow rounded text-left overflow-hidden relative',
+          dialog: 'bg-white shadow rounded text-left',
 
-          body: 'flex p-3 space-x-3',
+          body: 'p-3 space-y-3',
           buttons: 'p-3 flex space-x-4 justify-center bg-gray-100',
 
-          iconWrapper: 'bg-gray-100 flex flex-shrink-0 h-12 items-center justify-center rounded-full w-12',
+          iconWrapper: 'bg-gray-100 flex flex-shrink-0 h-12 items-center justify-center rounded-full w-12 mx-auto',
           icon: 'w-6 h-6 text-gray-500',
           content: 'w-full flex justify-center flex-col',
 
           titleWrapper: '',
-          title: 'text-lg font-medium',
+          title: 'text-lg font-semibold text-center',
 
           textWrapper: 'text-left w-full',
           text: '',
