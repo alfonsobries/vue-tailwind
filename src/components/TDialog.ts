@@ -168,7 +168,7 @@ const TDialog = Component.extend({
       type: Object,
       default() {
         return {
-          close: 'bg-gray-100 text-gray-600 rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out hover:bg-gray-200 ',
+          close: 'bg-gray-100 text-gray-600 rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
           closeIcon: 'fill-current h-4 w-4',
 
           overlay: 'z-40 bg-black bg-opacity-50',
