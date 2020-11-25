@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 <template>
   <div class="pb-36">
-    <div class="max-w-md mx-auto mt-10">
-      <h3 class="mb-5 text-xl font-semibold text-gray-700">
-        Form elements
-      </h3>
+    <t-card
+      header="Form elements"
+      class="max-w-md mx-auto my-10"
+    >
       <div class="grid grid-cols-1 gap-6">
         <t-input-group
           label="TInput"
@@ -44,11 +44,11 @@
           <t-button>My button</t-button>
         </t-input-group>
       </div>
-    </div>
-    <div class="max-w-md mx-auto my-10">
-      <h3 class="mb-5 text-xl font-semibold text-gray-700">
-        Form components
-      </h3>
+    </t-card>
+    <t-card
+      header="Form components"
+      class="max-w-md mx-auto my-10"
+    >
       <div class="grid grid-cols-1 gap-6">
         <t-input-group label="TRichSelect">
           <t-rich-select
@@ -79,6 +79,13 @@
             name="toggle"
           />
         </t-input-group>
+      </div>
+    </t-card>
+    <t-card
+      header="UI Elements"
+      class="max-w-md mx-auto my-10"
+    >
+      <div class="grid grid-cols-1 gap-6">
         <t-input-group label="TModal">
           <t-modal
             name="modal"
@@ -162,7 +169,7 @@
           />
         </t-input-group>
       </div>
-    </div>
+    </t-card>
   </div>
 </template>
 
@@ -191,6 +198,7 @@ import TAlert from './t-alert';
 import TTable from './t-table';
 import TDialog from './t-dialog';
 import TPagination from './t-pagination';
+import TCard from './t-card';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -210,6 +218,7 @@ Vue.use(VueTailwind, {
   't-table': TTable,
   't-dialog': TDialog,
   't-pagination': TPagination,
+  't-card': TCard,
 });
 
 export default Vue.extend({
