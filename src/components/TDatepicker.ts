@@ -161,7 +161,7 @@ const TDatepicker = HtmlInput.extend({
         clearButtonIcon: '',
 
         // Picker views
-        viewGroup: 'bg-white border',
+        viewGroup: 'bg-white rounded',
         view: '',
 
         // Navigator

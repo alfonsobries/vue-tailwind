@@ -168,6 +168,36 @@
             :per-page="10"
           />
         </t-input-group>
+        <t-input-group label="TDropdown">
+          <t-dropdown text="Dropdown example">
+            <div class="py-1 rounded-md shadow-xs">
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                role="menuitem"
+                @click.prevent
+              >
+                Your Profile
+              </a>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                role="menuitem"
+                @click.prevent
+              >
+                Settings
+              </a>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                role="menuitem"
+                @click.prevent
+              >
+                Sign out
+              </a>
+            </div>
+          </t-dropdown>
+        </t-input-group>
       </div>
     </t-card>
   </div>
@@ -199,6 +229,7 @@ import TTable from './t-table';
 import TDialog from './t-dialog';
 import TPagination from './t-pagination';
 import TCard from './t-card';
+import TDropdown from './t-dropdown';
 
 Vue.use(VueTailwind, {
   't-input': TInput,
@@ -219,6 +250,7 @@ Vue.use(VueTailwind, {
   't-dialog': TDialog,
   't-pagination': TPagination,
   't-card': TCard,
+  't-dropdown': TDropdown,
 });
 
 export default Vue.extend({
