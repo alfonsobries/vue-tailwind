@@ -82,9 +82,7 @@
   },
   "homepage": "https://vue-tailwind.com",
   "files": [
-    "dist/*",
-    "*.json",
-    "*.js"
+    "dist/*"
   ],
   "typings": "./dist/index.d.ts",
   "main": "dist/vue-tailwind.js"
