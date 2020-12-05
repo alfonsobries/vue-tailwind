@@ -41,7 +41,7 @@ const TInputGroup = Component.extend({
       default() {
         return {
           wrapper: '',
-          label: 'block text-gray-800',
+          label: 'block',
           body: '',
           feedback: 'text-gray-400 text-sm',
           description: 'text-gray-400 text-sm',

@@ -59,8 +59,11 @@
         </t-input-group>
 
         <t-input-group label="TDatepicker">
-          <t-datepicker placeholder="Pick a date" />
+          <t-datepicker
+            placeholder="Pick a date"
+          />
         </t-input-group>
+
         <t-input-group label="TCheckboxGroup">
           <t-checkbox-group
             name="checkbox-group"

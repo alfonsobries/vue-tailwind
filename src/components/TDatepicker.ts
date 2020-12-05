@@ -143,7 +143,7 @@ const TDatepicker = HtmlInput.extend({
         // Dropdown related classes
         wrapper: 'flex flex-col',
         dropdownWrapper: 'relative z-10',
-        dropdown: 'origin-top-left absolute rounded shadow overflow-hidden',
+        dropdown: 'origin-top-left absolute rounded shadow bg-white overflow-hidden mt-1',
         enterClass: '',
         enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',
         enterToClass: 'transform opacity-100 scale-100',
@@ -153,6 +153,7 @@ const TDatepicker = HtmlInput.extend({
 
         // Wrapper for inline calendar
         inlineWrapper: '',
+        inlineViews: 'rounded bg-white border mt-1 inline-flex',
 
         // Text input related classes
         inputWrapper: '',
@@ -161,7 +162,7 @@ const TDatepicker = HtmlInput.extend({
         clearButtonIcon: '',
 
         // Picker views
-        viewGroup: 'bg-white rounded',
+        viewGroup: '',
         view: '',
 
         // Navigator
@@ -711,7 +712,13 @@ const TDatepicker = HtmlInput.extend({
             TDatepickerTrigger,
             triggerSettings,
           ),
-          views,
+          createElement(
+            'div',
+            {
+              class: this.getElementCssClass('inlineViews'),
+            },
+            [views],
+          ),
         ]);
     }
 

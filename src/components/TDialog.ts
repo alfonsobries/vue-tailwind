@@ -176,7 +176,7 @@ const TDialog = Component.extend({
           dialog: 'bg-white shadow rounded text-left',
 
           body: 'p-3 space-y-3',
-          buttons: 'p-3 flex space-x-4 justify-center bg-gray-100',
+          buttons: 'p-3 flex space-x-4 justify-center bg-gray-100 rounded-b',
 
           iconWrapper: 'bg-gray-100 flex flex-shrink-0 h-12 items-center justify-center rounded-full w-12 mx-auto',
           icon: 'w-6 h-6 text-gray-500',
