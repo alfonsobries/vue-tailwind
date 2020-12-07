@@ -652,9 +652,9 @@ const TDatepicker = HtmlInput.extend({
         scopedSlots: this.$scopedSlots,
         on: {
           input: this.inputHandler,
-          inputActiveDate: this.inputActiveDateHandler,
-          updateView: this.setView,
-          resetView: this.resetView,
+          'input-active-date': this.inputActiveDateHandler,
+          'update-view': this.setView,
+          'reset-view': this.resetView,
         },
       },
     );
