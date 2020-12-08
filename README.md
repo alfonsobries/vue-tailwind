@@ -43,7 +43,7 @@ Or:
 yarn add vue-tailwind
 ``` 
 
-### 2. Configure your project to use `vue-tailwind` 
+### 2. Configure Vue to use `vue-tailwind` 
 
 ```js
 import Vue from 'vue'
@@ -164,7 +164,7 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
-> *Note* Using the syntax from point **2.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **2.1** or **2.2** to help the library reuse some code to keep the bundle size at a minimum.
+> *Note* Using the syntax from point **2.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **2.1** or **2.2** to help the library reuse some code and keep the bundle size at a minimum.
 
 ## Theming
 
@@ -174,7 +174,7 @@ The `classes` and `fixedClasses` props usually expects an `string` with a CSS cl
 
 The `variants` props expects an object where every key represents the variant name and every value the classes that will be used when that variant is used.
 
-#### Example for a single-tag compnent: 
+#### Example for a single-tag component: 
 
 ```js
 import Vue from 'vue'
@@ -190,9 +190,9 @@ const settings = {
       // Classes used when any variant is active
       classes: 'text-white bg-blue-600 hover:bg-blue-500 focus:border-blue-700 active:bg-blue-700 text-sm font-medium border border-transparent px-3 py-2 rounded-md',
       variants: {
-        // A red variant of the button (applied when variant="error")
+        // A red variant of the button (applied when `<t-button variant="error" />`)
         error: 'text-white bg-red-600 hover:bg-red-500 focus:border-red-700 active:bg-red-700 text-sm font-medium border border-transparent px-3 py-2 rounded-md',
-        // A green variant of the button (applied when variant="success")
+        // A green variant of the button (applied when `<t-button variant="success" />`)
         success: 'text-white bg-green-600 hover:bg-green-500 focus:border-green-700 active:bg-green-700 text-sm font-medium border border-transparent px-3 py-2 rounded-md',
         // ...unlimited variants
       }
@@ -204,7 +204,7 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
-#### Example for a complex compnent: 
+#### Example for a complex component: 
 
 ```js
 import Vue from 'vue'
@@ -246,9 +246,9 @@ Vue.use(VueTailwind, settings)
 
 ## Override settings
 
-All the components in this library have default settings added as component props according to how we understand those settings are most commonly used.
+All the components on this library have default settings added as component props according to how we understand those settings are most commonly used.
 
-We are aware that in a lot of cases is useful to change the default value, so we don't need to add the prop over and over when needed.
+We are aware that in many cases is useful to change the default value, so we don't need to add the prop over and over when needed.
 
 ```js
 import Vue from 'vue'
