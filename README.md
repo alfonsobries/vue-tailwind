@@ -164,7 +164,7 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
-> *Note* Using the syntax from point **2.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **2.1** or **2.2** to help the library reuse some code and keep the bundle size at a minimum.
+> *Note*: Using the syntax from point **2.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **2.1** or **2.2** to help the library reuse some code and keep the bundle size at a minimum.
 
 ## Theming
 
