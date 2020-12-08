@@ -372,6 +372,7 @@ The variant prop also accepts an object that takes the first attribute with a _t
 - Install only the components you need for smaller bundle size
 - Custom name for components
 - The ability to install the same component multiple times with different default settings and name
+- New default theme
 
 #### Plans for v3.x
 
