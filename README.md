@@ -2,43 +2,45 @@
 
 ![CI](https://github.com/alfonsobries/vue-tailwind/workflows/CI/badge.svg)
 
-For more info check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/)
+For more info, check the official site: [https://vue-tailwind.com/](https://vue-tailwind.com/).
 
-**VueTailwind** is a set of Vue components created to be customized to adapt to the unique design of your application.
+**VueTailwind** is a set of Vue components created to be customized to adapt to your application's unique design.
 
 ### Another UI library?
 
-Most component libraries depend on CSS frameworks with an opinionated and limited number of styles defined by the people who maintain those libraries. Those libraries are great and make our work easy, but hey, we made a beautiful custom design, right?
+Most component libraries depend on CSS frameworks with an opinionated and limited number of styles defined by the people who maintain those libraries.
+
+Those libraries are great and make our work easy, but hey, we made a beautiful custom design, right?
 
 ### So what are the alternatives?
 
-We can use a framework like [TailwindCss](https://tailwindcss.com) to define our style, but that will end with us writing long CSS classes repeatedly, which could quickly become unmaintainable. Also, create some components like modals, date pickers, etc., is a tricky task, and let's admit it, nobody has time for that, right? 
+We can use a framework like [TailwindCss](https://tailwindcss.com) to define our style, but that will end with us writing long CSS classes repeatedly, which could quickly become unmaintainable. Also, create some components like modals, date pickers, etc., is a tricky task, and let's admit it, nobody has time for that, right?
 
 ### Best of both worlds
 
-The VueTailwind components are meant to be customized with custom CSS classes that you can define when you install the library.
+The **VueTailwind** components are meant to be customized with custom CSS classes that you can define when you install the library.
 
-Plus, most component settings are configurable, so using this library is like having your set components for your particular needs.
+Plus, most component settings are configurable, so using this library is like having your personal set of components for your particular needs.
 
-In summary, with this library, you will be able to:
+All that means that with this library, you will be able to:
 
-- Define your components' look and feel by defining custom default CSS classes.
+- Define your components look and feel by defining custom default CSS classes.
 - Add unlimited variants for every specific use case.
 - Override the default value of the props according to your needs.
-- Create different versions of one component but with different default settings.
+- Create different versions of one component with different default settings.
 
 ## Installation
 
 ### 1. Install the dependencies 
 
 ```console
-npm install vue-tailwind@next --save
+npm install vue-tailwind --save
 ``` 
 
 Or: 
 
 ```console
-yarn add vue-tailwind@next
+yarn add vue-tailwind
 ``` 
 
 ### 2. Configure your project to use `vue-tailwind` 
@@ -54,16 +56,44 @@ const components = {
 Vue.use(VueTailwind, components)
 ```
 
-## 2.1 Add the components you need with his settings
+## 2.1 Import and install the components
 
 ```js
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import TInput from 'vue-tailwind/dist/t-input'
-import TButton from 'vue-tailwind/dist/t-button'
-import TModal from 'vue-tailwind/dist/t-modal'
+
+import {
+  TInput,
+  TTextarea,
+  TSelect,
+  TRadio,
+  TCheckbox,
+  TButton,
+  TInputGroup,
+  TCard,
+  TAlert,
+  TModal,
+  TDropdown,
+  TRichSelect,
+  TPagination,
+  TTag,
+  TRadioGroup,
+  TCheckboxGroup,
+  TTable,
+  TDatepicker,
+  TToggle,
+  TDialog,
+} from 'vue-tailwind/dist/components';
 
 const settings = {
+  // Use the following syntax
+  // {component-name}: {
+  //   component: {importedComponentObject},
+  //   props: {
+  //     {propToOverride}: {newDefaultValue}
+  //     {propToOverride2}: {newDefaultValue2}
+  //   }
+  // }
   't-input': {
     component: TInput,
     props: {
@@ -71,39 +101,80 @@ const settings = {
       // ...More settings
     }
   },
-  't-button': {
-    component: TButton,
+  't-textarea': {
+    component: TTextarea,
     props: {
-      classes: 'rounded-lg border block inline-flex items-center justify-center'
+      classes: 'border-2 block w-full rounded text-gray-800'
       // ...More settings
     }
   },
-  't-modal': {
-    component: TModal,
-    props: {
-      classes: {
-        body: 'bg-white p-3',
-        header: 'p-3',
-        footer: 'p-3 border-t'
-      }
-      // ...More settings
-    }
-  }
-
+  // ...Rest of the components
 }
 
 Vue.use(VueTailwind, settings)
 ```
 
+## 2.2 Alternatively, you can use the v1.0 syntax
+
+```js
+import Vue from 'vue'
+import VueTailwind from 'vue-tailwind/dist/full'
+
+const settings = {
+  TInput: {
+    classes: 'border-2 block w-full rounded text-gray-800',
+    // ...More settings
+  },
+  TButton: {
+    classes: 'rounded-lg border block inline-flex items-center justify-center',
+    // ...More settings
+  },
+  // ...Rest of the components
+}
+
+Vue.use(VueTailwind, settings)
+```
+
+## 2.3 Or install only the components you need
+
+```js
+import Vue from 'vue'
+import VueTailwind from 'vue-tailwind'
+
+import TInput from 'vue-tailwind/dist/t-input'
+import TButton from 'vue-tailwind/dist/t-button'
+
+const settings = {
+  't-input': {
+    component: TInput,
+    props: {
+      classes: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
+      // ...More settings
+    }
+  },
+  't-button': {
+    component: TButton,
+    props: {
+      classes: 'block px-4 py-2 text-white transition duration-100 ease-in-out bg-blue-500 border border-transparent rounded shadow-sm hover:bg-blue-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50  disabled:opacity-50 disabled:cursor-not-allowed',
+      // ...More settings
+    }
+  },
+}
+
+Vue.use(VueTailwind, settings)
+```
+
+> *Note* Using the syntax from point **2.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **2.1** or **2.2** to help the library reuse some code to keep the bundle size at a minimum.
+
 ## Theming
 
-To apply a custom theme you should use the `classes`, `fixedClasses`, and `variants` props.
+To apply a custom theme you should play with the `classes`, `fixedClasses`, and `variants` props.
 
 The `classes` and `fixedClasses` props usually expects an `string` with a CSS class for single-tag components (inputs, button, etc.) and an `object` for more complex components (modals, datepicker, etc) (see component docs for details).
 
 The `variants` props expects an object where every key represents the variant name and every value the classes that will be used when that variant is used.
 
-Example for a single-tag compnent: 
+#### Example for a single-tag compnent: 
 
 ```js
 import Vue from 'vue'
@@ -133,7 +204,7 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
-Example for a complex compnent: 
+#### Example for a complex compnent: 
 
 ```js
 import Vue from 'vue'
@@ -162,8 +233,8 @@ const settings = {
           wrapper: 'bg-red-100 border-red-500',
           body: 'text-red-700',
           close: 'text-red-700 hover:text-red-500 hover:bg-red-200'
-          // Notice that I am not defining the `closeIcon` classes since they dont need
-          // to change within variants.
+          // Notice that I am not defining the `closeIcon` class since we only
+          // need to write the classes we want to override
         },
       }
     }
@@ -173,6 +244,110 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
+## Override settings
+
+All the components in this library have default settings added as component props according to how we understand those settings are most commonly used.
+
+We are aware that in a lot of cases is useful to change the default value, so we don't need to add the prop over and over when needed.
+
+```js
+import Vue from 'vue'
+import VueTailwind from 'vue-tailwind'
+
+import TDatepicker from 'vue-tailwind/dist/t-datepicker'
+import TButton from 'vue-tailwind/dist/t-button'
+import TModal from 'vue-tailwind/dist/t-modal'
+
+// Locale to eventually replace the default Datepicker locale
+import Spanish from 'vue-tailwind/dist/l10n/es'
+
+const settings = {
+  't-button': {
+    component: TButton,
+    props: {
+      // classes: '...',
+      // variants: '...',
+      // ...
+      // Originally it defaults to `undefined` that means is considered a submit
+      // button if the button is inside a form.
+      type: 'button',
+    }
+  },
+  't-datepicker': {
+    component: TDatepicker,
+    props: {
+      // classes: '...',
+      // variants: '...',
+      // ...
+      // Originally a locale object with English values
+      locale: Spanish,
+    }
+  },
+  't-modal': {
+    component: TModal,
+    props: {
+      // classes: '...',
+      // variants: '...',
+      // ...
+      // Originally `true`
+      escToClose: false,
+    }
+  },
+}
+
+Vue.use(VueTailwind, settings)
+```
+
+You can also use this feature to create different versions of the same component.
+
+```js
+import Vue from 'vue'
+import VueTailwind from 'vue-tailwind'
+
+import TButton from 'vue-tailwind/dist/t-button'
+import TTag from 'vue-tailwind/dist/t-tag'
+
+const settings = {
+  // What about one <t-button /> for normal button and a `<t-submit />` for a submit button
+  't-button': {
+    component: TButton,
+    props: {
+      type: 'button',
+    }
+  },
+  't-submit': {
+    component: TButton,
+    props: {
+      type: 'submit',
+    }
+  },
+  // I love this use case for the TTag component and will let you guess what
+  // is doing: 👇
+  'blog-title': { // Used like <blog-title>Title of a blog post</blog-title>
+    component: TTag,
+    props: {
+      tag: 'h1',
+      classes: 'font-semibold text-xl leading-6',
+    }
+  },
+  'blog-subtitle': { // Used like <blog-title>subtitle of a blog post</blog-title>
+    component: TTag,
+    props: {
+      tag: 'h2',
+      classes: 'font-semibold text-xl leading-6',
+    }
+  },
+  't-link': { // Used like <t-link href="">Open site</t-link>
+    component: TTag,
+    props: {
+      tag: 'a',
+      classes: 'text-blue-500 underline hover:text-blue-600',
+    }
+  }
+}
+
+Vue.use(VueTailwind, settings)
+```
 
 ## Workflow
 
@@ -192,7 +367,6 @@ The variant prop also accepts an object that takes the first attribute with a _t
   }"
 />
 ```
-
 ## What's new in version 2.x
 
 - Install only the components you need for smaller bundle size

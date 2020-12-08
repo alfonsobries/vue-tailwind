@@ -42,11 +42,30 @@ const config = [
     ],
   },
   {
-    input: 'src/full.ts', // Path relative to package.json
+    input: 'src/full.ts',
     output: {
       sourcemap: true,
       dir: 'dist',
       entryFileNames: 'full.js',
+      format: 'umd',
+      name: 'VueTailwind',
+      exports: 'named',
+      globals,
+    },
+    external: Object.keys(globals),
+    plugins: [
+      typescript({
+        rootDir: 'src',
+      }),
+      vue(),
+    ],
+  },
+  {
+    input: 'src/components.ts',
+    output: {
+      sourcemap: true,
+      dir: 'dist',
+      entryFileNames: 'components.js',
       format: 'umd',
       name: 'VueTailwind',
       exports: 'named',
