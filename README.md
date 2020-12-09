@@ -76,7 +76,7 @@ module.exports = {
 };
 ```
 
-## 3. Configure Vue to use `vue-tailwind` 
+## 3. Configure Vue to use vue-tailwind
 
 ```js
 import Vue from 'vue'
