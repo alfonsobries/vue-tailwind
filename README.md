@@ -452,6 +452,3 @@ If you discover any security related issues, please email alfonso@vexilo.com ins
 The MIT License (MIT). Please see [License File](https://github.com/alfonsobries/vue-tailwind/blob/master/LICENSE) for more information.
 
 _Made with love by [@alfonsobries](https://twitter.com/alfonsobries)_
-
-
-[Version 0.x docs](https://v0.vue-tailwind.com/).
