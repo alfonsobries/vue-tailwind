@@ -200,6 +200,9 @@ Vue.use(VueTailwind, settings)
 
 > *Note*: Using the syntax from point **3.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **3.1** or **3.2** to help the library reuse some code and keep the bundle size at a minimum.
 
+
+[Read more →](https://www.vue-tailwind.com/docs/installation)
+
 ## Theming
 
 To apply a custom theme you should play with the `classes`, `fixedClasses`, and `variants` props.
@@ -277,6 +280,8 @@ const settings = {
 
 Vue.use(VueTailwind, settings)
 ```
+
+[Read more →](https://www.vue-tailwind.com/docs/theming)
 
 ## Override settings
 
@@ -383,6 +388,8 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
+[Read more →](https://www.vue-tailwind.com/docs/settings)
+
 ## Workflow
 
 Once your different variants were defined you can use the `variant` prop to define which variant should be applied:
@@ -401,6 +408,9 @@ The variant prop also accepts an object that takes the first attribute with a _t
   }"
 />
 ```
+
+[Read more →](https://www.vue-tailwind.com/docs/workflow)
+
 ## What's new in version 2.x
 
 - Install only the components you need for smaller bundle size
