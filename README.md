@@ -43,7 +43,40 @@ Or:
 yarn add vue-tailwind
 ``` 
 
-### 2. Configure Vue to use `vue-tailwind` 
+## 2. Install TailwindCSS (Optional)
+
+This library uses TailwindCSS classes by default. Still, it should work with any CSS framework since all the CSS classes are configurable.
+
+To install TailwindCSS follow his official documentation: [https://tailwindcss.com/docs/installation](https://tailwindcss.com/docs/installation)
+
+#### 2.1 Add the @tailwindcss/forms plugin
+
+The default theme of this library depends on the `@tailwindcss/forms` plugin. To use it, follow the steps on the plugin source page.
+[https://github.com/tailwindlabs/tailwindcss-forms](https://github.com/tailwindlabs/tailwindcss-forms)
+
+#### 2.1 Add variants for disabled pseudo-class
+
+Also needed for the default theme and strongly recommended since it adds the ability to use some classes like `disabled:opacity-50 disabled:cursor-not-allowed` to disabled inputs.
+
+See [https://tailwindcss.com/docs/configuring-variants](https://tailwindcss.com/docs/configuring-variants) on the TailwindCSS docs for more info.
+
+As a reference, your `tailwind.config.js` may look like this:
+
+```js
+module.exports = {
+  variants: {
+    extend: {
+      opacity: ['disabled'],
+      cursor: ['disabled'],
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
+};
+```
+
+## 3. Configure Vue to use `vue-tailwind` 
 
 ```js
 import Vue from 'vue'
@@ -56,7 +89,7 @@ const components = {
 Vue.use(VueTailwind, components)
 ```
 
-## 2.1 Import and install the components
+### 3.1 Import and install the components
 
 ```js
 import Vue from 'vue'
@@ -114,7 +147,7 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
-## 2.2 Alternatively, you can use the v1.0 syntax
+### 3.2 Alternatively, you can use the v1.0 syntax
 
 ```js
 import Vue from 'vue'
@@ -135,7 +168,7 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
-## 2.3 Or install only the components you need
+### 3.3 Or install only the components you need
 
 ```js
 import Vue from 'vue'
@@ -164,7 +197,7 @@ const settings = {
 Vue.use(VueTailwind, settings)
 ```
 
-> *Note*: Using the syntax from point **2.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **2.1** or **2.2** to help the library reuse some code and keep the bundle size at a minimum.
+> *Note*: Using the syntax from point **3.3** is the best way to prevent a big bundle size but only if you import a couple of components. If the number of components you install increases, the recommended way to install them is to use the syntax from the points **3.1** or **3.2** to help the library reuse some code and keep the bundle size at a minimum.
 
 ## Theming
 
