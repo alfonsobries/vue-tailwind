@@ -151,6 +151,7 @@ Vue.use(VueTailwind, settings)
 
 ```js
 import Vue from 'vue'
+// Notice that I am using a different path here:
 import VueTailwind from 'vue-tailwind/dist/full'
 
 const settings = {
