@@ -209,7 +209,7 @@ To apply a custom theme you should play with the `classes`, `fixedClasses`, and 
 
 The `classes` and `fixedClasses` props usually expects an `string` with a CSS class for single-tag components (inputs, button, etc.) and an `object` for more complex components (modals, datepicker, etc) (see component docs for details).
 
-The `variants` props expects an object where every key represents the variant name and every value the classes that will be used when that variant is used.
+The `variants` props expects an object where every key represents the variant name and every value the classes that will be used when that variant is applied.
 
 #### Example for a single-tag component: 
 
@@ -287,7 +287,7 @@ Vue.use(VueTailwind, settings)
 
 All the components on this library have default settings added as component props according to how we understand those settings are most commonly used.
 
-We are aware that in many cases is useful to change the default value, so we don't need to add the prop over and over when needed.
+I am aware that in many cases is useful to change the default value, so you don't need to add the prop over and over when needed.
 
 ```js
 import Vue from 'vue'
