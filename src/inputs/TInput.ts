@@ -18,11 +18,11 @@ const TInput = TextInput.extend({
     },
     classes: {
       type: [String, Array, Object],
-      default: 'form-input',
+      default: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
     },
   },
-  render(createElement) {
-    const renderFun: (createElement: CreateElement) => VNode = this.render;
+  render(createElement: CreateElement) {
+    const renderFun: (ce: CreateElement) => VNode = this.render;
     return renderFun(createElement);
   },
   methods: {
@@ -59,9 +59,9 @@ const TInput = TextInput.extend({
         },
       });
     },
-
     inputHandler(e: Event) {
       const target = (e.target as HTMLInputElement);
+
       this.$emit('input', target.value);
     },
   },

@@ -1,5 +1,5 @@
-import merge from 'lodash/merge';
-import cloneDeep from 'lodash/cloneDeep';
+import merge from 'lodash.merge';
+import cloneDeep from 'lodash.clonedeep';
 import {
   Locale, Locales, LocaleName, CustomLocale,
 } from '../types/locale';
@@ -279,9 +279,7 @@ export function dateIsOutOfRange(date: Date, min: Date | string | undefined, max
 }
 
 export function addDays(date: Date, amount = 1): Date {
-  const newDate = new Date(date.valueOf());
-  newDate.setDate(newDate.getDate() + amount);
-  return newDate;
+  return new Date(date.valueOf() + (amount * 24 * 60 * 60 * 1000));
 }
 
 export function addMonths(date: Date, amount = 1): Date {

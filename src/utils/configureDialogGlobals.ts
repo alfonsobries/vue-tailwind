@@ -1,9 +1,9 @@
-import _Vue from 'vue';
-import get from 'lodash/get';
-import ComponentSettings from '../types/ComponentSettings';
+import Vue from 'vue';
+import get from 'lodash.get';
 import { DialogType } from '../types/Dialog';
 import CssClasses from '../types/CssClasses';
 import TDialog from '../components/TDialog';
+import { CustomProp } from '../types/ComponentSettings';
 
 export type DialogOptions = {
   titleTag?: string;
@@ -49,7 +49,7 @@ export type DialogProps = {
   type: DialogType
 }
 
-const parseDialogOptions = (type: DialogType, settings?: ComponentSettings, titleOrDialogOptions?: DialogOptions | string, text?: string, icon?: string) => {
+const parseDialogOptions = (type: DialogType, settings?: CustomProp, titleOrDialogOptions?: DialogOptions | string, text?: string, icon?: string) => {
   type DialogComponent = typeof TDialog & {
     options: {
       props: {
@@ -123,10 +123,10 @@ const buildDialog = (target: string, propsData: Partial<DialogProps>) => {
   });
 };
 
-const configureDialogGlobals = (Vue: typeof _Vue, settings: ComponentSettings): void => {
+const configureDialogGlobals = (vueInstance: typeof Vue, settings?: CustomProp): void => {
   if (!Vue.prototype.$dialog) {
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$dialog = new Vue({
+    vueInstance.prototype.$dialog = new Vue({
       methods: {
         alert(titleOrDialogOptions?: DialogOptions | string, text?: string | undefined, icon?: string | undefined) {
           const { propsData, target } = parseDialogOptions(
@@ -173,13 +173,13 @@ const configureDialogGlobals = (Vue: typeof _Vue, settings: ComponentSettings): 
     });
   }
 
-  if (!Vue.prototype.$alert) {
+  if (!vueInstance.prototype.$alert) {
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$alert = Vue.prototype.$dialog.alert;
+    vueInstance.prototype.$alert = vueInstance.prototype.$dialog.alert;
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$confirm = Vue.prototype.$dialog.confirm;
+    vueInstance.prototype.$confirm = vueInstance.prototype.$dialog.confirm;
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$prompt = Vue.prototype.$dialog.prompt;
+    vueInstance.prototype.$prompt = vueInstance.prototype.$dialog.prompt;
   }
 };
 

@@ -1,5 +1,5 @@
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import Vue, { CreateElement, VNode } from 'vue';
+import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 import Key from '../types/Key';
 
@@ -53,7 +53,8 @@ const TModal = Component.extend({
         return {
           overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
           wrapper: 'relative mx-auto',
-          modal: 'overflow-hidden relative ',
+          modal: 'overflow-visible relative ',
+          close: 'flex items-center justify-center',
         };
       },
     },
@@ -62,13 +63,13 @@ const TModal = Component.extend({
       default() {
         return {
           overlay: 'z-40 bg-black bg-opacity-50',
-          wrapper: 'z-50 max-w-lg',
-          modal: 'bg-white shadow',
-          body: '',
-          header: '',
-          footer: '',
-          close: 'absolute right-0 top-0',
-          closeIcon: 'h-5 w-5 fill-current',
+          wrapper: 'z-50 max-w-lg px-3 py-12',
+          modal: 'bg-white shadow rounded',
+          body: 'p-3',
+          header: 'border-b border-gray-100 p-3 rounded-t',
+          footer: 'bg-gray-100 p-3 rounded-b',
+          close: 'bg-gray-100 text-gray-600 rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          closeIcon: 'fill-current h-4 w-4',
           overlayEnterClass: '',
           overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
           overlayEnterToClass: 'opacity-100',
@@ -127,21 +128,7 @@ const TModal = Component.extend({
   },
 
   created() {
-    if (!Vue.prototype.$modal) {
-      // eslint-disable-next-line no-param-reassign
-      Vue.prototype.$modal = new Vue({
-        methods: {
-          show(name: string, params = undefined) {
-            this.$emit(`show-${name}`, params);
-          },
-          hide(name: string) {
-            this.$emit(`hide-${name}`);
-          },
-        },
-      });
-    }
-
-    if (this.name) {
+    if (this.name && this.$modal) {
       this.$modal.$on(`show-${this.name}`, (params = undefined) => {
         this.show(params);
       });
@@ -159,8 +146,10 @@ const TModal = Component.extend({
   },
 
   beforeDestroy() {
-    if (this.disableBodyScroll) {
-      enableBodyScroll(this.$refs.overlay as HTMLDivElement);
+    const overlay = this.getOverlay();
+    if (this.disableBodyScroll && overlay) {
+      overlay.focus();
+      enableBodyScroll(overlay);
     }
   },
 
@@ -339,9 +328,10 @@ const TModal = Component.extend({
     },
     beforeClose() {
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.overlay as HTMLDivElement | undefined;
-        if (mdl) {
-          enableBodyScroll(mdl);
+        const overlay = this.getOverlay();
+        if (overlay) {
+          overlay.focus();
+          enableBodyScroll(overlay);
         }
       }
       this.$emit('before-close', { cancel: this.cancel });
@@ -350,20 +340,18 @@ const TModal = Component.extend({
       this.$emit('closed');
     },
     prepareDomForModal() {
+      const overlay = this.getOverlay();
+
+      if (!overlay) {
+        return;
+      }
+
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.overlay as HTMLDivElement | undefined;
-        if (mdl) {
-          disableBodyScroll(mdl, {
-            reserveScrollBarGap: true,
-          });
-        }
+        disableBodyScroll(overlay);
       }
 
       if (this.focusOnOpen) {
-        const ovr = this.$refs.overlay as HTMLDivElement | undefined;
-        if (ovr) {
-          ovr.focus();
-        }
+        overlay.focus();
       }
     },
     hide() {
@@ -393,6 +381,9 @@ const TModal = Component.extend({
       if (this.clickToClose) {
         this.hide();
       }
+    },
+    getOverlay() {
+      return this.$refs.overlay as HTMLDivElement | undefined;
     },
   },
 });

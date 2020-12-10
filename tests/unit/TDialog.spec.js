@@ -661,7 +661,7 @@ describe('TDialogOverlayWrapperTransitionDialogClose', () => {
     expect(button.exists()).toBe(false);
   });
 
-  it('the close button emits a hide event', async () => {
+  it('the close button emits a dismiss event', async () => {
     const wrapper = shallowMount(TDialogOverlayWrapperTransitionDialogClose, {
       propsData: {
         ...defaultProps,
@@ -673,10 +673,10 @@ describe('TDialogOverlayWrapperTransitionDialogClose', () => {
 
     button.trigger('click');
 
-    expect(wrapper.emitted().hide).toBeTruthy();
+    expect(wrapper.emitted().dismiss).toBeTruthy();
 
     // assert event count
-    expect(wrapper.emitted().hide.length).toBe(1);
+    expect(wrapper.emitted().dismiss.length).toBe(1);
   });
 });
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 enum Key {
   LEFT = 37,
   UP = 38,

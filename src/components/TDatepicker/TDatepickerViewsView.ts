@@ -145,11 +145,11 @@ const TDatepickerViewsView = Vue.extend({
     },
 
     inputActiveDateHandler(date: Date) {
-      this.$emit('inputActiveDate', date);
+      this.$emit('input-active-date', date);
     },
 
     resetView() {
-      this.$emit('resetView');
+      this.$emit('reset-view');
     },
   },
 
@@ -175,8 +175,8 @@ const TDatepickerViewsView = Vue.extend({
         },
         on: {
           input: this.inputActiveDateHandler,
-          updateView: (newView: CalendarView) => {
-            this.$emit('updateView', newView);
+          'update-view': (newView: CalendarView) => {
+            this.$emit('update-view', newView);
           },
         },
       },

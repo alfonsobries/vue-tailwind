@@ -1,4 +1,4 @@
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash.isequal';
 import { CreateElement, VNode } from 'vue';
 import HtmlInput from '../base/HtmlInput';
 import CssClass from '../types/CssClass';
@@ -27,10 +27,6 @@ const TRadio = HtmlInput.extend({
       type: [String, Object, Number, Boolean],
       default: undefined,
     },
-    classes: {
-      type: [String, Array, Object],
-      default: 'form-radio',
-    },
     wrapped: {
       type: Boolean,
       default: false,
@@ -50,6 +46,10 @@ const TRadio = HtmlInput.extend({
     label: {
       type: [String, Number],
       default: undefined,
+    },
+    classes: {
+      type: [String, Array, Object],
+      default: 'text-blue-500 transition duration-100 ease-in-out border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
     },
   },
 

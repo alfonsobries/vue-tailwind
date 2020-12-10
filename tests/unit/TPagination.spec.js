@@ -122,7 +122,7 @@ describe('TPagination', () => {
     expect(wrapper.emitted('change')[0]).toEqual([4]);
   });
 
-  it('limit the number of pages buttons', () => {
+  it('limit the number of pages buttons', async () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
         totalItems: 100,
@@ -135,19 +135,19 @@ describe('TPagination', () => {
     expect(wrapper.vm.pageButtons.length).toBe(5);
 
     // Exact number of pages
-    wrapper.setProps({ totalItems: 50, perPage: 10 });
+    await wrapper.setProps({ totalItems: 50, perPage: 10 });
     expect(wrapper.vm.pageButtons.length).toBe(5);
 
     // Less pages
-    wrapper.setProps({ totalItems: 23, perPage: 10 });
+    await wrapper.setProps({ totalItems: 23, perPage: 10 });
     expect(wrapper.vm.pageButtons.length).toBe(3);
 
     // One more for fun
-    wrapper.setProps({ totalItems: 10, perPage: 3 });
+    await wrapper.setProps({ totalItems: 10, perPage: 3 });
     expect(wrapper.vm.pageButtons.length).toBe(4);
   });
 
-  it('calculate the number of pages', () => {
+  it('calculate the number of pages', async () => {
     const wrapper = shallowMount(TPagination, {
       propsData: {
         totalItems: 100,
@@ -158,28 +158,28 @@ describe('TPagination', () => {
 
     expect(wrapper.vm.totalPages).toBe(10);
 
-    wrapper.setProps({ perPage: 49 });
+    await wrapper.setProps({ perPage: 49 });
     expect(wrapper.vm.totalPages).toBe(3);
 
-    wrapper.setProps({ perPage: 50 });
+    await wrapper.setProps({ perPage: 50 });
     expect(wrapper.vm.totalPages).toBe(2);
 
-    wrapper.setProps({ perPage: 51 });
+    await wrapper.setProps({ perPage: 51 });
     expect(wrapper.vm.totalPages).toBe(2);
 
-    wrapper.setProps({ perPage: 99 });
+    await wrapper.setProps({ perPage: 99 });
     expect(wrapper.vm.totalPages).toBe(2);
 
-    wrapper.setProps({ perPage: 100 });
+    await wrapper.setProps({ perPage: 100 });
     expect(wrapper.vm.totalPages).toBe(1);
 
-    wrapper.setProps({ perPage: 101 });
+    await wrapper.setProps({ perPage: 101 });
     expect(wrapper.vm.totalPages).toBe(1);
 
-    wrapper.setProps({ totalItems: 0, perPage: 0 });
+    await wrapper.setProps({ totalItems: 0, perPage: 0 });
     expect(wrapper.vm.totalPages).toBe(0);
 
-    wrapper.setProps({ totalItems: 0, perPage: 0 });
+    await wrapper.setProps({ totalItems: 0, perPage: 0 });
     expect(wrapper.vm.totalPages).toBe(0);
   });
 

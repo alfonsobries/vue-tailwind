@@ -148,11 +148,11 @@ const TDatepickerNavigator = Vue.extend({
     },
     clickHandler() {
       if (this.currentView === CalendarView.Day) {
-        this.$emit('updateView', CalendarView.Month);
+        this.$emit('update-view', CalendarView.Month);
       } else if (this.currentView === CalendarView.Month) {
-        this.$emit('updateView', CalendarView.Year);
+        this.$emit('update-view', CalendarView.Year);
       } else if (this.currentView === CalendarView.Year) {
-        this.$emit('updateView', CalendarView.Day);
+        this.$emit('update-view', CalendarView.Day);
       }
     },
     next(): void {

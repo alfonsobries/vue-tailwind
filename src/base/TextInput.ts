@@ -32,7 +32,7 @@ const TextInput = HtmlInput.extend({
     },
     classes: {
       type: [String, Array, Object],
-      default: 'border bg-white',
+      default: undefined,
     },
   },
 

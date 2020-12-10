@@ -1,8 +1,7 @@
-import ComponentSettings from './ComponentSettings';
-import ComponentName from './ComponentName';
+import ComponentSettings, { VTComponent } from './ComponentSettings';
 
 type LibrarySettings = {
-  [key in ComponentName]: ComponentSettings;
+  [key: string]: ComponentSettings | VTComponent;
 } | undefined;
 
 export default LibrarySettings;

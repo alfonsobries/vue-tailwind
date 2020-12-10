@@ -1,4 +1,4 @@
-import pick from 'lodash/pick';
+import pick from 'lodash.pick';
 import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 import CssClass from '../types/CssClass';
@@ -49,6 +49,21 @@ const TTable = Component.extend({
     responsiveBreakpoint: {
       type: Number,
       default: 768,
+    },
+    classes: {
+      type: Object,
+      default: () => ({
+        table: 'min-w-full divide-y divide-gray-100 shadow-sm border-gray-200 border',
+        thead: '',
+        theadTr: '',
+        theadTh: 'px-3 py-2 font-semibold text-left bg-gray-100 border-b',
+        tbody: 'bg-white divide-y divide-gray-100',
+        tr: '',
+        td: 'px-3 py-2 whitespace-no-wrap',
+        tfoot: '',
+        tfootTr: '',
+        tfootTd: '',
+      }),
     },
   },
 

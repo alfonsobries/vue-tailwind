@@ -100,7 +100,7 @@ const TDialogOverlay = Vue.extend({
         return;
       }
 
-      this.$emit('outsideClick', e);
+      this.$emit('outside-click', e);
     },
     keyupHandler(e: KeyboardEvent) {
       this.$emit('keyup', e);
@@ -173,7 +173,7 @@ const TDialogOverlay = Vue.extend({
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               submit: (e: MouseEvent, input: DialogInput, response?: any) => this.$emit('submit', e, input, response),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.$emit('submitError', e, input, error),
+              'submit-error': (e: MouseEvent, input: DialogInput, error?: any) => this.$emit('submit-error', e, input, error),
             },
           },
           this.$slots.default,

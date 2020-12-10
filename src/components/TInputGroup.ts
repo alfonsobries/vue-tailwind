@@ -1,4 +1,4 @@
-import intersection from 'lodash/intersection';
+import intersection from 'lodash.intersection';
 import { CreateElement, VNode } from 'vue';
 import Component from '../base/Component';
 
@@ -30,9 +30,23 @@ const TInputGroup = Component.extend({
         return value.length === intersection(value, expectedValues).length;
       },
     },
+    fixedClasses: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
     classes: {
       type: Object,
-      default: undefined,
+      default() {
+        return {
+          wrapper: '',
+          label: 'block',
+          body: '',
+          feedback: 'text-gray-400 text-sm',
+          description: 'text-gray-400 text-sm',
+        };
+      },
     },
   },
 

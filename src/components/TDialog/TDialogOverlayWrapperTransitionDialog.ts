@@ -116,7 +116,7 @@ const TDialogOverlayWrapperTransitionDialog = Vue.extend({
             .then((response) => {
               this.$emit('submit', e, this.currentValue, response);
             }).catch((error) => {
-              this.$emit('submitError', e, this.currentValue, error);
+              this.$emit('submit-error', e, this.currentValue, error);
             }).then(() => {
               this.busy = false;
             });

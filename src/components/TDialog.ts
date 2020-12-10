@@ -3,9 +3,7 @@ import Component from '../base/Component';
 import Key from '../types/Key';
 import TDialogOverlay from './TDialog/TDialogOverlay';
 import { DialogInput } from './TDialog/TDialogOverlayWrapperTransitionDialog';
-import {
-  HideReason, DialogType,
-} from '../types/Dialog';
+import { HideReason, DialogType } from '../types/Dialog';
 
 type InitialData = {
   overlayShow: boolean;
@@ -159,9 +157,10 @@ const TDialog = Component.extend({
       default() {
         return {
           overlay: 'overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full fixed',
-          wrapper: 'relative mx-auto ',
-          dialog: 'overflow-hidden relative',
-          close: 'absolute right-0 top-0',
+          wrapper: 'relative mx-auto',
+          modal: 'overflow-visible relative ',
+          close: 'flex items-center justify-center',
+          dialog: 'overflow-visible relative',
         };
       },
     },
@@ -169,40 +168,40 @@ const TDialog = Component.extend({
       type: Object,
       default() {
         return {
-          close: 'bg-gray-100 flex h-8 items-center justify-center m-1 rounded-full text-gray-700 w-8 hover:bg-gray-200',
-          closeIcon: 'h-5 w-5 fill-current',
+          close: 'bg-gray-100 text-gray-600 rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out hover:bg-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          closeIcon: 'fill-current h-4 w-4',
 
           overlay: 'z-40 bg-black bg-opacity-50',
-          wrapper: 'z-50 max-w-md',
-          dialog: 'bg-white rounded p-4 text-left overflow-hidden shadow ',
+          wrapper: 'z-50 max-w-lg px-3 py-12',
+          dialog: 'bg-white shadow rounded text-left',
 
-          body: '',
-          buttons: 'mt-4 flex space-x-4 justify-center',
+          body: 'p-3 space-y-3',
+          buttons: 'p-3 flex space-x-4 justify-center bg-gray-100 rounded-b',
 
-          iconWrapper: 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 flex-shrink-0',
-          icon: 'w-6 h-6 text-gray-700',
-          content: 'mt-3',
+          iconWrapper: 'bg-gray-100 flex flex-shrink-0 h-12 items-center justify-center rounded-full w-12 mx-auto',
+          icon: 'w-6 h-6 text-gray-500',
+          content: 'w-full flex justify-center flex-col',
 
           titleWrapper: '',
-          title: 'text-lg leading-6 font-medium text-gray-900 text-center',
+          title: 'text-lg font-semibold text-center',
 
-          textWrapper: 'mt-2 text-gray-600',
+          textWrapper: 'text-left w-full',
           text: '',
 
-          cancelButton: 'inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full max-w-xs',
-          okButton: 'inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-full max-w-xs',
+          cancelButton: 'block px-4 py-2 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-100 focus:border-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-xs',
+          okButton: 'block px-4 py-2 text-white transition duration-100 ease-in-out bg-blue-500 border border-transparent rounded shadow-sm hover:bg-blue-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-xs',
 
-          inputWrapper: 'mt-3 flex items-center space-x-4 justify-center',
+          inputWrapper: 'mt-3 flex items-center space-x-3',
 
-          input: 'form-input w-full',
-          select: 'form-select w-full',
+          input: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed w-full',
+          select: 'block w-full px-3 py-2 text-black placeholder-gray-400 transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50  disabled:opacity-50 disabled:cursor-not-allowed w-full',
 
           radioWrapper: 'flex items-center space-x-2',
-          radio: 'form-radio',
+          radio: 'text-blue-500 transition duration-100 ease-in-out border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
           radioText: '',
 
           checkboxWrapper: 'flex items-center space-x-2',
-          checkbox: 'form-checkbox',
+          checkbox: 'text-blue-500 transition duration-100 ease-in-out border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 focus:ring-offset-0  disabled:opacity-50 disabled:cursor-not-allowed',
           checkboxText: '',
 
           errorMessage: 'text-red-500 block text-sm',
@@ -329,14 +328,14 @@ const TDialog = Component.extend({
             },
             scopedSlots: this.$scopedSlots,
             on: {
-              outsideClick: this.outsideClick,
+              'outside-click': this.outsideClick,
               keyup: this.keyupHandler,
               dismiss: (e: MouseEvent) => this.dismiss(e),
               cancel: (e: MouseEvent) => this.cancel(e),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               submit: (e: MouseEvent, input: DialogInput, response?: any) => this.submit(e, input, response),
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              submitError: (e: MouseEvent, input: DialogInput, error?: any) => this.submitError(e, input, error),
+              'submit-error': (e: MouseEvent, input: DialogInput, error?: any) => this.submitError(e, input, error),
             },
           },
           this.$slots.default,
