@@ -146,8 +146,10 @@ const TModal = Component.extend({
   },
 
   beforeDestroy() {
-    if (this.disableBodyScroll) {
-      enableBodyScroll(this.$refs.overlay as HTMLDivElement);
+    const overlay = this.getOverlay();
+    if (this.disableBodyScroll && overlay) {
+      overlay.focus();
+      enableBodyScroll(overlay);
     }
   },
 
@@ -326,9 +328,10 @@ const TModal = Component.extend({
     },
     beforeClose() {
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.overlay as HTMLDivElement | undefined;
-        if (mdl) {
-          enableBodyScroll(mdl);
+        const overlay = this.getOverlay();
+        if (overlay) {
+          overlay.focus();
+          enableBodyScroll(overlay);
         }
       }
       this.$emit('before-close', { cancel: this.cancel });
@@ -337,20 +340,18 @@ const TModal = Component.extend({
       this.$emit('closed');
     },
     prepareDomForModal() {
+      const overlay = this.getOverlay();
+
+      if (!overlay) {
+        return;
+      }
+
       if (this.disableBodyScroll) {
-        const mdl = this.$refs.overlay as HTMLDivElement | undefined;
-        if (mdl) {
-          disableBodyScroll(mdl, {
-            reserveScrollBarGap: true,
-          });
-        }
+        disableBodyScroll(overlay);
       }
 
       if (this.focusOnOpen) {
-        const ovr = this.$refs.overlay as HTMLDivElement | undefined;
-        if (ovr) {
-          ovr.focus();
-        }
+        overlay.focus();
       }
     },
     hide() {
@@ -380,6 +381,9 @@ const TModal = Component.extend({
       if (this.clickToClose) {
         this.hide();
       }
+    },
+    getOverlay() {
+      return this.$refs.overlay as HTMLDivElement | undefined;
     },
   },
 });

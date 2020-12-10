@@ -140,9 +140,10 @@ const TDatepicker = HtmlInput.extend({
     classes: {
       type: Object,
       default: () => ({
-        // Dropdown related classes
         wrapper: 'flex flex-col',
         dropdownWrapper: 'relative z-10',
+
+        // Dropdown related classes
         dropdown: 'origin-top-left absolute rounded shadow bg-white overflow-hidden mt-1',
         enterClass: '',
         enterActiveClass: 'transition ease-out duration-100 transform opacity-0 scale-95',
