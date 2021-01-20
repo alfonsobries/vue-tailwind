@@ -83,7 +83,7 @@ import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
 
 const components = {
-  //...
+  // ...You need to add the components you need here (explained above)
 }
 
 Vue.use(VueTailwind, components)
