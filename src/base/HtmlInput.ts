@@ -1,5 +1,10 @@
 import Component from './Component';
 
+type EventListenerOptions = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  [key: string]: Function | Function[];
+} | undefined
+
 const HtmlInput = Component.extend({
   props: {
     id: {
@@ -29,6 +34,14 @@ const HtmlInput = Component.extend({
     tabindex: {
       type: [String, Number],
       default: undefined,
+    },
+  },
+  methods: {
+    getListeners(listeners: EventListenerOptions): EventListenerOptions {
+      return {
+        ...this.$listeners,
+        ...listeners,
+      };
     },
   },
 });

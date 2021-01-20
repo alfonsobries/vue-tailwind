@@ -50,13 +50,13 @@ const TInput = TextInput.extend({
           maxlength: this.maxlength,
           max: this.max,
         },
-        on: {
+        on: this.getListeners({
           blur: this.blurHandler,
           focus: this.focusHandler,
           keyup: this.keyupHandler,
           keydown: this.keydownHandler,
           input: this.inputHandler,
-        },
+        }),
       });
     },
     inputHandler(e: Event) {

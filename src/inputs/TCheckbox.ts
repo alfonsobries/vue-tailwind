@@ -207,11 +207,11 @@ const TCheckbox = HtmlInput.extend({
           autofocus: !this.wrapped ? this.autofocus : undefined,
           tabindex: this.wrapped && this.tabindex !== undefined ? -1 : this.tabindex,
         },
-        on: {
+        on: this.getListeners({
           blur: this.blurHandler,
           focus: this.focusHandler,
           change: this.changeHandler,
-        },
+        }),
       });
     },
 

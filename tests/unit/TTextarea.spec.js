@@ -263,4 +263,19 @@ describe('TTextarea', () => {
     expect(typeof input.setSelectionRange).toBe('function');
     expect(typeof input.setRangeText).toBe('function');
   });
+
+  it('can trigger a custom event', async () => {
+    const onCustom = jest.fn();
+
+    const wrapper = shallowMount(TTextarea, {
+      listeners: { custom: onCustom },
+    });
+
+    const input = wrapper.vm.$el;
+
+    const evt = new CustomEvent('custom', { detail: 'my-custom-event' });
+    input.dispatchEvent(evt);
+
+    expect(onCustom).toHaveBeenCalled();
+  });
 });
