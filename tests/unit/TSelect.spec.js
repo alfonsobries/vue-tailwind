@@ -526,4 +526,19 @@ describe('TSelect', () => {
     const arrow = wrapper.vm.$el.children[1].children[0];
     expect(arrow.outerHTML).toBe('<i class="icon icon-chevron"></i>');
   });
+
+  it('can trigger a custom event', async () => {
+    const onCustom = jest.fn();
+
+    const wrapper = shallowMount(TSelect, {
+      listeners: { custom: onCustom },
+    });
+
+    const input = wrapper.vm.$el;
+
+    const evt = new CustomEvent('custom', { detail: 'my-custom-event' });
+    input.dispatchEvent(evt);
+
+    expect(onCustom).toHaveBeenCalled();
+  });
 });

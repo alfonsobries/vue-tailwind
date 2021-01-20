@@ -85,5 +85,13 @@
     "dist/*"
   ],
   "typings": "./dist/index.d.ts",
-  "main": "dist/vue-tailwind.js"
+  "main": "dist/vue-tailwind.js",
+  "release-it": {
+    "hooks": {
+      "before:init": [
+        "yarn test"
+      ],
+      "after:bump": "yarn build"
+    }
+  }
 }

@@ -156,11 +156,11 @@ const TSelect = MultipleInput.extend({
             multiple: this.multiple,
           },
           class: this.wrapped ? this.getElementCssClass('input') : this.getElementCssClass(),
-          on: {
+          on: this.getListeners({
             blur: this.blurHandler,
             focus: this.focusHandler,
             change: this.changeHandler,
-          },
+          }),
         },
         this.createOptions(createElement, this.value),
       );

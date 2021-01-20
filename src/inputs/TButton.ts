@@ -226,13 +226,13 @@ const TButton = HtmlInput.extend({
         {
           attrs: this.getAttributes(),
           class: this.componentClass,
-          on: {
+          on: this.getListeners({
             click: this.clickHandler,
             focus: this.focusHandler,
             blur: this.blurHandler,
             keydown: this.keydownHandler,
             mousedown: this.mousedownHandler,
-          },
+          }),
         },
         this.text === undefined ? this.$slots.default : this.text,
       );
