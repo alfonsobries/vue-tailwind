@@ -101,6 +101,13 @@ const TRichSelect = MultipleInput.extend({
           buttonWrapper: 'inline-block relative w-full',
           selectButton: 'w-full flex text-left justify-between items-center',
           selectButtonLabel: 'block truncate',
+
+          selectButtonTagWrapper: 'flex flex-wrap overflow-hidden',
+          selectButtonTag: 'bg-blue-500 block disabled:cursor-not-allowed disabled:opacity-50 duration-100 ease-in-out focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded shadow-sm text-sm text-white transition white-space-no m-0.5 max-w-full overflow-hidden h-8 flex items-center',
+          selectButtonTagText: 'px-3',
+          selectButtonTagDeleteButton: '-ml-1.5 h-full hover:bg-blue-600 hover:shadow-sm inline-flex items-center px-2 transition',
+          selectButtonTagDeleteButtonIcon: 'w-3 h-3',
+
           selectButtonPlaceholder: 'block truncate',
           selectButtonIcon: 'fill-current flex-shrink-0 ml-1 h-4 w-4',
           selectButtonClearButton: 'flex flex-shrink-0 items-center justify-center absolute right-0 top-0 m-2 h-6 w-6',
@@ -137,10 +144,11 @@ const TRichSelect = MultipleInput.extend({
           buttonWrapper: '',
           selectButton: 'px-3 py-2 text-black transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
           selectButtonLabel: '',
-
-          selectButtonTagWrapper: '-mx-2 -my-2.5 flex flex-wrap overflow-hidden py-1 pr-8 ',
-          selectButtonTag: 'bg-blue-500 block disabled:cursor-not-allowed disabled:opacity-50 duration-100 ease-in-out focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded shadow-sm text-sm text-white transition white-space-no m-0.5 max-w-full overflow-hidden',
-
+          selectButtonTagWrapper: '-mx-2 -my-2.5 py-1 pr-8',
+          selectButtonTag: 'bg-blue-500 block disabled:cursor-not-allowed disabled:opacity-50 duration-100 ease-in-out focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded shadow-sm text-sm text-white transition white-space-no m-0.5 max-w-full overflow-hidden h-8 flex items-center',
+          selectButtonTagText: 'px-3',
+          selectButtonTagDeleteButton: '-ml-1.5 h-full hover:bg-blue-600 hover:shadow-sm inline-flex items-center px-2 transition',
+          selectButtonTagDeleteButtonIcon: '',
           selectButtonPlaceholder: 'text-gray-400',
           selectButtonIcon: 'text-gray-600',
           selectButtonClearButton: 'hover:bg-blue-100 text-gray-600 rounded transition duration-100 ease-in-out',
@@ -670,6 +678,7 @@ const TRichSelect = MultipleInput.extend({
             this.localValue.splice(valueIndex, 1);
             const selectedOptionIndex = this.selectedOptions.findIndex((o) => o.value === optionValue);
             if (selectedOptionIndex >= 0) {
+              this.unselectOptionAtIndex(selectedOptionIndex);
               this.selectedOptions.splice(selectedOptionIndex, 1);
             }
           } else {
@@ -706,10 +715,21 @@ const TRichSelect = MultipleInput.extend({
         }
       }
     },
+    unselectOptionAtIndex(index: number) {
+      const selectedOption = this.selectedOptions[index];
+      const valueIndex = (this.localValue as SelectOptionValue[]).findIndex((value) => isEqual(value, selectedOption.value));
+      if (valueIndex >= 0) {
+        this.localValue.splice(valueIndex, 1);
+      }
+    },
     clearButtonClickHandler(e: MouseEvent): void {
       e.preventDefault();
       e.stopPropagation();
-      (this.localValue as string | number | boolean | symbol | null) = null;
+      if (this.multiple) {
+        this.localValue = this.selectedOptions.filter((o) => !!o.disabled).map((o) => o.value);
+      } else {
+        this.localValue = null;
+      }
       this.query = '';
     },
     blur() {

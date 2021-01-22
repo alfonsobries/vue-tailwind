@@ -33,6 +33,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   clearButtonClickHandler(e: MouseEvent): void;
   selectTag(tag: HTMLButtonElement): void;
   unselectTag(tag: HTMLButtonElement): void;
+  unselectOptionAtIndex(index: number): void;
 }, {
   normalizedHeight: string;
   hasMinimumInputLength: boolean;

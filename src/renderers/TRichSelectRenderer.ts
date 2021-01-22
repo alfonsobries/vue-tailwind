@@ -43,8 +43,8 @@ export default class TRichSelectRenderer {
     const subElements = [this.createSelectButton()];
 
     const hasSelectedOption = this.component.multiple
-      ? this.component.selectedOptions.length > 0
-      : !!this.component.selectedOption;
+      ? (this.component.selectedOptions as NormalizedOption[]).filter((o) => !o.disabled).length > 0
+      : !!(this.component.selectedOption && !this.component.selectedOption.disabled);
 
     if (this.component.clearable && hasSelectedOption && !this.component.disabled) {
       subElements.push(this.createSelectButtonClearButton());
@@ -67,11 +67,15 @@ export default class TRichSelectRenderer {
     const subElements = [];
 
     if (this.component.multiple && this.component.selectedOptions.length) {
-      subElements.push(this.component.$scopedSlots.label({
-        query: this.component.query,
-        options: this.component.selectedOptions,
-        className: this.component.getElementCssClass('selectButtonLabel'),
-      }));
+      if (this.component.$scopedSlots.label) {
+        subElements.push(this.component.$scopedSlots.label({
+          query: this.component.query,
+          options: this.component.selectedOptions,
+          className: this.component.getElementCssClass('selectButtonLabel'),
+        }));
+      } else {
+        subElements.push(this.createSelectButtonLabel());
+      }
     } else if (!this.component.multiple && this.component.selectedOption) {
       if (this.component.$scopedSlots.label) {
         subElements.push(this.component.$scopedSlots.label({
@@ -176,17 +180,21 @@ export default class TRichSelectRenderer {
         {
           class: this.component.getElementCssClass('selectButtonTagWrapper'),
         },
-        (this.component.selectedOptions as NormalizedOptions).map((selectedOption) => this.createElement(
+        (this.component.selectedOptions as NormalizedOptions).map((selectedOption, index) => this.createElement(
           'button',
           {
             class: this.component.getElementCssClass('selectButtonTag'),
             attrs: {
-              tabindex: this.component.tagsAreFocusable ? '0' : '-1',
+              tabindex: this.component.tagsAreFocusable && !selectedOption.disabled ? '0' : '-1',
               type: 'button',
+              disabled: selectedOption.disabled ? true : undefined,
             },
             on: {
               click: (e: MouseEvent) => {
                 e.stopPropagation();
+                if (selectedOption.disabled) {
+                  return;
+                }
                 this.component.selectTag(e.currentTarget as HTMLButtonElement);
               },
               blur: (e: FocusEvent) => {
@@ -197,7 +205,7 @@ export default class TRichSelectRenderer {
               },
               keydown: (e: KeyboardEvent) => {
                 if (e.keyCode === Key.BACKSPACE) {
-                  console.log('Borrar tag');
+                  this.component.unselectOptionAtIndex(index);
                 }
               },
             },
@@ -206,27 +214,52 @@ export default class TRichSelectRenderer {
             this.createElement(
               'span',
               {
-                class: 'pl-3 pr-2 py-1.5',
+                class: this.component.getElementCssClass('selectButtonTagText'),
 
               }, (selectedOption ? selectedOption.text : '') as VNodeChildren,
             ),
-            this.createElement(
-              'span',
-              {
-                class: 'pr-3 pl-2 py-1.5 inline-flex items-center transition hover:bg-blue-600 hover:shadow-sm',
-                attrs: {
-                  tabindex: -1,
-                },
-                on: {
-                  click(e: MouseEvent) {
-                    e.stopPropagation();
-                    const closeButton = e.currentTarget as HTMLSpanElement;
-                    console.log('Borrar tag', closeButton);
+            selectedOption.disabled
+              ? null
+              : this.createElement(
+                'span',
+                {
+                  class: this.component.getElementCssClass('selectButtonTagDeleteButton'),
+                  attrs: {
+                    tabindex: -1,
+                  },
+                  on: {
+                    click: (e: MouseEvent) => {
+                      e.stopPropagation();
+                      this.component.unselectOptionAtIndex(index);
+                    },
                   },
                 },
-              },
-              'x',
-            ),
+                [
+                  this.createElement(
+                    'svg',
+                    {
+                      class: this.component.getElementCssClass('selectButtonTagDeleteButtonIcon'),
+                      attrs: {
+                        fill: 'currentColor',
+                        viewBox: '0 0 20 20',
+                        xmlns: 'http://www.w3.org/2000/svg',
+                      },
+                    },
+                    [
+                      this.createElement(
+                        'path',
+                        {
+                          attrs: {
+                            'fill-rule': 'evenodd',
+                            evenodd: 'evenodd',
+                            d: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
+                          },
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
           ],
 
         )),
