@@ -42,7 +42,11 @@ export default class TRichSelectRenderer {
   createSelectButtonWrapper(): VNode {
     const subElements = [this.createSelectButton()];
 
-    if (this.component.clearable && this.component.selectedOption && !this.component.disabled) {
+    const hasSelectedOption = this.component.multiple
+      ? this.component.selectedOptions.length > 0
+      : !!this.component.selectedOption;
+
+    if (this.component.clearable && hasSelectedOption && !this.component.disabled) {
       subElements.push(this.createSelectButtonClearButton());
     }
 
@@ -62,7 +66,13 @@ export default class TRichSelectRenderer {
   createSelectButton(): VNode {
     const subElements = [];
 
-    if (this.component.selectedOption) {
+    if (this.component.multiple && this.component.selectedOptions.length) {
+      subElements.push(this.component.$scopedSlots.label({
+        query: this.component.query,
+        options: this.component.selectedOptions,
+        className: this.component.getElementCssClass('selectButtonLabel'),
+      }));
+    } else if (!this.component.multiple && this.component.selectedOption) {
       if (this.component.$scopedSlots.label) {
         subElements.push(this.component.$scopedSlots.label({
           query: this.component.query,
@@ -76,8 +86,50 @@ export default class TRichSelectRenderer {
       subElements.push(this.createSelectButtonPlaceholder());
     }
 
-    if (!(this.component.clearable && this.component.selectedOption) && !this.component.disabled) {
+    const hasSelectedOption = this.component.multiple
+      ? this.component.selectedOptions.length > 0
+      : !!this.component.selectedOption;
+
+    if (!(this.component.clearable && hasSelectedOption) && !this.component.disabled) {
       subElements.push(this.createSelectButtonIcon());
+    }
+
+    if (this.component.multiple) {
+      return this.createElement(
+        'div',
+        {
+          ref: 'tagsContainer',
+          attrs: {
+            tabindex: this.component.tabindex || 0,
+            // value: this.component.localValue,
+            // id: this.component.id,
+            // autofocus: this.component.autofocus,
+            // disabled: this.component.disabled,
+            // name: this.component.name,
+          },
+          class: this.component.getElementCssClass('selectButton'),
+          on: {
+            click: this.component.clickHandler,
+            focus: this.component.focusHandler,
+            keydown: (e: KeyboardEvent) => {
+              if (e.keyCode === Key.DOWN) {
+                this.component.arrowDownHandler(e);
+              } else if (e.keyCode === Key.UP) {
+                this.component.arrowUpHandler(e);
+              } else if (e.keyCode === Key.ENTER) {
+                this.component.enterHandler(e);
+              } else if (e.keyCode === Key.ESC) {
+                this.component.escapeHandler(e);
+              }
+            },
+            blur: this.component.blurHandler,
+            mousedown: (e: MouseEvent) => {
+              e.preventDefault();
+            },
+          },
+        },
+        subElements,
+      );
     }
 
     return this.createElement(
@@ -118,6 +170,69 @@ export default class TRichSelectRenderer {
   }
 
   createSelectButtonLabel(): VNode {
+    if (this.component.multiple) {
+      return this.createElement(
+        'div',
+        {
+          class: this.component.getElementCssClass('selectButtonTagWrapper'),
+        },
+        (this.component.selectedOptions as NormalizedOptions).map((selectedOption) => this.createElement(
+          'button',
+          {
+            class: this.component.getElementCssClass('selectButtonTag'),
+            attrs: {
+              tabindex: this.component.tagsAreFocusable ? '0' : '-1',
+              type: 'button',
+            },
+            on: {
+              click: (e: MouseEvent) => {
+                e.stopPropagation();
+                this.component.selectTag(e.currentTarget as HTMLButtonElement);
+              },
+              blur: (e: FocusEvent) => {
+                this.component.unselectTag(e.currentTarget as HTMLButtonElement);
+              },
+              focus: (e: FocusEvent) => {
+                this.component.selectTag(e.currentTarget as HTMLButtonElement);
+              },
+              keydown: (e: KeyboardEvent) => {
+                if (e.keyCode === Key.BACKSPACE) {
+                  console.log('Borrar tag');
+                }
+              },
+            },
+          },
+          [
+            this.createElement(
+              'span',
+              {
+                class: 'pl-3 pr-2 py-1.5',
+
+              }, (selectedOption ? selectedOption.text : '') as VNodeChildren,
+            ),
+            this.createElement(
+              'span',
+              {
+                class: 'pr-3 pl-2 py-1.5 inline-flex items-center transition hover:bg-blue-600 hover:shadow-sm',
+                attrs: {
+                  tabindex: -1,
+                },
+                on: {
+                  click(e: MouseEvent) {
+                    e.stopPropagation();
+                    const closeButton = e.currentTarget as HTMLSpanElement;
+                    console.log('Borrar tag', closeButton);
+                  },
+                },
+              },
+              'x',
+            ),
+          ],
+
+        )),
+      );
+    }
+
     return this.createElement(
       'span',
       {

@@ -1,4 +1,3 @@
-import { CombinedVueInstance } from 'vue/types/vue';
 import CssClass from './CssClass';
 import NormalizedOptions from './NormalizedOptions';
 import NormalizedOption from './NormalizedOption';
@@ -12,6 +11,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   highlighted: number | null;
   query: string;
   selectedOption: NormalizedOption | undefined;
+  selectedOptions: NormalizedOptions;
   searching: boolean;
   delayTimeout: undefined | ReturnType<typeof setTimeout>;
   nextPage: undefined | number;
@@ -31,6 +31,8 @@ type TRichSelect = CombinedVueInstance<Vue,
   selectOption(option: NormalizedOption): void;
   searchInputHandler(e: Event): void;
   clearButtonClickHandler(e: MouseEvent): void;
+  selectTag(tag: HTMLButtonElement): void;
+  unselectTag(tag: HTMLButtonElement): void;
 }, {
   normalizedHeight: string;
   hasMinimumInputLength: boolean;
@@ -46,6 +48,7 @@ type TRichSelect = CombinedVueInstance<Vue,
   selectOnClose: boolean;
   minimumResultsForSearch?: number;
   clearable: boolean;
+  multiple: boolean;
   value: string;
   noResultsText: string;
   searchingText: string;
@@ -58,6 +61,8 @@ type TRichSelect = CombinedVueInstance<Vue,
   minimumInputLengthText: Function | string;
   valueAttribute: string | undefined;
   textAttribute: string | undefined;
+  tabindex: number | string | undefined;
+  tagsAreFocusable: boolean;
 }>
 
 export default TRichSelect;
