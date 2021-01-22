@@ -211,6 +211,9 @@ const TCheckbox = HtmlInput.extend({
           blur: this.blurHandler,
           focus: this.focusHandler,
           change: this.changeHandler,
+          input: () => {
+            // Empty, overrides the input handler from the checkbox group
+          },
         }),
       });
     },
