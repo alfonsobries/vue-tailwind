@@ -42,7 +42,11 @@ export default class TRichSelectRenderer {
   createSelectButtonWrapper(): VNode {
     const subElements = [this.createSelectButton()];
 
-    if (this.component.clearable && this.component.selectedOption && !this.component.disabled) {
+    const hasSelectedOption = this.component.multiple
+      ? (this.component.selectedOptions as NormalizedOption[]).filter((o) => !o.disabled).length > 0
+      : !!(this.component.selectedOption && !this.component.selectedOption.disabled);
+
+    if (this.component.clearable && hasSelectedOption && !this.component.disabled) {
       subElements.push(this.createSelectButtonClearButton());
     }
 
@@ -62,7 +66,17 @@ export default class TRichSelectRenderer {
   createSelectButton(): VNode {
     const subElements = [];
 
-    if (this.component.selectedOption) {
+    if (this.component.multiple && this.component.selectedOptions.length) {
+      if (this.component.$scopedSlots.label) {
+        subElements.push(this.component.$scopedSlots.label({
+          query: this.component.query,
+          options: this.component.selectedOptions,
+          className: this.component.getElementCssClass('selectButtonLabel'),
+        }));
+      } else {
+        subElements.push(this.createSelectButtonLabel());
+      }
+    } else if (!this.component.multiple && this.component.selectedOption) {
       if (this.component.$scopedSlots.label) {
         subElements.push(this.component.$scopedSlots.label({
           query: this.component.query,
@@ -76,8 +90,56 @@ export default class TRichSelectRenderer {
       subElements.push(this.createSelectButtonPlaceholder());
     }
 
-    if (!(this.component.clearable && this.component.selectedOption) && !this.component.disabled) {
+    const hasSelectedOption = this.component.multiple
+      ? this.component.selectedOptions.length > 0
+      : !!this.component.selectedOption;
+
+    if (!(this.component.clearable && hasSelectedOption) && !this.component.disabled) {
       subElements.push(this.createSelectButtonIcon());
+    }
+
+    if (this.component.multiple) {
+      const hiddenInputs = (this.component.selectedOptions as NormalizedOptions).map((option) => this.createElement(
+        'input',
+        {
+          attrs: {
+            type: 'hidden',
+            value: option.value,
+            name: this.component.name,
+          },
+        },
+      ));
+
+      return this.createElement(
+        'div',
+        {
+          ref: 'tagsContainer',
+          attrs: {
+            tabindex: this.component.tabindex || 0,
+          },
+          class: this.component.getElementCssClass('selectButton'),
+          on: {
+            click: this.component.clickHandler,
+            focus: this.component.focusHandler,
+            keydown: (e: KeyboardEvent) => {
+              if (e.keyCode === Key.DOWN) {
+                this.component.arrowDownHandler(e);
+              } else if (e.keyCode === Key.UP) {
+                this.component.arrowUpHandler(e);
+              } else if (e.keyCode === Key.ENTER) {
+                this.component.enterHandler(e);
+              } else if (e.keyCode === Key.ESC) {
+                this.component.escapeHandler(e);
+              }
+            },
+            blur: this.component.blurHandler,
+            mousedown: (e: MouseEvent) => {
+              e.preventDefault();
+            },
+          },
+        },
+        subElements.concat(hiddenInputs),
+      );
     }
 
     return this.createElement(
@@ -118,6 +180,100 @@ export default class TRichSelectRenderer {
   }
 
   createSelectButtonLabel(): VNode {
+    if (this.component.multiple) {
+      return this.createElement(
+        'div',
+        {
+          class: this.component.getElementCssClass('selectButtonTagWrapper'),
+        },
+        (this.component.selectedOptions as NormalizedOptions).map((selectedOption, index) => this.createElement(
+          'button',
+          {
+            class: this.component.getElementCssClass('selectButtonTag'),
+            attrs: {
+              tabindex: this.component.tagsAreFocusable && !selectedOption.disabled ? '0' : '-1',
+              type: 'button',
+              disabled: selectedOption.disabled ? true : undefined,
+            },
+            on: {
+              click: (e: MouseEvent) => {
+                e.stopPropagation();
+                if (selectedOption.disabled) {
+                  return;
+                }
+                this.component.selectTag(e.currentTarget as HTMLButtonElement);
+              },
+              blur: (e: FocusEvent) => {
+                this.component.unselectTag(e.currentTarget as HTMLButtonElement);
+              },
+              focus: (e: FocusEvent) => {
+                this.component.selectTag(e.currentTarget as HTMLButtonElement);
+              },
+              keydown: (e: KeyboardEvent) => {
+                if (e.keyCode === Key.BACKSPACE) {
+                  this.component.unselectOptionAtIndex(index);
+                }
+              },
+            },
+          },
+          [
+            this.createElement(
+              'span',
+              {
+                class: this.component.getElementCssClass('selectButtonTagText'),
+
+              }, (selectedOption ? selectedOption.text : '') as VNodeChildren,
+            ),
+            [
+              selectedOption.disabled
+                ? null
+                : this.createElement(
+                  'span',
+                  {
+                    class: this.component.getElementCssClass('selectButtonTagDeleteButton'),
+                    attrs: {
+                      tabindex: -1,
+                    },
+                    on: {
+                      click: (e: MouseEvent) => {
+                        e.stopPropagation();
+                        this.component.unselectOptionAtIndex(index);
+                      },
+                    },
+                  },
+                  [
+                    this.createElement(
+                      'svg',
+                      {
+                        class: this.component.getElementCssClass('selectButtonTagDeleteButtonIcon'),
+                        attrs: {
+                          fill: 'currentColor',
+                          viewBox: '0 0 20 20',
+                          xmlns: 'http://www.w3.org/2000/svg',
+                        },
+                      },
+                      [
+                        this.createElement(
+                          'path',
+                          {
+                            attrs: {
+                              'fill-rule': 'evenodd',
+                              evenodd: 'evenodd',
+                              d: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
+                            },
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+            ],
+          ],
+
+        )),
+      );
+    }
+
     return this.createElement(
       'span',
       {

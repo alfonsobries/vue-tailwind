@@ -1,7 +1,8 @@
 import { CreateElement, VNode } from 'vue';
 import cloneDeep from 'lodash.clonedeep';
+import isEqual from 'lodash.isequal';
 import TRichSelectType from '../types/TRichSelect';
-import InputWithOptions from '../base/InputWithOptions';
+import MultipleInput from '../base/MultipleInput';
 import InputOptions from '../types/InputOptions';
 import NormalizedOption from '../types/NormalizedOption';
 import NormalizedOptions from '../types/NormalizedOptions';
@@ -11,7 +12,10 @@ type AjaxResults = Promise<{
   results: InputOptions;
   hasMorePages?: boolean;
 }>
-const TRichSelect = InputWithOptions.extend({
+
+type SelectOptionValue = string | number | boolean | symbol | null;
+
+const TRichSelect = MultipleInput.extend({
   name: 'TRichSelect',
 
   render(createElement: CreateElement) {
@@ -41,10 +45,6 @@ const TRichSelect = InputWithOptions.extend({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       default: (minimumInputLength: number, _query?: string) => `Please enter ${minimumInputLength} or more characters`,
     },
-    value: {
-      type: [String, Number],
-      default: null,
-    },
     hideSearchBox: {
       type: Boolean,
       default: false,
@@ -62,6 +62,10 @@ const TRichSelect = InputWithOptions.extend({
       default: false,
     },
     clearable: {
+      type: Boolean,
+      default: false,
+    },
+    multiple: {
       type: Boolean,
       default: false,
     },
@@ -97,6 +101,11 @@ const TRichSelect = InputWithOptions.extend({
           buttonWrapper: 'inline-block relative w-full',
           selectButton: 'w-full flex text-left justify-between items-center',
           selectButtonLabel: 'block truncate',
+          selectButtonTagWrapper: 'flex flex-wrap overflow-hidden',
+          selectButtonTag: 'bg-blue-500 block disabled:cursor-not-allowed disabled:opacity-50 duration-100 ease-in-out focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded shadow-sm text-sm text-white transition white-space-no m-0.5 max-w-full overflow-hidden h-8 flex items-center',
+          selectButtonTagText: 'px-3',
+          selectButtonTagDeleteButton: '-ml-1.5 h-full hover:bg-blue-600 hover:shadow-sm inline-flex items-center px-2 transition',
+          selectButtonTagDeleteButtonIcon: 'w-3 h-3',
           selectButtonPlaceholder: 'block truncate',
           selectButtonIcon: 'fill-current flex-shrink-0 ml-1 h-4 w-4',
           selectButtonClearButton: 'flex flex-shrink-0 items-center justify-center absolute right-0 top-0 m-2 h-6 w-6',
@@ -133,6 +142,11 @@ const TRichSelect = InputWithOptions.extend({
           buttonWrapper: '',
           selectButton: 'px-3 py-2 text-black transition duration-100 ease-in-out bg-white border border-gray-300 rounded shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed',
           selectButtonLabel: '',
+          selectButtonTagWrapper: '-mx-2 -my-2.5 py-1 pr-8',
+          selectButtonTag: 'bg-blue-500 block disabled:cursor-not-allowed disabled:opacity-50 duration-100 ease-in-out focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded shadow-sm text-sm text-white transition white-space-no m-0.5 max-w-full overflow-hidden h-8 flex items-center',
+          selectButtonTagText: 'px-3',
+          selectButtonTagDeleteButton: '-ml-1.5 h-full hover:bg-blue-600 hover:shadow-sm inline-flex items-center px-2 transition',
+          selectButtonTagDeleteButtonIcon: '',
           selectButtonPlaceholder: 'text-gray-400',
           selectButtonIcon: 'text-gray-600',
           selectButtonClearButton: 'hover:bg-blue-100 text-gray-600 rounded transition duration-100 ease-in-out',
@@ -167,19 +181,27 @@ const TRichSelect = InputWithOptions.extend({
     return {
       hasFocus: false,
       show: false,
-      localValue: this.value as string | number | boolean | symbol | null,
+      localValue: this.value as SelectOptionValue | SelectOptionValue[],
       highlighted: null as number | null,
       query: '',
       filteredOptions: [] as NormalizedOptions,
       selectedOption: undefined as undefined | NormalizedOption,
+      selectedOptions: [] as NormalizedOption[],
       searching: false,
       delayTimeout: undefined as undefined | ReturnType<typeof setTimeout>,
       nextPage: undefined as undefined | number,
+      tagsAreFocusable: false,
     };
   },
 
   created() {
-    this.selectedOption = this.findOptionByValue(this.value);
+    if (Array.isArray(this.value)) {
+      this.selectedOptions = this.value
+        .map((value) => this.findOptionByValue(value))
+        .filter((option) => !!option) as NormalizedOption[];
+    } else if (!this.selectedOption || this.selectedOption.value !== this.value) {
+      this.selectedOption = this.findOptionByValue(this.value);
+    }
   },
 
   updated() {
@@ -202,8 +224,12 @@ const TRichSelect = InputWithOptions.extend({
       this.nextPage = undefined;
       this.filterOptions(query);
     },
-    async localValue(localValue: string | null) {
-      if (!this.selectedOption || this.selectedOption.value !== localValue) {
+    async localValue(localValue: SelectOptionValue | SelectOptionValue[]) {
+      if (Array.isArray(localValue)) {
+        this.selectedOptions = localValue
+          .map((value) => this.findOptionByValue(value))
+          .filter((option) => !!option) as NormalizedOption[];
+      } else if (!this.selectedOption || this.selectedOption.value !== localValue) {
         this.selectedOption = this.findOptionByValue(localValue);
       }
 
@@ -294,11 +320,21 @@ const TRichSelect = InputWithOptions.extend({
       return String(this.maxHeight);
     },
     selectedOptionIndex(): number | undefined {
-      if (!this.selectedOption) {
+      let selectedOption: undefined | NormalizedOption;
+
+      if (this.multiple) {
+        selectedOption = this.selectedOptions.length >= 1 ? this.selectedOptions[this.selectedOptions.length - 1] : undefined;
+      } else {
+        selectedOption = this.selectedOption;
+      }
+
+      if (!selectedOption) {
         return undefined;
       }
+
       const index = this.filteredflattenedOptions
-        .findIndex((option) => this.optionHasValue(option, this.localValue));
+        .findIndex((option) => this.optionHasValue(option, (selectedOption as NormalizedOption).value));
+
       return index >= 0 ? index : undefined;
     },
 
@@ -459,16 +495,24 @@ const TRichSelect = InputWithOptions.extend({
     blurHandler(e: FocusEvent) {
       let shouldHideOptions = true;
       const clickedElement = e.relatedTarget as HTMLElement;
-
       if (clickedElement) {
         const wrapper = this.$refs.wrapper as HTMLDivElement;
         const isChild = wrapper.contains(clickedElement);
-        if (isChild) {
+
+        let clickedATag = false;
+        if (this.multiple) {
+          clickedATag = (this.$refs.tagsContainer as HTMLDivElement).contains(clickedElement);
+        }
+
+        if (isChild && !clickedATag) {
           shouldHideOptions = false;
         }
       }
 
-      if (clickedElement !== this.$refs.selectButton && !shouldHideOptions && this.getSearchBox()) {
+      if (
+        clickedElement !== this.$refs.selectButton
+          && !shouldHideOptions
+          && this.getSearchBox()) {
         this.focusSearchBox();
         return;
       }
@@ -489,7 +533,11 @@ const TRichSelect = InputWithOptions.extend({
     },
     clickHandler(e: MouseEvent) {
       if (!this.show && !this.hasFocus) {
-        this.getButton().focus();
+        if (this.multiple) {
+          this.getTagsContainer().focus();
+        } else {
+          this.getButton().focus();
+        }
         if (!this.openOnFocus) {
           this.showOptions();
         }
@@ -612,15 +660,40 @@ const TRichSelect = InputWithOptions.extend({
     getButton() {
       return this.$refs.selectButton as HTMLButtonElement;
     },
+    getTagsContainer() {
+      return this.$refs.tagsContainer as HTMLButtonElement;
+    },
     getSearchBox() {
       return this.$refs.searchBox as HTMLInputElement;
     },
     async selectOption(option: NormalizedOption, focus = true) {
-      if (this.localValue !== option.value) {
-        (this.localValue as string | number | boolean | symbol | null) = option.value;
-      }
+      const optionValue = option.value as SelectOptionValue;
 
-      this.selectedOption = option;
+      if (this.multiple) {
+        if (Array.isArray(this.localValue)) {
+          const valueIndex = this.localValue.findIndex((value) => isEqual(value, optionValue));
+          if (valueIndex >= 0) {
+            this.localValue.splice(valueIndex, 1);
+            const selectedOptionIndex = this.selectedOptions.findIndex((o) => o.value === optionValue);
+            if (selectedOptionIndex >= 0) {
+              this.unselectOptionAtIndex(selectedOptionIndex);
+              this.selectedOptions.splice(selectedOptionIndex, 1);
+            }
+          } else {
+            this.localValue.push(optionValue);
+            this.selectedOptions.push(option);
+          }
+        } else {
+          this.localValue = [optionValue];
+          this.selectedOptions.push(option);
+        }
+      } else {
+        if (this.localValue !== optionValue) {
+          this.localValue = optionValue;
+        }
+
+        this.selectedOption = option;
+      }
 
       await this.$nextTick();
 
@@ -628,7 +701,11 @@ const TRichSelect = InputWithOptions.extend({
         if (!this.closeOnSelect && this.shouldShowSearchbox) {
           this.getSearchBox().focus();
         } else {
-          this.getButton().focus();
+          if (this.multiple) {
+            this.getTagsContainer().focus();
+          } else {
+            this.getButton().focus();
+          }
 
           if (this.closeOnSelect && this.show) {
             this.hideOptions();
@@ -636,10 +713,21 @@ const TRichSelect = InputWithOptions.extend({
         }
       }
     },
+    unselectOptionAtIndex(index: number) {
+      const selectedOption = this.selectedOptions[index];
+      const valueIndex = (this.localValue as SelectOptionValue[]).findIndex((value) => isEqual(value, selectedOption.value));
+      if (valueIndex >= 0) {
+        this.localValue.splice(valueIndex, 1);
+      }
+    },
     clearButtonClickHandler(e: MouseEvent): void {
       e.preventDefault();
       e.stopPropagation();
-      (this.localValue as string | number | boolean | symbol | null) = null;
+      if (this.multiple) {
+        this.localValue = this.selectedOptions.filter((o) => !!o.disabled).map((o) => o.value);
+      } else {
+        this.localValue = null;
+      }
       this.query = '';
     },
     blur() {
@@ -651,6 +739,15 @@ const TRichSelect = InputWithOptions.extend({
     focus(options?: FocusOptions | undefined) {
       const el = this.$refs.selectButton as HTMLButtonElement;
       el.focus(options);
+    },
+    async selectTag(tag: HTMLButtonElement) {
+      this.tagsAreFocusable = true;
+      // Wait until the tag has `tabindex`
+      await this.$nextTick();
+      tag.focus();
+    },
+    async unselectTag() {
+      this.tagsAreFocusable = false;
     },
   },
 });
