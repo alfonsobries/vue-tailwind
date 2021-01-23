@@ -1,3 +1,4 @@
+import { CombinedVueInstance } from 'vue/types/vue';
 import CssClass from './CssClass';
 import NormalizedOptions from './NormalizedOptions';
 import NormalizedOption from './NormalizedOption';
