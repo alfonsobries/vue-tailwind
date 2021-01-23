@@ -99,17 +99,23 @@ export default class TRichSelectRenderer {
     }
 
     if (this.component.multiple) {
+      const hiddenInputs = (this.component.selectedOptions as NormalizedOptions).map((option) => this.createElement(
+        'input',
+        {
+          attrs: {
+            type: 'hidden',
+            value: option.value,
+            name: this.component.name,
+          },
+        },
+      ));
+
       return this.createElement(
         'div',
         {
           ref: 'tagsContainer',
           attrs: {
             tabindex: this.component.tabindex || 0,
-            // value: this.component.localValue,
-            // id: this.component.id,
-            // autofocus: this.component.autofocus,
-            // disabled: this.component.disabled,
-            // name: this.component.name,
           },
           class: this.component.getElementCssClass('selectButton'),
           on: {
@@ -132,7 +138,7 @@ export default class TRichSelectRenderer {
             },
           },
         },
-        subElements,
+        subElements.concat(hiddenInputs),
       );
     }
 
@@ -218,48 +224,50 @@ export default class TRichSelectRenderer {
 
               }, (selectedOption ? selectedOption.text : '') as VNodeChildren,
             ),
-            selectedOption.disabled
-              ? null
-              : this.createElement(
-                'span',
-                {
-                  class: this.component.getElementCssClass('selectButtonTagDeleteButton'),
-                  attrs: {
-                    tabindex: -1,
-                  },
-                  on: {
-                    click: (e: MouseEvent) => {
-                      e.stopPropagation();
-                      this.component.unselectOptionAtIndex(index);
+            [
+              selectedOption.disabled
+                ? null
+                : this.createElement(
+                  'span',
+                  {
+                    class: this.component.getElementCssClass('selectButtonTagDeleteButton'),
+                    attrs: {
+                      tabindex: -1,
                     },
-                  },
-                },
-                [
-                  this.createElement(
-                    'svg',
-                    {
-                      class: this.component.getElementCssClass('selectButtonTagDeleteButtonIcon'),
-                      attrs: {
-                        fill: 'currentColor',
-                        viewBox: '0 0 20 20',
-                        xmlns: 'http://www.w3.org/2000/svg',
+                    on: {
+                      click: (e: MouseEvent) => {
+                        e.stopPropagation();
+                        this.component.unselectOptionAtIndex(index);
                       },
                     },
-                    [
-                      this.createElement(
-                        'path',
-                        {
-                          attrs: {
-                            'fill-rule': 'evenodd',
-                            evenodd: 'evenodd',
-                            d: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
-                          },
+                  },
+                  [
+                    this.createElement(
+                      'svg',
+                      {
+                        class: this.component.getElementCssClass('selectButtonTagDeleteButtonIcon'),
+                        attrs: {
+                          fill: 'currentColor',
+                          viewBox: '0 0 20 20',
+                          xmlns: 'http://www.w3.org/2000/svg',
                         },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      },
+                      [
+                        this.createElement(
+                          'path',
+                          {
+                            attrs: {
+                              'fill-rule': 'evenodd',
+                              evenodd: 'evenodd',
+                              d: 'M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z',
+                            },
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+            ],
           ],
 
         )),
