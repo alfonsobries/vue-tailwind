@@ -8,6 +8,37 @@ describe('TRichSelect', () => {
     expect(wrapper.vm.$refs.wrapper).toBeTruthy();
   });
 
+  it('should accept an array value', () => {
+    const value = [1, 2, 3];
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: {
+        value,
+      },
+    });
+
+    expect(wrapper.vm.localValue).toEqual(value);
+  });
+
+  it('should accept an object value', () => {
+    const value = { hello: 'world' };
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: {
+        value,
+      },
+    });
+    expect(wrapper.vm.localValue).toEqual(value);
+  });
+
+  it('should accept a boolean value', () => {
+    const value = false;
+    const wrapper = shallowMount(TRichSelect, {
+      propsData: {
+        value,
+      },
+    });
+    expect(wrapper.vm.localValue).toEqual(value);
+  });
+
   it('renders the select button', () => {
     const wrapper = shallowMount(TRichSelect);
     expect(wrapper.vm.$refs.buttonWrapper).toBeTruthy();
