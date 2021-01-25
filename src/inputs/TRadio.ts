@@ -15,7 +15,7 @@ const TRadio = HtmlInput.extend({
 
   props: {
     value: {
-      type: [String, Object, Number, Boolean],
+      type: [String, Object, Number, Boolean, Array],
       default: 'on',
     },
     checked: {
@@ -24,7 +24,7 @@ const TRadio = HtmlInput.extend({
     },
     model: {
       // v-model
-      type: [String, Object, Number, Boolean],
+      type: [String, Object, Number, Boolean, Array],
       default: undefined,
     },
     wrapped: {

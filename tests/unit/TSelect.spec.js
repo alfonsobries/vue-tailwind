@@ -17,6 +17,37 @@ describe('TSelect', () => {
     expect(wrapper.vm.$el.getElementsByTagName('option').length).toBe(3);
   });
 
+  it('should accept an array value', () => {
+    const value = [1, 2, 3];
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        value,
+      },
+    });
+
+    expect(wrapper.vm.localValue).toEqual(value);
+  });
+
+  it('should accept an object value', () => {
+    const value = { hello: 'world' };
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        value,
+      },
+    });
+    expect(wrapper.vm.localValue).toEqual(value);
+  });
+
+  it('should accept a boolean value', () => {
+    const value = false;
+    const wrapper = shallowMount(TSelect, {
+      propsData: {
+        value,
+      },
+    });
+    expect(wrapper.vm.localValue).toEqual(value);
+  });
+
   it('render the select optgroups', () => {
     const options = [
       { value: 'alone', text: 'no parent :(' },

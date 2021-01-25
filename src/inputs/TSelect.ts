@@ -159,7 +159,7 @@ const TSelect = MultipleInput.extend({
           on: this.getListeners({
             blur: this.blurHandler,
             focus: this.focusHandler,
-            change: this.changeHandler,
+            input: this.inputHandler,
           }),
         },
         this.createOptions(createElement, this.value),
@@ -208,7 +208,7 @@ const TSelect = MultipleInput.extend({
       }, option.text as VNodeChildren);
     },
 
-    changeHandler(e: Event) {
+    inputHandler(e: Event) {
       const target = (e.target as HTMLSelectElement);
 
       let value;
