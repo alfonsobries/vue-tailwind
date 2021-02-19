@@ -290,6 +290,7 @@ const TDatepicker = HtmlInput.extend({
       format,
       formatNative,
       currentLocale,
+      hasFocus: false,
     };
   },
 
@@ -616,9 +617,11 @@ const TDatepicker = HtmlInput.extend({
       this.resetActiveDate(this.localValue);
     },
     focusHandler(e: FocusEvent) {
+      this.hasFocus = true;
       this.$emit('focus', e);
     },
     blurHandler(e: FocusEvent) {
+      this.hasFocus = false;
       this.$emit('blur', e);
     },
   },
@@ -683,6 +686,7 @@ const TDatepicker = HtmlInput.extend({
         locale: this.currentLocale,
         value: this.localValue,
         activeDate: this.activeDate,
+        hasFocus: this.hasFocus,
         getElementCssClass: this.getElementCssClass,
       },
       scopedSlots: this.$scopedSlots,
