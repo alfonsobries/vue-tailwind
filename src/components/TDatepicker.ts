@@ -294,7 +294,6 @@ const TDatepicker = HtmlInput.extend({
   },
 
   computed: {
-
     visibleRange(): [Date, Date] {
       const start = new Date(this.activeDate.valueOf());
       const end = new Date(this.activeDate.valueOf());
@@ -341,11 +340,7 @@ const TDatepicker = HtmlInput.extend({
     },
     localValue(localValue: Date | null | Date[]) {
       if (this.monthsPerView === 1 || !this.currentValueIsInTheView) {
-        if (Array.isArray(localValue) && localValue.length) {
-          this.activeDate = localValue[localValue.length - 1];
-        } else {
-          this.activeDate = localValue instanceof Date ? localValue : new Date();
-        }
+        this.resetActiveDate(localValue);
       }
 
       this.refreshFormattedDate();
@@ -600,10 +595,15 @@ const TDatepicker = HtmlInput.extend({
       this.currentView = this.initialView as CalendarView;
       this.showActiveDate = false;
 
-      if (Array.isArray(this.localValue) && this.localValue.length) {
-        [this.activeDate] = this.localValue;
+      this.resetActiveDate(this.localValue);
+    },
+    resetActiveDate(localValue: Date | null | Date[]): void {
+      if (Array.isArray(localValue) && localValue.length) {
+        this.activeDate = localValue[localValue.length - 1];
+      } else if (localValue instanceof Date) {
+        this.activeDate = localValue;
       } else {
-        this.activeDate = this.localValue instanceof Date ? this.localValue : new Date();
+        this.activeDate = this.parse(this.initialDate as DateValue, this.dateFormat) || new Date();
       }
     },
     clearHandler() {
@@ -612,6 +612,8 @@ const TDatepicker = HtmlInput.extend({
       } else {
         this.localValue = null;
       }
+
+      this.resetActiveDate(this.localValue);
     },
     focusHandler(e: FocusEvent) {
       this.$emit('focus', e);
