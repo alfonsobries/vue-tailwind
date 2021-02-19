@@ -30,6 +30,9 @@ const TTextarea = TextInput.extend({
       return createElement('textarea', {
         class: this.componentClass,
         ref: 'input',
+        domProps: {
+          value: this.localValue,
+        },
         attrs: {
           id: this.id,
           name: this.name,
@@ -54,9 +57,8 @@ const TTextarea = TextInput.extend({
           keydown: this.keydownHandler,
           input: this.inputHandler,
         }),
-      }, this.value ? String(this.value) : '');
+      });
     },
-
     inputHandler(e: Event) {
       const target = (e.target as HTMLTextAreaElement);
       this.$emit('input', target.value);
