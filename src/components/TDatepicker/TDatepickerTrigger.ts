@@ -88,6 +88,10 @@ const TDatepickerTrigger = Vue.extend({
       type: Function,
       required: true,
     },
+    hasFocus: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   computed: {
@@ -124,7 +128,8 @@ const TDatepickerTrigger = Vue.extend({
           ref: 'input',
           class: this.getElementCssClass('input'),
           attrs: {
-            readonly: true,
+            // Prevents
+            readonly: !this.hasFocus ? this.readonly : true,
             id: this.id,
             name: this.name,
             disabled: this.disabled,
@@ -132,7 +137,7 @@ const TDatepickerTrigger = Vue.extend({
             autofocus: this.autofocus,
             type: 'text',
             required: this.required,
-            placeholder: this.placeholder,
+            placeholder: this.required ? 'reqired' : 'not-required',
             tabindex: this.tabindex,
             value: formText,
           },
