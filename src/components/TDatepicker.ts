@@ -599,7 +599,7 @@ const TDatepicker = HtmlInput.extend({
     },
     resetActiveDate(localValue: Date | null | Date[]): void {
       if (Array.isArray(localValue) && localValue.length) {
-        [this.activeDate] = localValue;
+        this.activeDate = localValue[localValue.length - 1];
       } else if (localValue instanceof Date) {
         this.activeDate = localValue;
       } else {
