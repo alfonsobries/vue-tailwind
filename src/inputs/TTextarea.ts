@@ -50,13 +50,13 @@ const TTextarea = TextInput.extend({
           rows: this.rows,
           cols: this.cols,
         },
-        on: {
+        on: this.getListeners({
           blur: this.blurHandler,
           focus: this.focusHandler,
           keyup: this.keyupHandler,
           keydown: this.keydownHandler,
           input: this.inputHandler,
-        },
+        }),
       });
     },
     inputHandler(e: Event) {
