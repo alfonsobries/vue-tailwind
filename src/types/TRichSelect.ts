@@ -7,6 +7,7 @@ type TRichSelect = CombinedVueInstance<Vue,
 {
   hasFocus: boolean;
   localValue: string | number | boolean | symbol | null;
+  variant: string | undefined;
   show: boolean;
   filteredOptions: NormalizedOptions;
   highlighted: number | null;

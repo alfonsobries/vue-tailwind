@@ -95,7 +95,7 @@ export default class TRichSelectRenderer {
       : !!this.component.selectedOption;
 
     if (!(this.component.clearable && hasSelectedOption) && !this.component.disabled) {
-      subElements.push(this.createSelectButtonIcon());
+      subElements.push(...this.createSelectButtonIcon());
     }
 
     if (this.component.multiple) {
@@ -300,8 +300,16 @@ export default class TRichSelectRenderer {
     );
   }
 
-  createSelectButtonIcon(): VNode {
-    return this.createElement(
+  createSelectButtonIcon(): VNode[] {
+    if (this.component.$scopedSlots.arrow) {
+      return this.component.$scopedSlots.arrow({
+        className: this.component.getElementCssClass('selectButtonIcon'),
+        variant: this.component.variant,
+        value: this.component.localValue,
+      }) as VNode[];
+    }
+
+    return [this.createElement(
       'svg',
       {
         ref: 'selectButtonIcon',
@@ -321,7 +329,7 @@ export default class TRichSelectRenderer {
           },
         }),
       ],
-    );
+    )];
   }
 
   createSelectButtonClearButton(): VNode {
