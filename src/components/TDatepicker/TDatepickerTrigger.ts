@@ -137,7 +137,7 @@ const TDatepickerTrigger = Vue.extend({
             autofocus: this.autofocus,
             type: 'text',
             required: this.required,
-            placeholder: this.required ? 'reqired' : 'not-required',
+            placeholder: this.placeholder,
             tabindex: this.tabindex,
             value: formText,
           },
