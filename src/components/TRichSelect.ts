@@ -206,7 +206,7 @@ const TRichSelect = MultipleInput.extend({
 
   updated() {
     if (typeof this.selectedOption === 'undefined'
-      || (this.selectedOption.value !== this.value && this.value !== null)
+    || (!Array.isArray(this.value) && this.selectedOption.value !== this.value && this.value !== null)
     ) {
       this.selectedOption = this.findOptionByValue(this.value);
     }
@@ -229,7 +229,9 @@ const TRichSelect = MultipleInput.extend({
         this.selectedOptions = localValue
           .map((value) => this.findOptionByValue(value))
           .filter((option) => !!option) as NormalizedOption[];
+        console.log(this.selectedOptions, localValue);
       } else if (!this.selectedOption || this.selectedOption.value !== localValue) {
+        console.log(1);
         this.selectedOption = this.findOptionByValue(localValue);
       }
 
@@ -300,6 +302,15 @@ const TRichSelect = MultipleInput.extend({
       return this.minimumInputLength === undefined
         || this.query.length >= this.minimumInputLength;
     },
+    flattenedOptions(): NormalizedOptions {
+      return this.normalizedOptions.map((option: NormalizedOption) => {
+        if (option.children) {
+          return option.children;
+        }
+
+        return option;
+      }).flat();
+    },
     filteredflattenedOptions(): NormalizedOptions {
       return this.filteredOptions.map((option: NormalizedOption) => {
         if (option.children) {
@@ -350,7 +361,7 @@ const TRichSelect = MultipleInput.extend({
   methods: {
     // eslint-disable-next-line max-len
     findOptionByValue(value: string | number | boolean | symbol | null): undefined | NormalizedOption {
-      return this.filteredflattenedOptions
+      return this.flattenedOptions
         .find((option) => this.optionHasValue(option, value));
     },
     // eslint-disable-next-line max-len
@@ -692,6 +703,7 @@ const TRichSelect = MultipleInput.extend({
           this.localValue = optionValue;
         }
 
+        console.log(2);
         this.selectedOption = option;
       }
 
