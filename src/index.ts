@@ -1,15 +1,12 @@
-import Vue, { PluginFunction, VueConstructor } from 'vue';
+import Vue, { PluginFunction } from 'vue';
 import ComponentSettings from './types/ComponentSettings';
 import LibrarySettings from './types/LibrarySettings';
 import configure from './configure';
-import BaseComponent from './base/Component';
+
+export { default as BaseComponent } from './base/Component';
 
 export interface InstallFunction extends PluginFunction<LibrarySettings> {
   installed?: boolean;
-}
-
-export {
-  BaseComponent as VueConstructor
 }
 
 // install function executed by Vue.use()
