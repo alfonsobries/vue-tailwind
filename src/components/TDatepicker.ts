@@ -145,12 +145,12 @@ const TDatepicker = HtmlInput.extend({
 
         // Dropdown related classes
         dropdown: 'origin-top-left absolute rounded shadow bg-white overflow-hidden mt-1',
-        enterClass: 'transform opacity-0 scale-95',
-        enterActiveClass: 'transition ease-out duration-100',
-        enterToClass: 'transform opacity-100 scale-100',
-        leaveClass: 'transform opacity-100 scale-100',
-        leaveActiveClass: 'transition ease-in duration-75',
-        leaveToClass: 'transform opacity-0 scale-95',
+        enterClass: 'opacity-0 scale-95',
+        enterActiveClass: 'transition transform ease-out duration-100',
+        enterToClass: 'opacity-100 scale-100',
+        leaveClass: 'opacity-100 scale-100',
+        leaveActiveClass: 'transition transform ease-in duration-75',
+        leaveToClass: 'opacity-0 scale-95',
 
         // Wrapper for inline calendar
         inlineWrapper: '',
