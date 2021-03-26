@@ -209,12 +209,12 @@ const TDialog = Component.extend({
           busyWrapper: 'absolute bg-opacity-50 bg-white flex h-full items-center justify-center left-0 top-0 w-full',
           busyIcon: 'animate-spin h-6 w-6 fill-current text-gray-500',
 
-          overlayEnterClass: '',
-          overlayEnterActiveClass: 'opacity-0 transition ease-out duration-100',
+          overlayEnterClass: 'opacity-0',
+          overlayEnterActiveClass: 'transition ease-out duration-100',
           overlayEnterToClass: 'opacity-100',
-          overlayLeaveClass: 'transition ease-in opacity-100',
-          overlayLeaveActiveClass: '',
-          overlayLeaveToClass: 'opacity-0 duration-75',
+          overlayLeaveClass: 'opacity-100',
+          overlayLeaveActiveClass: 'transition ease-in duration-75',
+          overlayLeaveToClass: 'opacity-0',
 
           enterClass: '',
           enterActiveClass: '',
