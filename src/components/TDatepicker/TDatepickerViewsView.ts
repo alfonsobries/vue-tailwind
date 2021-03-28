@@ -2,6 +2,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 
 import TDatepickerViewsViewCalendar from './TDatepickerViewsViewCalendar';
 import TDatepickerNavigator, { CalendarView } from './TDatepickerNavigator';
+import TDatepickerTimeSelector from './TDatepickerTimeSelector';
 import TDatepickerViewsViewMonths from './TDatepickerViewsViewMonths';
 import TDatepickerViewsViewYears from './TDatepickerViewsViewYears';
 
@@ -99,6 +100,22 @@ const TDatepickerViewsView = Vue.extend({
     },
     locale: {
       type: Object,
+      required: true,
+    },
+    datepicker: {
+      type: Boolean,
+      required: true,
+    },
+    timepicker: {
+      type: Boolean,
+      required: true,
+    },
+    amPm: {
+      type: Boolean,
+      required: true,
+    },
+    showSeconds: {
+      type: Boolean,
       required: true,
     },
   },
@@ -256,6 +273,29 @@ const TDatepickerViewsView = Vue.extend({
           },
         ),
       );
+    }
+
+    if (this.timepicker) {
+      subElements.push(createElement(
+        TDatepickerTimeSelector,
+        {
+          ref: 'timePickers',
+          props: {
+            parse: this.parse,
+            format: this.format,
+            datepicker: this.datepicker,
+            timepicker: this.timepicker,
+            amPm: this.amPm,
+            showSeconds: this.showSeconds,
+            activeDate: this.activeDate,
+            value: this.value,
+          },
+          on: {
+            input: this.inputActiveDateHandler,
+          },
+        },
+
+      ));
     }
 
     return createElement(

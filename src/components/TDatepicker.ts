@@ -20,6 +20,35 @@ interface Dropdown extends Vue {
   escapeHandler(e: KeyboardEvent): void
 }
 
+const getInitialActiveDate = (
+  localValue: Date | Date[] | null,
+  initialDate: DateValue,
+  dateFormat: string,
+  parse: DateParser,
+  amPm: boolean,
+  initialTime?:string,
+): Date => {
+  if (Array.isArray(localValue) && localValue.length) {
+    const [activeDate] = localValue;
+    return activeDate;
+  } if (localValue instanceof Date) {
+    return localValue;
+  }
+
+  const activeDate = parse(initialDate, dateFormat) || new Date();
+
+  if (initialTime) {
+    const parsedDateWithTime = parse(initialTime, amPm ? 'G:i:S K' : 'H:i:S');
+    if (parsedDateWithTime) {
+      activeDate.setHours(parsedDateWithTime.getHours());
+      activeDate.setMinutes(parsedDateWithTime.getMinutes());
+      activeDate.setSeconds(parsedDateWithTime.getSeconds());
+    }
+  }
+
+  return activeDate;
+};
+
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
   props: {
@@ -121,6 +150,10 @@ const TDatepicker = HtmlInput.extend({
       type: [Date, String],
       default: undefined,
     },
+    initialTime: {
+      type: String,
+      default: undefined,
+    },
     conjunction: {
       type: String,
       default: ',',
@@ -136,6 +169,22 @@ const TDatepicker = HtmlInput.extend({
     clearable: {
       type: Boolean,
       default: true,
+    },
+    datepicker: {
+      type: Boolean,
+      default: true,
+    },
+    timepicker: {
+      type: Boolean,
+      default: false,
+    },
+    amPm: {
+      type: Boolean,
+      default: false,
+    },
+    showSeconds: {
+      type: Boolean,
+      default: false,
     },
     classes: {
       type: Object,
@@ -183,7 +232,7 @@ const TDatepicker = HtmlInput.extend({
         navigatorNextButtonIcon: 'text-gray-400',
 
         // Calendar View
-        calendarWrapper: 'px-3 pt-2',
+        calendarWrapper: 'px-3 py-2',
         calendarHeaderWrapper: '',
         calendarHeaderWeekDay: 'uppercase text-xs text-gray-500 w-8 h-8 flex items-center justify-center',
         calendarDaysWrapper: '',
@@ -202,13 +251,13 @@ const TDatepicker = HtmlInput.extend({
         today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500',
 
         // Months View
-        monthWrapper: 'px-3 pt-2',
+        monthWrapper: 'px-3 py-2',
         selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
 
         // Years View
-        yearWrapper: 'px-3 pt-2',
+        yearWrapper: 'px-3 py-2',
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
@@ -265,15 +314,14 @@ const TDatepicker = HtmlInput.extend({
       ? localValue.map((d) => format(d, this.userFormat))
       : format(localValue, this.userFormat);
 
-    let activeDate: Date = new Date();
-
-    if (Array.isArray(localValue) && localValue.length) {
-      [activeDate] = localValue;
-    } else if (localValue instanceof Date) {
-      activeDate = localValue;
-    } else {
-      activeDate = parse(this.initialDate as DateValue, this.dateFormat) || activeDate;
-    }
+    const activeDate = getInitialActiveDate(
+      localValue,
+      this.initialDate,
+      this.dateFormat,
+      parse,
+      this.amPm,
+      this.initialTime,
+    );
 
     // Used to show the selected month/year
     const currentView: CalendarView = this.initialView as CalendarView;
@@ -547,7 +595,6 @@ const TDatepicker = HtmlInput.extend({
     },
     inputActiveDateHandler(newDate: Date): void {
       this.activeDate = new Date(newDate.valueOf());
-      this.focus();
     },
     setView(newView: CalendarView): void {
       this.currentView = newView;
@@ -599,13 +646,14 @@ const TDatepicker = HtmlInput.extend({
       this.resetActiveDate(this.localValue);
     },
     resetActiveDate(localValue: Date | null | Date[]): void {
-      if (Array.isArray(localValue) && localValue.length) {
-        this.activeDate = localValue[localValue.length - 1];
-      } else if (localValue instanceof Date) {
-        this.activeDate = localValue;
-      } else {
-        this.activeDate = this.parse(this.initialDate as DateValue, this.dateFormat) || new Date();
-      }
+      this.activeDate = getInitialActiveDate(
+        localValue,
+        this.initialDate,
+        this.dateFormat,
+        this.parse,
+        this.amPm,
+        this.initialTime,
+      );
     },
     clearHandler() {
       if (this.multiple || this.range) {
@@ -654,6 +702,10 @@ const TDatepicker = HtmlInput.extend({
           maxDate: this.maxDate,
           range: this.range,
           showDaysForOtherMonth: this.showDaysForOtherMonth,
+          datepicker: this.datepicker,
+          timepicker: this.timepicker,
+          amPm: this.amPm,
+          showSeconds: this.showSeconds,
         },
         scopedSlots: this.$scopedSlots,
         on: {

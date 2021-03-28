@@ -85,7 +85,9 @@ const TDatepickerViewsViewCalendarDays = Vue.extend({
 
   computed: {
     firstDayOfMonth(): Date {
-      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth(), 1);
+      const localActiveDate = new Date(this.localActiveMonth.valueOf());
+      localActiveDate.setDate(1);
+      return localActiveDate;
     },
     lastDayOfMonth(): Date {
       return lastDayOfMonth(this.localActiveMonth);
@@ -94,10 +96,15 @@ const TDatepickerViewsViewCalendarDays = Vue.extend({
       return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth() - 1, 1);
     },
     lastDayOfPrevMonth(): Date {
-      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth(), 0);
+      const localActiveDate = new Date(this.localActiveMonth.valueOf());
+      localActiveDate.setDate(0);
+      return localActiveDate;
     },
     firstDayOfNextMonth(): Date {
-      return new Date(this.localActiveMonth.getFullYear(), this.localActiveMonth.getMonth() + 1, 1);
+      const localActiveDate = new Date(this.localActiveMonth.valueOf());
+      localActiveDate.setDate(1);
+      localActiveDate.setMonth(this.localActiveMonth.getMonth() + 1);
+      return localActiveDate;
     },
     monthDays(): Date[] {
       return Array
@@ -139,8 +146,10 @@ const TDatepickerViewsViewCalendarDays = Vue.extend({
   },
 
   methods: {
-    getDay(date: Date, day: number): Date {
-      return new Date(date.getFullYear(), date.getMonth(), day);
+    getDay(date: Date, dayNumber: number): Date {
+      const day = new Date(date.valueOf());
+      day.setDate(dayNumber);
+      return day;
     },
   },
 
