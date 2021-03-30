@@ -205,7 +205,7 @@ const TDatepicker = HtmlInput.extend({
 
         // Wrapper for inline calendar
         inlineWrapper: '',
-        inlineViews: 'rounded bg-white border mt-1 inline-flex',
+        inlineViews: 'rounded bg-white border mt-1 inline-flex flex-col',
 
         // Text input related classes
         inputWrapper: '',
@@ -750,7 +750,7 @@ const TDatepicker = HtmlInput.extend({
       },
     )];
 
-    if (this.timepicker) {
+    if (this.timepicker && this.currentView === CalendarView.Day) {
       views.push(createElement(
         TDatepickerTimeSelector,
         {
