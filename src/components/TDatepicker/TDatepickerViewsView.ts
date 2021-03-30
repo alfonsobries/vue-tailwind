@@ -161,10 +161,6 @@ const TDatepickerViewsView = Vue.extend({
     inputDateHandler(date: Date) {
       this.$emit('input-date', date);
     },
-    inputTimeHandler(date: Date) {
-      this.$emit('input-time', date);
-    },
-
     viewInputActiveDateHandler(date: Date) {
       this.resetView();
 
@@ -245,29 +241,6 @@ const TDatepickerViewsView = Vue.extend({
           },
         ),
       );
-
-      if (this.timepicker) {
-        subElements.push(createElement(
-          TDatepickerTimeSelector,
-          {
-            ref: 'timePickers',
-            props: {
-              parse: this.parse,
-              format: this.format,
-              datepicker: this.datepicker,
-              timepicker: this.timepicker,
-              amPm: this.amPm,
-              showSeconds: this.showSeconds,
-              activeDate: this.activeDate,
-              value: this.value,
-            },
-            on: {
-              input: this.inputActiveDateHandler,
-              submit: this.inputTimeHandler,
-            },
-          },
-        ));
-      }
     } else if (this.currentView === CalendarView.Month) {
       subElements.push(
         createElement(

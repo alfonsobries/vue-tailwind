@@ -12,6 +12,8 @@ import { English } from '../l10n/default';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTrigger';
 import TDatepickerViews from './TDatepicker/TDatepickerViews';
+import TDatepickerTimeSelector from './TDatepicker/TDatepickerTimeSelector';
+
 
 interface Dropdown extends Vue {
   doToggle(): void
@@ -703,7 +705,7 @@ const TDatepicker = HtmlInput.extend({
   },
 
   render(createElement: CreateElement): VNode {
-    const views = createElement(
+    const views = [createElement(
       TDatepickerViews,
       {
         ref: 'views',
@@ -746,7 +748,30 @@ const TDatepicker = HtmlInput.extend({
           'reset-view': this.resetView,
         },
       },
-    );
+    )];
+
+    if (this.timepicker) {
+      views.push(createElement(
+        TDatepickerTimeSelector,
+        {
+          ref: 'timePickers',
+          props: {
+            parse: this.parse,
+            format: this.format,
+            datepicker: this.datepicker,
+            timepicker: this.timepicker,
+            amPm: this.amPm,
+            showSeconds: this.showSeconds,
+            activeDate: this.activeDate,
+            value: this.value,
+          },
+          on: {
+            input: this.inputActiveDateHandler,
+            submit: this.inputTimeHandler,
+          },
+        },
+      ));
+    }
 
     const triggerSettings = {
       ref: 'trigger',
@@ -807,7 +832,7 @@ const TDatepicker = HtmlInput.extend({
             {
               class: this.getElementCssClass('inlineViews'),
             },
-            [views],
+            views,
           ),
         ]);
     }
@@ -860,9 +885,7 @@ const TDatepicker = HtmlInput.extend({
           },
         },
       },
-      [
-        views,
-      ],
+      views,
     );
   },
 });

@@ -2,6 +2,7 @@ import Vue, { CreateElement, VNode } from 'vue';
 
 import { addMonths } from '../../utils/dates';
 import TDatepickerViewsView from './TDatepickerViewsView';
+
 import { CalendarView } from './TDatepickerNavigator';
 
 const TDatepickerViews = Vue.extend({
@@ -139,68 +140,70 @@ const TDatepickerViews = Vue.extend({
   },
 
   render(createElement: CreateElement): VNode {
+    const subElements = this.activeMonths.map((activeMonth: Date, index: number) => createElement(
+      TDatepickerViewsView,
+      {
+        ref: 'view',
+        props: {
+          value: this.value,
+          activeMonth,
+          activeDate: this.localActiveDate,
+          weekStart: this.weekStart,
+          lang: this.lang,
+          getElementCssClass: this.getElementCssClass,
+          parse: this.parse,
+          format: this.format,
+          dateFormat: this.dateFormat,
+          userFormat: this.userFormat,
+          formatNative: this.formatNative,
+          monthsPerView: this.monthsPerView,
+          monthIndex: index,
+          currentView: index === 0 ? this.currentView : this.initialView,
+          yearsPerView: this.yearsPerView,
+          showActiveDate: this.showActiveDate,
+          disabledDates: this.disabledDates,
+          highlightDates: this.highlightDates,
+          minDate: this.minDate,
+          maxDate: this.maxDate,
+          range: this.range,
+          showDaysForOtherMonth: this.showDaysForOtherMonth,
+          locale: this.locale,
+          datepicker: this.datepicker,
+          timepicker: this.timepicker,
+          amPm: this.amPm,
+          showSeconds: this.showSeconds,
+          dateWithoutTime: this.dateWithoutTime,
+        },
+        scopedSlots: this.$scopedSlots,
+        on: {
+          input: (date: Date) => {
+            this.$emit('input', date);
+          },
+          'input-date': (date: Date) => {
+            this.$emit('input-date', date);
+          },
+          'input-time': (date: Date) => {
+            this.$emit('input-time', date);
+          },
+          'input-active-date': (date: Date) => {
+            this.$emit('input-active-date', date);
+          },
+          'update-view': (newView: CalendarView) => {
+            this.$emit('update-view', newView);
+          },
+          'reset-view': () => {
+            this.$emit('reset-view');
+          },
+        },
+      },
+    ));
+
     return createElement(
       'div',
       {
         class: this.getElementCssClass('viewGroup'),
       },
-      this.activeMonths.map((activeMonth: Date, index: number) => createElement(
-        TDatepickerViewsView,
-        {
-          ref: 'view',
-          props: {
-            value: this.value,
-            activeMonth,
-            activeDate: this.localActiveDate,
-            weekStart: this.weekStart,
-            lang: this.lang,
-            getElementCssClass: this.getElementCssClass,
-            parse: this.parse,
-            format: this.format,
-            dateFormat: this.dateFormat,
-            userFormat: this.userFormat,
-            formatNative: this.formatNative,
-            monthsPerView: this.monthsPerView,
-            monthIndex: index,
-            currentView: index === 0 ? this.currentView : this.initialView,
-            yearsPerView: this.yearsPerView,
-            showActiveDate: this.showActiveDate,
-            disabledDates: this.disabledDates,
-            highlightDates: this.highlightDates,
-            minDate: this.minDate,
-            maxDate: this.maxDate,
-            range: this.range,
-            showDaysForOtherMonth: this.showDaysForOtherMonth,
-            locale: this.locale,
-            datepicker: this.datepicker,
-            timepicker: this.timepicker,
-            amPm: this.amPm,
-            showSeconds: this.showSeconds,
-            dateWithoutTime: this.dateWithoutTime,
-          },
-          scopedSlots: this.$scopedSlots,
-          on: {
-            input: (date: Date) => {
-              this.$emit('input', date);
-            },
-            'input-date': (date: Date) => {
-              this.$emit('input-date', date);
-            },
-            'input-time': (date: Date) => {
-              this.$emit('input-time', date);
-            },
-            'input-active-date': (date: Date) => {
-              this.$emit('input-active-date', date);
-            },
-            'update-view': (newView: CalendarView) => {
-              this.$emit('update-view', newView);
-            },
-            'reset-view': () => {
-              this.$emit('reset-view');
-            },
-          },
-        },
-      )),
+      subElements,
     );
   },
 });
