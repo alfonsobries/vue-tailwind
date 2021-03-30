@@ -37,6 +37,10 @@ const TDatepickerTimeSelector = Vue.extend({
       type: Date,
       required: true,
     },
+    locale: {
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
@@ -129,9 +133,9 @@ const TDatepickerTimeSelector = Vue.extend({
     setHours(hours: number): void {
       if (this.amPm) {
         if (hours === 12) {
-          this.localActiveDate.setHours(this.amPmFormatted === 'PM' ? hours : 0);
+          this.localActiveDate.setHours(this.amPmFormatted === this.locale.amPM[1] ? hours : 0);
         } else {
-          this.localActiveDate.setHours(this.amPmFormatted === 'PM' ? hours + 12 : hours);
+          this.localActiveDate.setHours(this.amPmFormatted === this.locale.amPM[1] ? hours + 12 : hours);
         }
         return;
       }
@@ -288,12 +292,12 @@ const TDatepickerTimeSelector = Vue.extend({
         {
           props: {
             model: this.amPmFormatted,
-            value: 'PM',
-            uncheckedValue: 'AM',
-            checkedPlaceholder: 'AM',
-            uncheckedPlaceholder: 'PM',
-            checkedLabel: 'PM',
-            uncheckedLabel: 'AM',
+            value: this.locale.amPM[1],
+            uncheckedValue: this.locale.amPM[0],
+            checkedPlaceholder: this.locale.amPM[0],
+            uncheckedPlaceholder: this.locale.amPM[1],
+            checkedLabel: this.locale.amPM[1],
+            uncheckedLabel: this.locale.amPM[0],
             fixedClasses: {
               wrapper: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
               wrapperChecked: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
@@ -314,7 +318,7 @@ const TDatepickerTimeSelector = Vue.extend({
             },
           },
           on: {
-            input: (amOrPM: 'AM' | 'PM') => {
+            input: (amOrPM: string) => {
               const formattedDate = this.format(new Date(this.localActiveDate.valueOf()), 'Y-m-d G:i:S');
               const newActiveDate = this.parse(`${formattedDate} ${amOrPM}`, 'Y-m-d G:i:S K');
               this.$emit('input', newActiveDate);

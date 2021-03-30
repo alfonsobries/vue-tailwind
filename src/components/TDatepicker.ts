@@ -764,6 +764,7 @@ const TDatepicker = HtmlInput.extend({
             showSeconds: this.showSeconds,
             activeDate: this.activeDate,
             value: this.value,
+            locale: this.currentLocale,
           },
           on: {
             input: this.inputActiveDateHandler,
