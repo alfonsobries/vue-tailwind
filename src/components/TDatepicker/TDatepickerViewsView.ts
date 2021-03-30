@@ -118,6 +118,10 @@ const TDatepickerViewsView = Vue.extend({
       type: Boolean,
       required: true,
     },
+    dateWithoutTime: {
+      type: Date,
+      default: null,
+    },
   },
 
   data() {
@@ -153,6 +157,12 @@ const TDatepickerViewsView = Vue.extend({
       this.resetView();
 
       this.$emit('input', date);
+    },
+    inputDateHandler(date: Date) {
+      this.$emit('input-date', date);
+    },
+    inputTimeHandler(date: Date) {
+      this.$emit('input-time', date);
     },
 
     viewInputActiveDateHandler(date: Date) {
@@ -224,14 +234,40 @@ const TDatepickerViewsView = Vue.extend({
               minDate: this.minDate,
               maxDate: this.maxDate,
               range: this.range,
+              timepicker: this.timepicker,
+              dateWithoutTime: this.dateWithoutTime,
             },
             scopedSlots: this.$scopedSlots,
             on: {
               input: this.inputHandler,
+              'input-date': this.inputDateHandler,
             },
           },
         ),
       );
+
+      if (this.timepicker) {
+        subElements.push(createElement(
+          TDatepickerTimeSelector,
+          {
+            ref: 'timePickers',
+            props: {
+              parse: this.parse,
+              format: this.format,
+              datepicker: this.datepicker,
+              timepicker: this.timepicker,
+              amPm: this.amPm,
+              showSeconds: this.showSeconds,
+              activeDate: this.activeDate,
+              value: this.value,
+            },
+            on: {
+              input: this.inputActiveDateHandler,
+              submit: this.inputTimeHandler,
+            },
+          },
+        ));
+      }
     } else if (this.currentView === CalendarView.Month) {
       subElements.push(
         createElement(
@@ -275,28 +311,6 @@ const TDatepickerViewsView = Vue.extend({
       );
     }
 
-    if (this.timepicker) {
-      subElements.push(createElement(
-        TDatepickerTimeSelector,
-        {
-          ref: 'timePickers',
-          props: {
-            parse: this.parse,
-            format: this.format,
-            datepicker: this.datepicker,
-            timepicker: this.timepicker,
-            amPm: this.amPm,
-            showSeconds: this.showSeconds,
-            activeDate: this.activeDate,
-            value: this.value,
-          },
-          on: {
-            input: this.inputActiveDateHandler,
-          },
-        },
-
-      ));
-    }
 
     return createElement(
       'div',

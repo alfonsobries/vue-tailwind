@@ -112,6 +112,10 @@ const TDatepickerViews = Vue.extend({
       type: Boolean,
       required: true,
     },
+    dateWithoutTime: {
+      type: Date,
+      default: null,
+    },
   },
 
   data() {
@@ -172,11 +176,18 @@ const TDatepickerViews = Vue.extend({
             timepicker: this.timepicker,
             amPm: this.amPm,
             showSeconds: this.showSeconds,
+            dateWithoutTime: this.dateWithoutTime,
           },
           scopedSlots: this.$scopedSlots,
           on: {
             input: (date: Date) => {
               this.$emit('input', date);
+            },
+            'input-date': (date: Date) => {
+              this.$emit('input-date', date);
+            },
+            'input-time': (date: Date) => {
+              this.$emit('input-time', date);
             },
             'input-active-date': (date: Date) => {
               this.$emit('input-active-date', date);

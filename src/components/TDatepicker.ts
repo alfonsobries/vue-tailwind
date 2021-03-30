@@ -339,6 +339,8 @@ const TDatepicker = HtmlInput.extend({
       formatNative,
       currentLocale,
       hasFocus: false,
+      dateWithoutTime: Array.isArray(localValue) ? localValue[0] : localValue,
+      timeWithoutDate: null as Date | null,
     };
   },
 
@@ -535,6 +537,30 @@ const TDatepicker = HtmlInput.extend({
         this.activeDate = newActiveDate;
       }
     },
+    inputDateHandler(date: Date): void {
+      this.dateWithoutTime = date;
+      this.dateTimeInputHandler();
+    },
+    inputTimeHandler(date: Date): void {
+      this.timeWithoutDate = date;
+      this.dateTimeInputHandler();
+    },
+    dateTimeInputHandler(): void {
+      if (this.dateWithoutTime === null || this.timeWithoutDate === null) {
+        return;
+      }
+
+      const dateTime = new Date(
+        this.dateWithoutTime.getFullYear(),
+        this.dateWithoutTime.getMonth(),
+        this.dateWithoutTime.getDate(),
+        this.timeWithoutDate.getHours(),
+        this.timeWithoutDate.getMinutes(),
+        this.timeWithoutDate.getSeconds(),
+      );
+
+      this.inputHandler(dateTime);
+    },
     inputHandler(newDate: Date): void {
       const date = new Date(newDate.valueOf());
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
@@ -642,6 +668,8 @@ const TDatepicker = HtmlInput.extend({
       this.shown = false;
       this.currentView = this.initialView as CalendarView;
       this.showActiveDate = false;
+      this.dateWithoutTime = Array.isArray(this.localValue) ? this.localValue[0] : this.localValue;
+      this.timeWithoutDate = null;
 
       this.resetActiveDate(this.localValue);
     },
@@ -706,10 +734,13 @@ const TDatepicker = HtmlInput.extend({
           timepicker: this.timepicker,
           amPm: this.amPm,
           showSeconds: this.showSeconds,
+          dateWithoutTime: this.dateWithoutTime,
         },
         scopedSlots: this.$scopedSlots,
         on: {
           input: this.inputHandler,
+          'input-date': this.inputDateHandler,
+          'input-time': this.inputTimeHandler,
           'input-active-date': this.inputActiveDateHandler,
           'update-view': this.setView,
           'reset-view': this.resetView,
