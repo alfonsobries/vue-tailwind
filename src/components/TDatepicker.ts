@@ -656,7 +656,11 @@ const TDatepicker = HtmlInput.extend({
         this.doShow();
       } else if (this.showActiveDate) {
         if (this.currentView === CalendarView.Day) {
-          this.inputHandler(new Date(this.activeDate.valueOf()));
+          if (this.timepicker) {
+            this.inputDateHandler(new Date(this.activeDate.valueOf()));
+          } else {
+            this.inputHandler(new Date(this.activeDate.valueOf()));
+          }
         } else {
           this.resetView();
         }
