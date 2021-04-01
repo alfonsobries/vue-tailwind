@@ -223,6 +223,7 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
       if (this.dateWithoutTime !== null) {
         return this.dateWithoutTime as unknown as Date;
       }
+
       return this.value as Date | Date[];
     },
 

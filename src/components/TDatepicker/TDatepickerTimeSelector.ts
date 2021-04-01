@@ -1,6 +1,8 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import TToggle from '../TToggle';
 
+const isNumber = (char: string | number): boolean => /^\d+$/.test(String(char));
+
 const TDatepickerTimeSelector = Vue.extend({
   name: 'TDatepickerTimeSelector',
 
@@ -50,6 +52,7 @@ const TDatepickerTimeSelector = Vue.extend({
       lastValidValue: '',
       triesForInvalidMinutes: 0,
       triesForInvalidSeconds: 0,
+      timeInputKeys: [] as string[],
     };
   },
 
@@ -77,14 +80,55 @@ const TDatepickerTimeSelector = Vue.extend({
   },
 
   watch: {
+    timeInputKeys(timeInputKeys: string[]) {
+      if (timeInputKeys.length === 0) {
+        return;
+      }
+
+      const numbers = timeInputKeys.join('').substr(-4);
+      const minutesInput = this.$refs.minutes as HTMLInputElement;
+      const hoursInput = this.$refs.hours as HTMLInputElement;
+      const fullTime: string = numbers.padStart(4, ' ').substr(-4);
+
+      minutesInput.value = fullTime.substr(-2).trim();
+      hoursInput.value = fullTime.substr(0, 2).trim();
+    },
     activeDate(activeDate: Date) {
       this.localActiveDate = new Date(activeDate.valueOf());
       this.lastValidValue = '';
       this.alreadyTriedAnInvalidValue = false;
+      this.timeInputKeys = [];
     },
   },
 
   methods: {
+    handleFullTimeBlur() {
+      if (!this.timeInputKeys.length) {
+        return;
+      }
+
+
+      const numbers = this.timeInputKeys.filter((key) => isNumber(key)).join('').substr(-4);
+      const fullTime: string = numbers.padStart(4, '0').substr(-4);
+      const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(-2)}`;
+      const time: Date = this.parse(formattedIntendedTime, 'G:i');
+
+      if (time instanceof Date && !Number.isNaN(time)) {
+        this.setHours(time.getHours());
+        this.setMinutes(time.getMinutes());
+        this.setSeconds(time.getSeconds());
+
+        this.$emit('input', this.localActiveDate);
+
+        this.$nextTick(() => {
+          this.updateSecondsInput();
+          this.updateMinutesInput();
+          this.updateHoursInput();
+        });
+
+        this.$refs.amPm.focus();
+      }
+    },
     handleTimeInputFocus(e: FocusEvent) {
       const input = e.currentTarget as HTMLInputElement;
       input.focus();
@@ -103,14 +147,13 @@ const TDatepickerTimeSelector = Vue.extend({
       const numericValue = Number(value);
       const keyPressed = Number(e.data);
 
-      if (Number.isNaN(numericValue)) {
+      if (!isNumber(numericValue)) {
         input.value = this.lastValidValue;
         return;
       }
 
-
       if (numericValue > maxValue || numericValue < minValue) {
-        if (!Number.isNaN(keyPressed)) {
+        if (isNumber(keyPressed)) {
           if (this.alreadyTriedAnInvalidValue) {
             input.value = String(keyPressed);
             input.dispatchEvent(new Event('input'));
@@ -131,22 +174,29 @@ const TDatepickerTimeSelector = Vue.extend({
       this.lastValidValue = value;
     },
     setHours(hours: number): void {
-      if (this.amPm) {
-        if (hours === 12) {
-          this.localActiveDate.setHours(this.amPmFormatted === this.locale.amPM[1] ? hours : 0);
-        } else {
-          this.localActiveDate.setHours(this.amPmFormatted === this.locale.amPM[1] ? hours + 12 : hours);
-        }
-        return;
-      }
-
       this.localActiveDate.setHours(hours);
     },
+
     setMinutes(minutes: number): void {
       this.localActiveDate.setMinutes(minutes);
     },
     setSeconds(seconds: number): void {
       this.localActiveDate.setSeconds(seconds);
+    },
+    updateSecondsInput() {
+      if (!this.showSeconds) {
+        return;
+      }
+      (this.$refs.seconds as HTMLInputElement).value = this.secondsFormatted;
+    },
+    updateMinutesInput() {
+      (this.$refs.minutes as HTMLInputElement).value = this.minutesFormatted;
+    },
+    updateHoursInput() {
+      (this.$refs.hours as HTMLInputElement).value = this.hoursFormatted;
+    },
+    focus(): void {
+      (this.$refs.timeInput as HTMLDivElement).focus();
     },
   },
 
@@ -175,16 +225,26 @@ const TDatepickerTimeSelector = Vue.extend({
             input: (e: InputEvent) => {
               const maxHours = this.amPm ? 12 : 23;
               const minHours = this.amPm ? 1 : 0;
-              this.handleTimeInput(e, maxHours, minHours, this.setHours);
+
+              this.handleTimeInput(e, maxHours, minHours, (hours: number) => {
+                if (this.amPm) {
+                  if (hours === 12) {
+                    this.setHours(this.amPmFormatted === this.locale.amPM[1] ? hours : 0);
+                  } else {
+                    this.setHours(this.amPmFormatted === this.locale.amPM[1] ? hours + 12 : hours);
+                  }
+                }
+              });
             },
             blur: (e: FocusEvent) => {
-              const input = e.currentTarget as HTMLInputElement;
+              e.stopPropagation();
               this.$emit('input', this.localActiveDate);
               this.$nextTick(() => {
-                input.value = this.hoursFormatted;
+                this.updateHoursInput();
               });
             },
             focus: (e: FocusEvent) => {
+              e.stopPropagation();
               this.handleTimeInputFocus(e);
             },
           },
@@ -216,13 +276,14 @@ const TDatepickerTimeSelector = Vue.extend({
               this.handleTimeInput(e, maxMinutes, minMinutes, this.setMinutes);
             },
             blur: (e: FocusEvent) => {
-              const input = e.currentTarget as HTMLInputElement;
+              e.stopPropagation();
               this.$emit('input', this.localActiveDate);
               this.$nextTick(() => {
-                input.value = this.minutesFormatted;
+                this.updateMinutesInput();
               });
             },
             focus: (e: FocusEvent) => {
+              e.stopPropagation();
               this.handleTimeInputFocus(e);
             },
           },
@@ -258,13 +319,14 @@ const TDatepickerTimeSelector = Vue.extend({
                 this.handleTimeInput(e, maxSeconds, minSeconds, this.setSeconds);
               },
               blur: (e: FocusEvent) => {
-                const input = e.currentTarget as HTMLInputElement;
+                e.stopPropagation();
                 this.$emit('input', this.localActiveDate);
                 this.$nextTick(() => {
-                  input.value = this.secondsFormatted;
+                  this.updateSecondsInput();
                 });
               },
               focus: (e: FocusEvent) => {
+                e.stopPropagation();
                 this.handleTimeInputFocus(e);
               },
             },
@@ -277,9 +339,23 @@ const TDatepickerTimeSelector = Vue.extend({
       createElement(
         'div',
         {
+          ref: 'timeInput',
           class: 'bg-gray-100 rounded-md w-full text-right flex items-center border border-gray-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
           attrs: {
             tabindex: 0,
+          },
+          on: {
+            keyup: (e: KeyboardEvent) => {
+              if (e.target !== this.$refs.timeInput) {
+                return;
+              }
+
+              const { key } = e;
+              if (isNumber(key)) {
+                this.timeInputKeys.push(key);
+              }
+            },
+            blur: this.handleFullTimeBlur,
           },
         },
         timePickerInputs,
@@ -290,6 +366,7 @@ const TDatepickerTimeSelector = Vue.extend({
       timePickerElements.push(createElement(
         TToggle,
         {
+          ref: 'amPm',
           props: {
             model: this.amPmFormatted,
             value: this.locale.amPM[1],
@@ -347,7 +424,6 @@ const TDatepickerTimeSelector = Vue.extend({
     const timePickerWrapper = createElement(
       'div',
       {
-        ref: 'timeInput',
         class: 'flex items-center space-x-2',
       },
       timePickerElements,

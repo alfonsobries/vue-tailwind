@@ -2,7 +2,6 @@ import Vue, { CreateElement, VNode } from 'vue';
 
 import TDatepickerViewsViewCalendar from './TDatepickerViewsViewCalendar';
 import TDatepickerNavigator, { CalendarView } from './TDatepickerNavigator';
-import TDatepickerTimeSelector from './TDatepickerTimeSelector';
 import TDatepickerViewsViewMonths from './TDatepickerViewsViewMonths';
 import TDatepickerViewsViewYears from './TDatepickerViewsViewYears';
 

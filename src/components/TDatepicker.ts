@@ -539,12 +539,23 @@ const TDatepicker = HtmlInput.extend({
         this.activeDate = newActiveDate;
       }
     },
+    focusTimePicker() : void {
+      type TimePicker = Element & {
+        focus: () => void
+      };
+
+      (this.$refs.timePicker as TimePicker).focus();
+    },
     inputDateHandler(date: Date): void {
       this.dateWithoutTime = date;
+
       this.dateTimeInputHandler();
+
+      this.focusTimePicker();
     },
     inputTimeHandler(date: Date): void {
       this.timeWithoutDate = date;
+
       this.dateTimeInputHandler();
     },
     dateTimeInputHandler(): void {
@@ -754,7 +765,7 @@ const TDatepicker = HtmlInput.extend({
       views.push(createElement(
         TDatepickerTimeSelector,
         {
-          ref: 'timePickers',
+          ref: 'timePicker',
           props: {
             parse: this.parse,
             format: this.format,
@@ -763,7 +774,7 @@ const TDatepicker = HtmlInput.extend({
             amPm: this.amPm,
             showSeconds: this.showSeconds,
             activeDate: this.activeDate,
-            value: this.value,
+            value: this.localValue,
             locale: this.currentLocale,
           },
           on: {
