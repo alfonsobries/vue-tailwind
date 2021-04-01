@@ -126,7 +126,11 @@ const TDatepickerTimeSelector = Vue.extend({
           this.updateHoursInput();
         });
 
-        this.$refs.amPm.focus();
+        type AMPMPicker = Element & {
+          focus: () => void
+        };
+
+        (this.$refs.amPm as AMPMPicker).focus();
       }
     },
     handleTimeInputFocus(e: FocusEvent) {
