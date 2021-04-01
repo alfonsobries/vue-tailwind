@@ -31,9 +31,10 @@ const getInitialActiveDate = (
   initialTime?:string,
 ): Date => {
   if (Array.isArray(localValue) && localValue.length) {
-    const [activeDate] = localValue;
-    return activeDate;
-  } if (localValue instanceof Date) {
+    return localValue[localValue.length - 1];
+  }
+
+  if (localValue instanceof Date) {
     return localValue;
   }
 
