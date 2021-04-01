@@ -551,8 +551,6 @@ const TDatepicker = HtmlInput.extend({
       this.dateWithoutTime = date;
 
       this.dateTimeInputHandler();
-
-      this.focusTimePicker();
     },
     inputTimeHandler(date: Date): void {
       this.timeWithoutDate = date;
@@ -561,6 +559,12 @@ const TDatepicker = HtmlInput.extend({
     },
     dateTimeInputHandler(): void {
       if (this.dateWithoutTime === null || this.timeWithoutDate === null) {
+        if (this.timeWithoutDate === null) {
+          this.focusTimePicker();
+        } else if (this.dateWithoutTime === null) {
+          this.focus();
+        }
+
         return;
       }
 
