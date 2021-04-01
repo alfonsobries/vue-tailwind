@@ -85,13 +85,20 @@ const TDatepickerTimeSelector = Vue.extend({
         return;
       }
 
-      const numbers = timeInputKeys.join('').substr(-4);
+      const numbers = timeInputKeys.join('').substr(this.showSeconds ? -6 : -4);
       const minutesInput = this.$refs.minutes as HTMLInputElement;
       const hoursInput = this.$refs.hours as HTMLInputElement;
-      const fullTime: string = numbers.padStart(4, ' ').substr(-4);
+      const fullTime: string = numbers.padStart(this.showSeconds ? 6 : 4, ' ').substr(this.showSeconds ? -6 : -4);
 
-      minutesInput.value = fullTime.substr(-2).trim();
-      hoursInput.value = fullTime.substr(0, 2).trim();
+      if (this.showSeconds) {
+        const secondsInput = this.$refs.seconds as HTMLInputElement;
+        secondsInput.value = fullTime.substr(4, 2).trim();
+        minutesInput.value = fullTime.substr(2, 2).trim();
+        hoursInput.value = fullTime.substr(0, 2).trim();
+      } else {
+        minutesInput.value = fullTime.substr(2, 2).trim();
+        hoursInput.value = fullTime.substr(0, 2).trim();
+      }
     },
     activeDate(activeDate: Date) {
       this.localActiveDate = new Date(activeDate.valueOf());
@@ -107,11 +114,10 @@ const TDatepickerTimeSelector = Vue.extend({
         return;
       }
 
-
-      const numbers = this.timeInputKeys.filter((key) => isNumber(key)).join('').substr(-4);
-      const fullTime: string = numbers.padStart(4, '0').substr(-4);
-      const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(-2)}`;
-      const time: Date = this.parse(formattedIntendedTime, 'G:i');
+      const numbers = this.timeInputKeys.filter((key) => isNumber(key)).join('').substr(this.showSeconds ? -6 : -4);
+      const fullTime: string = numbers.padStart(this.showSeconds ? 6 : 4, '0').substr(this.showSeconds ? -6 : -4);
+      const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(2, 2)}:${fullTime.substr(4, 2)}`;
+      const time: Date = this.parse(formattedIntendedTime, this.showSeconds ? 'G:i:S' : 'G:i');
 
       if (time instanceof Date && !Number.isNaN(time)) {
         this.setHours(time.getHours());
