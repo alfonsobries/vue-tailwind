@@ -15,14 +15,6 @@ const TDatepickerTimeSelector = Vue.extend({
       type: Function,
       required: true,
     },
-    datepicker: {
-      type: Boolean,
-      required: true,
-    },
-    timepicker: {
-      type: Boolean,
-      required: true,
-    },
     amPm: {
       type: Boolean,
       required: true,
@@ -30,10 +22,6 @@ const TDatepickerTimeSelector = Vue.extend({
     showSeconds: {
       type: Boolean,
       required: true,
-    },
-    value: {
-      type: [Date, Array],
-      default: null,
     },
     activeDate: {
       type: Date,
@@ -50,8 +38,6 @@ const TDatepickerTimeSelector = Vue.extend({
       localActiveDate: new Date(this.activeDate.valueOf()),
       alreadyTriedAnInvalidValue: false,
       lastValidValue: '',
-      triesForInvalidMinutes: 0,
-      triesForInvalidSeconds: 0,
       timeInputKeys: [] as string[],
     };
   },
@@ -116,8 +102,24 @@ const TDatepickerTimeSelector = Vue.extend({
 
       const numbers = this.timeInputKeys.filter((key) => isNumber(key)).join('').substr(this.showSeconds ? -6 : -4);
       const fullTime: string = numbers.padStart(this.showSeconds ? 6 : 4, '0').substr(this.showSeconds ? -6 : -4);
-      const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(2, 2)}:${fullTime.substr(4, 2)}`;
-      const time: Date = this.parse(formattedIntendedTime, this.showSeconds ? 'G:i:S' : 'G:i');
+      let time: Date;
+
+      if (this.showSeconds) {
+        if (this.amPm && Number(fullTime.substr(0, 2)) <= 12) {
+          const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(2, 2)}:${fullTime.substr(4, 2)} ${this.amPmFormatted}`;
+          time = this.parse(formattedIntendedTime, 'H:i:S K');
+        } else {
+          const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(2, 2)}:${fullTime.substr(4, 2)}`;
+          time = this.parse(formattedIntendedTime, 'G:i:S');
+        }
+      } else if (this.amPm && Number(fullTime.substr(0, 2)) <= 12) {
+        const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(2, 2)} ${this.amPmFormatted}`;
+        time = this.parse(formattedIntendedTime, 'H:i K');
+      } else {
+        const formattedIntendedTime = `${fullTime.substr(0, 2)}:${fullTime.substr(2, 2)}`;
+        time = this.parse(formattedIntendedTime, 'G:i');
+      }
+
 
       if (time instanceof Date && !Number.isNaN(time)) {
         this.setHours(time.getHours());
@@ -131,12 +133,16 @@ const TDatepickerTimeSelector = Vue.extend({
           this.updateMinutesInput();
           this.updateHoursInput();
         });
+      }
 
+      if (this.amPm) {
         type AMPMPicker = Element & {
           focus: () => void
         };
 
         (this.$refs.amPm as AMPMPicker).focus();
+      } else {
+        (this.$refs.okButton as HTMLButtonElement).focus();
       }
     },
     handleTimeInputFocus(e: FocusEvent) {
@@ -184,14 +190,19 @@ const TDatepickerTimeSelector = Vue.extend({
       this.lastValidValue = value;
     },
     setHours(hours: number): void {
-      this.localActiveDate.setHours(hours);
+      const newDate: Date = new Date(this.localActiveDate.valueOf());
+      newDate.setHours(hours);
+      this.localActiveDate = newDate;
     },
-
     setMinutes(minutes: number): void {
-      this.localActiveDate.setMinutes(minutes);
+      const newDate: Date = new Date(this.localActiveDate.valueOf());
+      newDate.setMinutes(minutes);
+      this.localActiveDate = newDate;
     },
     setSeconds(seconds: number): void {
-      this.localActiveDate.setSeconds(seconds);
+      const newDate: Date = new Date(this.localActiveDate.valueOf());
+      newDate.setSeconds(seconds);
+      this.localActiveDate = newDate;
     },
     updateSecondsInput() {
       if (!this.showSeconds) {
@@ -419,6 +430,7 @@ const TDatepickerTimeSelector = Vue.extend({
       createElement(
         'button',
         {
+          ref: 'okButton',
           class: 'text-blue-600 text-sm uppercase font-semibold transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded',
           attrs: {
             type: 'button',

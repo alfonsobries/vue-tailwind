@@ -778,12 +778,9 @@ const TDatepicker = HtmlInput.extend({
           props: {
             parse: this.parse,
             format: this.format,
-            datepicker: this.datepicker,
-            timepicker: this.timepicker,
             amPm: this.amPm,
             showSeconds: this.showSeconds,
             activeDate: this.activeDate,
-            value: this.localValue,
             locale: this.currentLocale,
           },
           on: {
