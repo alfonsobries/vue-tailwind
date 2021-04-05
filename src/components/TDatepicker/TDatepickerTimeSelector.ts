@@ -67,10 +67,6 @@ const TDatepickerTimeSelector = Vue.extend({
 
   watch: {
     timeInputKeys(timeInputKeys: string[]) {
-      if (timeInputKeys.length === 0) {
-        return;
-      }
-
       const numbers = timeInputKeys.join('').substr(this.showSeconds ? -6 : -4);
       const minutesInput = this.$refs.minutes as HTMLInputElement;
       const hoursInput = this.$refs.hours as HTMLInputElement;
@@ -371,8 +367,11 @@ const TDatepickerTimeSelector = Vue.extend({
                 return;
               }
 
+
               const { key } = e;
-              if (isNumber(key)) {
+              if (key === 'Backspace') {
+                this.timeInputKeys.pop();
+              } if (isNumber(key)) {
                 this.timeInputKeys.push(key);
               }
             },

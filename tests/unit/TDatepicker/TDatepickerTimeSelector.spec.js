@@ -349,6 +349,39 @@ describe('TDatepickerTimeSelector', () => {
       expect(hours.value).toBe('23');
     });
 
+    it('clears the last value when hit backspace', async () => {
+      const wrapper = shallowMount(TDatepickerTimeSelector, {
+        propsData,
+      });
+
+      const { minutes, hours, seconds } = wrapper.vm.$refs;
+
+      const { timeInput } = wrapper.vm.$refs;
+
+      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
+      expect(hours.value).toBe('');
+      expect(minutes.value).toBe('');
+      expect(seconds.value).toBe('1');
+
+      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: 'Backspace' }));
+      expect(hours.value).toBe('');
+      expect(minutes.value).toBe('');
+      expect(seconds.value).toBe('');
+
+      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '2' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
+      expect(hours.value).toBe('');
+      expect(minutes.value).toBe('12');
+      expect(seconds.value).toBe('35');
+
+      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: 'Backspace' }));
+      expect(hours.value).toBe('');
+      expect(minutes.value).toBe('1');
+      expect(seconds.value).toBe('23');
+    });
+
     describe('uses am/pm format', () => {
       const propsData = {
         ...defaultProps,
