@@ -77,23 +77,23 @@ describe('TDatepickerTimeSelector', () => {
 
     const { timeInput } = wrapper.vm.$refs;
 
-    await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
     expect(minutes.value).toBe('1');
     expect(hours.value).toBe('');
 
-    await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '2' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
     expect(minutes.value).toBe('12');
     expect(hours.value).toBe('');
 
-    await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3' }));
     expect(minutes.value).toBe('23');
     expect(hours.value).toBe('1');
 
-    await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
     expect(minutes.value).toBe('35');
     expect(hours.value).toBe('12');
 
-    await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '2' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
     expect(minutes.value).toBe('52');
     expect(hours.value).toBe('23');
   });
@@ -109,7 +109,7 @@ describe('TDatepickerTimeSelector', () => {
 
     await timeInput.focus();
 
-    await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
 
     await timeInput.blur();
 
@@ -130,6 +130,51 @@ describe('TDatepickerTimeSelector', () => {
     await timeInput.blur();
 
     expect(okButton.focus.mock.calls.length).toBe(0);
+  });
+
+  it('clears the last value when hit backspace on the time wrapper', async () => {
+    const wrapper = shallowMount(TDatepickerTimeSelector, {
+      propsData: defaultProps,
+    });
+
+    const { minutes, hours } = wrapper.vm.$refs;
+
+    const { timeInput } = wrapper.vm.$refs;
+
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+    expect(hours.value).toBe('');
+    expect(minutes.value).toBe('1');
+
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+    expect(hours.value).toBe('');
+    expect(minutes.value).toBe('');
+
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3' }));
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
+    expect(hours.value).toBe('12');
+    expect(minutes.value).toBe('35');
+
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace' }));
+    expect(hours.value).toBe('1');
+    expect(minutes.value).toBe('23');
+  });
+
+  it('blur when pressed enter the time wrapper', async () => {
+    const wrapper = shallowMount(TDatepickerTimeSelector, {
+      propsData: defaultProps,
+    });
+
+    const { timeInput, okButton } = wrapper.vm.$refs;
+
+    okButton.focus = jest.fn();
+
+    await timeInput.focus();
+
+    await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    expect(okButton.focus.mock.calls.length).toBe(1);
   });
 
   describe('uses am/pm format', () => {
@@ -158,11 +203,25 @@ describe('TDatepickerTimeSelector', () => {
 
       await timeInput.focus();
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
 
       await timeInput.blur();
 
       expect(amPm.focus.mock.calls.length).toBe(1);
+    });
+
+    it('will pass the focus from the am/pm toggle to the submit button when enter pressed', async () => {
+      const wrapper = shallowMount(TDatepickerTimeSelector, {
+        propsData,
+      });
+
+      const { amPm, okButton } = wrapper.vm.$refs;
+
+      okButton.focus = jest.fn();
+
+      await amPm.$emit('keydown', new KeyboardEvent('keydown', { key: 'Enter' }));
+
+      expect(okButton.focus.mock.calls.length).toBe(1);
     });
 
     it('will convert 24 hours date to am/pm if hours > 12 hours', async () => {
@@ -179,10 +238,10 @@ describe('TDatepickerTimeSelector', () => {
 
       expect(amPm.currentValue).toBe('AM');
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
 
       expect(minutes.value).toBe('05');
       expect(hours.value).toBe('13');
@@ -208,10 +267,10 @@ describe('TDatepickerTimeSelector', () => {
 
       expect(amPm.currentValue).toBe('AM');
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
 
       expect(minutes.value).toBe('05');
       expect(hours.value).toBe('11');
@@ -249,10 +308,10 @@ describe('TDatepickerTimeSelector', () => {
         timeInput, hours, minutes,
       } = wrapper.vm.$refs;
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
       expect(minutes.value).toBe('05');
       expect(hours.value).toBe('13');
 
@@ -274,10 +333,10 @@ describe('TDatepickerTimeSelector', () => {
         timeInput, hours, minutes,
       } = wrapper.vm.$refs;
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
 
       expect(minutes.value).toBe('05');
       expect(hours.value).toBe('11');
@@ -312,75 +371,43 @@ describe('TDatepickerTimeSelector', () => {
 
       const { timeInput } = wrapper.vm.$refs;
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
       expect(seconds.value).toBe('1');
       expect(minutes.value).toBe('');
 
       expect(hours.value).toBe('');
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '2' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
       expect(seconds.value).toBe('12');
       expect(minutes.value).toBe('');
       expect(hours.value).toBe('');
       expect(hours.value).toBe('');
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3' }));
       expect(seconds.value).toBe('23');
       expect(minutes.value).toBe('1');
       expect(hours.value).toBe('');
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '4' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '4' }));
       expect(seconds.value).toBe('34');
       expect(minutes.value).toBe('12');
       expect(hours.value).toBe('');
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
       expect(seconds.value).toBe('45');
       expect(minutes.value).toBe('23');
       expect(hours.value).toBe('1');
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '6' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '6' }));
       expect(seconds.value).toBe('56');
       expect(minutes.value).toBe('34');
       expect(hours.value).toBe('12');
 
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
+      await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
       expect(seconds.value).toBe('60');
       expect(minutes.value).toBe('45');
       expect(hours.value).toBe('23');
     });
 
-    it('clears the last value when hit backspace', async () => {
-      const wrapper = shallowMount(TDatepickerTimeSelector, {
-        propsData,
-      });
-
-      const { minutes, hours, seconds } = wrapper.vm.$refs;
-
-      const { timeInput } = wrapper.vm.$refs;
-
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      expect(hours.value).toBe('');
-      expect(minutes.value).toBe('');
-      expect(seconds.value).toBe('1');
-
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: 'Backspace' }));
-      expect(hours.value).toBe('');
-      expect(minutes.value).toBe('');
-      expect(seconds.value).toBe('');
-
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '2' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
-      expect(hours.value).toBe('');
-      expect(minutes.value).toBe('12');
-      expect(seconds.value).toBe('35');
-
-      await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: 'Backspace' }));
-      expect(hours.value).toBe('');
-      expect(minutes.value).toBe('1');
-      expect(seconds.value).toBe('23');
-    });
 
     describe('uses am/pm format', () => {
       const propsData = {
@@ -403,12 +430,12 @@ describe('TDatepickerTimeSelector', () => {
 
         expect(amPm.currentValue).toBe('AM');
 
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '2' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
 
         expect(minutes.value).toBe('05');
         expect(hours.value).toBe('13');
@@ -436,12 +463,12 @@ describe('TDatepickerTimeSelector', () => {
 
         expect(amPm.currentValue).toBe('AM');
 
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '2' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '2' }));
 
         expect(minutes.value).toBe('05');
         expect(hours.value).toBe('11');
@@ -474,12 +501,12 @@ describe('TDatepickerTimeSelector', () => {
           timeInput, hours, minutes, seconds,
         } = wrapper.vm.$refs;
 
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '8' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '8' }));
         expect(minutes.value).toBe('05');
         expect(hours.value).toBe('13');
         expect(seconds.value).toBe('08');
@@ -503,12 +530,12 @@ describe('TDatepickerTimeSelector', () => {
           timeInput, hours, minutes, seconds,
         } = wrapper.vm.$refs;
 
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '1' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '5' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '0' }));
-        await timeInput.dispatchEvent(new KeyboardEvent('keyup', { key: '8' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '1' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '5' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '0' }));
+        await timeInput.dispatchEvent(new KeyboardEvent('keydown', { key: '8' }));
 
         expect(minutes.value).toBe('05');
         expect(hours.value).toBe('11');

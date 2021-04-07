@@ -253,4 +253,16 @@ describe('TToggle', () => {
 
     expect(wrapper.emitted('blur').length).toBe(1);
   });
+
+  it('has a keydown event', async () => {
+    const wrapper = shallowMount(TToggle);
+
+    wrapper.vm.focus();
+
+    await wrapper.vm.$el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+    expect(wrapper.emitted('keydown')).toBeTruthy();
+
+    expect(wrapper.emitted('keydown').length).toBe(1);
+  });
 });
