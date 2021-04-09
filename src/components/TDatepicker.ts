@@ -13,7 +13,7 @@ import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTrigger';
 import TDatepickerViews from './TDatepicker/TDatepickerViews';
 import TDatepickerTimeSelector from './TDatepicker/TDatepickerTimeSelector';
-
+import isNumeric from '../utils/isNumeric';
 
 interface Dropdown extends Vue {
   doToggle(): void
@@ -473,6 +473,7 @@ const TDatepicker = HtmlInput.extend({
         throw new Error('Input not found');
       }
 
+
       input.focus(options);
     },
     doHide(): void {
@@ -556,7 +557,11 @@ const TDatepicker = HtmlInput.extend({
     inputTimeHandler(date: Date): void {
       this.timeWithoutDate = date;
 
-      this.dateTimeInputHandler();
+      if (this.datepicker) {
+        this.dateTimeInputHandler();
+      } else {
+        this.inputHandler(date);
+      }
     },
     dateTimeInputHandler(): void {
       if (this.dateWithoutTime === null || this.timeWithoutDate === null) {
@@ -732,51 +737,55 @@ const TDatepicker = HtmlInput.extend({
   },
 
   render(createElement: CreateElement): VNode {
-    const views = [createElement(
-      TDatepickerViews,
-      {
-        ref: 'views',
-        props: {
-          value: this.localValue,
-          activeDate: this.activeDate,
-          weekStart: this.weekStart,
-          monthsPerView: this.monthsPerView,
-          lang: this.lang,
-          locale: this.currentLocale,
-          getElementCssClass: this.getElementCssClass,
-          parse: this.parse,
-          format: this.format,
-          formatNative: this.formatNative,
-          dateFormat: this.dateFormat,
-          userFormat: this.userFormat,
-          initialView: this.initialView,
-          currentView: this.currentView,
-          yearsPerView: this.yearsPerView,
-          showActiveDate: this.showActiveDate,
-          disabledDates: this.disabledDates,
-          highlightDates: this.highlightDates,
-          minDate: this.minDate,
-          maxDate: this.maxDate,
-          range: this.range,
-          showDaysForOtherMonth: this.showDaysForOtherMonth,
-          datepicker: this.datepicker,
-          timepicker: this.timepicker,
-          amPm: this.amPm,
-          showSeconds: this.showSeconds,
-          dateWithoutTime: this.dateWithoutTime,
+    const views = [];
+
+    if (this.datepicker) {
+      views.push(createElement(
+        TDatepickerViews,
+        {
+          ref: 'views',
+          props: {
+            value: this.localValue,
+            activeDate: this.activeDate,
+            weekStart: this.weekStart,
+            monthsPerView: this.monthsPerView,
+            lang: this.lang,
+            locale: this.currentLocale,
+            getElementCssClass: this.getElementCssClass,
+            parse: this.parse,
+            format: this.format,
+            formatNative: this.formatNative,
+            dateFormat: this.dateFormat,
+            userFormat: this.userFormat,
+            initialView: this.initialView,
+            currentView: this.currentView,
+            yearsPerView: this.yearsPerView,
+            showActiveDate: this.showActiveDate,
+            disabledDates: this.disabledDates,
+            highlightDates: this.highlightDates,
+            minDate: this.minDate,
+            maxDate: this.maxDate,
+            range: this.range,
+            showDaysForOtherMonth: this.showDaysForOtherMonth,
+            datepicker: this.datepicker,
+            timepicker: this.timepicker,
+            amPm: this.amPm,
+            showSeconds: this.showSeconds,
+            dateWithoutTime: this.dateWithoutTime,
+          },
+          scopedSlots: this.$scopedSlots,
+          on: {
+            input: this.inputHandler,
+            'input-date': this.inputDateHandler,
+            'input-time': this.inputTimeHandler,
+            'input-active-date': this.inputActiveDateHandler,
+            'update-view': this.setView,
+            'reset-view': this.resetView,
+            'reset-focus': this.focus,
+          },
         },
-        scopedSlots: this.$scopedSlots,
-        on: {
-          input: this.inputHandler,
-          'input-date': this.inputDateHandler,
-          'input-time': this.inputTimeHandler,
-          'input-active-date': this.inputActiveDateHandler,
-          'update-view': this.setView,
-          'reset-view': this.resetView,
-          'reset-focus': this.focus,
-        },
-      },
-    )];
+      ));
+    }
 
     if (this.timepicker && this.currentView === CalendarView.Day) {
       views.push(createElement(
@@ -830,7 +839,7 @@ const TDatepicker = HtmlInput.extend({
         focus: this.focusHandler,
         blur: this.blurHandler,
         keydown: (e: KeyboardEvent) => {
-          if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
+          if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode) && this.datepicker) {
             this.arrowKeyHandler(e);
           } else if (e.keyCode === Key.ENTER) {
             this.enterHandler(e);
@@ -838,6 +847,10 @@ const TDatepicker = HtmlInput.extend({
             this.escapeHandler(e);
           } else if (e.keyCode === Key.SPACE) {
             this.spaceHandler(e);
+          }
+
+          if (isNumeric(e.key)) {
+            this.focusTimePicker();
           }
 
           this.$emit('keydown', e);
@@ -891,6 +904,12 @@ const TDatepicker = HtmlInput.extend({
           shown: () => {
             this.$emit('shown');
             this.shown = true;
+
+            if (this.timepicker && !this.datepicker) {
+              this.$nextTick(() => {
+                this.focusTimePicker();
+              });
+            }
           },
         },
         scopedSlots: {

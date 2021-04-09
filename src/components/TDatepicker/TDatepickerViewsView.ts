@@ -101,10 +101,6 @@ const TDatepickerViewsView = Vue.extend({
       type: Object,
       required: true,
     },
-    datepicker: {
-      type: Boolean,
-      required: true,
-    },
     timepicker: {
       type: Boolean,
       required: true,

@@ -1,7 +1,6 @@
 import Vue, { CreateElement, VNode } from 'vue';
 import TToggle from '../TToggle';
-
-const isNumber = (char: string | number): boolean => /^\d+$/.test(String(char));
+import isNumeric from '../../utils/isNumeric';
 
 const TDatepickerTimeSelector = Vue.extend({
   name: 'TDatepickerTimeSelector',
@@ -98,7 +97,7 @@ const TDatepickerTimeSelector = Vue.extend({
         return;
       }
 
-      const numbers = this.timeInputKeys.filter((key) => isNumber(key)).join('').substr(this.showSeconds ? -6 : -4);
+      const numbers = this.timeInputKeys.filter((key) => isNumeric(key)).join('').substr(this.showSeconds ? -6 : -4);
       const fullTime: string = numbers.padStart(this.showSeconds ? 6 : 4, '0').substr(this.showSeconds ? -6 : -4);
       let time: Date;
 
@@ -167,13 +166,13 @@ const TDatepickerTimeSelector = Vue.extend({
       const numericValue = Number(value);
       const keyPressed = Number(e.data);
 
-      if (!isNumber(numericValue)) {
+      if (!isNumeric(numericValue)) {
         input.value = this.lastValidValue;
         return;
       }
 
       if (numericValue > maxValue || numericValue < minValue) {
-        if (isNumber(keyPressed)) {
+        if (isNumeric(keyPressed)) {
           if (this.alreadyTriedAnInvalidValue) {
             input.value = String(keyPressed);
             input.dispatchEvent(new Event('input'));
@@ -395,7 +394,7 @@ const TDatepickerTimeSelector = Vue.extend({
                 this.focusNextElementFullTimeSelector();
               } else if (key === 'Backspace') {
                 this.timeInputKeys.pop();
-              } if (isNumber(key)) {
+              } if (isNumeric(key)) {
                 this.timeInputKeys.push(key);
               }
             },
@@ -493,7 +492,7 @@ const TDatepickerTimeSelector = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'flex items-center px-4 py-2',
+        class: 'flex items-center px-4 py-2 space-x-2',
       },
       subElements,
     );

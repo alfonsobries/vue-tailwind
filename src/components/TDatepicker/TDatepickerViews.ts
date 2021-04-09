@@ -97,10 +97,6 @@ const TDatepickerViews = Vue.extend({
       type: Object,
       required: true,
     },
-    datepicker: {
-      type: Boolean,
-      required: true,
-    },
     timepicker: {
       type: Boolean,
       required: true,
@@ -168,7 +164,6 @@ const TDatepickerViews = Vue.extend({
           range: this.range,
           showDaysForOtherMonth: this.showDaysForOtherMonth,
           locale: this.locale,
-          datepicker: this.datepicker,
           timepicker: this.timepicker,
           amPm: this.amPm,
           showSeconds: this.showSeconds,
