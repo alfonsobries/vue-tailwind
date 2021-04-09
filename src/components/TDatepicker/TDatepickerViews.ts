@@ -194,6 +194,9 @@ const TDatepickerViews = Vue.extend({
           'reset-view': () => {
             this.$emit('reset-view');
           },
+          'reset-focus': () => {
+            this.$emit('reset-focus');
+          },
         },
       },
     ));

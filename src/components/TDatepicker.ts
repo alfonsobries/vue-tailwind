@@ -20,6 +20,7 @@ interface Dropdown extends Vue {
   doHide(): void
   doShow(): void
   escapeHandler(e: KeyboardEvent): void
+  hideIfFocusOutside(e: FocusEvent): void
 }
 
 const getInitialActiveDate = (
@@ -722,6 +723,12 @@ const TDatepicker = HtmlInput.extend({
       this.hasFocus = false;
       this.$emit('blur', e);
     },
+    hideIfFocusOutside(e: FocusEvent) {
+      const dropdown = this.getDropdown();
+      if (dropdown) {
+        dropdown.hideIfFocusOutside(e);
+      }
+    },
   },
 
   render(createElement: CreateElement): VNode {
@@ -766,6 +773,7 @@ const TDatepicker = HtmlInput.extend({
           'input-active-date': this.inputActiveDateHandler,
           'update-view': this.setView,
           'reset-view': this.resetView,
+          'reset-focus': this.focus,
         },
       },
     )];
@@ -786,6 +794,7 @@ const TDatepicker = HtmlInput.extend({
           on: {
             input: this.inputActiveDateHandler,
             submit: this.inputTimeHandler,
+            blur: this.hideIfFocusOutside,
           },
         },
       ));

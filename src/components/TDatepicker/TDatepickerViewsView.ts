@@ -168,6 +168,12 @@ const TDatepickerViewsView = Vue.extend({
 
     inputActiveDateHandler(date: Date) {
       this.$emit('input-active-date', date);
+
+      this.resetFocus();
+    },
+
+    resetFocus() {
+      this.$emit('reset-focus');
     },
 
     resetView() {

@@ -91,7 +91,9 @@ const TDatepickerTimeSelector = Vue.extend({
   },
 
   methods: {
-    handleFullTimeBlur() {
+    handleFullTimeBlur(e: FocusEvent) {
+      this.$emit('blur', e);
+
       if (!this.timeInputKeys.length) {
         return;
       }
@@ -148,14 +150,14 @@ const TDatepickerTimeSelector = Vue.extend({
       (this.$refs.okButton as HTMLButtonElement).focus();
     },
     handleTimeInputFocus(e: FocusEvent) {
-      const input = e.currentTarget as HTMLInputElement;
+      const input = e.target as HTMLInputElement;
       input.focus();
       setTimeout(() => {
         input.setSelectionRange(0, 2);
       }, 1);
     },
     handleTimeInput(e: InputEvent, maxValue: number, minValue: number, valueHandler: (numericValue: number) => void) {
-      const input = e.currentTarget as HTMLInputElement;
+      const input = e.target as HTMLInputElement;
       const { value } = input;
 
       if (value === '') {
@@ -210,16 +212,29 @@ const TDatepickerTimeSelector = Vue.extend({
       if (!this.showSeconds) {
         return;
       }
-      (this.$refs.seconds as HTMLInputElement).value = this.secondsFormatted;
+
+      const seconds = this.$refs.seconds as HTMLInputElement | undefined;
+      if (seconds) {
+        seconds.value = this.secondsFormatted;
+      }
     },
     updateMinutesInput() {
-      (this.$refs.minutes as HTMLInputElement).value = this.minutesFormatted;
+      const minutes = this.$refs.minutes as HTMLInputElement | undefined;
+      if (minutes) {
+        minutes.value = this.minutesFormatted;
+      }
     },
     updateHoursInput() {
-      (this.$refs.hours as HTMLInputElement).value = this.hoursFormatted;
+      const hours = this.$refs.hours as HTMLInputElement | undefined;
+      if (hours) {
+        hours.value = this.hoursFormatted;
+      }
     },
     focus(): void {
-      (this.$refs.timeInput as HTMLDivElement).focus();
+      const timeInput = this.$refs.timeInput as HTMLDivElement | undefined;
+      if (timeInput) {
+        timeInput.focus();
+      }
     },
   },
 
@@ -264,14 +279,13 @@ const TDatepickerTimeSelector = Vue.extend({
               });
             },
             blur: (e: FocusEvent) => {
-              e.stopPropagation();
+              this.$emit('blur', e);
               this.$emit('input', this.localActiveDate);
               this.$nextTick(() => {
                 this.updateHoursInput();
               });
             },
             focus: (e: FocusEvent) => {
-              e.stopPropagation();
               this.handleTimeInputFocus(e);
             },
           },
@@ -303,14 +317,13 @@ const TDatepickerTimeSelector = Vue.extend({
               this.handleTimeInput(e, maxMinutes, minMinutes, this.setMinutes);
             },
             blur: (e: FocusEvent) => {
-              e.stopPropagation();
+              this.$emit('blur', e);
               this.$emit('input', this.localActiveDate);
               this.$nextTick(() => {
                 this.updateMinutesInput();
               });
             },
             focus: (e: FocusEvent) => {
-              e.stopPropagation();
               this.handleTimeInputFocus(e);
             },
           },
@@ -346,14 +359,13 @@ const TDatepickerTimeSelector = Vue.extend({
                 this.handleTimeInput(e, maxSeconds, minSeconds, this.setSeconds);
               },
               blur: (e: FocusEvent) => {
-                e.stopPropagation();
+                this.$emit('blur', e);
                 this.$emit('input', this.localActiveDate);
                 this.$nextTick(() => {
                   this.updateSecondsInput();
                 });
               },
               focus: (e: FocusEvent) => {
-                e.stopPropagation();
                 this.handleTimeInputFocus(e);
               },
             },
@@ -373,6 +385,10 @@ const TDatepickerTimeSelector = Vue.extend({
           },
           on: {
             keydown: (e: KeyboardEvent) => {
+              if (e.target !== this.$refs.timeInput) {
+                return;
+              }
+
               const { key } = e;
 
               if (key === 'Enter') {
@@ -423,6 +439,7 @@ const TDatepickerTimeSelector = Vue.extend({
             },
           },
           on: {
+            blur: (e: FocusEvent) => this.$emit('blur', e),
             input: (amOrPM: string) => {
               const formattedDate = this.format(new Date(this.localActiveDate.valueOf()), 'Y-m-d G:i:S');
               const newActiveDate = this.parse(`${formattedDate} ${amOrPM}`, 'Y-m-d G:i:S K');
@@ -450,6 +467,7 @@ const TDatepickerTimeSelector = Vue.extend({
           },
           class: 'text-blue-600 text-sm uppercase font-semibold transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded cursor-pointer',
           on: {
+            blur: (e: FocusEvent) => this.$emit('blur', e),
             click: (e: MouseEvent) => {
               e.preventDefault();
 
