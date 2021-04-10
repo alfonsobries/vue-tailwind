@@ -347,6 +347,13 @@ const TDatepicker = HtmlInput.extend({
     // Used to show the selected month/year
     const currentView: CalendarView = this.initialView as CalendarView;
 
+    let dateWithoutTime: Date | null = null;
+    const timeWithoutDate: Date | null = null;
+
+    if (this.timepicker) {
+      dateWithoutTime = Array.isArray(localValue) ? localValue[0] : localValue;
+    }
+
     return {
       localValue,
       formatedDate,
@@ -360,8 +367,8 @@ const TDatepicker = HtmlInput.extend({
       formatNative,
       currentLocale,
       hasFocus: false,
-      dateWithoutTime: Array.isArray(localValue) ? localValue[0] : localValue,
-      timeWithoutDate: null as Date | null,
+      dateWithoutTime,
+      timeWithoutDate,
     };
   },
 
@@ -713,7 +720,11 @@ const TDatepicker = HtmlInput.extend({
       this.shown = false;
       this.currentView = this.initialView as CalendarView;
       this.showActiveDate = false;
-      this.dateWithoutTime = Array.isArray(this.localValue) ? this.localValue[0] : this.localValue;
+      if (this.timepicker) {
+        this.dateWithoutTime = Array.isArray(this.localValue) ? this.localValue[0] : this.localValue;
+      } else {
+        this.dateWithoutTime = null;
+      }
       this.timeWithoutDate = null;
 
       this.resetActiveDate(this.localValue);
