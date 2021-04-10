@@ -348,7 +348,6 @@ const TDatepicker = HtmlInput.extend({
     const currentView: CalendarView = this.initialView as CalendarView;
 
     let dateWithoutTime: Date | null = null;
-    const timeWithoutDate: Date | null = null;
 
     if (this.timepicker) {
       dateWithoutTime = Array.isArray(localValue) ? localValue[0] : localValue;
@@ -368,7 +367,7 @@ const TDatepicker = HtmlInput.extend({
       currentLocale,
       hasFocus: false,
       dateWithoutTime,
-      timeWithoutDate,
+      timeWithoutDate: null as Date | null,
     };
   },
 
@@ -598,13 +597,15 @@ const TDatepicker = HtmlInput.extend({
         return;
       }
 
+      const { dateWithoutTime, timeWithoutDate } = this;
+
       const dateTime = new Date(
-        this.dateWithoutTime.getFullYear(),
-        this.dateWithoutTime.getMonth(),
-        this.dateWithoutTime.getDate(),
-        this.timeWithoutDate.getHours(),
-        this.timeWithoutDate.getMinutes(),
-        this.timeWithoutDate.getSeconds(),
+        dateWithoutTime.getFullYear(),
+        dateWithoutTime.getMonth(),
+        dateWithoutTime.getDate(),
+        timeWithoutDate.getHours(),
+        timeWithoutDate.getMinutes(),
+        timeWithoutDate.getSeconds(),
       );
 
       this.inputHandler(dateTime);
