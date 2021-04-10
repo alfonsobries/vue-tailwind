@@ -165,8 +165,6 @@ const TDatepickerViews = Vue.extend({
           showDaysForOtherMonth: this.showDaysForOtherMonth,
           locale: this.locale,
           timepicker: this.timepicker,
-          amPm: this.amPm,
-          showSeconds: this.showSeconds,
           dateWithoutTime: this.dateWithoutTime,
         },
         scopedSlots: this.$scopedSlots,

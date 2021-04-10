@@ -786,8 +786,6 @@ const TDatepicker = HtmlInput.extend({
             showDaysForOtherMonth: this.showDaysForOtherMonth,
             datepicker: this.datepicker,
             timepicker: this.timepicker,
-            amPm: this.amPm,
-            showSeconds: this.showSeconds,
             dateWithoutTime: this.dateWithoutTime,
           },
           scopedSlots: this.$scopedSlots,
