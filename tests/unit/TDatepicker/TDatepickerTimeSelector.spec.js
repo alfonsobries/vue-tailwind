@@ -13,6 +13,7 @@ describe('TDatepickerTimeSelector', () => {
     showSeconds: datePicker.vm.showSeconds,
     activeDate: datePicker.vm.activeDate,
     locale: datePicker.vm.locale,
+    getElementCssClass: datePicker.vm.getElementCssClass,
   };
 
   it('renders the component withouth errors', () => {
