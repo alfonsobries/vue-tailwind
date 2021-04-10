@@ -30,6 +30,10 @@ const TDatepickerTimeSelector = Vue.extend({
       type: Object,
       required: true,
     },
+    getElementCssClass: {
+      type: Function,
+      required: true,
+    },
   },
 
   data() {
@@ -243,7 +247,7 @@ const TDatepickerTimeSelector = Vue.extend({
     const label = createElement(
       'label',
       {
-        class: 'flex-grow text-sm text-gray-500',
+        class: this.getElementCssClass('timepickerTimeLabel'),
       },
       'Time',
     );
@@ -253,7 +257,7 @@ const TDatepickerTimeSelector = Vue.extend({
         'input',
         {
           ref: 'hours',
-          class: 'text-center w-8 border-transparent bg-transparent p-0 h-6 text-sm transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded',
+          class: this.getElementCssClass('timepickerInput'),
           domProps: {
             value: this.hoursFormatted,
           },
@@ -294,7 +298,7 @@ const TDatepickerTimeSelector = Vue.extend({
       createElement(
         'span',
         {
-          class: 'text-gray-300',
+          class: this.getElementCssClass('timepickerTimeSeparator'),
         },
         ':',
       ),
@@ -302,7 +306,7 @@ const TDatepickerTimeSelector = Vue.extend({
         'input',
         {
           ref: 'minutes',
-          class: 'text-center w-8 border-transparent bg-transparent p-0 h-6 text-sm transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded',
+          class: this.getElementCssClass('timepickerInput'),
           domProps: {
             value: this.minutesFormatted,
           },
@@ -334,7 +338,7 @@ const TDatepickerTimeSelector = Vue.extend({
       timePickerInputs.push(createElement(
         'span',
         {
-          class: 'text-gray-300',
+          class: this.getElementCssClass('timepickerTimeSeparator'),
         },
         ':',
       ));
@@ -344,7 +348,7 @@ const TDatepickerTimeSelector = Vue.extend({
           'input',
           {
             ref: 'seconds',
-            class: 'text-center w-8 border-transparent bg-transparent p-0 h-6 text-sm transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded',
+            class: this.getElementCssClass('timepickerInput'),
             domProps: {
               value: this.secondsFormatted,
             },
@@ -378,7 +382,7 @@ const TDatepickerTimeSelector = Vue.extend({
         'div',
         {
           ref: 'timeInput',
-          class: 'bg-gray-100 rounded-md w-full text-right flex items-center border border-gray-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+          class: this.getElementCssClass('timepickerTimeFieldsWrapper'),
           attrs: {
             tabindex: 0,
           },
@@ -419,22 +423,24 @@ const TDatepickerTimeSelector = Vue.extend({
             checkedLabel: this.locale.amPM[1],
             uncheckedLabel: this.locale.amPM[0],
             fixedClasses: {
-              wrapper: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
-              wrapperChecked: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200',
-              wrapperDisabled: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200 opacity-50 cursor-not-allowed',
-              wrapperCheckedDisabled: 'relative inline-flex flex-shrink-0 cursor-pointer transition-colors ease-in-out duration-200 opacity-50 cursor-not-allowed',
-              button: 'inline-block absolute transform translate-x-0 transition ease-in-out duration-200',
-              buttonChecked: 'inline-block absolute transform translate-x-full transition ease-in-out duration-200',
-              checkedPlaceholder: 'inline-block',
-              uncheckedPlaceholder: 'inline-block',
+              wrapper: '',
+              wrapperChecked: '',
+              wrapperDisabled: '',
+              wrapperCheckedDisabled: '',
+              button: '',
+              buttonChecked: '',
+              checkedPlaceholder: '',
+              uncheckedPlaceholder: '',
             },
             classes: {
-              wrapper: 'bg-gray-100 rounded-sm rounded transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
-              wrapperChecked: 'bg-gray-100 rounded-sm rounded transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
-              button: 'rounded-sm w-6 h-6 bg-white shadow flex items-center justify-center text-gray-800 text-xs rounded',
-              buttonChecked: 'rounded-sm w-6 h-6 bg-white shadow flex items-center justify-center text-gray-800 text-xs rounded',
-              checkedPlaceholder: 'rounded-sm w-6 h-6 flex items-center justify-center text-gray-500 text-xs',
-              uncheckedPlaceholder: 'rounded-sm w-6 h-6 flex items-center justify-center text-gray-500 text-xs',
+              wrapper: this.getElementCssClass('timepickerAmPmWrapper'),
+              wrapperChecked: this.getElementCssClass('timepickerAmPmWrapperChecked'),
+              wrapperDisabled: this.getElementCssClass('timepickerAmPmWrapperDisabled'),
+              wrapperCheckedDisabled: this.getElementCssClass('timepickerAmPmWrapperCheckedDisabled'),
+              button: this.getElementCssClass('timepickerAmPmButton'),
+              buttonChecked: this.getElementCssClass('timepickerAmPmButtonChecked'),
+              checkedPlaceholder: this.getElementCssClass('timepickerAmPmCheckedPlaceholder'),
+              uncheckedPlaceholder: this.getElementCssClass('timepickerAmPmUncheckedPlaceholder'),
             },
           },
           on: {
@@ -464,7 +470,7 @@ const TDatepickerTimeSelector = Vue.extend({
           attrs: {
             href: '#',
           },
-          class: 'text-blue-600 text-sm uppercase font-semibold transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded cursor-pointer',
+          class: this.getElementCssClass('timepickerOkButton'),
           on: {
             blur: (e: FocusEvent) => this.$emit('blur', e),
             click: (e: MouseEvent) => {
@@ -481,7 +487,7 @@ const TDatepickerTimeSelector = Vue.extend({
     const timePickerWrapper = createElement(
       'div',
       {
-        class: 'flex items-center space-x-2',
+        class: this.getElementCssClass('timepickerTimeWrapper'),
       },
       timePickerElements,
     );
@@ -492,7 +498,7 @@ const TDatepickerTimeSelector = Vue.extend({
     return createElement(
       'div',
       {
-        class: 'flex items-center px-4 py-2 space-x-2',
+        class: this.getElementCssClass('timepickerWrapper'),
       },
       subElements,
     );
