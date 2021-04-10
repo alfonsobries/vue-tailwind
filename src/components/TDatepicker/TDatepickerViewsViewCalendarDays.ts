@@ -74,10 +74,6 @@ const TDatepickerViewsViewCalendarDays = Vue.extend({
       type: Boolean,
       required: true,
     },
-    timepicker: {
-      type: Boolean,
-      required: true,
-    },
     dateWithoutTime: {
       type: Date,
       default: null,

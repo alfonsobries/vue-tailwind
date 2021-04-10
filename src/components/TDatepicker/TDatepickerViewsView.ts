@@ -101,18 +101,6 @@ const TDatepickerViewsView = Vue.extend({
       type: Object,
       required: true,
     },
-    timepicker: {
-      type: Boolean,
-      required: true,
-    },
-    amPm: {
-      type: Boolean,
-      required: true,
-    },
-    showSeconds: {
-      type: Boolean,
-      required: true,
-    },
     dateWithoutTime: {
       type: Date,
       default: null,
@@ -231,7 +219,6 @@ const TDatepickerViewsView = Vue.extend({
               minDate: this.minDate,
               maxDate: this.maxDate,
               range: this.range,
-              timepicker: this.timepicker,
               dateWithoutTime: this.dateWithoutTime,
             },
             scopedSlots: this.$scopedSlots,

@@ -79,10 +79,6 @@ const TDatepickerViewsViewCalendar = Vue.extend({
       type: Boolean,
       required: true,
     },
-    timepicker: {
-      type: Boolean,
-      required: true,
-    },
     dateWithoutTime: {
       type: Date,
       default: null,
@@ -144,7 +140,6 @@ const TDatepickerViewsViewCalendar = Vue.extend({
               minDate: this.minDate,
               maxDate: this.maxDate,
               range: this.range,
-              timepicker: this.timepicker,
               dateWithoutTime: this.dateWithoutTime,
             },
             scopedSlots: this.$scopedSlots,
