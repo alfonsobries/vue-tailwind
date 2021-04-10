@@ -279,7 +279,9 @@ export function dateIsOutOfRange(date: Date, min: Date | string | undefined, max
 }
 
 export function addDays(date: Date, amount = 1): Date {
-  return new Date(date.valueOf() + (amount * 24 * 60 * 60 * 1000));
+  const result = new Date(date);
+  result.setDate(result.getDate() + amount);
+  return result;
 }
 
 export function addMonths(date: Date, amount = 1): Date {
