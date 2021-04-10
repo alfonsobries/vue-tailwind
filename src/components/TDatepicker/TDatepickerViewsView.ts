@@ -105,14 +105,6 @@ const TDatepickerViewsView = Vue.extend({
       type: Boolean,
       required: true,
     },
-    amPm: {
-      type: Boolean,
-      required: true,
-    },
-    showSeconds: {
-      type: Boolean,
-      required: true,
-    },
     dateWithoutTime: {
       type: Date,
       default: null,
