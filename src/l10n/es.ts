@@ -51,6 +51,8 @@ export const Spanish: CustomLocale = {
   firstDayOfWeek: 1,
   rangeSeparator: ' a ',
   time24hr: true,
+  timeLabel: 'Hora',
+  okLabel: 'Ok',
 };
 
 export default Spanish;

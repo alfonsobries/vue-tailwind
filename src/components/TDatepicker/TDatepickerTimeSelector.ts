@@ -249,7 +249,7 @@ const TDatepickerTimeSelector = Vue.extend({
       {
         class: this.getElementCssClass('timepickerTimeLabel'),
       },
-      'Time',
+      this.locale.timeLabel,
     );
 
     const timePickerInputs = [
@@ -480,7 +480,7 @@ const TDatepickerTimeSelector = Vue.extend({
             },
           },
         },
-        'Ok',
+        this.locale.okLabel,
       ),
     );
 
