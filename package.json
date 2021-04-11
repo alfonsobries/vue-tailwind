@@ -1,6 +1,6 @@
 {
   "name": "vue-tailwind",
-  "version": "2.2.0-2",
+  "version": "2.2.0",
   "description": "Vue components styled with TailwindCss with configurable classes",
   "repository": {
     "type": "git",
