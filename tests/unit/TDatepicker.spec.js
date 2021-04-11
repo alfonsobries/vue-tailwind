@@ -621,6 +621,7 @@ describe('TDatepickerViewsViewCalendarDays', () => {
     showActiveDate: true,
     range: false,
     slots: datePicker.vm.$scopedSlots,
+    timepicker: false,
   };
 
 

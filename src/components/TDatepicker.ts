@@ -12,13 +12,46 @@ import { English } from '../l10n/default';
 import { CalendarView } from './TDatepicker/TDatepickerNavigator';
 import TDatepickerTrigger from './TDatepicker/TDatepickerTrigger';
 import TDatepickerViews from './TDatepicker/TDatepickerViews';
+import TDatepickerTimeSelector from './TDatepicker/TDatepickerTimeSelector';
+import isNumeric from '../utils/isNumeric';
 
 interface Dropdown extends Vue {
   doToggle(): void
   doHide(): void
   doShow(): void
   escapeHandler(e: KeyboardEvent): void
+  hideIfFocusOutside(e: FocusEvent): void
 }
+
+const getInitialActiveDate = (
+  localValue: Date | Date[] | null,
+  initialDate: DateValue,
+  dateFormat: string,
+  parse: DateParser,
+  amPm: boolean,
+  initialTime?:string,
+): Date => {
+  if (Array.isArray(localValue) && localValue.length) {
+    return localValue[localValue.length - 1];
+  }
+
+  if (localValue instanceof Date) {
+    return localValue;
+  }
+
+  const activeDate = parse(initialDate, dateFormat) || new Date();
+
+  if (initialTime) {
+    const parsedDateWithTime = parse(initialTime, amPm ? 'G:i:S K' : 'H:i:S');
+    if (parsedDateWithTime) {
+      activeDate.setHours(parsedDateWithTime.getHours());
+      activeDate.setMinutes(parsedDateWithTime.getMinutes());
+      activeDate.setSeconds(parsedDateWithTime.getSeconds());
+    }
+  }
+
+  return activeDate;
+};
 
 const TDatepicker = HtmlInput.extend({
   name: 'TDatepicker',
@@ -121,6 +154,10 @@ const TDatepicker = HtmlInput.extend({
       type: [Date, String],
       default: undefined,
     },
+    initialTime: {
+      type: String,
+      default: undefined,
+    },
     conjunction: {
       type: String,
       default: ',',
@@ -136,6 +173,22 @@ const TDatepicker = HtmlInput.extend({
     clearable: {
       type: Boolean,
       default: true,
+    },
+    datepicker: {
+      type: Boolean,
+      default: true,
+    },
+    timepicker: {
+      type: Boolean,
+      default: false,
+    },
+    amPm: {
+      type: Boolean,
+      default: false,
+    },
+    showSeconds: {
+      type: Boolean,
+      default: false,
     },
     classes: {
       type: Object,
@@ -154,7 +207,7 @@ const TDatepicker = HtmlInput.extend({
 
         // Wrapper for inline calendar
         inlineWrapper: '',
-        inlineViews: 'rounded bg-white border mt-1 inline-flex',
+        inlineViews: 'rounded bg-white border mt-1 inline-flex flex-col',
 
         // Text input related classes
         inputWrapper: '',
@@ -183,7 +236,7 @@ const TDatepicker = HtmlInput.extend({
         navigatorNextButtonIcon: 'text-gray-400',
 
         // Calendar View
-        calendarWrapper: 'px-3 pt-2',
+        calendarWrapper: 'px-3 py-2',
         calendarHeaderWrapper: '',
         calendarHeaderWeekDay: 'uppercase text-xs text-gray-500 w-8 h-8 flex items-center justify-center',
         calendarDaysWrapper: '',
@@ -202,16 +255,33 @@ const TDatepicker = HtmlInput.extend({
         today: 'text-sm rounded-full w-8 h-8 mx-auto hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed border border-blue-500',
 
         // Months View
-        monthWrapper: 'px-3 pt-2',
+        monthWrapper: 'px-3 py-2',
         selectedMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeMonth: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
         month: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
 
         // Years View
-        yearWrapper: 'px-3 pt-2',
+        yearWrapper: 'px-3 py-2',
         year: 'text-sm rounded w-full h-12 mx-auto hover:bg-blue-100',
         selectedYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-500 text-white',
         activeYear: 'text-sm rounded w-full h-12 mx-auto bg-blue-100',
+
+        // Time selector
+        timepickerWrapper: 'flex items-center px-4 py-2 space-x-2',
+        timepickerTimeWrapper: 'flex items-center space-x-2',
+        timepickerTimeFieldsWrapper: 'bg-gray-100 rounded-md w-full text-right flex items-center border border-gray-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        timepickerOkButton: 'text-blue-600 text-sm uppercase font-semibold transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded cursor-pointer',
+        timepickerInput: 'text-center w-8 border-transparent bg-transparent p-0 h-6 text-sm transition duration-100 ease-in-out border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50 rounded',
+        timepickerTimeLabel: 'flex-grow text-sm text-gray-500',
+        timepickerAmPmWrapper: 'relative inline-flex flex-shrink-0 transition duration-200 ease-in-out bg-gray-100 border border-transparent rounded cursor-pointer focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        timepickerAmPmWrapperChecked: 'relative inline-flex flex-shrink-0 transition duration-200 ease-in-out bg-gray-100 border border-transparent rounded cursor-pointer focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-opacity-50',
+        timepickerAmPmWrapperDisabled: 'relative inline-flex flex-shrink-0 transition duration-200 ease-in-out opacity-50 cursor-not-allowed',
+        timepickerAmPmWrapperCheckedDisabled: 'relative inline-flex flex-shrink-0 transition duration-200 ease-in-out opacity-50 cursor-not-allowed',
+        timepickerAmPmButton: 'absolute flex items-center justify-center w-6 h-6 text-xs text-gray-800 transition duration-200 ease-in-out transform translate-x-0 bg-white rounded shadow',
+        timepickerAmPmButtonChecked: 'absolute flex items-center justify-center w-6 h-6 text-xs text-gray-800 transition duration-200 ease-in-out transform translate-x-full bg-white rounded shadow',
+        timepickerAmPmCheckedPlaceholder: 'flex items-center justify-center w-6 h-6 text-xs text-gray-500 rounded-sm',
+        timepickerAmPmUncheckedPlaceholder: 'flex items-center justify-center w-6 h-6 text-xs text-gray-500 rounded-sm',
+
       }),
     },
     fixedClasses: {
@@ -265,18 +335,23 @@ const TDatepicker = HtmlInput.extend({
       ? localValue.map((d) => format(d, this.userFormat))
       : format(localValue, this.userFormat);
 
-    let activeDate: Date = new Date();
-
-    if (Array.isArray(localValue) && localValue.length) {
-      [activeDate] = localValue;
-    } else if (localValue instanceof Date) {
-      activeDate = localValue;
-    } else {
-      activeDate = parse(this.initialDate as DateValue, this.dateFormat) || activeDate;
-    }
+    const activeDate = getInitialActiveDate(
+      localValue,
+      this.initialDate,
+      this.dateFormat,
+      parse,
+      this.amPm,
+      this.initialTime,
+    );
 
     // Used to show the selected month/year
     const currentView: CalendarView = this.initialView as CalendarView;
+
+    let dateWithoutTime: Date | null = null;
+
+    if (this.timepicker) {
+      dateWithoutTime = Array.isArray(localValue) ? localValue[0] : localValue;
+    }
 
     return {
       localValue,
@@ -291,6 +366,8 @@ const TDatepicker = HtmlInput.extend({
       formatNative,
       currentLocale,
       hasFocus: false,
+      dateWithoutTime,
+      timeWithoutDate: null as Date | null,
     };
   },
 
@@ -419,6 +496,7 @@ const TDatepicker = HtmlInput.extend({
         throw new Error('Input not found');
       }
 
+
       input.focus(options);
     },
     doHide(): void {
@@ -487,6 +565,51 @@ const TDatepicker = HtmlInput.extend({
         this.activeDate = newActiveDate;
       }
     },
+    focusTimePicker() : void {
+      type TimePicker = Element & {
+        focus: () => void
+      };
+
+      (this.$refs.timePicker as TimePicker).focus();
+    },
+    inputDateHandler(date: Date): void {
+      this.dateWithoutTime = date;
+
+      this.dateTimeInputHandler();
+    },
+    inputTimeHandler(date: Date): void {
+      this.timeWithoutDate = date;
+
+      if (this.datepicker) {
+        this.dateTimeInputHandler();
+      } else {
+        this.inputHandler(date);
+      }
+    },
+    dateTimeInputHandler(): void {
+      if (this.dateWithoutTime === null || this.timeWithoutDate === null) {
+        if (this.timeWithoutDate === null) {
+          this.focusTimePicker();
+        } else if (this.dateWithoutTime === null) {
+          this.focus();
+        }
+
+        return;
+      }
+
+      const { dateWithoutTime, timeWithoutDate } = this;
+
+      const dateTime = new Date(
+        dateWithoutTime.getFullYear(),
+        dateWithoutTime.getMonth(),
+        dateWithoutTime.getDate(),
+        timeWithoutDate.getHours(),
+        timeWithoutDate.getMinutes(),
+        timeWithoutDate.getSeconds(),
+      );
+
+      this.inputHandler(dateTime);
+    },
     inputHandler(newDate: Date): void {
       const date = new Date(newDate.valueOf());
       const disabledDates: DateConditions = this.disabledDates as DateConditions;
@@ -547,7 +670,6 @@ const TDatepicker = HtmlInput.extend({
     },
     inputActiveDateHandler(newDate: Date): void {
       this.activeDate = new Date(newDate.valueOf());
-      this.focus();
     },
     setView(newView: CalendarView): void {
       this.currentView = newView;
@@ -569,7 +691,11 @@ const TDatepicker = HtmlInput.extend({
         this.doShow();
       } else if (this.showActiveDate) {
         if (this.currentView === CalendarView.Day) {
-          this.inputHandler(new Date(this.activeDate.valueOf()));
+          if (this.timepicker) {
+            this.inputDateHandler(new Date(this.activeDate.valueOf()));
+          } else {
+            this.inputHandler(new Date(this.activeDate.valueOf()));
+          }
         } else {
           this.resetView();
         }
@@ -595,17 +721,24 @@ const TDatepicker = HtmlInput.extend({
       this.shown = false;
       this.currentView = this.initialView as CalendarView;
       this.showActiveDate = false;
+      if (this.timepicker) {
+        this.dateWithoutTime = Array.isArray(this.localValue) ? this.localValue[0] : this.localValue;
+      } else {
+        this.dateWithoutTime = null;
+      }
+      this.timeWithoutDate = null;
 
       this.resetActiveDate(this.localValue);
     },
     resetActiveDate(localValue: Date | null | Date[]): void {
-      if (Array.isArray(localValue) && localValue.length) {
-        this.activeDate = localValue[localValue.length - 1];
-      } else if (localValue instanceof Date) {
-        this.activeDate = localValue;
-      } else {
-        this.activeDate = this.parse(this.initialDate as DateValue, this.dateFormat) || new Date();
-      }
+      this.activeDate = getInitialActiveDate(
+        localValue,
+        this.initialDate,
+        this.dateFormat,
+        this.parse,
+        this.amPm,
+        this.initialTime,
+      );
     },
     clearHandler() {
       if (this.multiple || this.range) {
@@ -624,46 +757,85 @@ const TDatepicker = HtmlInput.extend({
       this.hasFocus = false;
       this.$emit('blur', e);
     },
+    hideIfFocusOutside(e: FocusEvent) {
+      const dropdown = this.getDropdown();
+      if (dropdown) {
+        dropdown.hideIfFocusOutside(e);
+      }
+    },
   },
 
   render(createElement: CreateElement): VNode {
-    const views = createElement(
-      TDatepickerViews,
-      {
-        ref: 'views',
-        props: {
-          value: this.localValue,
-          activeDate: this.activeDate,
-          weekStart: this.weekStart,
-          monthsPerView: this.monthsPerView,
-          lang: this.lang,
-          locale: this.currentLocale,
-          getElementCssClass: this.getElementCssClass,
-          parse: this.parse,
-          format: this.format,
-          formatNative: this.formatNative,
-          dateFormat: this.dateFormat,
-          userFormat: this.userFormat,
-          initialView: this.initialView,
-          currentView: this.currentView,
-          yearsPerView: this.yearsPerView,
-          showActiveDate: this.showActiveDate,
-          disabledDates: this.disabledDates,
-          highlightDates: this.highlightDates,
-          minDate: this.minDate,
-          maxDate: this.maxDate,
-          range: this.range,
-          showDaysForOtherMonth: this.showDaysForOtherMonth,
+    const views = [];
+
+    if (this.datepicker) {
+      views.push(createElement(
+        TDatepickerViews,
+        {
+          ref: 'views',
+          props: {
+            value: this.localValue,
+            activeDate: this.activeDate,
+            weekStart: this.weekStart,
+            monthsPerView: this.monthsPerView,
+            lang: this.lang,
+            locale: this.currentLocale,
+            getElementCssClass: this.getElementCssClass,
+            parse: this.parse,
+            format: this.format,
+            formatNative: this.formatNative,
+            dateFormat: this.dateFormat,
+            userFormat: this.userFormat,
+            initialView: this.initialView,
+            currentView: this.currentView,
+            yearsPerView: this.yearsPerView,
+            showActiveDate: this.showActiveDate,
+            disabledDates: this.disabledDates,
+            highlightDates: this.highlightDates,
+            minDate: this.minDate,
+            maxDate: this.maxDate,
+            range: this.range,
+            showDaysForOtherMonth: this.showDaysForOtherMonth,
+            datepicker: this.datepicker,
+            timepicker: this.timepicker,
+            dateWithoutTime: this.dateWithoutTime,
+          },
+          scopedSlots: this.$scopedSlots,
+          on: {
+            input: this.inputHandler,
+            'input-date': this.inputDateHandler,
+            'input-time': this.inputTimeHandler,
+            'input-active-date': this.inputActiveDateHandler,
+            'update-view': this.setView,
+            'reset-view': this.resetView,
+            'reset-focus': this.focus,
+          },
         },
-        scopedSlots: this.$scopedSlots,
-        on: {
-          input: this.inputHandler,
-          'input-active-date': this.inputActiveDateHandler,
-          'update-view': this.setView,
-          'reset-view': this.resetView,
+      ));
+    }
+
+    if (this.timepicker && this.currentView === CalendarView.Day) {
+      views.push(createElement(
+        TDatepickerTimeSelector,
+        {
+          ref: 'timePicker',
+          props: {
+            parse: this.parse,
+            format: this.format,
+            amPm: this.amPm,
+            showSeconds: this.showSeconds,
+            activeDate: this.activeDate,
+            locale: this.currentLocale,
+            getElementCssClass: this.getElementCssClass,
+          },
+          on: {
+            input: this.inputActiveDateHandler,
+            submit: this.inputTimeHandler,
+            blur: this.hideIfFocusOutside,
+          },
         },
-      },
-    );
+      ));
+    }
 
     const triggerSettings = {
       ref: 'trigger',
@@ -695,7 +867,7 @@ const TDatepicker = HtmlInput.extend({
         focus: this.focusHandler,
         blur: this.blurHandler,
         keydown: (e: KeyboardEvent) => {
-          if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode)) {
+          if ([Key.LEFT, Key.UP, Key.RIGHT, Key.DOWN].includes(e.keyCode) && this.datepicker) {
             this.arrowKeyHandler(e);
           } else if (e.keyCode === Key.ENTER) {
             this.enterHandler(e);
@@ -703,6 +875,10 @@ const TDatepicker = HtmlInput.extend({
             this.escapeHandler(e);
           } else if (e.keyCode === Key.SPACE) {
             this.spaceHandler(e);
+          }
+
+          if (isNumeric(e.key)) {
+            this.focusTimePicker();
           }
 
           this.$emit('keydown', e);
@@ -724,7 +900,7 @@ const TDatepicker = HtmlInput.extend({
             {
               class: this.getElementCssClass('inlineViews'),
             },
-            [views],
+            views,
           ),
         ]);
     }
@@ -756,6 +932,12 @@ const TDatepicker = HtmlInput.extend({
           shown: () => {
             this.$emit('shown');
             this.shown = true;
+
+            if (this.timepicker && !this.datepicker) {
+              this.$nextTick(() => {
+                this.focusTimePicker();
+              });
+            }
           },
         },
         scopedSlots: {
@@ -777,9 +959,7 @@ const TDatepicker = HtmlInput.extend({
           },
         },
       },
-      [
-        views,
-      ],
+      views,
     );
   },
 });

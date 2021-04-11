@@ -101,6 +101,14 @@ const TDatepickerViewsView = Vue.extend({
       type: Object,
       required: true,
     },
+    timepicker: {
+      type: Boolean,
+      required: true,
+    },
+    dateWithoutTime: {
+      type: Date,
+      default: null,
+    },
   },
 
   data() {
@@ -137,7 +145,9 @@ const TDatepickerViewsView = Vue.extend({
 
       this.$emit('input', date);
     },
-
+    inputDateHandler(date: Date) {
+      this.$emit('input-date', date);
+    },
     viewInputActiveDateHandler(date: Date) {
       this.resetView();
 
@@ -146,6 +156,12 @@ const TDatepickerViewsView = Vue.extend({
 
     inputActiveDateHandler(date: Date) {
       this.$emit('input-active-date', date);
+
+      this.resetFocus();
+    },
+
+    resetFocus() {
+      this.$emit('reset-focus');
     },
 
     resetView() {
@@ -207,10 +223,13 @@ const TDatepickerViewsView = Vue.extend({
               minDate: this.minDate,
               maxDate: this.maxDate,
               range: this.range,
+              timepicker: this.timepicker,
+              dateWithoutTime: this.dateWithoutTime,
             },
             scopedSlots: this.$scopedSlots,
             on: {
               input: this.inputHandler,
+              'input-date': this.inputDateHandler,
             },
           },
         ),
@@ -257,6 +276,7 @@ const TDatepickerViewsView = Vue.extend({
         ),
       );
     }
+
 
     return createElement(
       'div',

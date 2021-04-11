@@ -76,6 +76,10 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
       type: Boolean,
       required: true,
     },
+    dateWithoutTime: {
+      type: Date,
+      default: null,
+    },
   },
 
   data() {
@@ -88,7 +92,7 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
   computed: {
     isSelected(): boolean {
       const d1 = this.getDay();
-      const d2 = this.value as Date | Date[];
+      const d2 = this.getSelectedDay();
 
       if (d2 instanceof Date) {
         return isSameDay(d1, d2);
@@ -214,6 +218,13 @@ const TDatepickerViewsViewCalendarDaysDay = Vue.extend({
     },
     getDay(): Date {
       return this.day as unknown as Date;
+    },
+    getSelectedDay(): Date | Date[] {
+      if (this.dateWithoutTime !== null) {
+        return this.dateWithoutTime as unknown as Date;
+      }
+
+      return this.value as Date | Date[];
     },
 
   },

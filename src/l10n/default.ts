@@ -67,6 +67,8 @@ export const English: Locale = {
   hourAriaLabel: 'Hour',
   minuteAriaLabel: 'Minute',
   time24hr: false,
+  timeLabel: 'Time',
+  okLabel: 'Ok',
 };
 
 export default English;

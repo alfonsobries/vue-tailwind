@@ -79,6 +79,14 @@ const TDatepickerViewsViewCalendar = Vue.extend({
       type: Boolean,
       required: true,
     },
+    timepicker: {
+      type: Boolean,
+      required: true,
+    },
+    dateWithoutTime: {
+      type: Date,
+      default: null,
+    },
   },
 
   data() {
@@ -94,12 +102,6 @@ const TDatepickerViewsViewCalendar = Vue.extend({
     },
     activeMonth(activeMonth: Date) {
       this.localActiveMonth = new Date(activeMonth.valueOf());
-    },
-  },
-
-  methods: {
-    inputHandler(date: Date) {
-      this.$emit('input', date);
     },
   },
 
@@ -142,10 +144,13 @@ const TDatepickerViewsViewCalendar = Vue.extend({
               minDate: this.minDate,
               maxDate: this.maxDate,
               range: this.range,
+              timepicker: this.timepicker,
+              dateWithoutTime: this.dateWithoutTime,
             },
             scopedSlots: this.$scopedSlots,
             on: {
-              input: this.inputHandler,
+              input: (date: Date) => this.$emit('input', date),
+              'input-date': (date: Date) => this.$emit('input-date', date),
             },
           },
         ),
