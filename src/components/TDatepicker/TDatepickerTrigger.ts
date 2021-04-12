@@ -130,6 +130,7 @@ const TDatepickerTrigger = Vue.extend({
           attrs: {
             // Prevents
             readonly: !this.hasFocus ? this.readonly : true,
+            inputmode: 'none',
             id: this.id,
             name: this.name,
             disabled: this.disabled,
