@@ -262,7 +262,9 @@ const TDatepickerTimeSelector = Vue.extend({
             value: this.hoursFormatted,
           },
           attrs: {
+            inputmode: 'numeric',
             type: 'text',
+            contenteditable: false,
           },
           on: {
             input: (e: InputEvent) => {
@@ -299,6 +301,9 @@ const TDatepickerTimeSelector = Vue.extend({
         'span',
         {
           class: this.getElementCssClass('timepickerTimeSeparator'),
+          attrs: {
+            contenteditable: false,
+          },
         },
         ':',
       ),
@@ -311,7 +316,9 @@ const TDatepickerTimeSelector = Vue.extend({
             value: this.minutesFormatted,
           },
           attrs: {
+            inputmode: 'numeric',
             type: 'text',
+            contenteditable: false,
           },
           on: {
             input: (e: InputEvent) => {
@@ -339,6 +346,9 @@ const TDatepickerTimeSelector = Vue.extend({
         'span',
         {
           class: this.getElementCssClass('timepickerTimeSeparator'),
+          attrs: {
+            contenteditable: false,
+          },
         },
         ':',
       ));
@@ -353,7 +363,9 @@ const TDatepickerTimeSelector = Vue.extend({
               value: this.secondsFormatted,
             },
             attrs: {
+              inputmode: 'numeric',
               type: 'text',
+              contenteditable: false,
             },
             on: {
               input: (e: InputEvent) => {
@@ -383,14 +395,21 @@ const TDatepickerTimeSelector = Vue.extend({
         {
           ref: 'timeInput',
           class: this.getElementCssClass('timepickerTimeFieldsWrapper'),
+          style: {
+            caretColor: 'transparent',
+          },
           attrs: {
             tabindex: 0,
+            inputmode: 'numeric',
+            contenteditable: true,
           },
           on: {
             keydown: (e: KeyboardEvent) => {
               if (e.target !== this.$refs.timeInput) {
                 return;
               }
+
+              e.preventDefault();
 
               const { key } = e;
 
