@@ -360,7 +360,7 @@ const TRichSelect = MultipleInput.extend({
     // eslint-disable-next-line max-len
     findOptionByValue(value: string | number | boolean | symbol | null): undefined | NormalizedOption {
       if (this.usesAJax) {
-        return this.filteredflattenedOptions
+        return this.selectedOptions
           .find((option) => this.optionHasValue(option, value));
       }
       return this.flattenedOptions
