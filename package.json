@@ -36,9 +36,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.pick": "^4.4.0",
     "lodash.range": "^3.2.0",
-    "postcss": "^7",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "vue": "^2.6"
+    "postcss": "^7"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^6.1.0",
@@ -80,6 +78,10 @@
     "typescript": "~3.9.7",
     "vue-template-compiler": "^2.6"
   },
+  "peerDependencies": {
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "vue": "^2.6"
+  },  
   "homepage": "https://vue-tailwind.com",
   "files": [
     "dist/*"
