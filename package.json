@@ -35,8 +35,7 @@
     "lodash.mapvalues": "^4.6.0",
     "lodash.merge": "^4.6.2",
     "lodash.pick": "^4.4.0",
-    "lodash.range": "^3.2.0",
-    "postcss": "^7"
+    "lodash.range": "^3.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^6.1.0",
@@ -69,19 +68,16 @@
     "eslint": "^7.13.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-vue": "^7.2.0",
+    "postcss": "^7",
     "release-it": "^14.2.2",
     "rollup": "^2.34.2",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-multi-input": "^1.1.1",
     "rollup-plugin-vue": "^6.0.0",
-    "tslib": "^2.0.3",
-    "typescript": "~3.9.7",
-    "vue-template-compiler": "^2.6"
-  },
-  "peerDependencies": {
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "vue": "^2.6"
-  },  
+    "tslib": "^2.0.3",
+    "typescript": "~3.9.7"
+  },
   "homepage": "https://vue-tailwind.com",
   "files": [
     "dist/*"
@@ -95,5 +91,9 @@
       ],
       "after:bump": "yarn build"
     }
+  },
+  "peerDependencies": {
+    "vue": "^2.6.13",
+    "vue-template-compiler": "^2.6.13"
   }
 }
