@@ -36,7 +36,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.pick": "^4.4.0",
     "lodash.range": "^3.2.0",
-    "postcss": "^7",
+    "postcss": "^8",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue": "^2.6"
   },
