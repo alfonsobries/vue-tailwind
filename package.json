@@ -77,8 +77,8 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "tslib": "^2.0.3",
     "typescript": "~3.9.7",
-    "vue-template-compiler": "2.6.13",
-    "vue": "2.6.13"
+    "vue-template-compiler": "^2",
+    "vue": "^2"
   },
   "homepage": "https://vue-tailwind.com",
   "files": [
