@@ -95,6 +95,6 @@
     }
   },
   "peerDependencies": {
-    "vue": "2.6.13"
+    "vue": "^2"
   }
 }
