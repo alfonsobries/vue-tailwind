@@ -74,6 +74,18 @@ const Component = Vue.extend({
   },
 
   methods: {
+    resolveCssClass(classes) {
+      if (Array.isArray(classes)) {
+        return classes.map(this.resolveCssClass);
+      }
+
+      if (typeof classes === 'function') {
+        return classes(this);
+      }
+
+      return classes;
+    },
+    
     getElementCssClass(
       elementName?: string,
       defaultClasses: CssClass = '',
@@ -97,10 +109,10 @@ const Component = Vue.extend({
         const fixedClasses = get(this.fixedClasses, elementName);
 
         if (fixedClasses) {
-          return mergeClasses(fixedClasses, classes);
+          return mergeClasses(this.resolveCssClass(fixedClasses), this.resolveCssClass(classes));
         }
 
-        return classes;
+        return this.resolveCssClass(classes);
       }
 
       if (this.activeVariant) {
@@ -110,10 +122,10 @@ const Component = Vue.extend({
       }
 
       if (this.fixedClasses) {
-        return mergeClasses(this.fixedClasses, classes);
+        return mergeClasses(this.resolveCssClass(this.fixedClasses), this.resolveCssClass(classes));
       }
 
-      return classes;
+      return this.resolveCssClass(classes);
     },
   },
 });
