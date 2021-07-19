@@ -186,7 +186,7 @@ const TRichSelect = MultipleInput.extend({
       query: '',
       filteredOptions: [] as NormalizedOptions,
       selectedOption: undefined as undefined | NormalizedOption,
-      selectedOptions: [] as NormalizedOption[],
+      selectedOptions: [] as NormalizedOptions,
       searching: false,
       delayTimeout: undefined as undefined | ReturnType<typeof setTimeout>,
       nextPage: undefined as undefined | number,
@@ -198,7 +198,7 @@ const TRichSelect = MultipleInput.extend({
     if (Array.isArray(this.value)) {
       this.selectedOptions = this.value
         .map((value) => this.findOptionByValue(value))
-        .filter((option) => !!option) as NormalizedOption[];
+        .filter((option) => !!option) as NormalizedOptions;
     } else if (!this.selectedOption || this.selectedOption.value !== this.value) {
       this.selectedOption = this.findOptionByValue(this.value);
     }
@@ -228,7 +228,7 @@ const TRichSelect = MultipleInput.extend({
       if (Array.isArray(localValue)) {
         this.selectedOptions = localValue
           .map((value) => this.findOptionByValue(value))
-          .filter((option) => !!option) as NormalizedOption[];
+          .filter((option) => !!option) as NormalizedOptions;
       } else if (!this.selectedOption || this.selectedOption.value !== localValue) {
         this.selectedOption = this.findOptionByValue(localValue);
       }
@@ -278,7 +278,7 @@ const TRichSelect = MultipleInput.extend({
   },
 
   computed: {
-    usesAJax(): boolean {
+    usesAjax(): boolean {
       return !!this.fetchOptions;
     },
     shouldShowSearchbox(): boolean {
@@ -289,7 +289,7 @@ const TRichSelect = MultipleInput.extend({
       const hasminimumResultsForSearch: boolean = hasMinResultsSetting
       || hasQuery
       || (
-        this.usesAJax
+        this.usesAjax
           ? this.filteredflattenedOptions.length >= this.minimumResultsForSearch
           : this.normalizedOptions.length >= this.minimumResultsForSearch
       );
@@ -359,6 +359,15 @@ const TRichSelect = MultipleInput.extend({
   methods: {
     // eslint-disable-next-line max-len
     findOptionByValue(value: string | number | boolean | symbol | null): undefined | NormalizedOption {
+      if (this.usesAjax) {
+        // When using ajax results the filtered options are that ones that were
+        // fetched with the `fetchOptions` method. Since those can change, we
+        // also need to check the `selectedOptions` array that contains the
+        // already selected ones.
+        return [...this.filteredflattenedOptions, ...this.selectedOptions]
+          .find((option) => this.optionHasValue(option, value));
+      }
+
       return this.flattenedOptions
         .find((option) => this.optionHasValue(option, value));
     },
@@ -627,7 +636,7 @@ const TRichSelect = MultipleInput.extend({
 
       const endReached = nextOptionIndex >= this.filteredflattenedOptions.length;
 
-      if (endReached && this.usesAJax && this.nextPage) {
+      if (endReached && this.usesAjax && this.nextPage) {
         this.listEndReached();
       } else {
         this.highlighted = nextOptionIndex;
