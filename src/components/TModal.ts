@@ -43,6 +43,10 @@ const TModal = Component.extend({
       type: Boolean,
       default: true,
     },
+    bodyScrollLockOptions: {
+      type: Object,
+      default: () => ({}),
+    },
     focusOnOpen: {
       type: Boolean,
       default: true,
@@ -347,17 +351,7 @@ const TModal = Component.extend({
       }
 
       if (this.disableBodyScroll) {
-        disableBodyScroll(overlay, {
-          allowTouchMove: (el) => {
-            while (el && el !== document.body) {
-              if (el.getAttribute('body-scroll-lock-ignore') !== null) {
-                return true;
-              }
-
-              el = el.parentElement as HTMLElement | Element;
-            }
-          },
-        });
+        disableBodyScroll(overlay, this.bodyScrollLockOptions);
       }
 
       if (this.focusOnOpen) {
