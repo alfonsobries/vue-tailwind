@@ -347,7 +347,17 @@ const TModal = Component.extend({
       }
 
       if (this.disableBodyScroll) {
-        disableBodyScroll(overlay);
+        disableBodyScroll(overlay, {
+          allowTouchMove: (el) => {
+            while (el && el !== document.body) {
+              if (el.getAttribute('body-scroll-lock-ignore') !== null) {
+                return true;
+              }
+
+              el = el.parentElement as HTMLElement | Element;
+            }
+          },
+        });
       }
 
       if (this.focusOnOpen) {
