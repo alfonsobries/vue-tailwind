@@ -43,6 +43,10 @@ const TModal = Component.extend({
       type: Boolean,
       default: true,
     },
+    bodyScrollLockOptions: {
+      type: Object,
+      default: () => ({}),
+    },
     focusOnOpen: {
       type: Boolean,
       default: true,
@@ -347,7 +351,7 @@ const TModal = Component.extend({
       }
 
       if (this.disableBodyScroll) {
-        disableBodyScroll(overlay);
+        disableBodyScroll(overlay, this.bodyScrollLockOptions);
       }
 
       if (this.focusOnOpen) {
