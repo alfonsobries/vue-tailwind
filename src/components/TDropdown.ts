@@ -276,6 +276,23 @@ const TDropdown = Component.extend({
     },
     doShow() {
       this.localShow = true;
+
+      this.$nextTick(() => {
+        const dropdown = this.$refs.dropdown as HTMLDivElement;
+        const dropdownTop = dropdown.getBoundingClientRect().top;
+        const dropdownBounds = dropdownTop + dropdown.offsetHeight;
+
+        if (dropdownBounds > window.innerHeight && dropdownTop > dropdown.offsetHeight) {
+          const trigger = this.$el as HTMLDivElement;
+          const dropdownStyle = getComputedStyle(dropdown);
+          const offset = trigger.offsetHeight + dropdown.offsetHeight + parseFloat(dropdownStyle.marginTop);
+
+          Object.assign(dropdown.style, {
+            top: `-${offset}px`,
+            marginTop: '0px',
+          });
+        }
+      });
     },
     doToggle() {
       if (this.localShow) {
