@@ -236,9 +236,7 @@ const TCheckbox = HtmlInput.extend({
     setChecked(checked: boolean) {
       const input = this.getInput();
 
-      // this.localValue = checked;
-      input.checked = !checked;
-      input.click();
+      input.checked = checked;
 
       // Emit update event to prop
       this.$emit('update:checked', checked);
