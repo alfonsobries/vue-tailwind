@@ -372,7 +372,7 @@ const TDatepickerNavigator = Vue.extend({
           createElement(
             'span',
             {
-              class: this.getElementCssClass('navigatorViewButtonMonthName'),
+              class: this.getElementCssClass('navigatorViewButtonMonth'),
             },
             this.formatNative(this.localValue, 'F'),
           ),
