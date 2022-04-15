@@ -102,13 +102,13 @@ const TDatepickerNavigator = Vue.extend({
     },
     nextButtonAriaLabel(): string {
       if (this.isDayView) {
-        return `Next ${this.locale.yearAriaLabel}`;
+        return `Next ${this.locale.MonthAriaLabel}`;
       }
       return `Next ${this.locale.yearAriaLabel}`;
     },
     prevButtonAriaLabel(): string {
       if (this.isDayView) {
-        return `Prev ${this.locale.yearAriaLabel}`;
+        return `Prev ${this.locale.MonthAriaLabel}`;
       }
       return `Prev ${this.locale.yearAriaLabel}`;
     },
