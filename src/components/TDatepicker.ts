@@ -570,7 +570,7 @@ const TDatepicker = HtmlInput.extend({
         focus: () => void
       };
 
-      (this.$refs.timePicker as TimePicker).focus();
+      (this.$refs.timePicker as TimePicker)?.focus();
     },
     inputDateHandler(date: Date): void {
       this.dateWithoutTime = date;
