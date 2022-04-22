@@ -364,7 +364,7 @@ const TRichSelect = MultipleInput.extend({
         // fetched with the `fetchOptions` method. Since those can change, we
         // also need to check the `selectedOptions` array that contains the
         // already selected ones.
-        return [...this.filteredflattenedOptions, ...this.selectedOptions]
+        return [...this.flattenedOptions, ...this.selectedOptions]
           .find((option) => this.optionHasValue(option, value));
       }
 
